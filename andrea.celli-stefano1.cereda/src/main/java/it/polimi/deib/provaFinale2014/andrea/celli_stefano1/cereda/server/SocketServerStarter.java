@@ -11,32 +11,48 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//Socket version of the server
+/**
+ * The socket version of a server
+ * 
+ * @author Stefano
+ */
 public class SocketServerStarter implements ServerStarter {
 
-	// the port of the server
+	/** the ip port of the server */
 	private int port;
-	// the number of players to start a game
+	/** the number of players to start a game */
 	private int maxPlayers;
-	// the milliseconds for the timer to start a game with less than maxPlayers
+	/** the milliseconds for the timer to start a game with less than maxPlayers */
 	private long delay;
-	// the type of game (rules used)
+	/** the type of game (set of rules used) */
 	private GameType gameType;
-	// Threads that will handle multiple games
+	/** Threads that will handle multiple games */
 	private ExecutorService executor = Executors.newCachedThreadPool();
-	// the socket for income connections
+	/** the socket for income connections */
 	private ServerSocket serverSocket = null;
-	// list of waiting clients
+	/** list of waiting clients */
 	private ListOfSocketClientHandler clientHandlers = new ListOfSocketClientHandler();
-	// timer to start games with less than six players
+	/** timer to start games with less than six players */
 	private Timer timer = new Timer();
-	// the timer task to execute at the end of the timers
+	/** the timer task to execute at the end of the timers */
 	private TimerTask timerTaskStartGame = new TimerTask() {
 		public void run() {
 			launchGame();
 		}
 	};
 
+	/**
+	 * Socket server constructor
+	 * 
+	 * @param port
+	 *            ip port of the server
+	 * @param maxPlayers
+	 *            number of max players in a game
+	 * @param minutesWaiting
+	 *            minutes waiting for maxPlayers
+	 * @param gameType
+	 *            set of rules to use
+	 */
 	public SocketServerStarter(int port, int maxPlayers, int minutesWaiting,
 			GameType gameType) {
 		this.port = port;
@@ -45,6 +61,7 @@ public class SocketServerStarter implements ServerStarter {
 		this.gameType = gameType;
 	}
 
+	/** Start the socket server */
 	public void start() {
 
 		// opens the socket for incoming connections
@@ -82,8 +99,10 @@ public class SocketServerStarter implements ServerStarter {
 		}
 	}
 
-	// this method checks if there is at least two players waiting. If it can it
-	// starts a new game, empties the waiting client list and cancel the timer
+	/**
+	 * this method checks if there is at least two players waiting. If it can it
+	 * starts a new game, empties the waiting client list and cancel the timer
+	 */
 	private void launchGame() {
 		if (clientHandlers.size() > 1) {
 			executor.submit(new GameController(clientHandlers, gameType));

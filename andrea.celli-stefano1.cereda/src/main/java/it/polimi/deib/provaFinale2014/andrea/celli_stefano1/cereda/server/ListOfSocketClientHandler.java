@@ -2,8 +2,12 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
 import java.util.ArrayList;
 
-//An ArrayList of SocketClientHandler, see the interface documentation
-
+/**
+ * An arrayList of SocketClientHandler
+ * 
+ * @author Stefano
+ * @see ListOfClientHandler
+ */
 public class ListOfSocketClientHandler extends ArrayList<SocketClientHandler>
 		implements ListOfClientHandler {
 }

@@ -2,7 +2,14 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
 import java.net.Socket;
 
-//TODO
+/**
+ * A socket version of a ClientHandler
+ * 
+ * TODO
+ * 
+ * @author Stefano
+ * @see ClientHandler
+ */
 public class SocketClientHandler implements ClientHandler {
 
 	public SocketClientHandler(Socket socket) {

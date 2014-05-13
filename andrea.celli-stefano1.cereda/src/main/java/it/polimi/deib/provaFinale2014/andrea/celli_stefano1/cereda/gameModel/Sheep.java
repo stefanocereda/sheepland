@@ -1,40 +1,55 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
-//A sheep
+/**
+ * A sheep is an animal, for advanced rules it also has gender and age
+ * 
+ * @author Stefano
+ * 
+ */
 public class Sheep extends Animal {
-	// the age of the sheep, used for advanced rules
+	/** The age of the sheep (for advanced rules) */
 	private int age;
-	// the type of the sheep, used for advanced rules
+	/** The type (gender) of the sheep (for advanced rules) */
 	private TypeOfSheep typeOfSheep;
 
-	// complete constructor for advanced rules
+	/**
+	 * Complete constructor
+	 * 
+	 * @param age
+	 *            The starting age of the sheep
+	 * @param type
+	 *            The starting type (gender) of the sheep
+	 */
 	public Sheep(int age, TypeOfSheep type) {
 		this.age = age;
 		typeOfSheep = type;
 	}
 
-	// constructor for basic rules
+	/** Default constructor, creates a normal sheep with age=0 */
 	public Sheep() {
 		this(0, TypeOfSheep.NORMALSHEEP);
 	}
 
-	// get the sheep's age
+	/** Get the age of the sheep */
 	public int getAge() {
 		return age;
 	}
 
-	// increment the age of the sheep
+	/**
+	 * Increment by 1 the sheep's age, without checking if it has to be modified
+	 * to a new type of sheep
+	 */
 	public void ageIcrement() {
 		age++;
 	}
 
-	// get the type of the sheep
+	/** Get the type (gender) of the sheep */
 	public TypeOfSheep getTypeOfSheep() {
 		return typeOfSheep;
 	}
 
-	// random modify the type of sheep, used for advanced rules
-	public void setNewRandomTypeOfSheep() {
+	/** Randomly modify the type of sheep to an advanced one (advanced rules) */
+	public void setNewRandomAndvancedTypeOfSheep() {
 		typeOfSheep = TypeOfSheep.getRandomAndvancedTypeOfSheep();
 	}
 }

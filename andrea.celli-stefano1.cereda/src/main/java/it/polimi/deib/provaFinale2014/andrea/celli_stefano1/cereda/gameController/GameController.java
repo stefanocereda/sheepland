@@ -5,39 +5,49 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ListOf
 
 import java.util.ArrayList;
 
-//TODO
-//This is the game controller, manages the communication from clients to the game model and checks the rules
+/**
+ * This is the game controller, manages the communication from clients to the
+ * game model.
+ * 
+ * @author Stefano
+ * TODO
+ */
+
 public class GameController implements Runnable {
-	// The array of client handlers
+	/** The array of client handlers */
 	private ListOfClientHandler clients;
-	// an object representing the actual status of this game
+	/** The actual status of this game */
 	private BoardStatus boardStatus;
-	// an object for rules validation, it will be shared between multiple games
+	/** An object for rules validation */
 	private RuleChecker ruleChecker;
-	// the type of game / rules used
+	/** The set of rules in use */
 	private GameType gameType;
 
-	public GameController(ListOfClientHandler playerClients,
-			GameType gameType) {
+	/**
+	 * GameController constructor
+	 * 
+	 * @param playerClients
+	 *            The list of clientHandlers for the players
+	 * @param gameType
+	 *            The set of rules to use
+	 */
+	public GameController(ListOfClientHandler playerClients, GameType gameType) {
 		clients = playerClients;
 		this.gameType = gameType;
 	}
 
+	// TODO from here, manage all the game
 	public void run() {
 		initializeAll();
 	}
 
-	// initialize the game
 	private void initializeAll() {
 		ruleChecker = RuleChecker.create(gameType);
 		initBoard();
 	}
-	
-	private void initBoard(){
+
+	private void initBoard() {
 		boardStatus = new BoardStatus();
 	}
-	
-	
-	
-	
+
 }

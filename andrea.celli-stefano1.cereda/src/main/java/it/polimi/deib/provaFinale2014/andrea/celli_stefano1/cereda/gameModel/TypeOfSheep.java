@@ -2,18 +2,21 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
 import java.util.Random;
 
-//The type of sheep, used for advanced rules
+/**
+ * The type (gender) of sheep, used for advanced rules
+ * 
+ * @author Stefano
+ * */
 public enum TypeOfSheep {
 	NORMALSHEEP, MALESHEEP, FEMALESHEEP;
-	
-	//returns a random type from the advanced ones
-	public static TypeOfSheep getRandomAndvancedTypeOfSheep(){
+
+	/** Returns a random type of sheep from the advanced ones */
+	public static TypeOfSheep getRandomAndvancedTypeOfSheep() {
 		Random rnd = new Random();
-		
-		if (rnd.nextBoolean() == true){
+
+		if (rnd.nextBoolean() == true) {
 			return MALESHEEP;
-		}
-		else{
+		} else {
 			return FEMALESHEEP;
 		}
 	}
