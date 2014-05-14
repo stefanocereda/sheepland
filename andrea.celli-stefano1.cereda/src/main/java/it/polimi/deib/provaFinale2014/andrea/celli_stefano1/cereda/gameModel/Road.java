@@ -3,9 +3,8 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 import java.util.HashSet;
 
 /***
- * Each road (defined through an inner class) has an HashSet containing its
- * adjacent roads, an array containing the two adjacent terrains and the road's
- * numeric value.
+ * Each road has an HashSet containing its adjacent roads, an array containing
+ * the two adjacent terrains and the road's numeric value.
  * 
  * @author Andrea Celli
  * 

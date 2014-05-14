@@ -1,17 +1,13 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ListOfClientHandler;
-
-import java.util.ArrayList;
 
 /**
  * This is the game controller, manages the communication from clients to the
  * game model.
  * 
- * @author Stefano
- * TODO
+ * @author Stefano TODO
  */
 
 public class GameController implements Runnable {

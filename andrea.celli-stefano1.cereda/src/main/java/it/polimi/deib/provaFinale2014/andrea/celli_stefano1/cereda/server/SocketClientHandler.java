@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Move;
 
 import java.net.Socket;
 
@@ -18,19 +19,16 @@ public class SocketClientHandler implements ClientHandler {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public void sendErrorMessage() {
-		// TODO Auto-generated method stub
+		// TODO
 
 	}
 
-	@Override
 	public Move getNextMove() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void sendNewStatus(BoardStatus newStatus) {
 		// TODO Auto-generated method stub
 
