@@ -1,7 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 
 import java.net.Socket;
 

@@ -1,4 +1,7 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
+
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Road;
 
 /**
  * MovePlayer defines the action of moving a shepherd to a new position

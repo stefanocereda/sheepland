@@ -1,4 +1,6 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
+
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
 
 /**
  * The move is used for client/server communications, for rule checking and to
