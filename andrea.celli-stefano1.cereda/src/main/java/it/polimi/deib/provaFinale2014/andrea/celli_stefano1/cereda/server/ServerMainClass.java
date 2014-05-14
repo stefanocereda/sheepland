@@ -11,6 +11,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControlle
  * 
  * @author Stefano
  * 
+ *         TODO rmi server
  */
 public class ServerMainClass {
 
@@ -53,10 +54,10 @@ public class ServerMainClass {
 
 		// Launch an RMI server
 		else if (answer.equals("2"))
-			server = new RMIServerStarter();
+			// TODO server = new RMIServerStarter();
 
-		// close the input stream and launch the server
-		in.close();
+			// close the input stream and launch the server
+			in.close();
 		server.start();
 	}
 }

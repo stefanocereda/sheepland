@@ -3,8 +3,7 @@ import java.util.*;
 
 /**
  * This class contains an HashMap in which every road is matched with its numeric ID.
- * Each road (defined through an inner class) has an HashSet containing its adjacent roads, an array containing the two adjacent terrains and the road's 
- * numeric value.
+ 
  * 
  * The HashMap implements the singleton pattern. In this way the road map is always unique and every game refers to the same
  * map. The HashMap is initialized with a private constructor. The HashSets are filled through a specific method.
@@ -270,36 +269,5 @@ public class RoadMap {
 			completeMap.addAdjacentRoads();
 		}
 		return completeMap;
-	}
-	
-	class Road{
-		HashSet<Road> nextRoads;
-		Terrain[] adjacentTerrains;
-		int boxValue;
-		
-		Road(int boxValue,Terrain terrain1,Terrain terrain2){
-			this.boxValue=boxValue;
-			adjacentTerrains=new Terrain[2];
-			adjacentTerrains[0]=terrain1;
-			adjacentTerrains[1]=terrain2;
-		}
-		
-		//add an adjacent road to the HashSet
-		void add(Road newRoad){
-			nextRoads.add(newRoad);
-		}
-
-		public HashSet<Road> getNextRoads() {
-			return nextRoads;
-		}
-
-		public Terrain[] getAdjacentTerrains() {
-			return adjacentTerrains;
-		}
-
-		public int getBoxValue() {
-			return boxValue;
-		}
-		
 	}
 }
