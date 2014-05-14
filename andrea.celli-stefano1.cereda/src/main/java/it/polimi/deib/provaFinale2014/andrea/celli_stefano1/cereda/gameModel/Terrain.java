@@ -1,5 +1,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
+/**
+ * This enum defines all the terrains, each terrain has a type and a number that
+ * allows to identify it
+ * 
+ * @author Andrea Celli
+ * 
+ */
 public enum Terrain {
 	P1(TerrainType.PLAIN, 1), P2(TerrainType.PLAIN, 2), P3(TerrainType.PLAIN, 3), C1(
 			TerrainType.COUNTRYSIDE, 1), C2(TerrainType.COUNTRYSIDE, 2), C3(

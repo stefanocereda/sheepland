@@ -6,8 +6,7 @@ import java.util.ArrayList;
  * A game player, not including the network link with the client
  * 
  * @author Stefano
- * 
- *         TODO i remove e add delle ultime mosse
+ * @author Andrea celli
  */
 public class Player {
 	/** The money of the player */
@@ -25,6 +24,16 @@ public class Player {
 	}
 
 	/**
+	 * Set the money of the player
+	 * 
+	 * @param newMoney
+	 *            The new value of money
+	 */
+	public void setMoney(int newMoney) {
+		money = newMoney;
+	}
+
+	/**
 	 * Move the player in a new road, without rules checking
 	 * 
 	 * @param newRoad
@@ -32,6 +41,13 @@ public class Player {
 	 */
 	public void move(Road newRoad) {
 		position = newRoad;
+	}
+
+	/**
+	 * Get the position of the player
+	 */
+	public Road getPosition() {
+		return position;
 	}
 
 	/**
@@ -45,12 +61,26 @@ public class Player {
 	}
 
 	/**
-	 * Set the money of the player
-	 * 
-	 * @param newMoney
-	 *            The new value of money
+	 * Returns the list of cards of the player
 	 */
-	public void setMoney(int newMoney) {
-		money = newMoney;
+	public ArrayList<Card> getCards() {
+		return territorialCards;
+	}
+
+	/**
+	 * Add a move to the past moves of the player
+	 * 
+	 * @param move
+	 *            the new move performed by the player
+	 */
+	public void addLastMove(Move lastMove) {
+		lastMoves.add(lastMove);
+	}
+
+	/**
+	 * Returns the list of past movesof the player
+	 */
+	public ArrayList<Move> getLastMoves() {
+		return lastMoves;
 	}
 }
