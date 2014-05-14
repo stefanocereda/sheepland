@@ -5,6 +5,8 @@ import java.util.ArrayList;
 /**
  * A single object (to be shared between games) used to check rules
  * 
+ * TODO the actual check of all the rules
+ * 
  * @author Stefano
  * 
  */

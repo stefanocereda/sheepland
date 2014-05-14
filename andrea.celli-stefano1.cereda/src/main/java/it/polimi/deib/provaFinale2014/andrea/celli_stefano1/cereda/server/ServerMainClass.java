@@ -41,11 +41,7 @@ public class ServerMainClass {
 		// Launch a socket server
 		if (answer.equals("1")) {
 			/** the ip port of the server */
-			int port;
-			do {
-				System.out.println("Choose port: ");
-				port = in.nextInt();
-			} while (port < 0 || port > 65536);
+			int port = Costants.SocketIpPort;
 
 			// create the server
 			server = new SocketServerStarter(port, maxPlayers, minutesWaiting,

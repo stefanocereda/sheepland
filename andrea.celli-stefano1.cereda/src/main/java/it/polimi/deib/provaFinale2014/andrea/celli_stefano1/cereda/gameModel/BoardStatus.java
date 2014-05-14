@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * 
  * @author Stefano
  * 
- * TODO
+ *         TODO all
  */
 public class BoardStatus {
 	/** The wolf */
@@ -17,11 +17,11 @@ public class BoardStatus {
 	private ArrayList<Gate> gates;
 	/** The black sheep */
 	private BlackSheep blackSheep;
-	/** The list of sheep*/
+	/** The list of sheep */
 	private ArrayList<Sheep> sheeps;
 	/** The array of players */
 	private Player[] players;
-	/** The list of all the terrains of the map*/
+	/** The list of all the terrains of the map */
 	private ArrayList<Terrain> terrains;
 	/** The map of all the roads */
 	private RoadMap roadMap;
@@ -29,10 +29,10 @@ public class BoardStatus {
 	private Deck cardsDeck;
 	/** The players who has to play */
 	private Player currentPlayer;
-	
-	/**Returns the current player */
-	public Player getCurrentPlayer(){
+
+	/** Returns the current player */
+	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
-	
+
 }

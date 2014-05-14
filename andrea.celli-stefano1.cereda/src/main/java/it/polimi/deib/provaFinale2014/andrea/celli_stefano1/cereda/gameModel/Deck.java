@@ -34,19 +34,23 @@ public class Deck {
 	public Card extractInitialCard() {
 		ArrayList<Card> initials = getInitialCards();
 		Random rnd = new Random();
+
 		Card c = initials.get(rnd.nextInt(initials.size()));
+		cards.remove(c);
+
 		return c;
 	}
 
 	/** Get an ArrayList of initial cards */
-	private ArrayList<Card> getInitialCards(){
+	private ArrayList<Card> getInitialCards() {
 		ArrayList<Card> initials = new ArrayList<Card>();
-		
-		//For every card in the deck check if it's initial and eventually add it
+
+		// For every card in the deck check if it's initial and eventually add
+		// it
 		for (int i = 0; i < cards.size(); i++)
 			if (cards.get(i).isInitial())
 				initials.add(cards.get(i));
-		
+
 		return initials;
 	}
 

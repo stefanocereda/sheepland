@@ -11,6 +11,11 @@ public class Animal {
 	/** The position of the animal */
 	private Terrain position;
 
+	/** The animal constructor sets the position */
+	public Animal(Terrain pos) {
+		position = pos;
+	}
+
 	/**
 	 * Move the animal in a new position, without checking if that move is valid
 	 * 

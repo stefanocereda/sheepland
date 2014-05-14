@@ -17,4 +17,7 @@ public class Costants {
 
 	/** the type of game to play (default/extended rules) */
 	public static final GameType DefaultGameType = GameType.ORIGINAL;
+
+	/** the ip port for the socket server */
+	public static final int SocketIpPort = 5000;
 }

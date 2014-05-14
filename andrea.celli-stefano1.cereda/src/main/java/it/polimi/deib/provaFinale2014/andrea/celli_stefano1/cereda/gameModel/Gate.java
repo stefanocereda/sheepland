@@ -12,6 +12,15 @@ public class Gate {
 	/** The gate is placed on a road */
 	private Road position;
 
+	/**
+	 * Constructor of a gate requires to know if the Gate is a last one and its
+	 * position
+	 */
+	public Gate(boolean last, Road roadPosition) {
+		this.last = last;
+		this.position = roadPosition;
+	}
+
 	public boolean isLast() {
 		return last;
 	}
