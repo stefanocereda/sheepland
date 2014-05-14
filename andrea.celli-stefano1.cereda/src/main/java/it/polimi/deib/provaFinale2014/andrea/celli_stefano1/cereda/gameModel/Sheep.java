@@ -19,15 +19,23 @@ public class Sheep extends Animal {
 	 *            The starting age of the sheep
 	 * @param type
 	 *            The starting type (gender) of the sheep
+	 * @param position
+	 *            The initial position (terrain) of the sheep
 	 */
-	public Sheep(int age, TypeOfSheep type) {
+	public Sheep(int age, TypeOfSheep type, Terrain position) {
+		super(position);
 		this.age = age;
 		typeOfSheep = type;
 	}
 
-	/** Default constructor, creates a normal sheep with age=0 */
-	public Sheep() {
-		this(0, TypeOfSheep.NORMALSHEEP);
+	/**
+	 * Basic constructor, creates a normal sheep with age=0
+	 * 
+	 * @param position
+	 *            The initial position (terrain) of the sheep
+	 */
+	public Sheep(Terrain position) {
+		this(0, TypeOfSheep.NORMALSHEEP, position);
 	}
 
 	/** Get the age of the sheep */
