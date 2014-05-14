@@ -80,7 +80,7 @@ public class Player {
 	}
 
 	/**
-	 * Returns the list of past movesof the player
+	 * Returns the list of past moves of the player
 	 */
 	public ArrayList<Move> getLastMoves() {
 		return lastMoves;
