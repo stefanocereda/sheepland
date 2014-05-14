@@ -1,4 +1,7 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
+
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
 
 /**
  * BuyCard defines the action of buying a terrain card
@@ -6,7 +9,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
  * @author Andrea Celli
  * 
  */
-public class BuyCard extends Move {
+public class BuyCardMove extends Move {
 	private Card newCard;
 
 	/**
@@ -17,7 +20,7 @@ public class BuyCard extends Move {
 	 * @param card
 	 *            the card which is bought
 	 */
-	public BuyCard(Player player, Card newCard) {
+	public BuyCardMove(Player player, Card newCard) {
 		super(player);
 		this.newCard = newCard;
 	}
