@@ -17,7 +17,7 @@ public class MovePlayer extends Move {
 	 * road
 	 * 
 	 * @param player
-	 *            the moved player
+	 *            the moved player (which is also the moving player)
 	 * @param newPosition
 	 *            the new road in which the player is placed
 	 */
@@ -26,7 +26,7 @@ public class MovePlayer extends Move {
 		this.newPosition = newPosition;
 	}
 
-	// get the new position of the player
+	/** @return the new position of the player */
 	public Road getNewPositionOfThePlayer() {
 		return newPosition;
 	}

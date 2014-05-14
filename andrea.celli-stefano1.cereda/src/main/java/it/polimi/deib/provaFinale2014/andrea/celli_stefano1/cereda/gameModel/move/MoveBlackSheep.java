@@ -14,8 +14,6 @@ public class MoveBlackSheep extends Move {
 	Terrain newPosition;
 
 	/**
-	 * MoveBlackSheep()
-	 * 
 	 * @param player
 	 *            the player who moves the black sheep
 	 * @param newPosition
@@ -26,7 +24,7 @@ public class MoveBlackSheep extends Move {
 		this.newPosition = newPosition;
 	}
 
-	// this method returns the new position of the black sheep
+	/** @return the new position of the black sheep */
 	public Terrain getNewPositionOfTheBlackSheep() {
 		return newPosition;
 	}

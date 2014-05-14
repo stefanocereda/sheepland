@@ -21,11 +21,11 @@ public class MoveSheep extends Move {
 	 * terrain
 	 * 
 	 * @param player
-	 *            (who execute the action)
+	 *            who execute the action
 	 * @param sheep
-	 *            (the sheep which is moved)
+	 *            the sheep which is moved
 	 * @param newPosition
-	 *            (where the sheep is moved)
+	 *            where the sheep is moved
 	 */
 	public MoveSheep(Player player, Sheep sheep, Terrain newPosition) {
 		super(player);
@@ -33,12 +33,12 @@ public class MoveSheep extends Move {
 		this.newPosition = newPosition;
 	}
 
-	// returns the sheep that has been moved
+	/** @return the sheep that has been moved */
 	public Sheep getMovedSheep() {
 		return sheep;
 	}
 
-	// returns the new position of the sheep
+	/** @return the new position of the sheep */
 	public Terrain getNewPositionOfTheSheep() {
 		return newPosition;
 	}

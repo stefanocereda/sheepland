@@ -13,10 +13,8 @@ public class BuyCardMove extends Move {
 	private Card newCard;
 
 	/**
-	 * BuyCard()
-	 * 
 	 * @param player
-	 *            the player who performs the action
+	 *            The player buying the card
 	 * @param card
 	 *            the card which is bought
 	 */
@@ -25,7 +23,7 @@ public class BuyCardMove extends Move {
 		this.newCard = newCard;
 	}
 
-	// this method returns the card bought in this move
+	/** @return the card bought in this move */
 	public Card getNewCard() {
 		return newCard;
 	}
