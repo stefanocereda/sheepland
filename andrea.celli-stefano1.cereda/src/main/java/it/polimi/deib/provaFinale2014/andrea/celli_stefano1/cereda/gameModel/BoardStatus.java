@@ -24,7 +24,7 @@ public class BoardStatus {
 	/** The list of sheep */
 	private ArrayList<Sheep> sheeps;
 	/** The array of players */
-	private Player[] players;
+	private PlayersOfAGame players;
 	/** The list of all the terrains of the map */
 	private ArrayList<Terrain> terrains;
 	/** The map of all the roads */
@@ -102,4 +102,21 @@ public class BoardStatus {
 			this.blackSheep = blackSheep;
 	}
 
+	/**
+	 * Returns the array of players
+	 */
+	public Player[] getPlayers() {
+		return players.getPlayers();
+	}
+
+	/**
+	 * Add a new player to board status.
+	 * 
+	 * @param player
+	 *            the new player
+	 */
+	public void addPlayerToBoardStatus(Player player) {
+		if (!players.isAlreadyThere(player))
+			players.addPlayerToPlayersOfAGame(player);
+	}
 }
