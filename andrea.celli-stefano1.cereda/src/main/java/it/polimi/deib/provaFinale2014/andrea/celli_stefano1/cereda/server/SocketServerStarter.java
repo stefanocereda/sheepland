@@ -78,7 +78,8 @@ public class SocketServerStarter implements ServerStarter {
 				clientHandlers.add(new SocketClientHandler(socket));
 
 				// if it's the first player waiting start the timer
-				timer.schedule(timerTaskStartGame, delay);
+				if (clientHandlers.size() == 1)
+					timer.schedule(timerTaskStartGame, delay);
 
 				// if we have six players awaiting we start the game
 				if (clientHandlers.size() == maxPlayers) {
