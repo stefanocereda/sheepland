@@ -7,14 +7,18 @@ import java.util.ArrayList;
  * animals
  * 
  * @author Stefano
+ * @author Andrea Celli
  * 
- *         TODO all
+ *         TODO metodi da player, compreso
  */
 public class BoardStatus {
 	/** The wolf */
 	private Wolf wolf;
-	/** The list of gates, either finally and not */
-	private ArrayList<Gate> gates;
+	/**
+	 * The list of gates, either finally and not (the gates that are already
+	 * placed)
+	 */
+	private ArrayList<Gate> placedGates;
 	/** The black sheep */
 	private BlackSheep blackSheep;
 	/** The list of sheep */
@@ -33,6 +37,69 @@ public class BoardStatus {
 	/** Returns the current player */
 	public Player getCurrentPlayer() {
 		return currentPlayer;
+	}
+
+	/**
+	 * Set the current player
+	 * 
+	 * @param currentPlayer
+	 *            the current player
+	 * */
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	/**
+	 * Returns the wolf
+	 */
+	public Wolf getWolf() {
+		return wolf;
+	}
+
+	/**
+	 * Add a wolf to the BoardStatus if it doesn't already exists
+	 * 
+	 * @param wolf
+	 *            the wolf
+	 */
+	public void addWolfToBoardStatus(Wolf wolf) {
+		if (this.wolf == null)
+			this.wolf = wolf;
+	}
+
+	/**
+	 * Returns the ArrayList of gates
+	 */
+	public ArrayList<Gate> getGates() {
+		return placedGates;
+	}
+
+	/**
+	 * Add a gate to the ArrayList of placed gates
+	 * 
+	 * @param gate
+	 *            the new gate placed in the map
+	 */
+	public void addPlacedGateToBoardStatus(Gate gate) {
+		placedGates.add(gate);
+	}
+
+	/**
+	 * Returns the black sheep
+	 */
+	public BlackSheep getBlackSheep() {
+		return blackSheep;
+	}
+
+	/**
+	 * Add the black sheep to the map, if it doesn't already exists
+	 * 
+	 * @param blackSheep
+	 *            the black sheep
+	 */
+	public void addBlackSheepToBoardStatus(BlackSheep blackSheep) {
+		if (this.blackSheep == null)
+			this.blackSheep = blackSheep;
 	}
 
 }
