@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * @author Stefano
  * @author Andrea Celli
  * 
- *         TODO metodi da player, compreso
  */
 public class BoardStatus {
 	/** The wolf */
@@ -119,4 +118,41 @@ public class BoardStatus {
 		if (!players.isAlreadyThere(player))
 			players.addPlayerToPlayersOfAGame(player);
 	}
+
+	/**
+	 * Add a terrain to the ArrayList of terrains (only used to link the enum
+	 * and the BoardStatus)
+	 * 
+	 * @param terrain
+	 *            the terrain that has to be added
+	 */
+	public void addTerrainToBoardStatus(Terrain terrain) {
+		terrains.add(terrain);
+	}
+
+	/**
+	 * This method links the roadMap to the BoardStatus
+	 * 
+	 * @param roadMap
+	 */
+	public void addRoadMapToBoardStatus(RoadMap roadMap) {
+		this.roadMap = roadMap;
+	}
+
+	/**
+	 * This method adds a Deck to the boardStatus
+	 * 
+	 * @param deck
+	 */
+	public void addDeckToBoardStatus(Deck deck) {
+		this.cardsDeck = deck;
+	}
+
+	/**
+	 * This method returns the deck of a specific game
+	 */
+	public Deck getDeck() {
+		return cardsDeck;
+	}
+
 }
