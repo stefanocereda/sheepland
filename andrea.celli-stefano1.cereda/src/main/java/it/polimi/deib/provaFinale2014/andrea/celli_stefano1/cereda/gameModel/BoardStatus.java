@@ -155,4 +155,27 @@ public class BoardStatus {
 		return cardsDeck;
 	}
 
+	/**
+	 * Check if a road is free: no shepherds and no gates
+	 * 
+	 * @param roadToCheck
+	 *            the road to be checked
+	 * @return true if the road is free, no otherwise
+	 * @author Stefano
+	 */
+	public boolean isFreeRoad(Road roadToCheck) {
+		// first check if we have a shepherd
+		for (Player player : players.getPlayers())
+			if (player.getPosition() == roadToCheck)
+				return false;
+
+		// then check the gates
+		for (Gate gate : (Gate[]) placedGates.toArray())
+			if (gate.getPosition() == roadToCheck)
+				return false;
+
+		// to be here it must be free
+		return true;
+	}
+
 }

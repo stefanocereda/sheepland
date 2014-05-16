@@ -39,7 +39,7 @@ public class GameController implements Runnable {
 	}
 
 	private void initializeAll() {
-		ruleChecker = RuleChecker.create(gameType);
+		ruleChecker = RuleChecker.create();
 		initBoard();
 	}
 
