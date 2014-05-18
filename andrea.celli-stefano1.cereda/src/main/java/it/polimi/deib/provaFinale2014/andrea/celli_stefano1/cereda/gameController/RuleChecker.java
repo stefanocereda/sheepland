@@ -13,6 +13,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 /**
  * A single object (to be shared between games) used to check basic rules
  * 
+ * TODO tests, blacksheep move (need something to represent the dice roll)
+ * 
  * @author Stefano
  * 
  */
