@@ -121,6 +121,15 @@ public class RuleChecker {
 	}
 
 	/**
+	 * Check if the card has an affordable price for the shepherd
+	 * 
+	 * @author Andrea
+	 */
+	private static boolean isAffordable(BuyCardMove move) {
+		return move.getCardPrice() <= move.getPlayer().getMoney();
+	}
+
+	/**
 	 * Check if a buy move is valid: the card must be of the same type of one of
 	 * the two adjacent regions
 	 */
@@ -133,7 +142,7 @@ public class RuleChecker {
 
 		TerrainType tBuying = move.getNewCard().getTerrainType();
 
-		if (t1 == tBuying || t2 == tBuying)
+		if ((t1 == tBuying || t2 == tBuying) && isAffordable(move))
 			return true;
 		else
 			return false;
