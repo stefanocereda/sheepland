@@ -51,6 +51,7 @@ public class RuleChecker {
 			BoardStatus actualStatus) {
 		return isCorrectPlayer(moveToCheck, actualStatus)
 				&& isCorrectMove(moveToCheck, actualStatus)
+				&& isAffordable(moveToCheck, actualStatus)
 				&& isCorrectTurn(moveToCheck, oldMoves);
 
 	}
@@ -63,6 +64,17 @@ public class RuleChecker {
 			return false;
 	}
 
+	/** Check if a move is affordable */
+	private boolean isAffordable(Move move, BoardStatus boardStatus) {
+		int money = move.getPlayer().getMoney();
+
+		// Calculate the cost
+		MoveCostCalculator mcc = MoveCostCalculator.create();
+		int cost = mcc.getMoveCost(move);
+
+		return (cost <= money);
+	}
+
 	/**
 	 * We use the dynamic binding to do the correct check based on the type of
 	 * move, so this method shouldn't be really used
@@ -72,27 +84,7 @@ public class RuleChecker {
 	}
 
 	/**
-	 * Check if the shepherd has enough money to move in a road which isn't
-	 * adjacent
-	 * 
-	 * @author Andrea
-	 */
-	private static boolean hasEnoughMoney(MovePlayer move) {
-		return move.getPlayer().getMoney() >= move.getCost();
-	}
-
-	/**
-	 * Check if the shepherd is moving correctly(going on a free road)
-	 * 
-	 * @author Andrea
-	 */
-	private static boolean isMovingInAFreeRoad(MovePlayer move,
-			BoardStatus boardStatus) {
-		return boardStatus.isFreeRoad(move.getNewPositionOfThePlayer());
-	}
-
-	/**
-	 * Puts togheter the two previous conditions
+	 * Check if a shepherd is moving correctly
 	 * 
 	 * @param move
 	 * @param boardStatus
@@ -100,7 +92,7 @@ public class RuleChecker {
 	 * @author Andrea
 	 */
 	private boolean isCorrectMove(MovePlayer move, BoardStatus boardStatus) {
-		return isMovingInAFreeRoad(move, boardStatus) && hasEnoughMoney(move);
+		return boardStatus.isFreeRoad(move.getNewPositionOfThePlayer());
 	}
 
 	/**
@@ -121,15 +113,6 @@ public class RuleChecker {
 	}
 
 	/**
-	 * Check if the card has an affordable price for the shepherd
-	 * 
-	 * @author Andrea
-	 */
-	private static boolean isAffordable(BuyCardMove move) {
-		return move.getCardPrice() <= move.getPlayer().getMoney();
-	}
-
-	/**
 	 * Check if a buy move is valid: the card must be of the same type of one of
 	 * the two adjacent regions
 	 */
@@ -142,7 +125,7 @@ public class RuleChecker {
 
 		TerrainType tBuying = move.getNewCard().getTerrainType();
 
-		if ((t1 == tBuying || t2 == tBuying) && isAffordable(move))
+		if (t1 == tBuying || t2 == tBuying)
 			return true;
 		else
 			return false;
