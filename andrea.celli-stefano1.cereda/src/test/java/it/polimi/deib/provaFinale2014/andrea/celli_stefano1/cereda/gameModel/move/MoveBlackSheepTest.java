@@ -3,7 +3,8 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Terrain;
 
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class MoveBlackSheepTest {
 	 */
 	@Test
 	public void testMoveBlackSheep() {
-		MoveBlackSheep mbs = new MoveBlackSheep(null, null);
+		MoveBlackSheep mbs = new MoveBlackSheep(null, null, null);
 		assertNotNull(mbs);
 	}
 
@@ -33,8 +34,8 @@ public class MoveBlackSheepTest {
 	@Test
 	public void testGetNewPositionOfTheBlackSheep() {
 		for (Terrain t : Terrain.values()) {
-			MoveBlackSheep mbs = new MoveBlackSheep(null, t);
-			assertEquals(t, mbs.newPosition);
+			MoveBlackSheep mbs = new MoveBlackSheep(null, t, null);
+			assertEquals(t, mbs.getNewPositionOfTheBlackSheep());
 		}
 	}
 

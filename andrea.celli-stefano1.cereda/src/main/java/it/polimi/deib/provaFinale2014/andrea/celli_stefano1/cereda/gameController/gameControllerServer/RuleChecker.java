@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer;
 
-import java.util.ArrayList;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.TerrainType;
@@ -9,6 +7,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
+
+import java.util.ArrayList;
 
 /**
  * A single object (to be shared between games) used to check basic rules
@@ -72,10 +72,35 @@ public class RuleChecker {
 	}
 
 	/**
+	 * Check if the shepherd has enough money to move in a road which isn't
+	 * adjacent
+	 * 
+	 * @author Andrea
+	 */
+	private static boolean hasEnoughMoney(MovePlayer move) {
+		return move.getPlayer().getMoney() >= move.getCost();
+	}
+
+	/**
 	 * Check if the shepherd is moving correctly(going on a free road)
+	 * 
+	 * @author Andrea
+	 */
+	private static boolean isMovingInAFreeRoad(MovePlayer move,
+			BoardStatus boardStatus) {
+		return boardStatus.isFreeRoad(move.getNewPositionOfThePlayer());
+	}
+
+	/**
+	 * Puts togheter the two previous conditions
+	 * 
+	 * @param move
+	 * @param boardStatus
+	 * @return true if the MovePlayer move can be executed
+	 * @author Andrea
 	 */
 	private boolean isCorrectMove(MovePlayer move, BoardStatus boardStatus) {
-		return boardStatus.isFreeRoad(move.getNewPositionOfThePlayer());
+		return isMovingInAFreeRoad(move, boardStatus) && hasEnoughMoney(move);
 	}
 
 	/**
@@ -96,6 +121,15 @@ public class RuleChecker {
 	}
 
 	/**
+	 * Check if the card has an affordable price for the shepherd
+	 * 
+	 * @author Andrea
+	 */
+	private static boolean isAffordable(BuyCardMove move) {
+		return move.getCardPrice() <= move.getPlayer().getMoney();
+	}
+
+	/**
 	 * Check if a buy move is valid: the card must be of the same type of one of
 	 * the two adjacent regions
 	 */
@@ -108,7 +142,7 @@ public class RuleChecker {
 
 		TerrainType tBuying = move.getNewCard().getTerrainType();
 
-		if (t1 == tBuying || t2 == tBuying)
+		if ((t1 == tBuying || t2 == tBuying) && isAffordable(move))
 			return true;
 		else
 			return false;
