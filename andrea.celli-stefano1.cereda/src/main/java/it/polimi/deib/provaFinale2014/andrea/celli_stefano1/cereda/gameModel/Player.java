@@ -36,6 +36,16 @@ public class Player {
 	}
 
 	/**
+	 * Subtract the specified ammout of money from the money of a player
+	 * 
+	 * @param moneySpent
+	 *            the money to subtract
+	 */
+	public void subtractMoney(int moneySpent) {
+		money = money - moneySpent;
+	}
+
+	/**
 	 * Move the player in a new road, without rules checking
 	 * 
 	 * @param newRoad

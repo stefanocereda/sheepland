@@ -11,6 +11,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Roa
  */
 public class MovePlayer extends Move {
 	private Road newPosition;
+	private int cost;
 
 	/**
 	 * The constructor creates a new move in which a shepherd is moved to a new
@@ -20,14 +21,22 @@ public class MovePlayer extends Move {
 	 *            the moved player (which is also the moving player)
 	 * @param newPosition
 	 *            the new road in which the player is placed
+	 * @param cost
+	 *            the cost of the move
 	 */
-	public MovePlayer(Player player, Road newPosition) {
+	public MovePlayer(Player player, Road newPosition, int cost) {
 		super(player);
 		this.newPosition = newPosition;
+		this.cost = cost;
 	}
 
 	/** @return the new position of the player */
 	public Road getNewPositionOfThePlayer() {
 		return newPosition;
+	}
+
+	/** @return the cost of the move */
+	public int getCost() {
+		return cost;
 	}
 }

@@ -22,7 +22,7 @@ public class BuyCardMoveTest {
 	 */
 	@Test
 	public void testBuyCardMove() {
-		BuyCardMove bcm = new BuyCardMove(null, null);
+		BuyCardMove bcm = new BuyCardMove(null, null, 0);
 		assertNotNull(bcm);
 	}
 
@@ -34,7 +34,7 @@ public class BuyCardMoveTest {
 	@Test
 	public void testGetNewCard() {
 		for (Card c : Card.values()) {
-			BuyCardMove bcm = new BuyCardMove(null, c);
+			BuyCardMove bcm = new BuyCardMove(null, c, 0);
 			assertEquals(c, bcm.getNewCard());
 		}
 	}

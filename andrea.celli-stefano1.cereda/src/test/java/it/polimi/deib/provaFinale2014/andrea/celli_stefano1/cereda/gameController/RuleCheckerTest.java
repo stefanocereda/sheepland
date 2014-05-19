@@ -43,7 +43,7 @@ public class RuleCheckerTest {
 		status.addPlayerToBoardStatus(player2);
 		status.setCurrentPlayer(player1);
 
-		MovePlayer move = new MovePlayer(player2, null);
+		MovePlayer move = new MovePlayer(player2, null, 0);
 		assertFalse(rc.isValidMove(move, null, status));
 
 		// TODO other kinds of incorrect moves

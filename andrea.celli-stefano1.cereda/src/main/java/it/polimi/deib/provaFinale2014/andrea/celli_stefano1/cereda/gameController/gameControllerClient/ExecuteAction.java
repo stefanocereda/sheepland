@@ -1,7 +1,9 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerClient;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 
 /**
@@ -41,5 +43,18 @@ public class ExecuteAction {
 	 */
 	public void executeMoveBlackSheep(MoveBlackSheep move) {
 		move.getBlackSheep().move(move.getNewPositionOfTheBlackSheep());
+	}
+
+	/**
+	 * This method execute a MovePlayer move.
+	 * 
+	 * @param move
+	 *            (The cost of the move has to be calculated by the server!!)
+	 */
+	public void executeMovePlayer(MovePlayer move) {
+		Player player = move.getPlayer();
+		player.move(move.getNewPositionOfThePlayer());
+		player.subtractMoney(move.getCost());
+		addMoveToLastMoves(move);
 	}
 }

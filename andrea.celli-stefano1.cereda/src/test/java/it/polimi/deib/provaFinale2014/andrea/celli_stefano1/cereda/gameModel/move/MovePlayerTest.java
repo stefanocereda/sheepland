@@ -20,7 +20,7 @@ public class MovePlayerTest {
 	 */
 	@Test
 	public void testMovePlayer() {
-		MovePlayer mp = new MovePlayer(null, null);
+		MovePlayer mp = new MovePlayer(null, null, 0);
 		assertNotNull(mp);
 	}
 
