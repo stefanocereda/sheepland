@@ -1,6 +1,9 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController;
 
 import static org.junit.Assert.*;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameController;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameType;
+
 import org.junit.Test;
 
 /**

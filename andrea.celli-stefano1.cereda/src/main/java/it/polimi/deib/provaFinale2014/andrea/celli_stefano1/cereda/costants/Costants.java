@@ -1,6 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.GameType;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameType;
 
 /**
  * Class of game costants

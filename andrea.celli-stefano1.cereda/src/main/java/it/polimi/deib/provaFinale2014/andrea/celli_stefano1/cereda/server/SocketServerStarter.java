@@ -1,7 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.GameController;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.GameType;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameController;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameType;
 
 import java.io.IOException;
 import java.net.ServerSocket;

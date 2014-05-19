@@ -3,7 +3,7 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class MovePlayerTest {
 	 */
 	@Test
 	public void testMovePlayer() {
-		MovePlayer mp = new MovePlayer(null, null);
+		MovePlayer mp = new MovePlayer(null, null, 0);
 		assertNotNull(mp);
 	}
 
