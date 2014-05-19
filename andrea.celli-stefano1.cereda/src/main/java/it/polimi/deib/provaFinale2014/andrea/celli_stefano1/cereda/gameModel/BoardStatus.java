@@ -4,15 +4,14 @@ import java.util.ArrayList;
 
 /**
  * A complete representation of the game panel, territories, roads, players and
- * animals
+ * animals. This is a rapresentation of "standard rules", therefore it doesn't
+ * include the wolf.
  * 
  * @author Stefano
  * @author Andrea Celli
  * 
  */
 public class BoardStatus {
-	/** The wolf */
-	private Wolf wolf;
 	/**
 	 * The list of gates, either finally and not (the gates that are already
 	 * placed)
@@ -46,24 +45,6 @@ public class BoardStatus {
 	 * */
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
-	}
-
-	/**
-	 * Returns the wolf
-	 */
-	public Wolf getWolf() {
-		return wolf;
-	}
-
-	/**
-	 * Add a wolf to the BoardStatus if it doesn't already exists
-	 * 
-	 * @param wolf
-	 *            the wolf
-	 */
-	public void addWolfToBoardStatus(Wolf wolf) {
-		if (this.wolf == null)
-			this.wolf = wolf;
 	}
 
 	/**
