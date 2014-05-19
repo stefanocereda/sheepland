@@ -14,9 +14,9 @@ public class Player {
 	/** The money of the player */
 	private int money;
 	/** The array of the last moves of this player */
-	private ArrayList<Move> lastMoves;
+	private ArrayList<Move> lastMoves = new ArrayList<Move>();
 	/** the array of the territorial card owned by the player */
-	private ArrayList<Card> territorialCards;
+	private ArrayList<Card> territorialCards = new ArrayList<Card>();
 	/** The position of the player (road) */
 	private Road position;
 

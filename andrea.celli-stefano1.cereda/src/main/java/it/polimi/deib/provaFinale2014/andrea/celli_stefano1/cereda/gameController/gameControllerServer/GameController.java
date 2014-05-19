@@ -110,6 +110,5 @@ public class GameController implements Runnable {
 	// TODO DA QUI, POSIZIONI INIZIALI E GESTIRE LO SVILUPPO DELLA PARTITA
 	private void chooseInitialPlayersPositions() {
 		// TODO Auto-generated method stub
-
 	}
 }
