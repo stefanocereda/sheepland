@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * A complete representation of the game panel, territories, roads, players and
- * animals. This is a rapresentation of "standard rules", therefore it doesn't
+ * animals. This is a representation of "standard rules", therefore it doesn't
  * include the wolf.
  * 
  * @author Stefano
@@ -31,6 +31,34 @@ public class BoardStatus {
 	private Deck cardsDeck;
 	/** The players who has to play */
 	private Player currentPlayer;
+
+	/**
+	 * BoardsStatus constructor initialize the structures, creates the map, the
+	 * roads and the deck of cards. It leaves out animals and players
+	 * 
+	 * @param numberOfPlayers
+	 *            the number of players taking part in this game
+	 * 
+	 * @author Stefano
+	 */
+	public BoardStatus(int numberOfPlayers) {
+		// create the array list
+		placedGates = new ArrayList<Gate>();
+		sheeps = new ArrayList<Sheep>();
+		terrains = new ArrayList<Terrain>();
+		players = new PlayersOfAGame(numberOfPlayers);
+
+		// init the territories
+		for (Terrain t : Terrain.values()) {
+			terrains.add(t);
+		}
+
+		// init the roads
+		roadMap = RoadMap.getRoadMap();
+
+		// init the deck
+		cardsDeck = new Deck();
+	}
 
 	/** Returns the current player */
 	public Player getCurrentPlayer() {
@@ -101,35 +129,6 @@ public class BoardStatus {
 	}
 
 	/**
-	 * Add a terrain to the ArrayList of terrains (only used to link the enum
-	 * and the BoardStatus)
-	 * 
-	 * @param terrain
-	 *            the terrain that has to be added
-	 */
-	public void addTerrainToBoardStatus(Terrain terrain) {
-		terrains.add(terrain);
-	}
-
-	/**
-	 * This method links the roadMap to the BoardStatus
-	 * 
-	 * @param roadMap
-	 */
-	public void addRoadMapToBoardStatus(RoadMap roadMap) {
-		this.roadMap = roadMap;
-	}
-
-	/**
-	 * This method adds a Deck to the boardStatus
-	 * 
-	 * @param deck
-	 */
-	public void addDeckToBoardStatus(Deck deck) {
-		this.cardsDeck = deck;
-	}
-
-	/**
 	 * This method returns the deck of a specific game
 	 */
 	public Deck getDeck() {
@@ -159,4 +158,13 @@ public class BoardStatus {
 		return true;
 	}
 
+	
+	/**Add a sheep to the board
+	 * @param sheep the sheep to add
+	 * @author Stefano
+	 * @return 
+	 */
+	public void addSheep(Sheep sheep){
+		sheeps.add(sheep);
+	}
 }

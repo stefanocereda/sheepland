@@ -11,7 +11,7 @@ import java.util.HashSet;
  */
 
 public class Road {
-	private HashSet<Road> nextRoads;
+	private HashSet<Road> nextRoads = new HashSet<Road>();
 	private Terrain[] adjacentTerrains;
 	private int boxValue;
 

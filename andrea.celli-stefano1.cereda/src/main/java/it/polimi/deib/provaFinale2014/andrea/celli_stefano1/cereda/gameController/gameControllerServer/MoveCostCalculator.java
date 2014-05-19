@@ -25,7 +25,7 @@ public class MoveCostCalculator {
 	};
 
 	/** Singleton constructor */
-	public MoveCostCalculator create() {
+	public static MoveCostCalculator create() {
 		if (moveCostClaculator == null) {
 			moveCostClaculator = new MoveCostCalculator();
 		}

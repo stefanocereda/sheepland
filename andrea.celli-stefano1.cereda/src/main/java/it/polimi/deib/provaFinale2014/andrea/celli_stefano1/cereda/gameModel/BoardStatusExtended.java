@@ -9,6 +9,10 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 public class BoardStatusExtended extends BoardStatus {
 	private Wolf wolf;
 
+	public BoardStatusExtended(int numberOfPlayers) {
+		super(numberOfPlayers);
+	}
+
 	/**
 	 * Returns the wolf
 	 */

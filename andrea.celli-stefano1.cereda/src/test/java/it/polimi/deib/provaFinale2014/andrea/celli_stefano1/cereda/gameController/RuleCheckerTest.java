@@ -38,12 +38,12 @@ public class RuleCheckerTest {
 		// Start with a move done by a player different from the current one
 		Player player1 = new Player();
 		Player player2 = new Player();
-		BoardStatus status = new BoardStatus();
+		BoardStatus status = new BoardStatus(2);// two players
 		status.addPlayerToBoardStatus(player1);
 		status.addPlayerToBoardStatus(player2);
 		status.setCurrentPlayer(player1);
 
-		MovePlayer move = new MovePlayer(player2, null, 0);
+		MovePlayer move = new MovePlayer(player2, null);
 		assertFalse(rc.isValidMove(move, null, status));
 
 		// TODO other kinds of incorrect moves
