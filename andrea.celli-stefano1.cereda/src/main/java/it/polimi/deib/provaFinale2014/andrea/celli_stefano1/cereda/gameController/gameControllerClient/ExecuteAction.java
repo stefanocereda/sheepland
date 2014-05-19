@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerClient;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 
 /**
@@ -32,4 +33,13 @@ public class ExecuteAction {
 		move.getMovedSheep().move(move.getNewPositionOfTheSheep());
 	}
 
+	/**
+	 * This method executes a MoveBlackSheep move
+	 * 
+	 * @param move
+	 *            (the new destination of the blackSheep)
+	 */
+	public void executeMoveBlackSheep(MoveBlackSheep move) {
+		move.getBlackSheep().move(move.getNewPositionOfTheBlackSheep());
+	}
 }
