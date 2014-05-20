@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
+import java.io.IOException;
+
 /**
  * Interface for a server
  * 
@@ -7,6 +9,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
  * 
  */
 public interface ServerStarter {
-	/** Start the server */
-	public void start();
+	/** Start the server 
+	 * @throws IOException */
+	public void start() throws IOException;
 }

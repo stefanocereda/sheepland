@@ -29,23 +29,13 @@ public class GameController implements Runnable {
 	private MoveCostCalculator moveCostCalculator;
 
 	/**
-	 * TODO FORSE QUESTO VA TOLTO, LE REGOLE AVANZATE VERRANNO GESTITE DA UNA
-	 * SOTTOCLASSE The set of rules in use, this shouldn't be needed using
-	 * GameController and GameControllerExtended
-	 */
-	private GameType gameType;
-
-	/**
 	 * GameController constructor
 	 * 
 	 * @param playerClients
 	 *            The list of clientHandlers for the players
-	 * @param gameType
-	 *            The set of rules to use
 	 */
-	public GameController(ListOfClientHandler playerClients, GameType gameType) {
+	public GameController(ListOfClientHandler playerClients) {
 		clients = playerClients;
-		this.gameType = gameType;
 	}
 
 	// TODO manage all the game

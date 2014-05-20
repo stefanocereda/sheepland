@@ -1,6 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameController;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameControllerCreator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameType;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ListOfSocketClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.SocketClientHandler;
@@ -63,15 +63,15 @@ public class SocketServerStarter implements ServerStarter {
 		this.gameType = gameType;
 	}
 
-	/** Start the socket server */
-	public void start() {
+	/**
+	 * Start the socket server
+	 * 
+	 * @throws IOException
+	 */
+	public void start() throws IOException {
 
 		// opens the socket for incoming connections
-		try {
-			serverSocket = new ServerSocket(port);
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		}
+		serverSocket = new ServerSocket(port);
 
 		// wait for connections and create the clientHandlers
 		while (true) {
@@ -95,11 +95,7 @@ public class SocketServerStarter implements ServerStarter {
 		}
 
 		executor.shutdown();
-		try {
-			serverSocket.close();
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		}
+		serverSocket.close();
 	}
 
 	/**
@@ -108,9 +104,12 @@ public class SocketServerStarter implements ServerStarter {
 	 */
 	private void launchGame() {
 		if (clientHandlers.size() > 1) {
-			executor.submit(new GameController(clientHandlers, gameType));
+			executor.submit(GameControllerCreator.create(clientHandlers,
+					gameType));
+
 			clientHandlers = new ListOfSocketClientHandler();
 		}
+
 		timer.cancel();
 	}
 }

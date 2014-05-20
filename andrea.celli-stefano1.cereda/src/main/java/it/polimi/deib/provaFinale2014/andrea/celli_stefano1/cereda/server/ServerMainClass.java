@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
@@ -14,19 +15,51 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControlle
  *         TODO rmi server
  */
 public class ServerMainClass {
+	/** the max number of players in a game */
+	final static int maxPlayers = Costants.MAX_PLAYERS_IN_A_GAME;
+	/** the minutes waiting for maxPlayers */
+	final static int minutesWaiting = Costants.MINUTES_WAITING_FOR_MAX_PLAYERS;
+	/** the type of game (original/extended rules) */
+	final static GameType gameType = Costants.DEFAULT_GAME_TYPE;
+	/** stdin */
+	final static Scanner in = new Scanner(System.in);
+	/** The server to launch */
+	static ServerStarter server = null;
 
 	public static void main(String[] args) {
-		/** the max number of players in a game */
-		final int maxPlayers = Costants.MAX_PLAYERS_IN_A_GAME;
-		/** the minutes waiting for maxPlayers */
-		final int minutesWaiting = Costants.MINUTES_WAITING_FOR_MAX_PLAYERS;
-		/** the type of game (original/extended rules) */
-		final GameType gameType = Costants.DEFAULT_GAME_TYPE;
-		/** stdin */
-		Scanner in = new Scanner(System.in);
+
+		int serverType = chooseServerType();
+
+		// Launch a socket server
+		if (serverType == 1) {
+			launchSocketServer();
+		}
+
+		// Launch an RMI server
+		else {
+			launchRMIServer();
+		}
+
+		// close the input stream and launch the server
+		in.close();
+
+		try {
+			server.start();
+		} catch (IOException e) {
+			System.err.println("Error starting the server");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Ask on console if the user wants to launch an rmi server or a socket
+	 * server
+	 * 
+	 * @return 1 for socket; 2 for RMI
+	 */
+	private static int chooseServerType() {
 		String answer;
 
-		// ask for rmi/socket
 		do {
 			System.out.println("Choose the server type:");
 			System.out.println("1 - Socket");
@@ -35,25 +68,25 @@ public class ServerMainClass {
 			answer = in.nextLine();
 		} while (!answer.equals("1") && !answer.equals("2"));
 
-		/** The server to launch */
-		ServerStarter server = null;
-
-		// Launch a socket server
 		if (answer.equals("1")) {
-			/** the ip port of the server */
-			int port = Costants.SOCKET_IP_PORT;
-
-			// create the server
-			server = new SocketServerStarter(port, maxPlayers, minutesWaiting,
-					gameType);
+			return 1;
+		} else {
+			return 2;
 		}
+	}
 
-		// Launch an RMI server
-		else if (answer.equals("2"))
-			// TODO server = new RMIServerStarter();
+	/** Launch a socket server */
+	private static void launchSocketServer() {
+		/** the ip port of the server */
+		int port = Costants.SOCKET_IP_PORT;
 
-			// close the input stream and launch the server
-			in.close();
-		server.start();
+		// create the server
+		server = new SocketServerStarter(port, maxPlayers, minutesWaiting,
+				gameType);
+	}
+
+	/** Launch an rmi server */
+	private static void launchRMIServer() {
+		// TODO
 	}
 }

@@ -1,12 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
@@ -89,8 +85,8 @@ public class SocketClientHandler implements ClientHandler {
 	 * one
 	 * 
 	 * @return a new Move
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
 	 */
 	public Move sayMoveIsNotValid() throws ClassNotFoundException, IOException {
 		out.println(SocketMessages.NOT_VALID_MOVE);

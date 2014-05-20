@@ -18,8 +18,8 @@ public class GameControllerTest {
 		GameType gt1 = GameType.ORIGINAL;
 		GameType gt2 = GameType.EXTENDED;
 
-		GameController gc1 = new GameController(null, gt1);
-		GameController gc2 = new GameController(null, gt2);
+		GameController gc1 = new GameController(null);
+		GameController gc2 = new GameController(null);
 
 		assertNotNull(gc1);
 		assertNotNull(gc2);
