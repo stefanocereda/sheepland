@@ -19,17 +19,17 @@ public class SocketClientHandler implements ClientHandler {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void sendErrorMessage() {
-		// TODO
-
-	}
-
-	public Move getNextMove() {
+	public Move askMove() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void sendNewStatus(BoardStatus newStatus) {
+	public void executeMove(Move moveToExecute) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void sayMoveIsNotValid() {
 		// TODO Auto-generated method stub
 
 	}

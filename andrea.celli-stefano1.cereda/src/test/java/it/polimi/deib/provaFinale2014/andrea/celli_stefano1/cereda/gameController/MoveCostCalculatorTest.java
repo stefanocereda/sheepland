@@ -75,7 +75,7 @@ public class MoveCostCalculatorTest {
 
 		// buycard
 		for (Card c : Card.values()) {
-			Move bcm = new BuyCardMove(null, c, 0);
+			Move bcm = new BuyCardMove(null, c);
 			assertEquals(calc.getMoveCost(bcm), c.getNumber());
 		}
 	}

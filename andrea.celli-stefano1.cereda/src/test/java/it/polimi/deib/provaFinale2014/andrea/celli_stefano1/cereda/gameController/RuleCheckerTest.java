@@ -113,7 +113,7 @@ public class RuleCheckerTest {
 		player.move(road);
 
 		for (Card c : Card.values()) {// search a not valid card
-			Move buyCard = new BuyCardMove(player, c, 0);
+			Move buyCard = new BuyCardMove(player, c);
 			if (c.getTerrainType() != adjacentTerrains[0].getTerrainType()
 					&& c.getTerrainType() != adjacentTerrains[1]
 							.getTerrainType()) {
@@ -158,7 +158,7 @@ public class RuleCheckerTest {
 		for (Card c : Card.values()) {// search a right card
 			if (c.getTerrainType() == shepherdRoad.getAdjacentTerrains()[0]
 					.getTerrainType()) {
-				move1 = new BuyCardMove(player, c, 0);
+				move1 = new BuyCardMove(player, c);
 				break;
 			}
 		}

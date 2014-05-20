@@ -1,6 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 
 /**
@@ -11,9 +10,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
  * 
  */
 public interface ClientHandler {
-	public Move getNextMove();
+	public Move askMove();
 
-	public void sendErrorMessage();
+	public void executeMove(Move moveToExecute);
 
-	public void sendNewStatus(BoardStatus newStatus);
+	public void sayMoveIsNotValid();
 }
