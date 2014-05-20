@@ -22,7 +22,7 @@ public class MoveBlackSheepTest {
 	 */
 	@Test
 	public void testMoveBlackSheep() {
-		MoveBlackSheep mbs = new MoveBlackSheep(null, null, null);
+		MoveBlackSheep mbs = new MoveBlackSheep(null, null);
 		assertNotNull(mbs);
 	}
 
@@ -34,7 +34,7 @@ public class MoveBlackSheepTest {
 	@Test
 	public void testGetNewPositionOfTheBlackSheep() {
 		for (Terrain t : Terrain.values()) {
-			MoveBlackSheep mbs = new MoveBlackSheep(null, t, null);
+			MoveBlackSheep mbs = new MoveBlackSheep(t, null);
 			assertEquals(t, mbs.getNewPositionOfTheBlackSheep());
 		}
 	}

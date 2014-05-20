@@ -9,7 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * @author Andrea Celli
  * 
  */
-public class BuyCardMove extends Move {
+public class BuyCardMove extends PlayerAction {
 	private Card newCard;
 
 	/**

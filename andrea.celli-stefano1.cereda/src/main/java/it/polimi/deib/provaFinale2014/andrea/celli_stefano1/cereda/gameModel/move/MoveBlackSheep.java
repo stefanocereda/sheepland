@@ -2,7 +2,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 /**
  * MoveBlackSheep defines the action of moving the black sheep (as a "standard"
@@ -21,9 +20,8 @@ public class MoveBlackSheep extends Move {
 	 * @param newPosition
 	 *            the new position of the black sheep
 	 */
-	public MoveBlackSheep(Player player, Terrain newPosition,
-			BlackSheep blackSheep) {
-		super(player);
+	public MoveBlackSheep(Terrain newPosition, BlackSheep blackSheep) {
+		super();
 		this.blackSheep = blackSheep;
 		this.newPosition = newPosition;
 	}

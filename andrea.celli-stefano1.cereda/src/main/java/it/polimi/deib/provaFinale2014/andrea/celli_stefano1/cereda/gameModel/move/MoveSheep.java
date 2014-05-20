@@ -12,7 +12,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 
-public class MoveSheep extends Move {
+public class MoveSheep extends PlayerAction {
 	private Sheep sheep;
 	private Terrain newPosition;
 

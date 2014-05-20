@@ -12,7 +12,7 @@ import org.junit.Test;
  * @author stefano
  * 
  */
-public class MoveTest {
+public class PlayerActionTest {
 
 	/**
 	 * Test method for
@@ -22,7 +22,7 @@ public class MoveTest {
 	@Test
 	public void testMove() {
 		Player p = null;
-		Move m = new Move(p);
+		PlayerAction m = new PlayerAction(p);
 		assertNotNull(m);
 	}
 
@@ -34,7 +34,7 @@ public class MoveTest {
 	@Test
 	public void testGetPlayer() {
 		Player p1 = new Player();
-		Move m = new Move(p1);
+		PlayerAction m = new PlayerAction(p1);
 		Player p2 = m.getPlayer();
 		assertEquals(p1, p2);
 

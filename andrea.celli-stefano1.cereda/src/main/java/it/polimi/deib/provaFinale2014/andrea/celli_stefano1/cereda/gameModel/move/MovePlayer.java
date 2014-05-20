@@ -9,7 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * @author Andrea Celli
  * 
  */
-public class MovePlayer extends Move {
+public class MovePlayer extends PlayerAction {
 	private Road newPosition;
 	private int cost;
 

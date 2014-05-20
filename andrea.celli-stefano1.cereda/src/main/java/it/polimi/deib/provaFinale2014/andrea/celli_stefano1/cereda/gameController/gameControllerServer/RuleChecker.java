@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 
@@ -49,15 +50,19 @@ public class RuleChecker {
 	 */
 	public boolean isValidMove(Move moveToCheck, ArrayList<Move> oldMoves,
 			BoardStatus actualStatus) {
-		return isCorrectPlayer(moveToCheck, actualStatus)
-				&& isCorrectMove(moveToCheck, actualStatus)
-				&& isAffordable(moveToCheck, actualStatus)
-				&& isCorrectTurn(moveToCheck, oldMoves);
+		if (moveToCheck.getClass() == MoveSheep.class
+				|| moveToCheck.getClass() == MovePlayer.class
+				|| moveToCheck.getClass() == BuyCardMove.class)
+			return isCorrectPlayer((PlayerAction) moveToCheck, actualStatus)
+					&& isCorrectMove(moveToCheck, actualStatus)
+					&& isAffordable((PlayerAction) moveToCheck, actualStatus)
+					&& isCorrectTurn(moveToCheck, oldMoves);
+		return isCorrectMove(moveToCheck, actualStatus);
 
 	}
 
 	/** Check if the move is done by (and on) the current player */
-	private boolean isCorrectPlayer(Move move, BoardStatus boardStatus) {
+	private boolean isCorrectPlayer(PlayerAction move, BoardStatus boardStatus) {
 		if (move.getPlayer() == boardStatus.getCurrentPlayer())
 			return true;
 		else
@@ -65,7 +70,7 @@ public class RuleChecker {
 	}
 
 	/** Check if a move is affordable */
-	private boolean isAffordable(Move move, BoardStatus boardStatus) {
+	private boolean isAffordable(PlayerAction move, BoardStatus boardStatus) {
 		int money = move.getPlayer().getMoney();
 
 		// Calculate the cost
