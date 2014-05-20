@@ -19,7 +19,10 @@ public class BuyCardMove extends Move {
 	 * @param card
 	 *            the card which is bought
 	 * @param price
-	 *            the price paid for the new card
+	 *            the price paid for the new card. The client sets it to zero
+	 *            and sends the move to the server. The server calculates the
+	 *            right price and sets it in the move, then gives the move back
+	 *            to the client.
 	 */
 	public BuyCardMove(Player player, Card newCard, int price) {
 		super(player);
@@ -35,5 +38,10 @@ public class BuyCardMove extends Move {
 	/** @return the price paid for the card */
 	public int getCardPrice() {
 		return price;
+	}
+
+	/** Set the price */
+	public void setPrice(int newPrice) {
+		price = newPrice;
 	}
 }

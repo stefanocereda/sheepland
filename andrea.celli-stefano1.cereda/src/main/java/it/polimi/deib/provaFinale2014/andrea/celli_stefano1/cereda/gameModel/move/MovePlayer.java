@@ -22,7 +22,9 @@ public class MovePlayer extends Move {
 	 * @param newPosition
 	 *            the new road in which the player is placed
 	 * @param cost
-	 *            the cost of the move
+	 *            the cost of the move.The client sets it to zero and sends the
+	 *            move to the server. The server calculates the right cost and
+	 *            sets it in the move, then gives the move back to the client.
 	 */
 	public MovePlayer(Player player, Road newPosition, int cost) {
 		super(player);
@@ -38,5 +40,10 @@ public class MovePlayer extends Move {
 	/** @return the cost of the move */
 	public int getCost() {
 		return cost;
+	}
+
+	/** Set the cost */
+	public void setCost(int newCost) {
+		cost = newCost;
 	}
 }
