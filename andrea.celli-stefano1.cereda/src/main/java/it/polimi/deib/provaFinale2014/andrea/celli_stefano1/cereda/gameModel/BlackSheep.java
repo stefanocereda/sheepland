@@ -5,7 +5,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
  * 
  * @author Stefano
  */
-public class BlackSheep extends Animal {
+public class BlackSheep extends Sheep {
 
 	// * BlackSheep constructor only calls the superclass constructor, I think
 	// that creating a default constructor that places the blackSheep at
@@ -13,5 +13,4 @@ public class BlackSheep extends Animal {
 	public BlackSheep(Terrain pos) {
 		super(pos);
 	}
-
 }
