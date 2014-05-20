@@ -4,7 +4,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
 import static org.junit.Assert.*;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class MoveTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move#Move(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move#Move(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player)}
 	 * .
 	 */
 	@Test

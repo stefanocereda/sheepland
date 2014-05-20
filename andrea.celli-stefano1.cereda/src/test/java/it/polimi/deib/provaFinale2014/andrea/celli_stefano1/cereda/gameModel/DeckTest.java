@@ -4,6 +4,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
 import static org.junit.Assert.*;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ public class DeckTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Deck#Deck()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck#Deck()}
 	 * .
 	 */
 	@Test
@@ -33,7 +35,7 @@ public class DeckTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Deck#extractInitialCard()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck#extractInitialCard()}
 	 * .
 	 */
 	@Test

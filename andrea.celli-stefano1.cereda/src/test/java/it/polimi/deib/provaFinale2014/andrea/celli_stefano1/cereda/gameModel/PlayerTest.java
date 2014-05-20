@@ -5,6 +5,10 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
 import static org.junit.Assert.*;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+
 import org.junit.Test;
 
 /**
@@ -15,9 +19,9 @@ public class PlayerTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#getMoney()}
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#setMoney(int)}
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#subtractMoney(int)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#getMoney()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#setMoney(int)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#subtractMoney(int)}
 	 * 
 	 */
 	@Test
@@ -35,8 +39,8 @@ public class PlayerTest {
 	 * 
 	 * 
 	 * /** Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#move(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Road)}
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#getPosition()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#move(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#getPosition()}
 	 */
 	@Test
 	public void testPosition() {
@@ -49,8 +53,8 @@ public class PlayerTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#addCard(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Card)}
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#getCards()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#addCard(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#getCards()}
 	 */
 	@Test
 	public void testCard() {
@@ -65,8 +69,8 @@ public class PlayerTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#addLastMove(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move)}
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player#getLastMoves()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#addLastMove(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player#getLastMoves()}
 	 */
 	@Test
 	public void testLastMove() {

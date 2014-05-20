@@ -4,8 +4,11 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
 import static org.junit.Assert.*;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 
 import java.util.HashMap;
+
 import org.junit.Test;
 
 /**
@@ -16,7 +19,7 @@ public class RoadMapTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.RoadMap#getRoadMap()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap#getRoadMap()}
 	 * .
 	 */
 	@Test
@@ -30,7 +33,7 @@ public class RoadMapTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.RoadMap#getHashMapOfRoads()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap#getHashMapOfRoads()}
 	 * .
 	 */
 	@Test

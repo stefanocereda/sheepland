@@ -4,6 +4,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
 import static org.junit.Assert.*;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
 
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class GateTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Gate#Gate(boolean, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Road)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate#Gate(boolean, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Road)}
 	 * .
 	 */
 	@Test
@@ -26,7 +27,7 @@ public class GateTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Gate#isLast()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate#isLast()}
 	 * .
 	 */
 	@Test
@@ -39,7 +40,7 @@ public class GateTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Gate#getPosition()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate#getPosition()}
 	 * .
 	 */
 	@Test

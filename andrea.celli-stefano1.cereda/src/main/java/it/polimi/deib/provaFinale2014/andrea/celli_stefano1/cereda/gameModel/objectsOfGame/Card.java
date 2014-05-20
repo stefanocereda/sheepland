@@ -1,4 +1,5 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
+
 
 /**
  * Enum of all the possible cards, including initial ones shared between all the

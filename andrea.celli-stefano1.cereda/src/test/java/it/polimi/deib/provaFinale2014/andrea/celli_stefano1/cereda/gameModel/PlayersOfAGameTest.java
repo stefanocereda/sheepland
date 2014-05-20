@@ -4,6 +4,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
 import static org.junit.Assert.*;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayersOfAGame;
 
 import org.junit.Test;
 
@@ -15,7 +17,7 @@ public class PlayersOfAGameTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.PlayersOfAGame#PlayersOfAGame(int)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayersOfAGame#PlayersOfAGame(int)}
 	 * .
 	 */
 	@Test
@@ -26,7 +28,7 @@ public class PlayersOfAGameTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.PlayersOfAGame#getPlayers()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayersOfAGame#getPlayers()}
 	 * .
 	 */
 	@Test
@@ -40,7 +42,7 @@ public class PlayersOfAGameTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.PlayersOfAGame#addPlayerToPlayersOfAGame(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayersOfAGame#addPlayerToPlayersOfAGame(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player)}
 	 * .
 	 */
 	@Test
@@ -63,7 +65,7 @@ public class PlayersOfAGameTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.PlayersOfAGame#isAlreadyThere(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayersOfAGame#isAlreadyThere(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player)}
 	 * .
 	 */
 	@Test

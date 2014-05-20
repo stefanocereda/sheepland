@@ -1,7 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Card;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 /**
  * BuyCard defines the action of buying a terrain card
