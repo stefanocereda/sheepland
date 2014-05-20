@@ -26,6 +26,13 @@ public class ServerMainClass {
 	/** The server to launch */
 	static ServerStarter server = null;
 
+	/**
+	 * The main method of the server, asks for RMI/Socket and launches all the
+	 * necessary stuff
+	 * 
+	 * @param args
+	 *            Unused
+	 */
 	public static void main(String[] args) {
 
 		int serverType = chooseServerType();
@@ -40,9 +47,10 @@ public class ServerMainClass {
 			launchRMIServer();
 		}
 
-		// close the input stream and launch the server
+		// close the input stream
 		in.close();
 
+		// launch the server
 		try {
 			server.start();
 		} catch (IOException e) {
