@@ -1,7 +1,9 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -76,6 +78,7 @@ public class SocketClientHandler implements ClientHandler {
 	public void executeMove(Move moveToExecute) throws IOException {
 		out.println(SocketMessages.EXECUTE_MOVE);
 		out.flush();
+
 		objectOut.writeObject(moveToExecute);
 		objectOut.flush();
 	}
@@ -94,6 +97,16 @@ public class SocketClientHandler implements ClientHandler {
 
 		Move clientReturned = (Move) objectIn.readObject();
 		return clientReturned;
+	}
+
+	/** Send to the client a new status to replace the old one 
+	 * @throws IOException */
+	public void sendNewStatus(BoardStatus newStatus) throws IOException {
+		out.println(SocketMessages.SEND_NEW_STATUS);
+		out.flush();
+
+		objectOut.writeObject(newStatus);
+		objectOut.flush();
 	}
 
 }

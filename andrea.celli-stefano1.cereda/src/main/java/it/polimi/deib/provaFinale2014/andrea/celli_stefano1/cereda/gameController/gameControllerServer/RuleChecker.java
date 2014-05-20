@@ -57,7 +57,8 @@ public class RuleChecker {
 					&& isCorrectMove(moveToCheck, actualStatus)
 					&& isAffordable((PlayerAction) moveToCheck, actualStatus)
 					&& isCorrectTurn(moveToCheck, oldMoves);
-		return isCorrectMove(moveToCheck, actualStatus);
+		else
+			return isCorrectMove(moveToCheck, actualStatus);
 
 	}
 

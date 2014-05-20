@@ -1,11 +1,15 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer;
 
+import java.io.IOException;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ListOfClientHandler;
 
 /**
@@ -40,15 +44,35 @@ public class GameController implements Runnable {
 
 	// TODO manage all the game
 	public void run() {
-		initializeAll();
+		try {
+			initializeAll();
+		} catch (IOException e) {
+			System.err.println("Error while initializing the game");
+			e.printStackTrace();
+		}
+		
+		manageGame();
 	}
 
-	/** Initialize the ruleChecker, the moveCostCalculator, the board */
-	private void initializeAll() {
+	private void manageGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * Initialize the ruleChecker, the moveCostCalculator, the board
+	 * 
+	 * @throws IOException
+	 */
+	private void initializeAll() throws IOException {
 		ruleChecker = RuleChecker.create();
 		moveCostCalculator = MoveCostCalculator.create();
 
+		// init the board
 		initBoard();
+
+		// send the initial status to all the clients
+		sendStatusToAllPlayers();
 	}
 
 	/**
@@ -61,7 +85,8 @@ public class GameController implements Runnable {
 		initSheeps();
 		initBlackSheep();
 		initCards();
-		chooseInitialPlayersPositions();
+		deleteRemainingInitialCards();
+		chooseFirstPlayer();
 	}
 
 	/** Create all the players and add them to the board */
@@ -97,8 +122,28 @@ public class GameController implements Runnable {
 		}
 	}
 
-	// TODO DA QUI, POSIZIONI INIZIALI E GESTIRE LO SVILUPPO DELLA PARTITA
-	private void chooseInitialPlayersPositions() {
-		// TODO Auto-generated method stub
+	/** Extract an initial player and notify to the boardstatus */
+	private void chooseFirstPlayer() {
+		Dice dice = Dice.create();
+		Player[] players = boardStatus.getPlayers();
+		int sorted = dice.roll(players.length);
+		Player firstPlayer = players[sorted];
+		boardStatus.setCurrentPlayer(firstPlayer);
+	}
+
+	/**
+	 * Send the status to all the players
+	 * 
+	 * @throws IOException
+	 */
+	private void sendStatusToAllPlayers() throws IOException {
+		for (ClientHandler client : clients.values()) {
+			client.sendNewStatus(boardStatus);
+		}
+	}
+
+	/** Delete all the remaining initial cards in the deck */
+	private void deleteRemainingInitialCards() {
+		boardStatus.getDeck().deleteRemainingInitialCards();
 	}
 }

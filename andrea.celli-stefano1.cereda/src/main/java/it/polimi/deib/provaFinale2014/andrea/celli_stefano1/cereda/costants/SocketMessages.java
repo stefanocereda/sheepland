@@ -9,6 +9,9 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants;
  */
 public class SocketMessages {
 
+	/** Send to the client a new status to replace the old one */
+	public static String SEND_NEW_STATUS = "SEND-NEW-STATUS";
+
 	/** Say to the client you're sending a move to execute */
 	public static String EXECUTE_MOVE = "EXECUTE-MOVE";
 

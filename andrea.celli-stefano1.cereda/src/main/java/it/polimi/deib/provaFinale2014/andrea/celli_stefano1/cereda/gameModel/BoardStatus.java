@@ -10,6 +10,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayersOfAGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  * @author Andrea Celli
  * 
  */
-public class BoardStatus {
+public class BoardStatus implements Serializable {
 	/**
 	 * The list of gates, either finally and not (the gates that are already
 	 * placed)

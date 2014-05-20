@@ -10,4 +10,8 @@ import java.util.ArrayList;
  */
 public class ListOfSocketClientHandler extends ArrayList<SocketClientHandler>
 		implements ListOfClientHandler {
+
+	public ClientHandler[] values() {
+		return this.values();
+	}
 }

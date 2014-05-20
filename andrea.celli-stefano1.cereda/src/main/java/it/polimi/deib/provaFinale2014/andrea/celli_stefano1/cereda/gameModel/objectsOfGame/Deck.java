@@ -51,4 +51,14 @@ public class Deck extends ArrayList<Card> {
 
 		return initials;
 	}
+
+	/** Delete all the remaining initial cards in the deck */
+	public void deleteRemainingInitialCards() {
+		for (Card c : this.toArray(new Card[this.size()])) {
+			if (c.isInitial()) {
+				this.remove(c);
+			}
+		}
+
+	}
 }
