@@ -27,6 +27,9 @@ public class Costants {
 	/** The milliseconds waiting for the client pong */
 	public static final long PONG_WAITING_TIME = 5 * 1000;
 
+	/** The number of non final gates that can be placed in a game */
+	public static final int NUMBER_OF_NON_FINAL_GATES = 20;
+
 	/** Hide the default constructor */
 	private Costants() {
 	}

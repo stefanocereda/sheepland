@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerClient;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
@@ -79,7 +80,7 @@ public class ExecuteAction {
 	 *            The status of the current game
 	 */
 	private static void addGate(Road road, BoardStatus boardStatus) {
-		if (boardStatus.countStandardGates(boardStatus.getGates()) < 20)
+		if (boardStatus.countStandardGates(boardStatus.getGates()) < Costants.NUMBER_OF_NON_FINAL_GATES)
 			boardStatus.addPlacedGateToBoardStatus(new Gate(false, road));
 		else
 			boardStatus.addPlacedGateToBoardStatus(new Gate(true, road));

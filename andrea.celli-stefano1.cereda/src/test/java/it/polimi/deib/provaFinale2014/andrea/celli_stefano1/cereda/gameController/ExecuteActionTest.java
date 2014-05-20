@@ -2,16 +2,19 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerClient.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -71,6 +74,15 @@ public class ExecuteActionTest {
 		// It checks the money after the move
 		assertEquals(initialMoneyOfthePlayer - player.getMoney(),
 				move.getCost());
+
+		// Now make some more moves to start placing final gates and increase
+		// the test coverage
+		player.setMoney(1000);
+		for (Road r : boardStatus.getRoadMap().getHashMapOfRoads().values()) {
+			MovePlayer m = new MovePlayer(player, r, 0);
+			executer.executeMovePlayer(m, boardStatus);
+			assertEquals(player.getPosition(), r);
+		}
 	}
 
 	@Test
