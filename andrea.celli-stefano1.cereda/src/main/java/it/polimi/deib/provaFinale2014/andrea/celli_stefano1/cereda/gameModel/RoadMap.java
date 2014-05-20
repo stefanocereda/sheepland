@@ -276,8 +276,8 @@ public class RoadMap {
 		return completeMap;
 	}
 
-	/** Get the hash set of roads */
-	public HashMap<Integer, Road> getHashSetOfRoads() {
+	/** Get the hash map of roads */
+	public HashMap<Integer, Road> getHashMapOfRoads() {
 		return roadMap;
 	}
 }

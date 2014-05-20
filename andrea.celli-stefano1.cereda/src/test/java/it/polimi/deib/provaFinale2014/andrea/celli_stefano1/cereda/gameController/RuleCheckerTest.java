@@ -63,7 +63,7 @@ public class RuleCheckerTest {
 		BoardStatus status = new BoardStatus(1);
 		status.addPlayerToBoardStatus(player);
 		RoadMap roadMap = status.getRoadMap();
-		Road road = roadMap.getHashSetOfRoads().get(1);
+		Road road = roadMap.getHashMapOfRoads().get(1);
 		Gate gate = new Gate(false, road);
 		status.addPlacedGateToBoardStatus(gate);
 
@@ -81,7 +81,7 @@ public class RuleCheckerTest {
 		BoardStatus status = new BoardStatus(1);
 		status.addPlayerToBoardStatus(player);
 
-		Road road = status.getRoadMap().getHashSetOfRoads().get(1);
+		Road road = status.getRoadMap().getHashMapOfRoads().get(1);
 		Terrain[] adjacentTerrains = road.getAdjacentTerrains();
 
 		player.move(road);
@@ -107,7 +107,7 @@ public class RuleCheckerTest {
 		BoardStatus status = new BoardStatus(1);
 		status.addPlayerToBoardStatus(player);
 
-		Road road = status.getRoadMap().getHashSetOfRoads().get(1);
+		Road road = status.getRoadMap().getHashMapOfRoads().get(1);
 		Terrain[] adjacentTerrains = road.getAdjacentTerrains();
 
 		player.move(road);
@@ -152,7 +152,7 @@ public class RuleCheckerTest {
 		player.setMoney(10);
 
 		// First buy a card
-		Road shepherdRoad = status.getRoadMap().getHashSetOfRoads().get(1);
+		Road shepherdRoad = status.getRoadMap().getHashMapOfRoads().get(1);
 		player.move(shepherdRoad);
 		Move move1 = null;
 		for (Card c : Card.values()) {// search a right card
@@ -166,7 +166,7 @@ public class RuleCheckerTest {
 		player.addLastMove(move1);
 
 		// Then move the shepherd
-		Road newRoad = status.getRoadMap().getHashSetOfRoads().get(2);
+		Road newRoad = status.getRoadMap().getHashMapOfRoads().get(2);
 		Move move2 = new MovePlayer(player, newRoad, 0);
 		assertTrue(rc.isValidMove(move2, player.getLastMoves(), status));
 		player.move(newRoad);
