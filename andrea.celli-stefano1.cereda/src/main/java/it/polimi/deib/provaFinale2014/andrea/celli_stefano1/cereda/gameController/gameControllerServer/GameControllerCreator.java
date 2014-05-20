@@ -7,7 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.client
 
 /**
  * This class takes as input a gametype and returns a gamecontroller basic or
- * advanced
+ * advanced. Is like a GameController factory method.
  * 
  * @author Stefano
  * 
@@ -18,8 +18,12 @@ public class GameControllerCreator {
 		if (gameType.equals(GameType.ORIGINAL)) {
 			return new GameController(playerClients);
 		} else {
-			// return new GameControllerAdvanced(playerClients);
+			// TODO return new GameControllerAdvanced(playerClients);
 		}
 		return null;
+	}
+
+	/** Hide the default constructor */
+	private GameControllerCreator() {
 	}
 }
