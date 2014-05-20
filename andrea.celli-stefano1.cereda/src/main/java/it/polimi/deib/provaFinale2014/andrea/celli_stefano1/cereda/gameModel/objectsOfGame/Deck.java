@@ -9,20 +9,18 @@ import java.util.Random;
  * @author Stefano
  * 
  */
-public class Deck {
-	/** the list of available cards */
-	private ArrayList<Card> cards;
+public class Deck extends ArrayList<Card> {
 
 	/** Constructor of a deck, automatically populates the deck */
 	public Deck() {
-		cards = new ArrayList<Card>();
+		super();
 		populateDeck();
 	}
 
 	/** Fills the deck with all the cards */
 	private void populateDeck() {
 		for (Card c : Card.values()) {
-			cards.add(c);
+			this.add(c);
 		}
 	}
 
@@ -36,7 +34,7 @@ public class Deck {
 		Random rnd = new Random();
 
 		Card c = initials.get(rnd.nextInt(initials.size()));
-		cards.remove(c);
+		this.remove(c);
 
 		return c;
 	}
@@ -47,16 +45,10 @@ public class Deck {
 
 		// For every card in the deck check if it's initial and eventually add
 		// it
-		for (int i = 0; i < cards.size(); i++)
-			if (cards.get(i).isInitial())
-				initials.add(cards.get(i));
+		for (int i = 0; i < this.size(); i++)
+			if (this.get(i).isInitial())
+				initials.add(this.get(i));
 
 		return initials;
 	}
-
-	/** Removes a card from the deck */
-	public void removeCard(Card card) {
-		cards.remove(card);
-	}
-
 }

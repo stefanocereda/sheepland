@@ -97,7 +97,7 @@ public class ExecuteAction {
 	public void executeBuyCardMove(BuyCardMove move, BoardStatus boardStatus) {
 		Card card = move.getNewCard();
 		Player player = move.getPlayer();
-		boardStatus.getDeck().removeCard(card);
+		boardStatus.getDeck().remove(card);
 		player.addCard(card);
 		player.subtractMoney(card.getNumber());
 	}

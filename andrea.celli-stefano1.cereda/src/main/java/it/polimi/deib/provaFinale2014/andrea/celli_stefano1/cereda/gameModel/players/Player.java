@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * A game player, not including the network link with the client
  * 
  * @author Stefano
- * @author Andrea celli
+ * @author Andrea Celli
  */
 public class Player {
 	/** The money of the player */
@@ -21,6 +21,24 @@ public class Player {
 	private ArrayList<Card> territorialCards = new ArrayList<Card>();
 	/** The position of the player (road) */
 	private Road position;
+
+	/** Standard constructor */
+	public Player() {
+		;
+	}
+
+	/**
+	 * Constructor that sets the initial values of the attributes
+	 * 
+	 * @param money
+	 * @param initialCard
+	 * @param position
+	 * */
+	public Player(int money, Card initialCard, Road position) {
+		this.money = money;
+		territorialCards.add(initialCard);
+		this.position = position;
+	}
 
 	/** Returns the money of the player */
 	public int getMoney() {
