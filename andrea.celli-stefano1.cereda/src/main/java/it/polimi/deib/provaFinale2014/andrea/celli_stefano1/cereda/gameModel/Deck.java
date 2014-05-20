@@ -54,4 +54,9 @@ public class Deck {
 		return initials;
 	}
 
+	/** Removes a card from the deck */
+	public void removeCard(Card card) {
+		cards.remove(card);
+	}
+
 }

@@ -1,6 +1,9 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerClient;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
@@ -56,5 +59,22 @@ public class ExecuteAction {
 		player.move(move.getNewPositionOfThePlayer());
 		player.subtractMoney(move.getCost());
 		addMoveToLastMoves(move);
+	}
+
+	/**
+	 * This method execute a BuyCardMove move.
+	 * 
+	 * @param move
+	 *            (The cost of the move, in this case the cost of the card, is
+	 *            specified by the card!!!)
+	 * @param boardStatus
+	 *            The boardStatus of the current game.
+	 */
+	public void executeBuyCardMove(BuyCardMove move, BoardStatus boardStatus) {
+		Card card = move.getNewCard();
+		Player player = move.getPlayer();
+		boardStatus.getDeck().removeCard(card);
+		player.addCard(card);
+		player.subtractMoney(card.getNumber());
 	}
 }
