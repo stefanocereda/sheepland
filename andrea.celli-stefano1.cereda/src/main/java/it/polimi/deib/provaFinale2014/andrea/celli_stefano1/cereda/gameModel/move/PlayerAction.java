@@ -2,6 +2,12 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
+/**
+ * All the classes of move made by a player inherit from this class.
+ * 
+ * @author Andrea
+ * 
+ */
 public class PlayerAction extends Move {
 	private Player player;
 

@@ -15,10 +15,10 @@ public class MoveBlackSheep extends Move {
 	private BlackSheep blackSheep;
 
 	/**
-	 * @param player
-	 *            the player who moves the black sheep
 	 * @param newPosition
 	 *            the new position of the black sheep
+	 * @param blackSheep
+	 *            the blackSheep of the current game
 	 */
 	public MoveBlackSheep(Terrain newPosition, BlackSheep blackSheep) {
 		super();

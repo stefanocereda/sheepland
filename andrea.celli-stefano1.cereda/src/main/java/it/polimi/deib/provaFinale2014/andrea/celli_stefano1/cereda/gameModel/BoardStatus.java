@@ -173,7 +173,6 @@ public class BoardStatus {
 	 * @param sheep
 	 *            the sheep to add
 	 * @author Stefano
-	 * @return
 	 */
 	public void addSheep(Sheep sheep) {
 		sheeps.add(sheep);
@@ -183,4 +182,22 @@ public class BoardStatus {
 	public RoadMap getRoadMap() {
 		return roadMap;
 	}
+
+	/**
+	 * This method calculate the number of standard (not final) gates placed in
+	 * the map
+	 * 
+	 * @param placedGates
+	 *            The arrayList of placed Gates
+	 * @return int the number of standard gates placed in the map
+	 * @author Andrea
+	 */
+	public int countStandardGates(ArrayList<Gate> placedGates) {
+		int numberOfStandardGates = 0;
+		for (Gate gate : placedGates)
+			if (!gate.isLast())
+				numberOfStandardGates++;
+		return numberOfStandardGates;
+	}
+
 }
