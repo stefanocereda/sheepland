@@ -5,12 +5,14 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
 
 import static org.junit.Assert.*;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.MoveCostCalculator;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Road;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.RoadMap;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 
 import org.junit.Test;
 
@@ -61,12 +63,20 @@ public class MoveCostCalculatorTest {
 
 		p.move(r1);
 
-		MovePlayer mp1 = new MovePlayer(p, r2, 0);// should be free
+		Move mp1 = new MovePlayer(p, r2, 0);// should be free
 		Move mp2 = new MovePlayer(p, r3, 0);// should cost 1
 
-		assertEquals(calc.getMoveCost(mp1), 0);// this fails!!!the getMoveCost
-												// is not dynamically binded to
-												// the right method
+		assertEquals(calc.getMoveCost(mp1), 0);
 		assertEquals(calc.getMoveCost(mp2), 1);
+
+		// sheep
+		Move ms = new MoveSheep(null, null, null);// a sheep move is free
+		assertEquals(calc.getMoveCost(ms), 0);
+
+		// buycard
+		for (Card c : Card.values()) {
+			Move bcm = new BuyCardMove(null, c, 0);
+			assertEquals(calc.getMoveCost(bcm), c.getNumber());
+		}
 	}
 }

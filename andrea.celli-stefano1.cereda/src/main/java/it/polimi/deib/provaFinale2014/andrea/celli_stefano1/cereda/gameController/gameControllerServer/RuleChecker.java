@@ -76,8 +76,7 @@ public class RuleChecker {
 	}
 
 	/**
-	 * We use the dynamic binding to do the correct check based on the type of
-	 * move, so this method shouldn't be really used
+	 * Check if a move respect the rules
 	 */
 	private boolean isCorrectMove(Move move, BoardStatus boardStatus) {
 		if (move.getClass() == MovePlayer.class)
@@ -87,7 +86,6 @@ public class RuleChecker {
 		if (move.getClass() == BuyCardMove.class)
 			return isCorrectMoveBuyCard((BuyCardMove) move, boardStatus);
 		return false;
-
 	}
 
 	/**

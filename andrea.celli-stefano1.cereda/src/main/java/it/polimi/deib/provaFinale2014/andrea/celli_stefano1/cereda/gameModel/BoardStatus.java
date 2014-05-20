@@ -150,21 +150,27 @@ public class BoardStatus {
 				return false;
 
 		// then check the gates
-		for (Gate gate : (Gate[]) placedGates.toArray())
+		for (Gate gate : placedGates.toArray(new Gate[placedGates.size()]))
 			if (gate.getPosition() == roadToCheck)
 				return false;
-
 		// to be here it must be free
 		return true;
 	}
 
-	
-	/**Add a sheep to the board
-	 * @param sheep the sheep to add
+	/**
+	 * Add a sheep to the board
+	 * 
+	 * @param sheep
+	 *            the sheep to add
 	 * @author Stefano
-	 * @return 
+	 * @return
 	 */
-	public void addSheep(Sheep sheep){
+	public void addSheep(Sheep sheep) {
 		sheeps.add(sheep);
+	}
+
+	/** Returns the road map */
+	public RoadMap getRoadMap() {
+		return roadMap;
 	}
 }
