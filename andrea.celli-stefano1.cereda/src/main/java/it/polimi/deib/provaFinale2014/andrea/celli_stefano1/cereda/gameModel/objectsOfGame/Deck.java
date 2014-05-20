@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -30,7 +31,7 @@ public class Deck extends ArrayList<Card> {
 	 * @return a random initial card
 	 */
 	public Card extractInitialCard() {
-		ArrayList<Card> initials = getInitialCards();
+		List<Card> initials = getInitialCards();
 		Random rnd = new Random();
 
 		Card c = initials.get(rnd.nextInt(initials.size()));
@@ -40,8 +41,8 @@ public class Deck extends ArrayList<Card> {
 	}
 
 	/** Get an ArrayList of initial cards */
-	private ArrayList<Card> getInitialCards() {
-		ArrayList<Card> initials = new ArrayList<Card>();
+	private List<Card> getInitialCards() {
+		List<Card> initials = new ArrayList<Card>();
 
 		// For every card in the deck check if it's initial and eventually add
 		// it
