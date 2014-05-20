@@ -13,8 +13,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.client
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ListOfClientHandler;
 
 /**
- * This is the game controller, manages the communication from clients to the
- * game model.
+ * This is the basic game controller, manages the communication from clients to
+ * the game model, also taking care of handling the move checking and execution.
+ * It's like a state machine that steps into the game process
  * 
  * @author Stefano TODO test e dove ci sono errori. Sviluppo del gioco
  */
@@ -43,6 +44,7 @@ public class GameController implements Runnable {
 	}
 
 	// TODO manage all the game
+	/** Start the game */
 	public void run() {
 		try {
 			initializeAll();
@@ -50,17 +52,19 @@ public class GameController implements Runnable {
 			System.err.println("Error while initializing the game");
 			e.printStackTrace();
 		}
-		
+
 		manageGame();
 	}
 
+	/** Manage the game process */
 	private void manageGame() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
-	 * Initialize the ruleChecker, the moveCostCalculator, the board
+	 * Initialize the ruleChecker, the moveCostCalculator, the board. Send this
+	 * initial status to all the players
 	 * 
 	 * @throws IOException
 	 */
@@ -98,11 +102,16 @@ public class GameController implements Runnable {
 		}
 	}
 
-	/** Create all the sheep and them on the map, one per terrain */
+	/**
+	 * Create all the sheep and them on the map, one per terrain ecluding
+	 * sheepsburg
+	 */
 	private void initSheeps() {
 		for (Terrain terrain : Terrain.values()) {
-			Sheep sheep = new Sheep(terrain);
-			boardStatus.addSheep(sheep);
+			if (!terrain.equals(Terrain.SHEEPSBURG)) {
+				Sheep sheep = new Sheep(terrain);
+				boardStatus.addSheep(sheep);
+			}
 		}
 	}
 
