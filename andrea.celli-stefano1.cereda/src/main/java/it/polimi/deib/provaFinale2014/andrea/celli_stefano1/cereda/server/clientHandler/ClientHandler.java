@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
+import java.io.IOException;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 
 /**
@@ -10,9 +12,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
  * 
  */
 public interface ClientHandler {
-	public Move askMove();
+	public Move askMove() throws ClassNotFoundException, IOException;
 
-	public void executeMove(Move moveToExecute);
+	public void executeMove(Move moveToExecute) throws IOException;
 
-	public void sayMoveIsNotValid();
+	public Move sayMoveIsNotValid() throws ClassNotFoundException, IOException;
 }
