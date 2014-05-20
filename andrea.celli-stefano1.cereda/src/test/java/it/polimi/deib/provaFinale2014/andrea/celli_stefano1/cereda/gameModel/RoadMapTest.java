@@ -6,8 +6,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
-import java.util.HashSet;
-
 import org.junit.Test;
 
 /**

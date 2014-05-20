@@ -5,8 +5,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
 import static org.junit.Assert.*;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
-
 import org.junit.Test;
 
 /**
@@ -44,7 +42,6 @@ public class PlayerTest {
 	public void testPosition() {
 		Player p = new Player();
 		Road r = new Road(0, null, null);
-		Move m = new MovePlayer(p, r, 0);
 		p.move(r);
 
 		assertEquals(r, p.getPosition());
