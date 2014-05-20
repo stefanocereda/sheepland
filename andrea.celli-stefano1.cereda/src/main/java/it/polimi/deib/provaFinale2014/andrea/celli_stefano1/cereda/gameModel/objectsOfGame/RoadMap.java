@@ -20,7 +20,7 @@ import java.util.*;
 public class RoadMap {
 
 	private static RoadMap completeMap;
-	private HashMap<Integer, Road> roadMap;
+	private Map<Integer, Road> roadMap;
 
 	// the constructor initialize the HashMap and, at the same time, creates the
 	// roads
@@ -277,7 +277,7 @@ public class RoadMap {
 	}
 
 	/** Get the hash map of roads */
-	public HashMap<Integer, Road> getHashMapOfRoads() {
+	public Map<Integer, Road> getHashMapOfRoads() {
 		return roadMap;
 	}
 }

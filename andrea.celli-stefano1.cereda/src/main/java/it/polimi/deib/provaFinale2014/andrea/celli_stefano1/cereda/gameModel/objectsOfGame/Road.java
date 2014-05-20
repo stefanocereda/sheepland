@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /***
  * Each road has an HashSet containing its adjacent roads, an array containing
@@ -11,7 +12,7 @@ import java.util.HashSet;
  */
 
 public class Road {
-	private HashSet<Road> nextRoads = new HashSet<Road>();
+	private Set<Road> nextRoads = new HashSet<Road>();
 	private Terrain[] adjacentTerrains;
 	private int boxValue;
 
@@ -27,7 +28,7 @@ public class Road {
 		nextRoads.add(newRoad);
 	}
 
-	public HashSet<Road> getNextRoads() {
+	public Set<Road> getNextRoads() {
 		return nextRoads;
 	}
 

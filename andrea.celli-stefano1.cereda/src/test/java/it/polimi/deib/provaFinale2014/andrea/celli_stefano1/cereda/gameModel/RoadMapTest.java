@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class RoadMapTest {
 	@Test
 	public void testGetHashSetOfRoads() {
 		RoadMap rm = RoadMap.getRoadMap();
-		HashMap<Integer, Road> roads = rm.getHashMapOfRoads();
+		Map<Integer, Road> roads = rm.getHashMapOfRoads();
 		assertNotNull(roads);
 	}
 
