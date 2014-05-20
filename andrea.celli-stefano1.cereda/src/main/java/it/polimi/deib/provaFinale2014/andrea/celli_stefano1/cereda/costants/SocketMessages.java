@@ -30,4 +30,8 @@ public class SocketMessages {
 	 */
 	public static String NOT_VALID_MOVE = "NOT-VALID-MOVE";
 
+	/** Hide the default constructor */
+	private SocketMessages() {
+	}
+
 }

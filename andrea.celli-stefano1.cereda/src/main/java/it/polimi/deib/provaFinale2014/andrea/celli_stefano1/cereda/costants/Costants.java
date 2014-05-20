@@ -26,4 +26,8 @@ public class Costants {
 
 	/** The milliseconds waiting for the client pong */
 	public static final long PONG_WAITING_TIME = 5 * 1000;
+
+	/** Hide the default constructor */
+	private Costants() {
+	}
 }
