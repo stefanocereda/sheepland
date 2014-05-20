@@ -87,15 +87,11 @@ public class SocketServerStarter implements ServerStarter {
 				if (clientHandlers.size() == maxPlayers) {
 					launchGame();
 				}
-
 			} catch (IOException e) {
-				System.err.println(e.getMessage());
-				break;
+				System.err.println("Error accepting a socket client");
+				e.printStackTrace();
 			}
 		}
-
-		executor.shutdown();
-		serverSocket.close();
 	}
 
 	/**

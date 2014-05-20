@@ -20,4 +20,10 @@ public class Costants {
 
 	/** the ip port for the socket server */
 	public static final int SOCKET_IP_PORT = 5000;
+
+	/** the milliseconds between each ping to a client */
+	public static final long PING_TIME = 10 * 1000;
+
+	/** The milliseconds waiting for the client pong */
+	public static final long PONG_WAITING_TIME = 5 * 1000;
 }

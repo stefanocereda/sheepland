@@ -34,7 +34,7 @@ public class RuleCheckerTest {
 		assertNotNull(rc1);
 		assertNotNull(rc2);
 
-		assertEquals(rc1, rc2); // it's a singleton pattern
+		assertTrue(rc1 == rc2); // it's a singleton pattern
 
 	}
 

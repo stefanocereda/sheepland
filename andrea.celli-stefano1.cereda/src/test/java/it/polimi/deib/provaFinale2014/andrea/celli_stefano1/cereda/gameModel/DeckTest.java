@@ -30,7 +30,7 @@ public class DeckTest {
 		assertNotNull(d1);
 		assertNotNull(d2);
 
-		assertNotEquals(d1, d2);
+		assertFalse(d1 == d2);
 	}
 
 	/**

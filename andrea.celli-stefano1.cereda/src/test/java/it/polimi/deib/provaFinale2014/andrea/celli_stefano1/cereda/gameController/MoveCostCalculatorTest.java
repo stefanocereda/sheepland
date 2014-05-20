@@ -3,8 +3,7 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.MoveCostCalculator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -35,7 +34,7 @@ public class MoveCostCalculatorTest {
 
 		assertNotNull(mcc1);
 		assertNotNull(mcc2);
-		assertEquals(mcc1, mcc2);
+		assertTrue(mcc1 == mcc2);
 	}
 
 	/**
