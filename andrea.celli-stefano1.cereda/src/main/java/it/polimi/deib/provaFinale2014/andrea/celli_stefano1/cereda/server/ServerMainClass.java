@@ -17,11 +17,11 @@ public class ServerMainClass {
 
 	public static void main(String[] args) {
 		/** the max number of players in a game */
-		final int maxPlayers = Costants.MaxPlayersInGame;
+		final int maxPlayers = Costants.MAX_PLAYERS_IN_A_GAME;
 		/** the minutes waiting for maxPlayers */
-		final int minutesWaiting = Costants.MinutesWaitingForMaxPlayers;
+		final int minutesWaiting = Costants.MINUTES_WAITING_FOR_MAX_PLAYERS;
 		/** the type of game (original/extended rules) */
-		final GameType gameType = Costants.DefaultGameType;
+		final GameType gameType = Costants.DEFAULT_GAME_TYPE;
 		/** stdin */
 		Scanner in = new Scanner(System.in);
 		String answer;
@@ -41,7 +41,7 @@ public class ServerMainClass {
 		// Launch a socket server
 		if (answer.equals("1")) {
 			/** the ip port of the server */
-			int port = Costants.SocketIpPort;
+			int port = Costants.SOCKET_IP_PORT;
 
 			// create the server
 			server = new SocketServerStarter(port, maxPlayers, minutesWaiting,
