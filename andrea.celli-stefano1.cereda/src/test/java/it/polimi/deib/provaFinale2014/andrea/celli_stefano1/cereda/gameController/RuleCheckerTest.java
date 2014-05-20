@@ -3,12 +3,11 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.RuleChecker;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 
 import org.junit.Test;
@@ -43,8 +42,8 @@ public class RuleCheckerTest {
 		status.addPlayerToBoardStatus(player2);
 		status.setCurrentPlayer(player1);
 
-		MovePlayer move = new MovePlayer(player2, null, 0);
-		assertFalse(rc.isValidMove(move, null, status));
+		Move moveIncorrect = new MovePlayer(player2, null, 0);
+		assertFalse(rc.isValidMove(moveIncorrect, null, status));
 
 		// TODO other kinds of incorrect moves
 	}

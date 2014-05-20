@@ -80,7 +80,14 @@ public class RuleChecker {
 	 * move, so this method shouldn't be really used
 	 */
 	private boolean isCorrectMove(Move move, BoardStatus boardStatus) {
+		if (move.getClass() == MovePlayer.class)
+			return isCorrectMovePlayer((MovePlayer) move, boardStatus);
+		if (move.getClass() == MoveSheep.class)
+			return isCorrectMoveSheep((MoveSheep) move, boardStatus);
+		if (move.getClass() == BuyCardMove.class)
+			return isCorrectMoveBuyCard((BuyCardMove) move, boardStatus);
 		return false;
+
 	}
 
 	/**
@@ -91,7 +98,7 @@ public class RuleChecker {
 	 * @return true if the MovePlayer move can be executed
 	 * @author Andrea
 	 */
-	private boolean isCorrectMove(MovePlayer move, BoardStatus boardStatus) {
+	private boolean isCorrectMovePlayer(MovePlayer move, BoardStatus boardStatus) {
 		return boardStatus.isFreeRoad(move.getNewPositionOfThePlayer());
 	}
 
@@ -99,7 +106,7 @@ public class RuleChecker {
 	 * Check if a sheep is moving correctly: The sheep must come from a land
 	 * adjacent the shepherd and go to the other one
 	 */
-	private boolean isCorrectMove(MoveSheep move, BoardStatus boardStatus) {
+	private boolean isCorrectMoveSheep(MoveSheep move, BoardStatus boardStatus) {
 		Terrain[] adjacentTerrains = move.getPlayer().getPosition()
 				.getAdjacentTerrains();
 		Terrain coming = move.getMovedSheep().getPosition();
@@ -116,7 +123,8 @@ public class RuleChecker {
 	 * Check if a buy move is valid: the card must be of the same type of one of
 	 * the two adjacent regions
 	 */
-	private boolean isCorrectMove(BuyCardMove move, BoardStatus boardStatus) {
+	private boolean isCorrectMoveBuyCard(BuyCardMove move,
+			BoardStatus boardStatus) {
 		Terrain[] adjacentTerrains = move.getPlayer().getPosition()
 				.getAdjacentTerrains();
 

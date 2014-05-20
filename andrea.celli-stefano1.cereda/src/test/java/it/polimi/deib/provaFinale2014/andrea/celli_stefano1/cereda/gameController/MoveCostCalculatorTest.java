@@ -61,10 +61,12 @@ public class MoveCostCalculatorTest {
 
 		p.move(r1);
 
-		Move mp1 = new MovePlayer(p, r2, 0);// should be free
+		MovePlayer mp1 = new MovePlayer(p, r2, 0);// should be free
 		Move mp2 = new MovePlayer(p, r3, 0);// should cost 1
 
-		assertEquals(calc.getMoveCost(mp1), 0);// this fails
+		assertEquals(calc.getMoveCost(mp1), 0);// this fails!!!the getMoveCost
+												// is not dynamically binded to
+												// the right method
 		assertEquals(calc.getMoveCost(mp2), 1);
 	}
 }
