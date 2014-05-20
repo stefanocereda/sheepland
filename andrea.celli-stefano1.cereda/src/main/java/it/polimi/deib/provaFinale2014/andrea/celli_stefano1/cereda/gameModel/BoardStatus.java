@@ -12,6 +12,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A complete representation of the game panel, territories, roads, players and
@@ -27,15 +28,15 @@ public class BoardStatus implements Serializable {
 	 * The list of gates, either finally and not (the gates that are already
 	 * placed)
 	 */
-	private ArrayList<Gate> placedGates;
+	private List<Gate> placedGates;
 	/** The black sheep */
 	private BlackSheep blackSheep;
 	/** The list of sheep */
-	private ArrayList<Sheep> sheeps;
+	private List<Sheep> sheeps;
 	/** The array of players */
 	private PlayersOfAGame players;
 	/** The list of all the terrains of the map */
-	private ArrayList<Terrain> terrains;
+	private List<Terrain> terrains;
 	/** The map of all the roads */
 	private RoadMap roadMap;
 	/** The deck of territorial cards */
@@ -89,7 +90,7 @@ public class BoardStatus implements Serializable {
 	/**
 	 * Returns the ArrayList of gates
 	 */
-	public ArrayList<Gate> getGates() {
+	public List<Gate> getGates() {
 		return placedGates;
 	}
 
@@ -193,7 +194,7 @@ public class BoardStatus implements Serializable {
 	 * @return int the number of standard gates placed in the map
 	 * @author Andrea
 	 */
-	public int countStandardGates(ArrayList<Gate> placedGates) {
+	public int countStandardGates(List<Gate> placedGates) {
 		int numberOfStandardGates = 0;
 		for (Gate gate : placedGates)
 			if (!gate.isLast())
