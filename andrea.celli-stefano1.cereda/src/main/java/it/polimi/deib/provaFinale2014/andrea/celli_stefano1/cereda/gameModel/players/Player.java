@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A game player, not including the network link with the client
@@ -16,9 +17,9 @@ public class Player {
 	/** The money of the player */
 	private int money;
 	/** The array of the last moves of this player */
-	private ArrayList<Move> lastMoves = new ArrayList<Move>();
+	private List<Move> lastMoves = new ArrayList<Move>();
 	/** the array of the territorial card owned by the player */
-	private ArrayList<Card> territorialCards = new ArrayList<Card>();
+	private List<Card> territorialCards = new ArrayList<Card>();
 	/** The position of the player (road) */
 	private Road position;
 
@@ -56,7 +57,7 @@ public class Player {
 	}
 
 	/**
-	 * Subtract the specified ammout of money from the money of a player
+	 * Subtract the specified amount of money from the money of a player
 	 * 
 	 * @param moneySpent
 	 *            the money to subtract
@@ -95,7 +96,7 @@ public class Player {
 	/**
 	 * Returns the list of cards of the player
 	 */
-	public ArrayList<Card> getCards() {
+	public List<Card> getCards() {
 		return territorialCards;
 	}
 
@@ -112,7 +113,7 @@ public class Player {
 	/**
 	 * Returns the list of past moves of the player
 	 */
-	public ArrayList<Move> getLastMoves() {
+	public List<Move> getLastMoves() {
 		return lastMoves;
 	}
 }
