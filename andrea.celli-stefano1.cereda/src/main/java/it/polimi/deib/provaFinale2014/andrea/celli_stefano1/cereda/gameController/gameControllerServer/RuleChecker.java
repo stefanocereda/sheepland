@@ -9,7 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A single object (to be shared between games) used to check basic rules
@@ -48,7 +48,7 @@ public class RuleChecker {
 	 *            The actual status of the game
 	 * @return true if the move is valid
 	 */
-	public boolean isValidMove(Move moveToCheck, ArrayList<Move> oldMoves,
+	public boolean isValidMove(Move moveToCheck, List<Move> oldMoves,
 			BoardStatus actualStatus) {
 		if (moveToCheck.getClass() == MoveSheep.class
 				|| moveToCheck.getClass() == MovePlayer.class
@@ -144,7 +144,7 @@ public class RuleChecker {
 	}
 
 	/** Check if this move can be done after the previous ones */
-	private boolean isCorrectTurn(Move moveToCheck, ArrayList<Move> oldMoves) {
+	private boolean isCorrectTurn(Move moveToCheck, List<Move> oldMoves) {
 
 		// the first move is always correct
 		if (oldMoves.size() == 0)
