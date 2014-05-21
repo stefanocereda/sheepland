@@ -87,6 +87,7 @@ public class GameControllerClient {
 					executeAction.executeMoveSheep((MoveSheep) move);
 			}
 		} else if (move instanceof MoveBlackSheep)
-			executeAction.executeMoveBlackSheep((MoveBlackSheep) move);
+			executeAction.executeMoveBlackSheep((MoveBlackSheep) move,
+					boardStatus);
 	}
 }

@@ -47,9 +47,12 @@ public class ExecuteAction {
 	 * 
 	 * @param move
 	 *            (the new destination of the blackSheep)
+	 * @param boardStatus
+	 *            the boardStatus of the current game
 	 */
-	public void executeMoveBlackSheep(MoveBlackSheep move) {
-		move.getBlackSheep().move(move.getNewPositionOfTheBlackSheep());
+	public void executeMoveBlackSheep(MoveBlackSheep move,
+			BoardStatus boardStatus) {
+		boardStatus.getBlackSheep().move(move.getNewPositionOfTheBlackSheep());
 	}
 
 	/**

@@ -2,7 +2,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.client.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
@@ -41,10 +40,12 @@ public class ExecuteActionTest {
 
 	@Test
 	public void executeMoveBlackSheepTest() {
+		BoardStatus boardStatus = new BoardStatus(3);
 		ExecuteAction executer = new ExecuteAction();
 		BlackSheep blackSheep = new BlackSheep(Terrain.SHEEPSBURG);
+		boardStatus.addBlackSheepToBoardStatus(blackSheep);
 		MoveBlackSheep move = new MoveBlackSheep(Terrain.C1, blackSheep);
-		executer.executeMoveBlackSheep(move);
+		executer.executeMoveBlackSheep(move, boardStatus);
 		assertEquals(move.getNewPositionOfTheBlackSheep(),
 				blackSheep.getPosition());
 	}

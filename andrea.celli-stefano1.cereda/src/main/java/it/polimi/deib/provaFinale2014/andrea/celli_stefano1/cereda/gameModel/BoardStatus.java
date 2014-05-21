@@ -112,14 +112,13 @@ public class BoardStatus implements Serializable {
 	}
 
 	/**
-	 * Add the black sheep to the map, if it doesn't already exists
+	 * Add the black sheep to the map
 	 * 
 	 * @param blackSheep
 	 *            the black sheep
 	 */
 	public void addBlackSheepToBoardStatus(BlackSheep blackSheep) {
-		if (this.blackSheep == null)
-			this.blackSheep = blackSheep;
+		this.blackSheep = blackSheep;
 	}
 
 	/**
