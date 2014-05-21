@@ -180,6 +180,13 @@ public class BoardStatus implements Serializable {
 		sheeps.add(sheep);
 	}
 
+	/**
+	 * This method returns the arrayList of Sheeps
+	 */
+	public List<Sheep> getSheeps() {
+		return sheeps;
+	}
+
 	/** Returns the road map */
 	public RoadMap getRoadMap() {
 		return roadMap;

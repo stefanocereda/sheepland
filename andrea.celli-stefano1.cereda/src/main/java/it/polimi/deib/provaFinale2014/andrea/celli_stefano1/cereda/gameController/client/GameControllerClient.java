@@ -16,12 +16,19 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
  * the communication with the server.
  * 
  * @author Andrea
- * @TODO all
+ * @TODO askNewMove and notValidMove
  */
 public class GameControllerClient {
 	private ExecuteAction executeAction;
 	// The boardStatus of the current game
 	private BoardStatus boardStatus;
+
+	/**
+	 * @return boardStatus the board status of the current game
+	 */
+	public BoardStatus getBoardStatus() {
+		return boardStatus;
+	}
 
 	/**
 	 * This method links executeAction with a proper instance of the class. This
@@ -82,5 +89,4 @@ public class GameControllerClient {
 		} else if (move instanceof MoveBlackSheep)
 			executeAction.executeMoveBlackSheep((MoveBlackSheep) move);
 	}
-
 }
