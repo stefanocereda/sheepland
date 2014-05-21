@@ -70,12 +70,6 @@ public class BoardStatus implements Serializable {
 
 		// init the deck
 		cardsDeck = new Deck();
-
-		// init the blackSheep (it always starts from sheepsburg)
-		blackSheep = new BlackSheep(Terrain.SHEEPSBURG);
-
-		// init the current player
-		currentPlayer = new Player();
 	}
 
 	/** Returns the current player */
