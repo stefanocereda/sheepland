@@ -1,9 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientIdentifier;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient;
 
 import java.io.IOException;
 
@@ -22,5 +19,8 @@ public interface ServerStarter {
 	public void start() throws IOException;
 
 	/** Notify to the server starter that a client disconnected */
-	public void notifyDisconnection(ClientIdentifier clientIdentifier, GameController gameController, Player disconnectedPlayer);
+	public void notifyDisconnection(DisconnectedClient disconnected);
+
+	/** Close the server */
+	public void closeServer() throws IOException;
 }

@@ -7,7 +7,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ServerStarter;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.SocketServerStarter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,7 +26,7 @@ import java.util.TimerTask;
 public class SocketClientHandler implements ClientHandler {
 	/**
 	 * A reference to the game that this client is playing, it is used to
-	 * suspend the player when if it disconnects
+	 * suspend the player when it disconnects
 	 */
 	private GameController game = null;
 	/** A reference to the player controlled */
@@ -35,7 +34,7 @@ public class SocketClientHandler implements ClientHandler {
 	/** A reference to the server that created this object */
 	private ServerStarter serverStarter;
 
-	/** The socket linked to the player */
+	/** The socket linked to the client */
 	private Socket socket;
 	/** The scanner on the socket */
 	private Scanner in;
@@ -49,7 +48,7 @@ public class SocketClientHandler implements ClientHandler {
 	/** A timer used to ping the client */
 	private Timer timer = new Timer();
 	/** the timer task to execute at the end of the timers */
-	private TimerTask timerTaskStartGame = new TimerTask() {
+	private TimerTask timerTaskPing = new TimerTask() {
 		public void run() {
 			try {
 				pingTheClient();
@@ -78,7 +77,8 @@ public class SocketClientHandler implements ClientHandler {
 		objectOut = new ObjectOutputStream(socket.getOutputStream());
 		objectIn = new ObjectInputStream(socket.getInputStream());
 
-		timer.schedule(timerTaskStartGame, Costants.PING_TIME);
+		timer.scheduleAtFixedRate(timerTaskPing, Costants.PING_TIME,
+				Costants.PING_TIME);
 
 		serverStarter = server;
 	}
@@ -105,7 +105,8 @@ public class SocketClientHandler implements ClientHandler {
 	 */
 	public void notifyClientDisconnection(GameController gc, Player pc) {
 		gc.notifyDisconnection(pc);
-		serverStarter.notifyDisconnection(this.getIdentifier(), gc, pc);
+		serverStarter.notifyDisconnection(new DisconnectedClient(
+				getIdentifier(), pc, gc));
 	}
 
 	/**

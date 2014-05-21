@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;

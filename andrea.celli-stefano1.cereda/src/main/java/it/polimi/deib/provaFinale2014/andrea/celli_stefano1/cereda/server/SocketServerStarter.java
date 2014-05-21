@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -90,10 +88,11 @@ public class SocketServerStarter implements ServerStarter {
 
 			// if it's a previously disconnected client we don't need to handle
 			// it here
-			if (isPreviouslyDisconnected(socket))
+			if (handlePreviouslyDisconnected(socket))
 				break;
 
 			clientHandlers.add(new SocketClientHandler(socket, this));
+
 			// if it's the first player waiting start the timer
 			if (clientHandlers.size() == 1)
 				timer.schedule(timerTaskStartGame, delay);
@@ -112,12 +111,16 @@ public class SocketServerStarter implements ServerStarter {
 	 */
 	private void launchGame() {
 		if (clientHandlers.size() > 1) {
+			// launch the game
 			executor.submit(GameControllerCreator.create(clientHandlers,
 					gameType));
 
+			// start awaiting for new players
 			clientHandlers = new ListOfSocketClientHandler();
 		}
 
+		// if we came here because we had the right number of player the timer
+		// will tick again even if we don't have any player waiting
 		timer.cancel();
 	}
 
@@ -125,11 +128,7 @@ public class SocketServerStarter implements ServerStarter {
 	 * This method is called when a clients disconnects, it takes note of the
 	 * client so it will be possible to reconnect him to the right game
 	 */
-	public void notifyDisconnection(ClientIdentifier disconnectedId,
-			GameController gc, Player playerControlled) {
-
-		DisconnectedClient disconnected = new DisconnectedClient(
-				disconnectedId, playerControlled, gc);
+	public void notifyDisconnection(DisconnectedClient disconnected) {
 		disconnectedClients.add(disconnected);
 	}
 
@@ -137,10 +136,16 @@ public class SocketServerStarter implements ServerStarter {
 	 * Check for previously disconnected clients. If the passed socket has the
 	 * same ip+port of a previously disconnected clients this method sends this
 	 * socket to the right game manager
-	 * @throws IOException 
+	 * 
+	 * @param connected
+	 *            The newly connected client to check
+	 * @return true if it was a reconnecting client
+	 * 
+	 * @throws IOException
 	 * 
 	 */
-	private boolean isPreviouslyDisconnected(Socket connected) throws IOException {
+	private boolean handlePreviouslyDisconnected(Socket connected)
+			throws IOException {
 		// get the id
 		ClientIdentifier id = new ClientIdentifier(connected.getInetAddress(),
 				connected.getPort());
@@ -152,20 +157,32 @@ public class SocketServerStarter implements ServerStarter {
 		if (disconnectedClients.contains(newClient)) {
 			int index = disconnectedClients.indexOf(newClient);
 			DisconnectedClient disconnected = disconnectedClients.get(index);
+
 			// get the game controller and player of the disconnected
 			GameController gameController = disconnected.getGame();
 			Player player = disconnected.getControlledPlayer();
+
 			// create a new client handler
 			ClientHandler newClientHandler = new SocketClientHandler(connected,
 					this);
+
 			// notify to the game controller
 			gameController.notifyReconnection(player, newClientHandler);
 
+			// remove the client from the disconnected list
 			disconnectedClients.remove(index);
 
 			return true;
 		}
-
 		return false;
+	}
+
+	/**
+	 * Close the server socket
+	 * 
+	 * @throws IOException
+	 */
+	public void closeServer() throws IOException {
+		serverSocket.close();
 	}
 }
