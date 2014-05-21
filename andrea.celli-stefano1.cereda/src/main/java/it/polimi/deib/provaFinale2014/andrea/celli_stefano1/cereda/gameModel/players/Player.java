@@ -22,10 +22,13 @@ public class Player {
 	private List<Card> territorialCards = new ArrayList<Card>();
 	/** The position of the player (road) */
 	private Road position;
+	/** A player is suspended when disconnected for a fixed time */
+	private boolean suspended = false;
+	/** A player is not connected when it loose connection */
+	private boolean connected = true;
 
 	/** Standard constructor */
 	public Player() {
-		;
 	}
 
 	/**
@@ -115,5 +118,35 @@ public class Player {
 	 */
 	public List<Move> getLastMoves() {
 		return lastMoves;
+	}
+
+	/** Set the status to suspended */
+	public void suspend() {
+		suspended = true;
+	}
+
+	/** Set the status to not-suspended */
+	public void resume() {
+		suspended = false;
+	}
+
+	/** Check if a player is suspended */
+	public boolean isSuspended() {
+		return suspended;
+	}
+
+	/** Set the status to connected */
+	public void setConnected() {
+		connected = true;
+	}
+
+	/** Set the status to not-connected */
+	public void setNotConnected() {
+		connected = false;
+	}
+
+	/** Check if a player is connected */
+	public boolean isConnected() {
+		return connected;
 	}
 }

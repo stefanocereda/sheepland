@@ -30,6 +30,9 @@ public class Costants {
 	/** The number of non final gates that can be placed in a game */
 	public static final int NUMBER_OF_NON_FINAL_GATES = 20;
 
+	/** The time in milliseconds waiting for the reconnection of a client */
+	public static final long WAITING_FOR_CLIENT_RECONNECT = 1 * 60 * 1000;// 1'
+
 	/** Hide the default constructor */
 	private Costants() {
 	}

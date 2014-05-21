@@ -54,7 +54,7 @@ public class ServerMainClass {
 		try {
 			server.start();
 		} catch (IOException e) {
-			System.err.println("Error starting the server");
+			System.err.println("Error starting the choosen server");
 			e.printStackTrace();
 		}
 	}

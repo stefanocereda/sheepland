@@ -16,4 +16,6 @@ public interface ListOfClientHandler {
 	public int size();
 
 	public ClientHandler[] values();
+
+	public ClientHandler set(int index, ClientHandler newClientHandler);
 }

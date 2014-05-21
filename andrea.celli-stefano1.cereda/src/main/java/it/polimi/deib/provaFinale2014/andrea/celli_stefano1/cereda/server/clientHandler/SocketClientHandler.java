@@ -2,8 +2,12 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameController;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ServerStarter;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.SocketServerStarter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,12 +21,20 @@ import java.util.TimerTask;
 /**
  * A socket version of a ClientHandler
  * 
- * TODO I SYNCRONIZED VANNO SINCRONIZZATI SUGLI STREAM
- * 
  * @author Stefano
  * @see ClientHandler
  */
 public class SocketClientHandler implements ClientHandler {
+	/**
+	 * A reference to the game that this client is playing, it is used to
+	 * suspend the player when if it disconnects
+	 */
+	private GameController game = null;
+	/** A reference to the player controlled */
+	private Player playerControlled = null;
+	/** A reference to the server that created this object */
+	private ServerStarter serverStarter;
+
 	/** The socket linked to the player */
 	private Socket socket;
 	/** The scanner on the socket */
@@ -42,13 +54,8 @@ public class SocketClientHandler implements ClientHandler {
 			try {
 				pingTheClient();
 			} catch (ClientDisconnectedException e) {
-				notifyClientDisconnection();
+				notifyClientDisconnection(e.getGameController(), e.getPlayer());
 			}
-		}
-
-		private void notifyClientDisconnection() {
-			// TODO Auto-generated method stub
-			
 		}
 	};
 
@@ -58,16 +65,47 @@ public class SocketClientHandler implements ClientHandler {
 	 * 
 	 * @param clientSocket
 	 *            The socket connected to a client
+	 * @param server
+	 *            the server that creates this object, it's used to notify when
+	 *            a client disconnects
 	 * @throws IOException
 	 */
-	public SocketClientHandler(Socket clientSocket) throws IOException {
+	public SocketClientHandler(Socket clientSocket, ServerStarter server)
+			throws IOException {
 		socket = clientSocket;
-		objectIn = new ObjectInputStream(socket.getInputStream());
-		objectOut = new ObjectOutputStream(socket.getOutputStream());
-		in = new Scanner(socket.getInputStream());
 		out = new PrintWriter(socket.getOutputStream());
+		in = new Scanner(socket.getInputStream());
+		objectOut = new ObjectOutputStream(socket.getOutputStream());
+		objectIn = new ObjectInputStream(socket.getInputStream());
 
 		timer.schedule(timerTaskStartGame, Costants.PING_TIME);
+
+		serverStarter = server;
+	}
+
+	/** Set the game where this client is playing */
+	public void setGame(GameController gc) {
+		game = gc;
+	}
+
+	/** Set the player controlled */
+	public void setPlayer(Player p) {
+		playerControlled = p;
+	}
+
+	/**
+	 * Notify the disconnection of a player to the gamecontroller (so it can
+	 * suspend the player) and to the server starter so it can wait for this
+	 * player to reconnect and let it play in the same game
+	 * 
+	 * @param gc
+	 *            the game controller to notify
+	 * @param pc
+	 *            the client disconnected
+	 */
+	public void notifyClientDisconnection(GameController gc, Player pc) {
+		gc.notifyDisconnection(pc);
+		serverStarter.notifyDisconnection(this.getIdentifier(), gc, pc);
 	}
 
 	/**
@@ -75,16 +113,22 @@ public class SocketClientHandler implements ClientHandler {
 	 * client can give an impossible move so it must be checked
 	 * 
 	 * @return the move returned from the client
-	 * @throws IOException
 	 * @throws ClassNotFoundException
+	 * @throws ClientDisconnectedException
 	 */
 	public synchronized Move askMove() throws ClassNotFoundException,
-			IOException {
+			ClientDisconnectedException {
 		// Send the message
 		out.println(SocketMessages.ASK_NEW_MOVE);
 		out.flush();
 
-		Move clientReturned = (Move) objectIn.readObject();
+		Move clientReturned = null;
+
+		try {
+			clientReturned = (Move) objectIn.readObject();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(game, playerControlled);
+		}
 		return clientReturned;
 	}
 
@@ -94,13 +138,19 @@ public class SocketClientHandler implements ClientHandler {
 	 * 
 	 * @param moveToExecute
 	 *            to move to be executed
+	 * @throws ClientDisconnectedException
 	 */
-	public synchronized void executeMove(Move moveToExecute) throws IOException {
+	public synchronized void executeMove(Move moveToExecute)
+			throws ClientDisconnectedException {
 		out.println(SocketMessages.EXECUTE_MOVE);
 		out.flush();
 
-		objectOut.writeObject(moveToExecute);
-		objectOut.flush();
+		try {
+			objectOut.writeObject(moveToExecute);
+			objectOut.flush();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(game, playerControlled);
+		}
 	}
 
 	/**
@@ -108,34 +158,49 @@ public class SocketClientHandler implements ClientHandler {
 	 * one
 	 * 
 	 * @return a new Move
-	 * @throws IOException
 	 * @throws ClassNotFoundException
+	 * @throws ClientDisconnectedException
 	 */
 	public synchronized Move sayMoveIsNotValid() throws ClassNotFoundException,
-			IOException {
+			ClientDisconnectedException {
 		out.println(SocketMessages.NOT_VALID_MOVE);
 		out.flush();
 
-		Move clientReturned = (Move) objectIn.readObject();
+		Move clientReturned;
+
+		try {
+			clientReturned = (Move) objectIn.readObject();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(game, playerControlled);
+		}
+
 		return clientReturned;
 	}
 
 	/**
 	 * Send to the client a new status to replace the old one
 	 * 
-	 * @throws IOException
+	 * @throws ClientDisconnectedException
+	 * 
 	 */
 	public synchronized void sendNewStatus(BoardStatus newStatus)
-			throws IOException {
+			throws ClientDisconnectedException {
 		out.println(SocketMessages.SEND_NEW_STATUS);
 		out.flush();
 
-		objectOut.writeObject(newStatus);
-		objectOut.flush();
+		try {
+			objectOut.writeObject(newStatus);
+			objectOut.flush();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(game, playerControlled);
+		}
 	}
 
-	/** Ping the client and wait for his answer 
-	 * @throws ClientDisconnectedException */
+	/**
+	 * Ping the client and wait for his answer
+	 * 
+	 * @throws ClientDisconnectedException
+	 */
 	public synchronized void pingTheClient() throws ClientDisconnectedException {
 		out.println(SocketMessages.PING);
 		out.flush();
@@ -143,14 +208,18 @@ public class SocketClientHandler implements ClientHandler {
 		try {
 			Thread.sleep(Costants.PONG_WAITING_TIME);
 		} catch (InterruptedException e) {
-			System.err
-					.println("Error trying to sleep the thread while waiting for the client pong");
 			e.printStackTrace();
 		}
 
-		if (in.hasNextLine() && in.nextLine().equals(SocketMessages.PONG)) {
-			timer.schedule(timerTaskStartGame, Costants.PING_TIME);
-		} else
-			throw new ClientDisconnectedException();
+		if (!in.hasNextLine())
+			throw new ClientDisconnectedException(game, playerControlled);
+	}
+
+	public ClientIdentifier getIdentifier() {
+		return new ClientIdentifier(socket.getInetAddress(), socket.getPort());
+	}
+
+	public Player getPlayer() {
+		return playerControlled;
 	}
 }

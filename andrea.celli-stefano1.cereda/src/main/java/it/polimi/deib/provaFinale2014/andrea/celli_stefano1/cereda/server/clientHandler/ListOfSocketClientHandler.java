@@ -14,4 +14,8 @@ public class ListOfSocketClientHandler extends ArrayList<SocketClientHandler>
 	public ClientHandler[] values() {
 		return this.values();
 	}
+
+	public ClientHandler set(int index, ClientHandler newClientHandler) {
+		return this.set(index, newClientHandler);
+	}
 }
