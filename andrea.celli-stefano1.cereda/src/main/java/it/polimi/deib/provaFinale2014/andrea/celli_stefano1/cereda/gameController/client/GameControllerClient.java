@@ -1,6 +1,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.client;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 
 /**
  * This class manage the game in the client executing the up-dates that are
@@ -36,6 +42,45 @@ public class GameControllerClient {
 		executeAction = new ExecuteAction();
 		// It creates a new boardStatus
 		boardStatus = new BoardStatus(numberOfPlayers);
+	}
+
+	/**
+	 * This method updates the boardStatus "owned" by a client with the new
+	 * information provided by the server after the creation of the game. This
+	 * method has to be used only once in the course of a game.
+	 * 
+	 * @param newBoardStatus
+	 *            the boardStatus with updates
+	 * @TODO introdurre un controllo sulla correttezza di newBoardStatus con
+	 *       eventuali eccezioni?
+	 */
+	public void upDateStatus(BoardStatus newBoardStatus) {
+		this.boardStatus = newBoardStatus;
+	}
+
+	/**
+	 * This method takes as an input parameter a generic move and executes it.
+	 * This couls be done using Late Binding but, to do so, this methods should
+	 * have been placed in move classes. Therefore the distinction between model
+	 * and controller would have been compromised.
+	 * 
+	 * @param move
+	 *            the move that has to be executed
+	 */
+	public void executeMove(Move move) {
+		if (move instanceof PlayerAction) {
+			if (move instanceof BuyCardMove) {
+				executeAction.executeBuyCardMove((BuyCardMove) move,
+						boardStatus);
+			} else {
+				if (move instanceof MovePlayer)
+					executeAction.executeMovePlayer((MovePlayer) move,
+							boardStatus);
+				else if (move instanceof MoveSheep)
+					executeAction.executeMoveSheep((MoveSheep) move);
+			}
+		} else if (move instanceof MoveBlackSheep)
+			executeAction.executeMoveBlackSheep((MoveBlackSheep) move);
 	}
 
 }
