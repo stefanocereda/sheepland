@@ -1,4 +1,7 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket;
+
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ListOfClientHandler;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
@@ -7,6 +7,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ServerStarter;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientDisconnectedException;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientIdentifier;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

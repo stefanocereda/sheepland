@@ -7,8 +7,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientIdentifier;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ListOfSocketClientHandler;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.SocketClientHandler;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket.ListOfSocketClientHandler;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket.SocketClientHandler;
 
 import java.util.List;
 import java.io.IOException;
