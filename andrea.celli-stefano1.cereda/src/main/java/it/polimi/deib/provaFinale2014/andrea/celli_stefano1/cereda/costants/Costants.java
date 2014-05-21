@@ -10,7 +10,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControlle
  */
 public class Costants {
 	/** the max number of players in a games */
-	public static final int MAX_PLAYERS_IN_A_GAME = 6;
+	public static final int MAX_PLAYERS_IN_A_GAME = 4;
 
 	/** the minutes waiting for the max number of players */
 	public static final int MINUTES_WAITING_FOR_MAX_PLAYERS = 5;
