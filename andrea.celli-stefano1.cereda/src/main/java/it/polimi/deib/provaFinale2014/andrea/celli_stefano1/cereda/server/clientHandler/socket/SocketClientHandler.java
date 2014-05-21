@@ -123,6 +123,8 @@ public class SocketClientHandler implements ClientHandler {
 	 */
 	public synchronized Move askMove() throws ClassNotFoundException,
 			ClientDisconnectedException {
+		clearInput();
+
 		// Send the message
 		out.println(SocketMessages.ASK_NEW_MOVE);
 		out.flush();
@@ -147,6 +149,8 @@ public class SocketClientHandler implements ClientHandler {
 	 */
 	public synchronized void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
+		clearInput();
+
 		out.println(SocketMessages.EXECUTE_MOVE);
 		out.flush();
 
@@ -168,6 +172,8 @@ public class SocketClientHandler implements ClientHandler {
 	 */
 	public synchronized Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
+		clearInput();
+
 		out.println(SocketMessages.NOT_VALID_MOVE);
 		out.flush();
 
@@ -190,6 +196,8 @@ public class SocketClientHandler implements ClientHandler {
 	 */
 	public synchronized void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException {
+		clearInput();
+
 		out.println(SocketMessages.SEND_NEW_STATUS);
 		out.flush();
 
@@ -207,6 +215,8 @@ public class SocketClientHandler implements ClientHandler {
 	 * @throws ClientDisconnectedException
 	 */
 	public synchronized void pingTheClient() throws ClientDisconnectedException {
+		clearInput();
+
 		out.println(SocketMessages.PING);
 		out.flush();
 
@@ -216,14 +226,25 @@ public class SocketClientHandler implements ClientHandler {
 			e.printStackTrace();
 		}
 
-		if (!in.hasNextLine())
+		if (!in.hasNextLine() || !in.nextLine().equals(SocketMessages.PONG))
 			throw new ClientDisconnectedException(game, playerControlled);
 	}
 
+	/** This method empties the input scanner */
+	private void clearInput() {
+		while (in.hasNext())
+			in.next();
+	}
+
+	/**
+	 * This method returns an identifier for this client, using his ip addres
+	 * and his port
+	 */
 	public ClientIdentifier getIdentifier() {
 		return new ClientIdentifier(socket.getInetAddress(), socket.getPort());
 	}
 
+	/** This method returns the player controlled by this client */
 	public Player getPlayer() {
 		return playerControlled;
 	}
