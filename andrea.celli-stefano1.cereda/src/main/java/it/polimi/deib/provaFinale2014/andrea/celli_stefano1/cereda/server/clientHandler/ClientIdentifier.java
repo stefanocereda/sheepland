@@ -36,12 +36,4 @@ public class ClientIdentifier {
 	public int getPort() {
 		return port;
 	}
-
-	/** Check if two identifier have the same ip and port */
-	public boolean equals(ClientIdentifier other) {
-		if (other.getInetAddress().equals(address) && other.getPort() == port) {
-			return true;
-		}
-		return false;
-	}
 }

@@ -1,11 +1,10 @@
 /**
  * 
  */
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameController;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientIdentifier;
 
 /**
  * This class is used to represent a disconnected client, it is represented by
@@ -57,5 +56,10 @@ public class DisconnectedClient {
 			return true;
 		}
 		return false;
+	}
+
+	/** Override hashCode to match equals */
+	public int hashCode() {
+		return clientID.hashCode();
 	}
 }
