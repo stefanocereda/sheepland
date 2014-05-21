@@ -62,4 +62,17 @@ public class Deck extends ArrayList<Card> {
 		}
 
 	}
+
+	/**
+	 * This method checks whether a card has been removed or it's still in the
+	 * deck
+	 * 
+	 * @return true if the card is in the deck
+	 */
+	public boolean isInTheDeck(Card card) {
+		for (int i = 0; i < this.size(); i++)
+			if (this.get(i) == card)
+				return true;
+		return false;
+	}
 }

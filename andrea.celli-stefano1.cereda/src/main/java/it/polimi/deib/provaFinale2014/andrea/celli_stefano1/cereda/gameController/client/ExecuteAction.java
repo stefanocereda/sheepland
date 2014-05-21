@@ -101,5 +101,6 @@ public class ExecuteAction {
 		boardStatus.getDeck().remove(card);
 		player.addCard(card);
 		player.subtractMoney(card.getNumber());
+		addMoveToLastMoves(move);
 	}
 }
