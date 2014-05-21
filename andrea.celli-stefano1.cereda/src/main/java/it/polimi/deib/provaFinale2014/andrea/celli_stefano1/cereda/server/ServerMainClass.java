@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.GameType;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
 
 /**
  * The main ask for RMI/Socket on console and launch the right one

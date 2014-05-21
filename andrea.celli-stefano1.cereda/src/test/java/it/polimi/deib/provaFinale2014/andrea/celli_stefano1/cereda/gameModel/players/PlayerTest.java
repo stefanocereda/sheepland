@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

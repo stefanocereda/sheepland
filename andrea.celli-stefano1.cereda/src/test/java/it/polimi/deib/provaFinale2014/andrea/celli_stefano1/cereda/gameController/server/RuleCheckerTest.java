@@ -1,10 +1,10 @@
 /**
  * 
  */
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
 import static org.junit.Assert.*;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer.RuleChecker;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.RuleChecker;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;

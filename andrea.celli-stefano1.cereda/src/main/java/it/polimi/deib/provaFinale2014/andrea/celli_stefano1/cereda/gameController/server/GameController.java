@@ -1,4 +1,4 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.gameControllerServer;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
 import java.io.IOException;
 import java.net.Socket;
