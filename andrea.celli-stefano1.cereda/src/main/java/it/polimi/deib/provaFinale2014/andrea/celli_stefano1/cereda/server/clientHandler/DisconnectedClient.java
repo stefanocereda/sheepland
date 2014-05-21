@@ -50,16 +50,42 @@ public class DisconnectedClient {
 		return game;
 	}
 
-	/** Two clients are equals if the have the same id */
-	public boolean equals(DisconnectedClient other) {
-		if (other.getClientID().equals(clientID)) {
-			return true;
-		}
-		return false;
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((clientID == null) ? 0 : clientID.hashCode());
+		return result;
 	}
 
-	/** Override hashCode to match equals */
-	public int hashCode() {
-		return clientID.hashCode();
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof DisconnectedClient)) {
+			return false;
+		}
+		DisconnectedClient other = (DisconnectedClient) obj;
+		if (clientID == null) {
+			if (other.clientID != null) {
+				return false;
+			}
+		} else if (!clientID.equals(other.clientID)) {
+			return false;
+		}
+		return true;
 	}
+
+	
 }
