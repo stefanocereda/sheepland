@@ -102,4 +102,9 @@ public class GameControllerClient {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void notifyDisconnection() {
+		// TODO Auto-generated method stub
+		
+	}
 }

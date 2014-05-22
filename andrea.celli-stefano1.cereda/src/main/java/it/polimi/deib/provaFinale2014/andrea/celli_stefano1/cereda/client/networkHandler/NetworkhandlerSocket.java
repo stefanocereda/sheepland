@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.client.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
@@ -12,14 +13,18 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /** A socket version of a network handler */
 public class NetworkhandlerSocket implements Runnable {
 	/** A reference to the client's controller */
 	GameControllerClient controller;
-	/** The socket connected to the client */
-	private Socket socket;
-	/** A printwriter on the socket */
+	/** The socket connected to the server */
+	private Socket socket = new Socket();
+	/** The server address */
+	private InetSocketAddress serverAddress;
+	/** A printWriter on the socket */
 	private PrintWriter out;
 	/** A scanner on the socket */
 	private Scanner in;
@@ -27,6 +32,15 @@ public class NetworkhandlerSocket implements Runnable {
 	private ObjectInputStream objectIn;
 	/** An object output on the stream */
 	private ObjectOutputStream objectOut;
+
+	/** A timer used to reply to server's ping */
+	private Timer timer = new Timer();
+	/** the timer task to execute at the end of the timers */
+	private TimerTask timerTaskPong = new TimerTask() {
+		public void run() {
+			checkForPing();
+		}
+	};
 
 	/**
 	 * the constructor of a socket network handler takes as parameter the
@@ -37,10 +51,12 @@ public class NetworkhandlerSocket implements Runnable {
 	 */
 	public NetworkhandlerSocket(InetSocketAddress serverAddress,
 			GameControllerClient controller) throws IOException {
-		// open the socket
-		socket = new Socket(serverAddress.getAddress(), serverAddress.getPort());
-		// set the controller
+		// save the server address
+		this.serverAddress = serverAddress;
+		// save the controller
 		this.controller = controller;
+		// try to connect
+		connect();
 		// open the streams
 		in = new Scanner(socket.getInputStream());
 		out = new PrintWriter(socket.getOutputStream());
@@ -50,38 +66,87 @@ public class NetworkhandlerSocket implements Runnable {
 
 	/**
 	 * This method start listening to the socket for the server orders and sends
-	 * them to the client's controller
+	 * them to the client's controller. It also starts a timer to check server's
+	 * ping (on another thread)
 	 */
 	public void run() {
+		// start the ping timer
+		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
+				Costants.PING_TIME);
+
 		// we loop waiting for server commands
 		while (true) {
-			String command = in.nextLine();
+			// check for commands that aren't ping, the pings are handled by
+			// another thread
+			if (in.hasNextLine() && !in.hasNext(SocketMessages.PING)) {
+				String command = in.nextLine();
 
-			try {
-				if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
-					askAndSendNewMove();
-				} else if (command.equals(SocketMessages.EXECUTE_MOVE)) {
-					getAndExecuteNewMove();
-				} else if (command.equals(SocketMessages.NOT_VALID_MOVE)) {
-					notifyNotValidMove();
-					askAndSendNewMove();
-				} else if (command.equals(SocketMessages.SEND_NEW_STATUS)) {
-					getAndUpdateStatus();
-				} else if (command.equals(SocketMessages.PING)) {
-					replyToPing();
+				try {
+					if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
+						askAndSendNewMove();
+					} else if (command.equals(SocketMessages.EXECUTE_MOVE)) {
+						getAndExecuteNewMove();
+					} else if (command.equals(SocketMessages.NOT_VALID_MOVE)) {
+						notifyNotValidMove();
+						askAndSendNewMove();
+					} else if (command.equals(SocketMessages.SEND_NEW_STATUS)) {
+						getAndUpdateStatus();
+					}
+				} catch (IOException e) {
+					// we are disconnected
+					notifyDisconnection();
+					tryToReconnect();
+				} catch (ClassNotFoundException e) {
+					// TODO cosa cazzo è successo
 				}
-			} catch (IOException e) {
-				// we are disconnected
-			} catch (ClassNotFoundException e) {
-				// cosa cazzo è successo
 			}
 		}
 	}
 
-	/** This method replies to the server's ping with a pong */
-	private void replyToPing() {
-		out.println(SocketMessages.PONG);
-		out.flush();
+	/**
+	 * This method tells the controller to inform the user that we're
+	 * disconnected and trying to reconnect
+	 */
+	private void notifyDisconnection() {
+		controller.notifyDisconnection();
+	}
+
+	/**
+	 * This method tries to reconnect until it is possible, with a little
+	 * waiting in the while
+	 */
+	private void tryToReconnect() {
+		try {
+			connect();
+		} catch (IOException e) {
+			try {
+				Thread.sleep(Costants.WAIT_FOR_RECONNECTION);
+			} catch (InterruptedException e1) {
+				tryToReconnect();
+			}
+			tryToReconnect();
+		}
+
+	}
+
+	/**
+	 * This method connects the socket to the serverAddress
+	 * 
+	 * @throws IOException
+	 */
+	private void connect() throws IOException {
+		socket.connect(serverAddress);
+	}
+
+	/** This method check for ping and replies with pong */
+	private void checkForPing() {
+		if (in.hasNext(SocketMessages.PING)) {
+			// throw away the ping
+			in.nextLine();
+			// reply with a pong
+			out.println(SocketMessages.PONG);
+			out.flush();
+		}
 	}
 
 	/**

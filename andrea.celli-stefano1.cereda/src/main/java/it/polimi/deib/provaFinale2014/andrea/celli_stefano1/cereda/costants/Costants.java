@@ -33,6 +33,11 @@ public class Costants {
 	/** The time in milliseconds waiting for the reconnection of a client */
 	public static final long WAITING_FOR_CLIENT_RECONNECT = 1 * 60 * 1000;// 1'
 
+	/**
+	 * The time in milliseconds that the client waits before trying to reconnect
+	 */
+	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
+
 	/** Hide the default constructor */
 	private Costants() {
 	}
