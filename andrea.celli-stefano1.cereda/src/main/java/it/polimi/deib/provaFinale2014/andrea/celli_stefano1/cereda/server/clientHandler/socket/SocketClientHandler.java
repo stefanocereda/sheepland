@@ -20,6 +20,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 /**
  * A socket version of a ClientHandler
@@ -57,6 +58,8 @@ public class SocketClientHandler implements ClientHandler {
 			try {
 				pingTheClient();
 			} catch (ClientDisconnectedException e) {
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("THIS CLIENT DISCONNECTED: " + e);
 				notifyClientDisconnection(e.getGameController(), e.getPlayer());
 			}
 		}
@@ -134,6 +137,8 @@ public class SocketClientHandler implements ClientHandler {
 		try {
 			clientReturned = (Move) objectIn.readObject();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 		return clientReturned;
@@ -158,6 +163,8 @@ public class SocketClientHandler implements ClientHandler {
 			objectOut.writeObject(moveToExecute);
 			objectOut.flush();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 	}
@@ -182,6 +189,8 @@ public class SocketClientHandler implements ClientHandler {
 		try {
 			clientReturned = (Move) objectIn.readObject();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 
@@ -205,6 +214,8 @@ public class SocketClientHandler implements ClientHandler {
 			objectOut.writeObject(newStatus);
 			objectOut.flush();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 	}
@@ -223,6 +234,8 @@ public class SocketClientHandler implements ClientHandler {
 		try {
 			Thread.sleep(Costants.PONG_WAITING_TIME);
 		} catch (InterruptedException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.fine("thread interrupted: " + e);
 			e.printStackTrace();
 		}
 
