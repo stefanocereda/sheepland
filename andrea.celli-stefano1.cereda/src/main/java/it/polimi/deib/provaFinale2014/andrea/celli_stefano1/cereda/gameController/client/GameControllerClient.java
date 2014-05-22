@@ -90,4 +90,16 @@ public class GameControllerClient {
 			executeAction.executeMoveBlackSheep((MoveBlackSheep) move,
 					boardStatus);
 	}
+
+	
+	//TODO
+	public void notifyNotValidMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Move getNewMove() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
