@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
@@ -54,8 +55,8 @@ public class ServerMainClass {
 		try {
 			server.start();
 		} catch (IOException e) {
-			System.err.println("Error starting the choosen server");
-			e.printStackTrace();
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("UNABLE TO START THE SERVER: " + e);
 		}
 	}
 
