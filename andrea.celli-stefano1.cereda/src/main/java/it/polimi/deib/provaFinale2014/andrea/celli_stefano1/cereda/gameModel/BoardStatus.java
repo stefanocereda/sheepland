@@ -209,4 +209,37 @@ public class BoardStatus implements Serializable {
 		return numberOfStandardGates;
 	}
 
+	/**
+	 * This method takes in input a player and returns the equivalent player in
+	 * the board status. This is done by checking the id of player instances.
+	 * 
+	 * @param player
+	 *            (the player that has to be matched with a player in the board
+	 *            status)
+	 * @return equivalentPlayer (the equivalent player)
+	 * @author Andrea
+	 */
+	public Player getEquivalentPlayer(Player player) {
+		for (Player equivalentPlayer : players.getPlayers())
+			if (equivalentPlayer.equals(player))
+				return equivalentPlayer;
+		return null;
+	}
+
+	/**
+	 * This method takes in input a sheep and returns the equivalent sheep in
+	 * the board status. This is done by checking the id of the sheep.
+	 * 
+	 * @param sheep
+	 *            (the sheep that has to be matched)
+	 * @return equivalentSheep (the equivalent sheep)
+	 * @author Andrea
+	 */
+	public Sheep getEquivalentSheep(Sheep sheep) {
+		for (Sheep equivalentSheep : sheeps)
+			if (equivalentSheep.equals(sheep))
+				return equivalentSheep;
+		return null;
+	}
+
 }

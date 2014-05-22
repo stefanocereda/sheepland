@@ -42,14 +42,15 @@ public class PlayersOfAGame extends GenericGameObject {
 	}
 
 	/**
-	 * Returns true if the array already contains a certain player
+	 * Returns true if the array already contains a certain player (it checks
+	 * the id)
 	 * 
 	 * @param player
 	 *            the player whose presence has to be checked
 	 */
 	public boolean isAlreadyThere(Player player) {
 		for (int index = 0; index < players.length; index++)
-			if (players[index] == player)
+			if (players[index].equals(player))
 				return true;
 		return false;
 	}
