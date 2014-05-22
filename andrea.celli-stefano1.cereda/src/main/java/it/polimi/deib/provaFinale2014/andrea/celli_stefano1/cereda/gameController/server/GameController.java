@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
+import java.util.logging.Logger;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
@@ -153,6 +155,8 @@ public class GameController implements Runnable {
 			try {
 				client.sendNewStatus(boardStatus);
 			} catch (ClientDisconnectedException e) {
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("A CLIENT DISCONNECTED: " + e);
 				notifyDisconnection(e.getPlayer());
 			}
 		}
@@ -178,6 +182,8 @@ public class GameController implements Runnable {
 		try {
 			Thread.sleep(Costants.WAITING_FOR_CLIENT_RECONNECT);
 		} catch (InterruptedException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.fine("thread stopped: " + e);
 			e.printStackTrace();
 		}
 
