@@ -1,12 +1,14 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
+
 /**
  * This class contains the array of players that take part in a game.
  * 
  * @author Andrea Celli
  * 
  */
-public class PlayersOfAGame {
+public class PlayersOfAGame extends GenericGameObject {
 	private Player[] players;
 
 	/**

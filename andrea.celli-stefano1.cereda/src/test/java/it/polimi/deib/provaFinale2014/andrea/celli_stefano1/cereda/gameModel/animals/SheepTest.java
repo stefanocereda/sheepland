@@ -28,6 +28,7 @@ public class SheepTest {
 		Terrain position = Terrain.C1;
 
 		Sheep sheep = new Sheep(age, tos, position);
+		sheep.setID();
 		assertNotNull(sheep);
 	}
 
@@ -40,6 +41,7 @@ public class SheepTest {
 	public void testSheepTerrain() {
 		Terrain position = Terrain.C1;
 		Sheep sheep = new Sheep(position);
+		sheep.setID();
 		assertNotNull(sheep);
 	}
 
@@ -55,6 +57,7 @@ public class SheepTest {
 		Terrain position = Terrain.C1;
 
 		Sheep sheep = new Sheep(age, tos, position);
+		sheep.setID();
 		assertEquals(sheep.getAge(), age);
 	}
 
@@ -70,6 +73,7 @@ public class SheepTest {
 		Terrain position = Terrain.C1;
 
 		Sheep sheep = new Sheep(age, tos, position);
+		sheep.setID();
 		sheep.ageIcrement();
 		assertEquals(sheep.getAge(), age + 1);
 	}
@@ -86,6 +90,7 @@ public class SheepTest {
 		Terrain position = Terrain.C1;
 
 		Sheep sheep = new Sheep(age, tos, position);
+		sheep.setID();
 		sheep.ageIcrement();
 		assertEquals(sheep.getTypeOfSheep(), tos);
 	}
@@ -99,6 +104,7 @@ public class SheepTest {
 	public void testSetNewRandomAndvancedTypeOfSheep() {
 		Terrain t = Terrain.C1;
 		Sheep sheep = new Sheep(t);
+		sheep.setID();
 
 		sheep.setNewRandomAndvancedTypeOfSheep();
 		assertNotEquals(sheep.getTypeOfSheep(), TypeOfSheep.NORMALSHEEP);

@@ -23,6 +23,7 @@ public class AnimalTest {
 	@Test
 	public void testAnimal() {
 		Animal a = new Animal(null);
+		a.setID();
 		assertNotNull(a);
 	}
 
@@ -34,6 +35,7 @@ public class AnimalTest {
 	@Test
 	public void testMove() {
 		Animal a = new Animal(null);
+		a.setID();
 
 		for (Terrain t1 : Terrain.values()) {
 			a.move(t1);
@@ -51,6 +53,7 @@ public class AnimalTest {
 	public void testGetPosition() {
 		for (Terrain t : Terrain.values()) {
 			Animal a = new Animal(t);
+			a.setID();
 			assertEquals(t, a.getPosition());
 		}
 	}

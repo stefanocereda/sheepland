@@ -71,7 +71,7 @@ public class Deck extends ArrayList<Card> {
 	 */
 	public boolean isInTheDeck(Card card) {
 		for (int i = 0; i < this.size(); i++)
-			if (this.get(i) == card)
+			if (this.get(i).equals(card))
 				return true;
 		return false;
 	}

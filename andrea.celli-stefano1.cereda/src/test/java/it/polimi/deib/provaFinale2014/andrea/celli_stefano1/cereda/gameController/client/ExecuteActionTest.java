@@ -30,8 +30,11 @@ public class ExecuteActionTest {
 	public void executeMoveSheepTest() {
 		ExecuteAction executer = new ExecuteAction();
 		Player player = new Player();
+		player.setID();
 		Sheep sheep = new Sheep(0, TypeOfSheep.NORMALSHEEP, Terrain.C1);
+		sheep.setID();
 		MoveSheep move = new MoveSheep(player, sheep, Terrain.C2);
+		move.setID();
 		executer.executeMoveSheep(move);
 		assertEquals(move,
 				player.getLastMoves().get(player.getLastMoves().size() - 1));
@@ -43,8 +46,10 @@ public class ExecuteActionTest {
 		BoardStatus boardStatus = new BoardStatus(3);
 		ExecuteAction executer = new ExecuteAction();
 		BlackSheep blackSheep = new BlackSheep(Terrain.SHEEPSBURG);
+		blackSheep.setID();
 		boardStatus.addBlackSheepToBoardStatus(blackSheep);
 		MoveBlackSheep move = new MoveBlackSheep(Terrain.C1, blackSheep);
+		move.setID();
 		executer.executeMoveBlackSheep(move, boardStatus);
 		assertEquals(move.getNewPositionOfTheBlackSheep(),
 				blackSheep.getPosition());
@@ -55,11 +60,14 @@ public class ExecuteActionTest {
 		ExecuteAction executer = new ExecuteAction();
 		BoardStatus boardStatus = new BoardStatus(4);
 		RoadMap roadMap = RoadMap.getRoadMap();
+		roadMap.setID();
 		int initialMoneyOfthePlayer = 5;
 		Player player = new Player(initialMoneyOfthePlayer, null, roadMap
 				.getHashMapOfRoads().get(2));
+		player.setID();
 		MovePlayer move = new MovePlayer(player, roadMap.getHashMapOfRoads()
 				.get(1), 0);
+		move.setID();
 		executer.executeMovePlayer(move, boardStatus);
 		// It checks the position of the player after the move
 		assertEquals(move.getNewPositionOfThePlayer(), player.getPosition());
@@ -79,6 +87,7 @@ public class ExecuteActionTest {
 		player.setMoney(1000);
 		for (Road r : boardStatus.getRoadMap().getHashMapOfRoads().values()) {
 			MovePlayer m = new MovePlayer(player, r, 0);
+			m.setID();
 			executer.executeMovePlayer(m, boardStatus);
 			assertEquals(player.getPosition(), r);
 		}
@@ -90,7 +99,9 @@ public class ExecuteActionTest {
 		BoardStatus boardStatus = new BoardStatus(4);
 		int initialMoneyOfThePlayer = 5;
 		Player player = new Player(initialMoneyOfThePlayer, null, null);
+		player.setID();
 		BuyCardMove move = new BuyCardMove(player, Card.COUNTRYSIDE2);
+		move.setID();
 		executer.executeBuyCardMove(move, boardStatus);
 		// Checks if the card has been removed from the deck
 		assertFalse(boardStatus.getDeck().contains(Card.COUNTRYSIDE2));

@@ -30,12 +30,15 @@ public class GameControllerClientTest {
 		Player player1 = new Player(5, gameController.getBoardStatus()
 				.getDeck().extractInitialCard(), gameController
 				.getBoardStatus().getRoadMap().getHashMapOfRoads().get(1));
+		player1.setID();
 		gameController.getBoardStatus().addPlayerToBoardStatus(player1);
 
 		// Check for MoveSheep
 		Sheep sheep = new Sheep(Terrain.C1);
+		sheep.setID();
 		gameController.getBoardStatus().addSheep(sheep);
 		Move moveSheep = new MoveSheep(player1, sheep, Terrain.C2);
+		moveSheep.setID();
 		gameController.executeMove(moveSheep);
 		assertEquals(Terrain.C2, gameController.getBoardStatus().getSheeps()
 				.get(0).getPosition());
@@ -45,6 +48,7 @@ public class GameControllerClientTest {
 
 		// Check for BuyCardMove
 		Move buyCardMove = new BuyCardMove(player1, Card.DESERT1);
+		buyCardMove.setID();
 		gameController.executeMove(buyCardMove);
 		// Check if the last move corresponds to buyCardMove
 		assertEquals(
@@ -64,6 +68,7 @@ public class GameControllerClientTest {
 		// Check for MovePlayer
 		MovePlayer movePlayer = new MovePlayer(player1, gameController
 				.getBoardStatus().getRoadMap().getHashMapOfRoads().get(38), 1);
+		movePlayer.setID();
 		gameController.executeMove(movePlayer);
 		// Check if a gate has been placed on road 38
 		assertEquals(
@@ -86,9 +91,11 @@ public class GameControllerClientTest {
 
 		// Check for move blackSheep
 		BlackSheep blackSheep = new BlackSheep(Terrain.L1);
+		blackSheep.setID();
 		gameController.getBoardStatus().addBlackSheepToBoardStatus(blackSheep);
 		MoveBlackSheep moveBlackSheep = new MoveBlackSheep(Terrain.C3,
 				blackSheep);
+		moveBlackSheep.setID();
 		gameController.executeMove(moveBlackSheep);
 		// Check if the new position is correct
 		assertEquals(gameController.getBoardStatus().getBlackSheep()

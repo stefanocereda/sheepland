@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
+
 import java.util.*;
 
 /**
@@ -17,7 +19,7 @@ import java.util.*;
  * 
  */
 
-public class RoadMap {
+public class RoadMap extends GenericGameObject{
 
 	private static RoadMap completeMap;
 	private Map<Integer, Road> roadMap;

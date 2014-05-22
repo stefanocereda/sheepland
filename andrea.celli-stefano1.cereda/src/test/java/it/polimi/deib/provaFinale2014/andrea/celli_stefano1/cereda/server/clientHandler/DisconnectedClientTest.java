@@ -52,6 +52,7 @@ public class DisconnectedClientTest {
 	@Test
 	public void testGetControlledPlayer() {
 		Player p = new Player();
+		p.setID();
 		DisconnectedClient dc = new DisconnectedClient(null, p, null);
 
 		assertEquals(p, dc.getControlledPlayer());

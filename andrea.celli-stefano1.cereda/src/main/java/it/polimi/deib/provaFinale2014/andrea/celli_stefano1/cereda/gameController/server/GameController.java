@@ -96,6 +96,7 @@ public class GameController implements Runnable {
 		for (int i = 0; i < clients.size(); i++) {
 			// create a player and add it to the board
 			Player p = new Player();
+			p.setID();
 			boardStatus.addPlayerToBoardStatus(p);
 
 			// notify the client handler
@@ -112,6 +113,7 @@ public class GameController implements Runnable {
 		for (Terrain terrain : Terrain.values()) {
 			if (!terrain.equals(Terrain.SHEEPSBURG)) {
 				Sheep sheep = new Sheep(terrain);
+				sheep.setID();
 				boardStatus.addSheep(sheep);
 			}
 		}
@@ -120,6 +122,7 @@ public class GameController implements Runnable {
 	/** Create a BlackSheep and put it in sheepsburg */
 	private void initBlackSheep() {
 		BlackSheep blackSheep = new BlackSheep(Terrain.SHEEPSBURG);
+		blackSheep.setID();
 		boardStatus.addBlackSheepToBoardStatus(blackSheep);
 	}
 

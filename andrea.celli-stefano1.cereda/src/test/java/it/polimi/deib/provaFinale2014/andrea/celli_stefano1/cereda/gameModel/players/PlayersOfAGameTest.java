@@ -23,6 +23,7 @@ public class PlayersOfAGameTest {
 	@Test
 	public void testPlayersOfAGame() {
 		PlayersOfAGame poag = new PlayersOfAGame(6);
+		poag.setID();
 		assertNotNull(poag);
 	}
 
@@ -34,6 +35,7 @@ public class PlayersOfAGameTest {
 	@Test
 	public void testGetPlayers() {
 		PlayersOfAGame poag = new PlayersOfAGame(6);
+		poag.setID();
 		Player[] players = poag.getPlayers();
 
 		assertNotNull(players);
@@ -48,13 +50,15 @@ public class PlayersOfAGameTest {
 	@Test
 	public void testAddPlayerToPlayersOfAGame() {
 		PlayersOfAGame poag = new PlayersOfAGame(6);
+		poag.setID();
 		Player player = new Player();
+		player.setID();
 		poag.addPlayerToPlayersOfAGame(player);
 		Player[] players = poag.getPlayers();
 
 		boolean addeddCorrectly = false;
 		for (Player p : players) {
-			if (p == player) {
+			if (p.equals(player)) {
 				addeddCorrectly = true;
 				break;
 			}
@@ -71,8 +75,11 @@ public class PlayersOfAGameTest {
 	@Test
 	public void testIsAlreadyThere() {
 		PlayersOfAGame poag = new PlayersOfAGame(6);
+		poag.setID();
 		Player player1 = new Player();
+		player1.setID();
 		Player player2 = new Player();
+		player2.setID();
 		poag.addPlayerToPlayersOfAGame(player1);
 
 		assertTrue(poag.isAlreadyThere(player1));

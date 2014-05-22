@@ -29,6 +29,7 @@ public class PlayerTest {
 	@Test
 	public void testMoney() {
 		Player p = new Player();
+		p.setID();
 		p.setMoney(10);
 		assertEquals(p.getMoney(), 10);
 
@@ -47,7 +48,9 @@ public class PlayerTest {
 	@Test
 	public void testPosition() {
 		Player p = new Player();
+		p.setID();
 		Road r = new Road(0, null, null);
+		r.setID();
 		p.move(r);
 
 		assertEquals(r, p.getPosition());
@@ -61,6 +64,7 @@ public class PlayerTest {
 	@Test
 	public void testCard() {
 		Player p = new Player();
+		p.setID();
 
 		for (Card c : Card.values()) {
 			p.addCard(c);
@@ -77,8 +81,12 @@ public class PlayerTest {
 	@Test
 	public void testLastMove() {
 		Player p = new Player();
+		p.setID();
 		PlayerAction m1 = new PlayerAction(p);
+		m1.setID();
 		PlayerAction m2 = new PlayerAction(p);
+		m2.setID();
+
 		p.addLastMove(m1);
 		assertTrue(p.getLastMoves().contains(m1));
 		assertFalse(p.getLastMoves().contains(m2));

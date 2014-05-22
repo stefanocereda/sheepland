@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Stefano
  * @author Andrea Celli
  */
-public class Player {
+public class Player extends GenericGameObject {
 	/** The money of the player */
 	private int money;
 	/** The array of the last moves of this player */

@@ -67,6 +67,7 @@ public class BoardStatus implements Serializable {
 
 		// init the roads
 		roadMap = RoadMap.getRoadMap();
+		roadMap.setID();
 
 		// init the deck
 		cardsDeck = new Deck();
@@ -157,12 +158,12 @@ public class BoardStatus implements Serializable {
 	public boolean isFreeRoad(Road roadToCheck) {
 		// first check if we have a shepherd
 		for (Player player : players.getPlayers())
-			if (player.getPosition() == roadToCheck)
+			if (player.getPosition().equals(roadToCheck))
 				return false;
 
 		// then check the gates
 		for (Gate gate : placedGates.toArray(new Gate[placedGates.size()]))
-			if (gate.getPosition() == roadToCheck)
+			if (gate.getPosition().equals(roadToCheck))
 				return false;
 		// to be here it must be free
 		return true;

@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +13,7 @@ import java.util.Set;
  * 
  */
 
-public class Road {
+public class Road extends GenericGameObject {
 	private Set<Road> nextRoads = new HashSet<Road>();
 	private Terrain[] adjacentTerrains;
 	private int boxValue;

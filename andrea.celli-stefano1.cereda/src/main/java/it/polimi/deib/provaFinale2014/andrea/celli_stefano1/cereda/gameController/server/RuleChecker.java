@@ -77,7 +77,7 @@ public class RuleChecker {
 	 * @return if the move is done by the current player
 	 */
 	private boolean isCorrectPlayer(PlayerAction move, BoardStatus boardStatus) {
-		if (move.getPlayer() == boardStatus.getCurrentPlayer())
+		if (move.getPlayer().equals(boardStatus.getCurrentPlayer()))
 			return true;
 		else
 			return false;
@@ -157,8 +157,10 @@ public class RuleChecker {
 		Terrain going = move.getNewPositionOfTheSheep();
 
 		// check if the move is actually valid
-		if ((coming == adjacentTerrains[0] && going == adjacentTerrains[1])
-				|| (coming == adjacentTerrains[1] && going == adjacentTerrains[0]))
+		if ((coming.equals(adjacentTerrains[0]) && going
+				.equals(adjacentTerrains[1]))
+				|| (coming.equals(adjacentTerrains[1]) && going
+						.equals(adjacentTerrains[0])))
 			return true;
 		else
 			return false;
@@ -189,7 +191,7 @@ public class RuleChecker {
 		TerrainType tBuying = move.getNewCard().getTerrainType();
 
 		// now check if the type is valid
-		if (t1 == tBuying || t2 == tBuying)
+		if (t1.equals(tBuying) || t2.equals(tBuying))
 			return true;
 		else
 			return false;
@@ -219,15 +221,18 @@ public class RuleChecker {
 		// the second is correct if it's different from the first or if one of
 		// the two is a shepherd move
 		if (oldMoves.size() == 1)
-			return ((firstMoveType != thisMoveType)
-					|| (firstMoveType == MovePlayer.class) || (thisMoveType == MovePlayer.class));
+			return ((!firstMoveType.equals(thisMoveType))
+					|| (firstMoveType.equals(MovePlayer.class)) || (thisMoveType
+						.equals(MovePlayer.class)));
 
 		// this is the third move, is correct if it's different from both the
 		// previous or if one of the three is a shepherd move
 		Object secondMoveType = oldMoves.get(1).getClass();
-		return (((firstMoveType != thisMoveType) && (secondMoveType != thisMoveType))
-				|| (firstMoveType == MovePlayer.class)
-				|| (secondMoveType == MovePlayer.class) || (thisMoveType == MovePlayer.class));
+		return (((!firstMoveType.equals(thisMoveType)) && (!secondMoveType
+				.equals(thisMoveType)))
+				|| (firstMoveType.equals(MovePlayer.class))
+				|| (secondMoveType.equals(MovePlayer.class)) || (thisMoveType
+					.equals(MovePlayer.class)));
 
 	}
 

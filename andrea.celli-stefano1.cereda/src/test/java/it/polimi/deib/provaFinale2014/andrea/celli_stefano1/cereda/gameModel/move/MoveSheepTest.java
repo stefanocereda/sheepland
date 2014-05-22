@@ -23,6 +23,7 @@ public class MoveSheepTest {
 	@Test
 	public void testMoveSheep() {
 		MoveSheep ms = new MoveSheep(null, null, null);
+		ms.setID();
 		assertNotNull(ms);
 	}
 
@@ -34,7 +35,9 @@ public class MoveSheepTest {
 	@Test
 	public void testGetMovedSheep() {
 		Sheep s = new Sheep(null);
+		s.setID();
 		MoveSheep ms = new MoveSheep(null, s, null);
+		ms.setID();
 		assertEquals(s, ms.getMovedSheep());
 	}
 
@@ -47,6 +50,7 @@ public class MoveSheepTest {
 	public void testGetNewPositionOfTheSheep() {
 		for (Terrain t : Terrain.values()) {
 			MoveSheep ms = new MoveSheep(null, null, t);
+			ms.setID();
 			assertEquals(t, ms.getNewPositionOfTheSheep());
 		}
 	}

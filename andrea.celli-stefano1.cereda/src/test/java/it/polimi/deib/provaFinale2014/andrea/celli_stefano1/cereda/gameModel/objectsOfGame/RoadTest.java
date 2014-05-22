@@ -23,6 +23,7 @@ public class RoadTest {
 	@Test
 	public void testRoad() {
 		Road road = new Road(0, null, null);
+		road.setID();
 		assertNotNull(road);
 	}
 
@@ -34,7 +35,9 @@ public class RoadTest {
 	@Test
 	public void testAdjacentRoads() {
 		Road r1 = new Road(0, null, null);
+		r1.setID();
 		Road r2 = new Road(0, null, null);
+		r2.setID();
 
 		r1.add(r2);
 		assertTrue(r1.getNextRoads().contains(r2));
@@ -53,16 +56,17 @@ public class RoadTest {
 		Terrain t3 = Terrain.C3;
 
 		Road r = new Road(0, t1, t2);
+		r.setID();
 
 		boolean t1contained = false, t2contained = false, t3contained = false;
 		Terrain[] contained = r.getAdjacentTerrains();
 
 		for (Terrain t : contained) {
-			if (t == t1)
+			if (t.equals(t1))
 				t1contained = true;
-			if (t == t2)
+			if (t.equals(t2))
 				t2contained = true;
-			if (t == t3)
+			if (t.equals(t3))
 				t3contained = true;
 		}
 
@@ -79,6 +83,7 @@ public class RoadTest {
 	@Test
 	public void testGetBoxValue() {
 		Road r = new Road(15, null, null);
+		r.setID();
 		assertEquals(r.getBoxValue(), 15);
 	}
 

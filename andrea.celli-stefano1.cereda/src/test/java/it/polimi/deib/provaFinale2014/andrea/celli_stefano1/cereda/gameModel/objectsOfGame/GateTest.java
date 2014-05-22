@@ -22,6 +22,7 @@ public class GateTest {
 	@Test
 	public void testGate() {
 		Gate g = new Gate(true, null);
+		g.setID();
 		assertNotNull(g);
 	}
 
@@ -33,7 +34,9 @@ public class GateTest {
 	@Test
 	public void testIsLast() {
 		Gate gt = new Gate(true, null);
+		gt.setID();
 		Gate gf = new Gate(false, null);
+		gf.setID();
 		assertTrue(gt.isLast());
 		assertFalse(gf.isLast());
 	}
@@ -45,7 +48,8 @@ public class GateTest {
 	 */
 	@Test
 	public void testGetPosition() {
-		// TODO, must tests all the possible roads, needs a getAllRoads from RoadMap
+		// TODO, must tests all the possible roads, needs a getAllRoads from
+		// RoadMap
 
 	}
 }

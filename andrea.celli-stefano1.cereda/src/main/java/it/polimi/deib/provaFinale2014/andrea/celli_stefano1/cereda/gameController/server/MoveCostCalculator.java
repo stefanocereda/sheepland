@@ -38,9 +38,9 @@ public class MoveCostCalculator {
 	 * @return the move cost
 	 */
 	public int getMoveCost(Move move) {
-		if (move.getClass() == MovePlayer.class)
+		if (move.getClass().equals(MovePlayer.class))
 			return getMoveCostPlayer((MovePlayer) move);
-		if (move.getClass() == BuyCardMove.class)
+		if (move.getClass().equals(BuyCardMove.class))
 			return getMoveCostBuyCard((BuyCardMove) move);
 		return 0;
 

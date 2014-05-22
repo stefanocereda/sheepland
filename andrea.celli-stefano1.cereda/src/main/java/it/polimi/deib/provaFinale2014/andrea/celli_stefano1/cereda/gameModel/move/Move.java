@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,6 @@ import java.io.Serializable;
  * 
  * @author Andrea Celli
  */
-public class Move implements Serializable {
+public class Move extends GenericGameObject implements Serializable {
 
 }

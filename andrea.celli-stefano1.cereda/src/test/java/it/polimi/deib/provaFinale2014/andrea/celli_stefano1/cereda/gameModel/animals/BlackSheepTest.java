@@ -26,6 +26,7 @@ public class BlackSheepTest {
 	public void testBlackSheep() {
 		Terrain t1 = Terrain.SHEEPSBURG;
 		BlackSheep bs = new BlackSheep(t1);
+		bs.setID();
 		Terrain t2 = bs.getPosition();
 
 		assertEquals(t1, t2);

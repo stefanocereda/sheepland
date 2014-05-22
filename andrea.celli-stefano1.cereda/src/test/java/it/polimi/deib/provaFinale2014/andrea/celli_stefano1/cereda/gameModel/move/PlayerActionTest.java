@@ -23,6 +23,7 @@ public class PlayerActionTest {
 	public void testMove() {
 		Player p = null;
 		PlayerAction m = new PlayerAction(p);
+		m.setID();
 		assertNotNull(m);
 	}
 
@@ -34,8 +35,11 @@ public class PlayerActionTest {
 	@Test
 	public void testGetPlayer() {
 		Player p1 = new Player();
+		p1.setID();
 		PlayerAction m = new PlayerAction(p1);
+		m.setID();
 		Player p2 = m.getPlayer();
+		p2.setID();
 		assertEquals(p1, p2);
 
 	}

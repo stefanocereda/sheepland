@@ -23,6 +23,7 @@ public class BuyCardMoveTest {
 	@Test
 	public void testBuyCardMove() {
 		BuyCardMove bcm = new BuyCardMove(null, null);
+		bcm.setID();
 		assertNotNull(bcm);
 	}
 
@@ -35,6 +36,7 @@ public class BuyCardMoveTest {
 	public void testGetNewCard() {
 		for (Card c : Card.values()) {
 			BuyCardMove bcm = new BuyCardMove(null, c);
+			bcm.setID();
 			assertEquals(c, bcm.getNewCard());
 		}
 	}

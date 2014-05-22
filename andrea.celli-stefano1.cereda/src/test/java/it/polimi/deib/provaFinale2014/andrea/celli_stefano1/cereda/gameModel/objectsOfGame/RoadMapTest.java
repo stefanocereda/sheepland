@@ -25,7 +25,9 @@ public class RoadMapTest {
 	@Test
 	public void testGetRoadMap() {
 		RoadMap rm1 = RoadMap.getRoadMap();
+		rm1.setID();
 		RoadMap rm2 = RoadMap.getRoadMap();
+		rm2.setID();
 
 		assertNotNull(rm1);
 		assertEquals(rm1, rm2);
@@ -39,6 +41,7 @@ public class RoadMapTest {
 	@Test
 	public void testGetHashSetOfRoads() {
 		RoadMap rm = RoadMap.getRoadMap();
+		rm.setID();
 		Map<Integer, Road> roads = rm.getHashMapOfRoads();
 		assertNotNull(roads);
 	}
