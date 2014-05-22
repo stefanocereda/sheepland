@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 /** A socket version of a network handler */
 public class NetworkhandlerSocket implements Runnable {
@@ -94,10 +95,16 @@ public class NetworkhandlerSocket implements Runnable {
 					}
 				} catch (IOException e) {
 					// we are disconnected
+					// log the exception
+					Logger log = Logger.getAnonymousLogger();
+					log.severe("DISCONNECTED: " + e);
+					// try to reconnect
 					notifyDisconnection();
 					tryToReconnect();
 				} catch (ClassNotFoundException e) {
-					// TODO cosa cazzo è successo
+					Logger log = Logger.getAnonymousLogger();
+					log.severe("CLASS NOT FOUND, PROBABLY PROBLEM IN THE NETWORK PROTOCOL: "
+							+ e);
 				}
 			}
 		}
@@ -119,11 +126,16 @@ public class NetworkhandlerSocket implements Runnable {
 		try {
 			connect();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.fine("UNABLE TO RECONNECT: " + e);
+
 			try {
 				Thread.sleep(Costants.WAIT_FOR_RECONNECTION);
 			} catch (InterruptedException e1) {
+				log.fine("Thread interrupted: " + e);
 				tryToReconnect();
 			}
+
 			tryToReconnect();
 		}
 
