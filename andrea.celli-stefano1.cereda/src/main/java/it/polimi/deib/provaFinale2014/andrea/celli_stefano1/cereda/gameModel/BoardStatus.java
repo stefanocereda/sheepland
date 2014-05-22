@@ -221,7 +221,7 @@ public class BoardStatus implements Serializable {
 	 */
 	public Player getEquivalentPlayer(Player player) {
 		for (Player equivalentPlayer : players.getPlayers())
-			if (equivalentPlayer.equals(player))
+			if (player.equals(equivalentPlayer))
 				return equivalentPlayer;
 		return null;
 	}
@@ -237,7 +237,7 @@ public class BoardStatus implements Serializable {
 	 */
 	public Sheep getEquivalentSheep(Sheep sheep) {
 		for (Sheep equivalentSheep : sheeps)
-			if (equivalentSheep.equals(sheep))
+			if (sheep.equals(equivalentSheep))
 				return equivalentSheep;
 		return null;
 	}

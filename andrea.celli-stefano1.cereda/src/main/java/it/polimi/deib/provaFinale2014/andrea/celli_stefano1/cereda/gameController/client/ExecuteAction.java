@@ -25,9 +25,11 @@ public class ExecuteAction {
 	 * This method add the move as the last move of the player who execute it
 	 * 
 	 * @param move
+	 * @param boardStatus
 	 */
-	private static void addMoveToLastMoves(PlayerAction move) {
-		move.getPlayer().addLastMove(move);
+	private static void addMoveToLastMoves(PlayerAction move,
+			BoardStatus boardStatus) {
+		boardStatus.getEquivalentPlayer(move.getPlayer()).addLastMove(move);
 	}
 
 	/**
@@ -35,10 +37,12 @@ public class ExecuteAction {
 	 * 
 	 * @param move
 	 *            MoveSheep
+	 * @param boardStatus
 	 */
-	public void executeMoveSheep(MoveSheep move) {
-		addMoveToLastMoves(move);
-		move.getMovedSheep().move(move.getNewPositionOfTheSheep());
+	public void executeMoveSheep(MoveSheep move, BoardStatus boardStatus) {
+		addMoveToLastMoves(move, boardStatus);
+		boardStatus.getEquivalentSheep(move.getMovedSheep()).move(
+				move.getNewPositionOfTheSheep());
 	}
 
 	/**
@@ -64,11 +68,11 @@ public class ExecuteAction {
 	 *            The boardStatus of the current game
 	 */
 	public void executeMovePlayer(MovePlayer move, BoardStatus boardStatus) {
-		Player player = move.getPlayer();
+		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
 		Road oldPositionOfThePlayer = player.getPosition();
 		player.move(move.getNewPositionOfThePlayer());
 		player.subtractMoney(move.getCost());
-		addMoveToLastMoves(move);
+		addMoveToLastMoves(move, boardStatus);
 		addGate(oldPositionOfThePlayer, boardStatus);
 	}
 
@@ -100,10 +104,10 @@ public class ExecuteAction {
 	 */
 	public void executeBuyCardMove(BuyCardMove move, BoardStatus boardStatus) {
 		Card card = move.getNewCard();
-		Player player = move.getPlayer();
+		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
 		boardStatus.getDeck().remove(card);
 		player.addCard(card);
 		player.subtractMoney(card.getNumber());
-		addMoveToLastMoves(move);
+		addMoveToLastMoves(move, boardStatus);
 	}
 }

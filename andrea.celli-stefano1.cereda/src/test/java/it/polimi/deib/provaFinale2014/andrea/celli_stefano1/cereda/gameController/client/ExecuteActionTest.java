@@ -28,14 +28,17 @@ public class ExecuteActionTest {
 
 	@Test
 	public void executeMoveSheepTest() {
+		BoardStatus boardStatus = new BoardStatus(3);
 		ExecuteAction executer = new ExecuteAction();
 		Player player = new Player();
 		player.setID();
+		boardStatus.addPlayerToBoardStatus(player);
 		Sheep sheep = new Sheep(0, TypeOfSheep.NORMALSHEEP, Terrain.C1);
 		sheep.setID();
+		boardStatus.addSheep(sheep);
 		MoveSheep move = new MoveSheep(player, sheep, Terrain.C2);
 		move.setID();
-		executer.executeMoveSheep(move);
+		executer.executeMoveSheep(move, boardStatus);
 		assertEquals(move,
 				player.getLastMoves().get(player.getLastMoves().size() - 1));
 		assertEquals(move.getNewPositionOfTheSheep(), sheep.getPosition());
@@ -65,6 +68,7 @@ public class ExecuteActionTest {
 		Player player = new Player(initialMoneyOfthePlayer, null, roadMap
 				.getHashMapOfRoads().get(2));
 		player.setID();
+		boardStatus.addPlayerToBoardStatus(player);
 		MovePlayer move = new MovePlayer(player, roadMap.getHashMapOfRoads()
 				.get(1), 0);
 		move.setID();
@@ -100,6 +104,7 @@ public class ExecuteActionTest {
 		int initialMoneyOfThePlayer = 5;
 		Player player = new Player(initialMoneyOfThePlayer, null, null);
 		player.setID();
+		boardStatus.addPlayerToBoardStatus(player);
 		BuyCardMove move = new BuyCardMove(player, Card.COUNTRYSIDE2);
 		move.setID();
 		executer.executeBuyCardMove(move, boardStatus);

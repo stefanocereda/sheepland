@@ -50,7 +50,7 @@ public class PlayersOfAGame extends GenericGameObject {
 	 */
 	public boolean isAlreadyThere(Player player) {
 		for (int index = 0; index < players.length; index++)
-			if (players[index].equals(player))
+			if (player.equals(players[index]))
 				return true;
 		return false;
 	}

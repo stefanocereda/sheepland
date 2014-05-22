@@ -84,18 +84,18 @@ public class GameControllerClient {
 					executeAction.executeMovePlayer((MovePlayer) move,
 							boardStatus);
 				else if (move instanceof MoveSheep)
-					executeAction.executeMoveSheep((MoveSheep) move);
+					executeAction.executeMoveSheep((MoveSheep) move,
+							boardStatus);
 			}
 		} else if (move instanceof MoveBlackSheep)
 			executeAction.executeMoveBlackSheep((MoveBlackSheep) move,
 					boardStatus);
 	}
 
-	
-	//TODO
+	// TODO
 	public void notifyNotValidMove() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public Move getNewMove() {
@@ -105,6 +105,6 @@ public class GameControllerClient {
 
 	public void notifyDisconnection() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
