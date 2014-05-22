@@ -137,6 +137,8 @@ public class SocketClientHandler implements ClientHandler {
 		try {
 			clientReturned = (Move) objectIn.readObject();
 		} catch (IOException e) {
+			Logger log = Logger.getLogger("Test");
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 		return clientReturned;
@@ -161,6 +163,8 @@ public class SocketClientHandler implements ClientHandler {
 			objectOut.writeObject(moveToExecute);
 			objectOut.flush();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 	}
@@ -185,6 +189,8 @@ public class SocketClientHandler implements ClientHandler {
 		try {
 			clientReturned = (Move) objectIn.readObject();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 
@@ -208,6 +214,8 @@ public class SocketClientHandler implements ClientHandler {
 			objectOut.writeObject(newStatus);
 			objectOut.flush();
 		} catch (IOException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(game, playerControlled);
 		}
 	}
