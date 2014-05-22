@@ -236,7 +236,6 @@ public class SocketClientHandler implements ClientHandler {
 		} catch (InterruptedException e) {
 			Logger log = Logger.getAnonymousLogger();
 			log.fine("thread interrupted: " + e);
-			e.printStackTrace();
 		}
 
 		if (!in.hasNextLine() || !in.nextLine().equals(SocketMessages.PONG))

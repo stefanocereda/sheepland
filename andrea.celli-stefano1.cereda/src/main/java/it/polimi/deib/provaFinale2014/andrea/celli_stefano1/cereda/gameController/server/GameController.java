@@ -184,7 +184,6 @@ public class GameController implements Runnable {
 		} catch (InterruptedException e) {
 			Logger log = Logger.getAnonymousLogger();
 			log.fine("thread stopped: " + e);
-			e.printStackTrace();
 		}
 
 		// now check if client reconnected, if yes go on, otherwise suspend it
