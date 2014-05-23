@@ -71,10 +71,6 @@ public class NetworkhandlerSocket implements Runnable {
 	 * ping (on another thread)
 	 */
 	public void run() {
-		// start the ping timer
-		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
-				Costants.PING_TIME);
-
 		// we loop waiting for server commands
 		while (true) {
 			// check for commands that aren't ping, the pings are handled by
@@ -98,7 +94,8 @@ public class NetworkhandlerSocket implements Runnable {
 					// log the exception
 					Logger log = Logger.getAnonymousLogger();
 					log.severe("DISCONNECTED: " + e);
-					// try to reconnect
+					// try to reconnect and stop checking for ping
+					timer.cancel();
 					notifyDisconnection();
 					tryToReconnect();
 				} catch (ClassNotFoundException e) {
@@ -133,7 +130,6 @@ public class NetworkhandlerSocket implements Runnable {
 				Thread.sleep(Costants.WAIT_FOR_RECONNECTION);
 			} catch (InterruptedException e1) {
 				log.fine("Thread interrupted: " + e);
-				tryToReconnect();
 			}
 
 			tryToReconnect();
@@ -142,12 +138,16 @@ public class NetworkhandlerSocket implements Runnable {
 	}
 
 	/**
-	 * This method connects the socket to the serverAddress
+	 * This method connects the socket to the serverAddress and start a timer to
+	 * reply pings
 	 * 
 	 * @throws IOException
 	 */
 	private void connect() throws IOException {
 		socket.connect(serverAddress);
+		// start the ping timer
+		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
+				Costants.PING_TIME);
 	}
 
 	/** This method check for ping and replies with pong */
