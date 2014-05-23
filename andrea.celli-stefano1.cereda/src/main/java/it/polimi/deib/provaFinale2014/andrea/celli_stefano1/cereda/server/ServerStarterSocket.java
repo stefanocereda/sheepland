@@ -7,8 +7,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientIdentifier;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket.ListOfSocketClientHandler;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket.SocketClientHandler;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket.ListOfClientHandlerSocket;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.socket.ClientHandlerSocket;
 
 import java.util.List;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
  * 
  * @author Stefano
  */
-public class SocketServerStarter implements ServerStarter {
+public class ServerStarterSocket implements ServerStarter {
 
 	/** the ip port of the server */
 	private int port;
@@ -40,7 +40,7 @@ public class SocketServerStarter implements ServerStarter {
 	/** the socket for income connections */
 	private ServerSocket serverSocket = null;
 	/** list of waiting clients */
-	private ListOfSocketClientHandler clientHandlers = new ListOfSocketClientHandler();
+	private ListOfClientHandlerSocket clientHandlers = new ListOfClientHandlerSocket();
 	/** timer to start games with less than six players */
 	private Timer timer = new Timer();
 	/** the timer task to execute at the end of the timers */
@@ -64,7 +64,7 @@ public class SocketServerStarter implements ServerStarter {
 	 * @param gameType
 	 *            set of rules to use
 	 */
-	public SocketServerStarter(int port, int maxPlayers, int minutesWaiting,
+	public ServerStarterSocket(int port, int maxPlayers, int minutesWaiting,
 			GameType gameType) {
 		this.port = port;
 		this.maxPlayers = maxPlayers;
@@ -91,7 +91,7 @@ public class SocketServerStarter implements ServerStarter {
 			if (handlePreviouslyDisconnected(socket))
 				break;
 
-			clientHandlers.add(new SocketClientHandler(socket, this));
+			clientHandlers.add(new ClientHandlerSocket(socket, this));
 
 			// if it's the first player waiting start the timer
 			if (clientHandlers.size() == 1)
@@ -116,7 +116,7 @@ public class SocketServerStarter implements ServerStarter {
 					gameType));
 
 			// start awaiting for new players
-			clientHandlers = new ListOfSocketClientHandler();
+			clientHandlers = new ListOfClientHandlerSocket();
 		}
 
 		// if we came here because we had the right number of player the timer
@@ -163,7 +163,7 @@ public class SocketServerStarter implements ServerStarter {
 			Player player = disconnected.getControlledPlayer();
 
 			// create a new client handler
-			ClientHandler newClientHandler = new SocketClientHandler(connected,
+			ClientHandler newClientHandler = new ClientHandlerSocket(connected,
 					this);
 
 			// notify to the game controller

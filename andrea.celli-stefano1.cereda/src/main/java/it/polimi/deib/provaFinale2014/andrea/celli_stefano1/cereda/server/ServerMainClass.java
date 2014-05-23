@@ -90,7 +90,7 @@ public class ServerMainClass {
 		int port = Costants.SOCKET_IP_PORT;
 
 		// create the server
-		server = new SocketServerStarter(port, maxPlayers, minutesWaiting,
+		server = new ServerStarterSocket(port, maxPlayers, minutesWaiting,
 				gameType);
 	}
 

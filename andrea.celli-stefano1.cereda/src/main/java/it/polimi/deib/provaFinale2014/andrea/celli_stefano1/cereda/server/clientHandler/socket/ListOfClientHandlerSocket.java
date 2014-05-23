@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Stefano
  * @see ListOfClientHandler
  */
-public class ListOfSocketClientHandler extends ArrayList<SocketClientHandler>
+public class ListOfClientHandlerSocket extends ArrayList<ClientHandlerSocket>
 		implements ListOfClientHandler {
 
 	public ClientHandler[] values() {

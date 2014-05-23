@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * @author Stefano
  * @see ClientHandler
  */
-public class SocketClientHandler implements ClientHandler {
+public class ClientHandlerSocket implements ClientHandler {
 	/**
 	 * A reference to the game that this client is playing, it is used to
 	 * suspend the player when it disconnects
@@ -76,7 +76,7 @@ public class SocketClientHandler implements ClientHandler {
 	 *            a client disconnects
 	 * @throws IOException
 	 */
-	public SocketClientHandler(Socket clientSocket, ServerStarter server)
+	public ClientHandlerSocket(Socket clientSocket, ServerStarter server)
 			throws IOException {
 		socket = clientSocket;
 		out = new PrintWriter(socket.getOutputStream());

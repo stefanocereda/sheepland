@@ -16,7 +16,7 @@ public class ServerSocketSimulationTest {
 	@Ignore
 	public void test() throws UnknownHostException, IOException {
 		// create a socket server
-		ServerStarter server = new SocketServerStarter(Costants.SOCKET_IP_PORT,
+		ServerStarter server = new ServerStarterSocket(Costants.SOCKET_IP_PORT,
 				Costants.MAX_PLAYERS_IN_A_GAME, Costants.MAX_PLAYERS_IN_A_GAME,
 				Costants.DEFAULT_GAME_TYPE);
 
