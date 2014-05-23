@@ -6,8 +6,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.Client
 
 /**
  * This is a class that will be deployed on the client and published to the
- * server to manage communication
- * TODO
+ * server that will use this remote object to communicate with the client TODO
  */
 public class ClientHandlerRMI extends ClientHandler {
 

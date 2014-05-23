@@ -3,10 +3,15 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serve
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandlerRMI;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnectorImpl;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Logger;
 
 /**
  * The RMI version of a server starter. This class creates and exports an RMI
@@ -42,11 +47,11 @@ public class ServerStarterRMI extends ServerStarter {
 	}
 
 	@Override
-	public void start() {
+	public void start() throws RemoteException {
 		// create an RMI registry and publish an object used to connect
 		RMIConnector connector = new RMIConnectorImpl(this);
-		RMIConnector connectorStub = UnicastRemoteObject.exportObject(
-				connector, 0);
+		RMIConnector connectorStub = (RMIConnector) UnicastRemoteObject
+				.exportObject(connector, 0);
 		registry = LocateRegistry.createRegistry(registryPort);
 		registry.rebind(RMICostants.CONNECTOR, connectorStub);
 	}
@@ -60,23 +65,32 @@ public class ServerStarterRMI extends ServerStarter {
 	 *            the name to look for in the registry
 	 */
 	public void notifyConnection(String remoteName) {
-		ClientHandler acceptedHandler = (ClientHandler) registry
-				.lookup(remoteName);
+		// wait a while before trying to lookup the client
+		try {
+			Thread.sleep(RMICostants.WAIT_BEFORE_LOOKUP);
 
-		// if it's a previously disconnected client we don't need to handle
-		// it here
-		if (handlePreviouslyDisconnected(acceptedHandler)) {
-			break;
+			ClientHandler acceptedHandler = (ClientHandler) registry
+					.lookup(remoteName);
+
+			// if it's a previously disconnected client we don't need to handle
+			// it here
+			if (!handlePreviouslyDisconnected(acceptedHandler)) {
+
+				// otherwise add the clientHandler to the waiting list
+				clientHandlers.add(acceptedHandler);
+
+				// try to start the timer
+				startTimer();
+
+				// if we have the right number of players awaiting we start the
+				// game
+				startGame();
+			}
+		} catch (Exception e) {
+			Logger log = Logger
+					.getLogger("server.serverStarter.ServerStarterRMI");
+			log.severe("Error while looking the remote object" + e);
 		}
-
-		// otherwise add the clienthandler to the waiting list
-		clientHandlers.add(acceptedHandler);
-
-		// try to start the timer
-		startTimer();
-
-		// if we have the right number of players awaiting we start the game
-		startGame();
 
 	}
 
