@@ -218,6 +218,7 @@ public class GameController implements Runnable {
 	 * player to its left.
 	 * 
 	 * @author Andrea
+	 * @TODO test
 	 */
 	private boolean gameOver(BoardStatus boardStatus) {
 		// the position of the first player
@@ -229,23 +230,20 @@ public class GameController implements Runnable {
 		// the current player
 		Player currentPlayer = boardStatus.getCurrentPlayer();
 
-		// effettuo il controllo solo se sono ultimati i recinti standard
+		// The controll is done only if the standard gates are over
 		if (boardStatus.countStandardGates() > 20) {
-			// determino la posizione del primo ad aver giocato nell'array di
-			// giocatori
+			// find the position of the first player in the array of players
 			positionFirstPlayer = boardStatus.getPositionOfAPlayer(firstPlayer);
-			// determino la posizione del giocatore corrente nell'array di
-			// giocatori
+			// fint the position of the current player in the array of players
 			positionCurrentPlayer = boardStatus
 					.getPositionOfAPlayer(currentPlayer);
-			// se il primo giocatore è il primo elemento dell'array di giocatori
-			// allora il turno è finito (e quindi anche
-			// il gioco) se il giocatore corrente era l'ultimo dell'array
+			// if the firstPLayer is the first of the array then the game is
+			// over if the current player was the last element of the array
 			if (positionFirstPlayer == 0
 					&& positionCurrentPlayer == (boardStatus.getPlayers().length - 1))
 				return true;
-			// negli altri casi il turno è terminato se il giocatore corrente è
-			// alla sinistra del primo giocatore
+			// in all the other cases the game is over only if the current
+			// player is exactly at the left of the first player
 			if (positionCurrentPlayer == (positionFirstPlayer - 1))
 				return true;
 		}
