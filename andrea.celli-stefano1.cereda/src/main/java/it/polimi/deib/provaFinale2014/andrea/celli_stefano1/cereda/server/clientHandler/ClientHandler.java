@@ -56,22 +56,30 @@ public abstract class ClientHandler {
 		gameController = gc;
 	}
 
+	/**
+	 * This method returns the player controlled by this client
+	 */
+	public Player getPlayer() {
+		return controlledPlayer;
+	}
+
 	/** Set the player controlled */
 	public void setPlayer(Player p) {
 		controlledPlayer = p;
 	}
 
 	/**
-	 * This method returns an identifier for this client, using his ip addres
-	 * and his port
+	 * This method returns an identifier for this client
 	 */
 	public int getIdentifier() {
 		return id;
 	}
 
-	/** This method returns the player controlled by this client */
-	public Player getPlayer() {
-		return controlledPlayer;
+	/**
+	 * This method set a new identifier
+	 */
+	public void setIdentifier(int newIdentifier) {
+		id = newIdentifier;
 	}
 
 	/**

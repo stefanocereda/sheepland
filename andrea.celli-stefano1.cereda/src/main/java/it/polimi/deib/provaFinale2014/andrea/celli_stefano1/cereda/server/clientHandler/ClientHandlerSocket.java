@@ -31,9 +31,12 @@ public class ClientHandlerSocket extends ClientHandler {
 	private PrintWriter out;
 	/** The object writer on the socket */
 	private ObjectOutputStream objectOut;
+	/** The number of this objects created */
+	private static int created = 0;
 
 	/**
-	 * creates a socket client handler and ask the client to send his id
+	 * creates a socket client handler, get the id sent by the client and send
+	 * back a new id (or the same if different from zero)
 	 * 
 	 * @param creator
 	 *            the server starter that created this object
@@ -55,6 +58,12 @@ public class ClientHandlerSocket extends ClientHandler {
 
 		// ask the id
 		id = in.nextInt();
+		// if the id is zero choose a new one
+		if (id == 0)
+			id = ++created;
+		// send back the right id
+		out.print(id);
+		out.flush();
 	}
 
 	/**

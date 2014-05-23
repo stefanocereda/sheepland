@@ -13,4 +13,12 @@ public class ListOfClientHandlerRMI extends ArrayList<ClientHandlerRMI>
 		this.add(acceptedHandler);
 	}
 
+	public ClientHandler[] values() {
+		return this.values();
+	}
+
+	public void set(int i, ClientHandler newClienthandler) {
+		this.set(i, newClienthandler);
+	}
+
 }
