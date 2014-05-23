@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants;
 
+import java.net.InetSocketAddress;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
 
 /**
@@ -40,6 +42,10 @@ public class Costants {
 	 * The time in milliseconds that the client waits before trying to reconnect
 	 */
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
+
+	/** The address of the server */
+	public static final InetSocketAddress SERVER_SOCKET_ADDRESS = new InetSocketAddress(
+			"localhost", SOCKET_IP_PORT);
 
 	/** Hide the default constructor */
 	private Costants() {

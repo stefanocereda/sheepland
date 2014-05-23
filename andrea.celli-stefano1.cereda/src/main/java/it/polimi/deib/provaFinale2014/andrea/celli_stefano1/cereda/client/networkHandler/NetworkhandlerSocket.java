@@ -18,13 +18,20 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 /** A socket version of a network handler */
-public class NetworkhandlerSocket implements NetworkHandler {
+public class NetworkhandlerSocket {
+	/**
+	 * An identificator of this client, the server uses it to perform
+	 * reconnection
+	 */
+	private int id = 0;
+
 	/** A reference to the client's controller */
 	GameControllerClient controller;
-	/** The socket connected to the server */
-	private Socket socket = new Socket();
 	/** The server address */
 	private InetSocketAddress serverAddress;
+
+	/** The socket connected to the server */
+	private Socket socket = new Socket();
 	/** A printWriter on the socket */
 	private PrintWriter out;
 	/** A scanner on the socket */
@@ -70,7 +77,7 @@ public class NetworkhandlerSocket implements NetworkHandler {
 	 * them to the client's controller. It also starts a timer to check server's
 	 * ping (on another thread)
 	 */
-	public void run() {
+	public synchronized void start() {
 		// we loop waiting for server commands
 		while (true) {
 			// check for commands that aren't ping, the pings are handled by
@@ -92,14 +99,14 @@ public class NetworkhandlerSocket implements NetworkHandler {
 				} catch (IOException e) {
 					// we are disconnected
 					// log the exception
-					Logger log = Logger.getAnonymousLogger();
+					Logger log = Logger.getLogger("client.networkHandler");
 					log.severe("DISCONNECTED: " + e);
 					// try to reconnect and stop checking for ping
 					timer.cancel();
 					notifyDisconnection();
 					tryToReconnect();
 				} catch (ClassNotFoundException e) {
-					Logger log = Logger.getAnonymousLogger();
+					Logger log = Logger.getLogger("client.networkHandler");
 					log.severe("CLASS NOT FOUND, PROBABLY PROBLEM IN THE NETWORK PROTOCOL: "
 							+ e);
 				}
@@ -120,21 +127,22 @@ public class NetworkhandlerSocket implements NetworkHandler {
 	 * waiting in the while
 	 */
 	private void tryToReconnect() {
-		try {
-			connect();
-		} catch (IOException e) {
-			Logger log = Logger.getAnonymousLogger();
-			log.fine("UNABLE TO RECONNECT: " + e);
-
+		boolean reconnecting = true;
+		while (reconnecting) {
 			try {
-				Thread.sleep(Costants.WAIT_FOR_RECONNECTION);
-			} catch (InterruptedException e1) {
-				log.fine("Thread interrupted: " + e);
+				connect();
+			} catch (IOException e) {
+				Logger log = Logger.getLogger("client.networkHandler");
+				log.fine("UNABLE TO RECONNECT: " + e);
+
+				try {
+					Thread.sleep(Costants.WAIT_FOR_RECONNECTION);
+				} catch (InterruptedException e1) {
+					log.fine("Thread interrupted: " + e);
+					reconnecting = false;
+				}
 			}
-
-			tryToReconnect();
 		}
-
 	}
 
 	/**
@@ -145,13 +153,19 @@ public class NetworkhandlerSocket implements NetworkHandler {
 	 */
 	private void connect() throws IOException {
 		socket.connect(serverAddress);
-		// start the ping timer
+
+		// if we are connected we send our id and waits for server response
+		out.print(id);
+		out.flush();
+		id = in.nextInt();
+
+		// if we are connected start the ping timer
 		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
 				Costants.PING_TIME);
 	}
 
 	/** This method check for ping and replies with pong */
-	private void checkForPing() {
+	private synchronized void checkForPing() {
 		if (in.hasNext(SocketMessages.PING)) {
 			// throw away the ping
 			in.nextLine();

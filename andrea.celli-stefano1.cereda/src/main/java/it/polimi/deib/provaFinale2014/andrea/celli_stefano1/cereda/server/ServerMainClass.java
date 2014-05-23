@@ -24,9 +24,6 @@ public class ServerMainClass {
 	/** the type of game (original/extended rules) */
 	final static GameType gameType = Costants.DEFAULT_GAME_TYPE;
 
-	/** stdin */
-	final static Scanner in = new Scanner(System.in);
-
 	/** The server to launch */
 	static ServerStarter server = null;
 
@@ -51,9 +48,6 @@ public class ServerMainClass {
 			createRMIServer();
 		}
 
-		// close the input stream
-		in.close();
-
 		// launch the server
 		try {
 			server.start();
@@ -71,6 +65,8 @@ public class ServerMainClass {
 	 */
 	private static int chooseServerType() {
 		String answer;
+		/** stdin */
+		Scanner in = new Scanner(System.in);
 
 		do {
 			System.out.println("Choose the server type:");
@@ -79,6 +75,8 @@ public class ServerMainClass {
 			System.out.println("Insert answer:");
 			answer = in.nextLine();
 		} while (!answer.equals("1") && !answer.equals("2"));
+
+		in.close();
 
 		if (answer.equals("1")) {
 			return 1;
