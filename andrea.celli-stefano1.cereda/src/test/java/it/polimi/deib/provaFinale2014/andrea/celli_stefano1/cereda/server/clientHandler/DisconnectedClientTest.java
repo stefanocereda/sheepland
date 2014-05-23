@@ -11,6 +11,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControlle
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameControllerCreator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.DisconnectedClient;
 
 import org.junit.Test;
 
@@ -22,7 +23,7 @@ public class DisconnectedClientTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient#DisconnectedClient(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientIdentifier, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.DisconnectedClient#DisconnectedClient(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientIdentifier, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController)}
 	 * .
 	 */
 	@Test
@@ -33,7 +34,7 @@ public class DisconnectedClientTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient#getClientID()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.DisconnectedClient#getClientID()}
 	 * .
 	 */
 	@Test
@@ -46,7 +47,7 @@ public class DisconnectedClientTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient#getControlledPlayer()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.DisconnectedClient#getControlledPlayer()}
 	 * .
 	 */
 	@Test
@@ -60,7 +61,7 @@ public class DisconnectedClientTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient#getGame()}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.DisconnectedClient#getGame()}
 	 * .
 	 */
 	@Test
@@ -74,7 +75,7 @@ public class DisconnectedClientTest {
 
 	/**
 	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.DisconnectedClient#equals(java.lang.Object)}
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.DisconnectedClient#equals(java.lang.Object)}
 	 * .
 	 */
 	@Test

@@ -1,29 +1,29 @@
 /**
  * 
  */
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 /**
  * This class is used to represent a disconnected client, it is represented by
- * the id of the client (ip+port) and a reference to the player controlled and
- * to the game played
+ * the id of the client and a reference to the player controlled and to the game
+ * played
  * 
  * @author Stefano
  * 
  */
 public class DisconnectedClient {
 	/** The id of the client */
-	private ClientIdentifier clientID;
+	private int clientID;
 	/** The controlled player */
 	private Player controlledPlayer;
 	/** The game manager associated to the client */
 	private GameController game;
 
-	public DisconnectedClient(ClientIdentifier clientID,
-			Player controlledPlayer, GameController game) {
+	public DisconnectedClient(int clientID, Player controlledPlayer,
+			GameController game) {
 		this.clientID = clientID;
 		this.controlledPlayer = controlledPlayer;
 		this.game = game;
@@ -32,7 +32,7 @@ public class DisconnectedClient {
 	/**
 	 * @return the clientID
 	 */
-	public ClientIdentifier getClientID() {
+	public int getClientID() {
 		return clientID;
 	}
 
@@ -50,19 +50,22 @@ public class DisconnectedClient {
 		return game;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((clientID == null) ? 0 : clientID.hashCode());
+		result = prime * result + clientID;
 		return result;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -77,15 +80,10 @@ public class DisconnectedClient {
 			return false;
 		}
 		DisconnectedClient other = (DisconnectedClient) obj;
-		if (clientID == null) {
-			if (other.clientID != null) {
-				return false;
-			}
-		} else if (!clientID.equals(other.clientID)) {
+		if (clientID != other.clientID) {
 			return false;
 		}
 		return true;
 	}
 
-	
 }

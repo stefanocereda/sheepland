@@ -3,7 +3,7 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ListOfClientHandler;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandler;
 
 /**
  * This class takes as input a gametype and returns a gamecontroller basic or
@@ -18,7 +18,8 @@ public class GameControllerCreator {
 	 * gameType passed
 	 * 
 	 * @param playerClients
-	 *            The list of client handlersto be passed to the game controller
+	 *            The list of client handlers to be passed to the game
+	 *            controller
 	 * @param gameType
 	 *            the set of rules you want to use
 	 * @return a game controller for the right set of rules

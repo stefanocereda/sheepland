@@ -21,6 +21,9 @@ public class Costants {
 	/** the ip port for the socket server */
 	public static final int SOCKET_IP_PORT = 5000;
 
+	/** the ip port for the rmi registry */
+	public static final int REGISTRY_IP_PORT = 6000;
+
 	/** the milliseconds between each ping to a client */
 	public static final long PING_TIME = 10 * 1000;
 
