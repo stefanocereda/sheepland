@@ -5,12 +5,20 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkhandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerRMI;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
 
 /**
  * The main class of the client, asks for RMI/socket and creates a network
@@ -29,12 +37,25 @@ public class ClientMain {
 
 		// launch a socket client
 		if (clientType == 1) {
-			launchSocket();
+			try {
+				launchSocket();
+			} catch (IOException e) {
+				Logger log = Logger.getLogger("client.ClientMain");
+				log.severe("Unable to launch socket connection" + e);
+			}
 		}
 
 		// launch rmi
 		else {
-			launchRMI();
+			try {
+				launchRMI();
+			} catch (RemoteException e) {
+				Logger log = Logger.getLogger("client.ClientMain");
+				log.severe("Unable to launch rmi connection" + e);
+			} catch (NotBoundException e) {
+				Logger log = Logger.getLogger("client.ClientMain");
+				log.severe("Unable to bound the local client handler" + e);
+			}
 		}
 	}
 
@@ -64,24 +85,34 @@ public class ClientMain {
 		}
 	}
 
-	private static void launchRMI() {
-		// TODO Auto-generated method stub
+	private static void launchRMI() throws RemoteException, NotBoundException {
+		/** get the remote registry */
+		Registry registry = LocateRegistry.getRegistry(
+				Costants.SERVER_RMI_ADDRESS, Costants.SOCKET_IP_PORT);
 
+		/** Search the server acceptor */
+		RMIConnector connector = (RMIConnector) registry
+				.lookup(RMICostants.CONNECTOR);
+
+		/** Login with default id=0 */
+		Integer myID = connector.connect(0);
+
+		/** Create and export a client handler with the returned id */
+		ClientHandlerRMI clientHandler = new ClientHandlerRMI(gameController);
+		ClientHandlerRMI stubClientHandler = (ClientHandlerRMI) UnicastRemoteObject
+				.exportObject(clientHandler, 0);
+
+		registry.rebind(myID.toString(), stubClientHandler);
 	}
 
-	private static void launchSocket() {
+	private static void launchSocket() throws IOException {
 		/** The server address */
 		InetSocketAddress serverAddress = Costants.SERVER_SOCKET_ADDRESS;
 
 		NetworkhandlerSocket socketClient;
 
-		try {
-			socketClient = new NetworkhandlerSocket(serverAddress,
-					gameController);
-			socketClient.start();
-		} catch (IOException e) {
-			Logger log = Logger.getLogger("client.ClientMain");
-			log.severe(e.toString());
-		}
+		socketClient = new NetworkhandlerSocket(serverAddress, gameController);
+		socketClient.start();
+
 	}
 }

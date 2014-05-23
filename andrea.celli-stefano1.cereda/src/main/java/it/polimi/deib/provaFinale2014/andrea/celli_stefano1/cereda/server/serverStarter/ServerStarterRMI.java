@@ -79,7 +79,8 @@ public class ServerStarterRMI extends ServerStarter {
 				// otherwise add the clientHandler to the waiting list
 				clientHandlers.add(acceptedHandler);
 
-				// try to start the timer
+				// try to start the timer that will launch the game when
+				// possible
 				startTimer();
 
 				// if we have the right number of players awaiting we start the

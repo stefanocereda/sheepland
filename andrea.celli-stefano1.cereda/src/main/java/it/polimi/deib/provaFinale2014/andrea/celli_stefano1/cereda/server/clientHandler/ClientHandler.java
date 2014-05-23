@@ -19,7 +19,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
  * @author Stefano
  * 
  */
-public abstract class ClientHandler {
+public abstract class ClientHandler implements ClientHandlerInterface {
 	/** An unique id of this client, zero means still not set */
 	protected int id = 0;
 	/** A reference to the player controlled by this client */
@@ -99,54 +99,4 @@ public abstract class ClientHandler {
 			serverStarter.notifyDisconnection(id);
 		}
 	}
-
-	/**
-	 * This method asks the client to send a new move, which is returned. The
-	 * client can give an impossible move so it must be checked
-	 * 
-	 * @return the move returned from the client
-	 * @throws ClientDisconnectedException
-	 * @throws ClassNotFoundException
-	 */
-	public abstract Move askMove() throws ClassNotFoundException,
-			ClientDisconnectedException;
-
-	/**
-	 * Send the client a move to be executed. The clients doesn't do any check
-	 * on the move so it must be already valid
-	 * 
-	 * @param moveToExecute
-	 *            to move to be executed
-	 * @throws ClientDisconnectedException
-	 */
-	public abstract void executeMove(Move moveToExecute)
-			throws ClientDisconnectedException;
-
-	/**
-	 * Say to the client that the last move wasn't valid, and waits for a new
-	 * one
-	 * 
-	 * @return a new Move
-	 * @throws ClientDisconnectedException
-	 * @throws ClassNotFoundException
-	 */
-	public abstract Move sayMoveIsNotValid() throws ClassNotFoundException,
-			ClientDisconnectedException;
-
-	/**
-	 * Send to the client a new status to replace the old one
-	 * 
-	 * @throws ClientDisconnectedException
-	 * 
-	 */
-	public abstract void sendNewStatus(BoardStatus newStatus)
-			throws ClientDisconnectedException;
-
-	/**
-	 * Ping the client and throw a ClientDisconnectedException if it's
-	 * disconnected
-	 * 
-	 * @throws ClientDisconnectedException
-	 */
-	protected abstract void pingTheClient() throws ClientDisconnectedException;
 }
