@@ -87,7 +87,7 @@ public class ExecuteAction {
 	 *            The status of the current game
 	 */
 	private static void addGate(Road road, BoardStatus boardStatus) {
-		if (boardStatus.countStandardGates(boardStatus.getGates()) < Costants.NUMBER_OF_NON_FINAL_GATES)
+		if (boardStatus.countStandardGates() < Costants.NUMBER_OF_NON_FINAL_GATES)
 			boardStatus.addPlacedGateToBoardStatus(new Gate(false, road));
 		else
 			boardStatus.addPlacedGateToBoardStatus(new Gate(true, road));

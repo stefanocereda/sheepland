@@ -43,6 +43,8 @@ public class BoardStatus implements Serializable {
 	private Deck cardsDeck;
 	/** The players who has to play */
 	private Player currentPlayer;
+	/** The player who first played (considering the whole game) */
+	private Player firstPlayer;
 
 	/**
 	 * BoardsStatus constructor initialize the structures, creates the map, the
@@ -201,7 +203,7 @@ public class BoardStatus implements Serializable {
 	 * @return int the number of standard gates placed in the map
 	 * @author Andrea
 	 */
-	public int countStandardGates(List<Gate> placedGates) {
+	public int countStandardGates() {
 		int numberOfStandardGates = 0;
 		for (Gate gate : placedGates)
 			if (!gate.isLast())
@@ -240,6 +242,41 @@ public class BoardStatus implements Serializable {
 			if (sheep.equals(equivalentSheep))
 				return equivalentSheep;
 		return null;
+	}
+
+	/**
+	 * This method sets the first player of the game.
+	 * 
+	 * @param player
+	 *            the first player who takes part in the game (determined
+	 *            randomly)
+	 */
+	public void setFirstPlayer(Player player) {
+		this.firstPlayer = player;
+	}
+
+	/**
+	 * This method returns the first player who took part in the game
+	 * 
+	 * @return firstPlayer
+	 */
+	public Player getFirstPlayer() {
+		return this.firstPlayer;
+	}
+
+	/**
+	 * This method returns the position of a given player in the array of
+	 * player.
+	 * 
+	 * @param player
+	 * @return index the position of the player
+	 */
+	public int getPositionOfAPlayer(Player player) {
+		for (int index = 0; index < (players.getPlayers().length - 1); index++)
+			if (player.equals(players.getPlayers()[index])) {
+				return index;
+			}
+		return players.getPlayers().length + 1;
 	}
 
 }

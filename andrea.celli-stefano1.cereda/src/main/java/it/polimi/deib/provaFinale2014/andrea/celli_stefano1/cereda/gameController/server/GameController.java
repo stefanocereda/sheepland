@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
-import java.util.logging.Logger;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
@@ -13,6 +11,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandler;
+
+import java.util.logging.Logger;
 
 /**
  * This is the basic game controller, manages the communication from clients to
@@ -145,6 +145,7 @@ public class GameController implements Runnable {
 		int sorted = dice.roll(players.length);
 		Player firstPlayer = players[sorted];
 		boardStatus.setCurrentPlayer(firstPlayer);
+		boardStatus.setFirstPlayer(firstPlayer);
 	}
 
 	/**
@@ -209,5 +210,45 @@ public class GameController implements Runnable {
 		// now wake the player
 		player.setConnected();
 		player.resume();
+	}
+
+	/**
+	 * This method checks whether the game is finished or not. The turns are
+	 * determined parsing the array of player going from the right of the first
+	 * player to its left.
+	 * 
+	 * @author Andrea
+	 */
+	private boolean gameOver(BoardStatus boardStatus) {
+		// the position of the first player
+		int positionFirstPlayer;
+		// the position of the current player
+		int positionCurrentPlayer;
+		// the first player
+		Player firstPlayer = boardStatus.getFirstPlayer();
+		// the current player
+		Player currentPlayer = boardStatus.getCurrentPlayer();
+
+		// effettuo il controllo solo se sono ultimati i recinti standard
+		if (boardStatus.countStandardGates() > 20) {
+			// determino la posizione del primo ad aver giocato nell'array di
+			// giocatori
+			positionFirstPlayer = boardStatus.getPositionOfAPlayer(firstPlayer);
+			// determino la posizione del giocatore corrente nell'array di
+			// giocatori
+			positionCurrentPlayer = boardStatus
+					.getPositionOfAPlayer(currentPlayer);
+			// se il primo giocatore è il primo elemento dell'array di giocatori
+			// allora il turno è finito (e quindi anche
+			// il gioco) se il giocatore corrente era l'ultimo dell'array
+			if (positionFirstPlayer == 0
+					&& positionCurrentPlayer == (boardStatus.getPlayers().length - 1))
+				return true;
+			// negli altri casi il turno è terminato se il giocatore corrente è
+			// alla sinistra del primo giocatore
+			if (positionCurrentPlayer == (positionFirstPlayer - 1))
+				return true;
+		}
+		return false;
 	}
 }
