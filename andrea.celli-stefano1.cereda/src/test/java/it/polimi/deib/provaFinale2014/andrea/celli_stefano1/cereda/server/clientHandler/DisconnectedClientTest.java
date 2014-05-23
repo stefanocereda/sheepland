@@ -5,8 +5,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 
 import static org.junit.Assert.*;
 
-import java.net.InetSocketAddress;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameControllerCreator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
@@ -28,7 +26,7 @@ public class DisconnectedClientTest {
 	 */
 	@Test
 	public void testDisconnectedClient() {
-		DisconnectedClient dc = new DisconnectedClient(null, null, null);
+		DisconnectedClient dc = new DisconnectedClient(1, null, null);
 		assertNotNull(dc);
 	}
 
@@ -39,7 +37,7 @@ public class DisconnectedClientTest {
 	 */
 	@Test
 	public void testGetClientID() {
-		ClientIdentifier id = new ClientIdentifier(null, 0);
+		int id = 1;
 		DisconnectedClient dc = new DisconnectedClient(id, null, null);
 
 		assertEquals(id, dc.getClientID());
@@ -54,7 +52,7 @@ public class DisconnectedClientTest {
 	public void testGetControlledPlayer() {
 		Player p = new Player();
 		p.setID();
-		DisconnectedClient dc = new DisconnectedClient(null, p, null);
+		DisconnectedClient dc = new DisconnectedClient(1, p, null);
 
 		assertEquals(p, dc.getControlledPlayer());
 	}
@@ -68,7 +66,7 @@ public class DisconnectedClientTest {
 	public void testGetGame() {
 		GameController gc = GameControllerCreator.create(null,
 				GameType.ORIGINAL);
-		DisconnectedClient dc = new DisconnectedClient(null, null, gc);
+		DisconnectedClient dc = new DisconnectedClient(1, null, gc);
 
 		assertEquals(gc, dc.getGame());
 	}
@@ -80,13 +78,9 @@ public class DisconnectedClientTest {
 	 */
 	@Test
 	public void testEqualsObject() {
-		InetSocketAddress addr1 = new InetSocketAddress("localhost", 1000);
-		InetSocketAddress addr2 = new InetSocketAddress("localhost", 2000);
 
-		ClientIdentifier id1 = new ClientIdentifier(addr1.getAddress(),
-				addr1.getPort());
-		ClientIdentifier id2 = new ClientIdentifier(addr2.getAddress(),
-				addr2.getPort());
+		int id1 = 1;
+		int id2 = 2;
 
 		DisconnectedClient dc1 = new DisconnectedClient(id1, null, null);
 		DisconnectedClient dc2 = new DisconnectedClient(id1, null, null);
