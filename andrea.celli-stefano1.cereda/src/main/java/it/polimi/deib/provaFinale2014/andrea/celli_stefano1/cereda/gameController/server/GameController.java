@@ -213,14 +213,53 @@ public class GameController implements Runnable {
 	}
 
 	/**
-	 * This method checks whether the game is finished or not. The turns are
-	 * determined parsing the array of player going from the right of the first
-	 * player to its left.
+	 * This method has to be invoked after the moves session. It searchs for the
+	 * next player that has to play and state if the game is finished or not. If
+	 * the game is over it throws a GameOverException that has to be managed in
+	 * the manageGame method.
+	 * 
+	 * @author Andrea
+	 */
+	private void goOn() throws GameOverException {
+		do {
+			setNewCurrentPlayer();
+		} while (boardStatus.getCurrentPlayer().isSuspended() && !gameOver());
+		if (gameOver())
+			throw new GameOverException();
+	}
+
+	/**
+	 * This method determins the next player who has to play. The next player
+	 * will be the player at the right of the current player.
 	 * 
 	 * @author Andrea
 	 * @TODO test
 	 */
-	private boolean gameOver(BoardStatus boardStatus) {
+	private void setNewCurrentPlayer() {
+		Player oldCurrentPlayer = boardStatus.getCurrentPlayer();
+		// find the position of the current player in the array of players
+		int positionCurrentPlayer = boardStatus
+				.getPositionOfAPlayer(oldCurrentPlayer);
+		if (positionCurrentPlayer < boardStatus.getPlayers().length - 1) {
+			positionCurrentPlayer++;
+		} else {
+			positionCurrentPlayer = 0;
+		}
+		boardStatus
+				.setCurrentPlayer(boardStatus.getPlayers()[positionCurrentPlayer]);
+	}
+
+	/**
+	 * This method checks whether the game is finished or not. In order to
+	 * decide that the method checks two conditions. 1) all the standard gates
+	 * have to be used 2) the currentPlayer has to be the first player who have
+	 * played
+	 * 
+	 * 
+	 * @author Andrea
+	 * @TODO test
+	 */
+	private boolean gameOver() {
 		// the position of the first player
 		int positionFirstPlayer;
 		// the position of the current player
@@ -230,23 +269,17 @@ public class GameController implements Runnable {
 		// the current player
 		Player currentPlayer = boardStatus.getCurrentPlayer();
 
-		// The controll is done only if the standard gates are over
-		if (boardStatus.countStandardGates() > 20) {
-			// find the position of the first player in the array of players
-			positionFirstPlayer = boardStatus.getPositionOfAPlayer(firstPlayer);
-			// fint the position of the current player in the array of players
-			positionCurrentPlayer = boardStatus
-					.getPositionOfAPlayer(currentPlayer);
-			// if the firstPLayer is the first of the array then the game is
-			// over if the current player was the last element of the array
-			if (positionFirstPlayer == 0
-					&& positionCurrentPlayer == (boardStatus.getPlayers().length - 1))
+		// find the position of the first player in the array of players
+		positionFirstPlayer = boardStatus.getPositionOfAPlayer(firstPlayer);
+		// find the position of the current player in the array of players
+		positionCurrentPlayer = boardStatus.getPositionOfAPlayer(currentPlayer);
+
+		if (positionFirstPlayer == positionCurrentPlayer) {
+			if (boardStatus.countStandardGates() > 20) {
 				return true;
-			// in all the other cases the game is over only if the current
-			// player is exactly at the left of the first player
-			if (positionCurrentPlayer == (positionFirstPlayer - 1))
-				return true;
+			}
 		}
 		return false;
 	}
+
 }
