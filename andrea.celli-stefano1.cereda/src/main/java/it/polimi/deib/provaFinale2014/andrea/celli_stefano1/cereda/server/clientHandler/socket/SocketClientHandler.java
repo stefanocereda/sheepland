@@ -103,7 +103,8 @@ public class SocketClientHandler implements ClientHandler {
 	/**
 	 * Notify the disconnection of a player to the gamecontroller (so it can
 	 * suspend the player) and to the server starter so it can wait for this
-	 * player to reconnect and let it play in the same game
+	 * player to reconnect and let it play in the same game. We also stops the
+	 * timer
 	 * 
 	 * @param gc
 	 *            the game controller to notify
@@ -114,6 +115,7 @@ public class SocketClientHandler implements ClientHandler {
 		gc.notifyDisconnection(pc);
 		serverStarter.notifyDisconnection(new DisconnectedClient(
 				getIdentifier(), pc, gc));
+		timer.cancel();
 	}
 
 	/**
@@ -236,6 +238,7 @@ public class SocketClientHandler implements ClientHandler {
 		} catch (InterruptedException e) {
 			Logger log = Logger.getAnonymousLogger();
 			log.fine("thread interrupted: " + e);
+			timer.cancel();
 		}
 
 		if (!in.hasNextLine() || !in.nextLine().equals(SocketMessages.PONG))
