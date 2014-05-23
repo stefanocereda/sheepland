@@ -1,5 +1,6 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.client;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;

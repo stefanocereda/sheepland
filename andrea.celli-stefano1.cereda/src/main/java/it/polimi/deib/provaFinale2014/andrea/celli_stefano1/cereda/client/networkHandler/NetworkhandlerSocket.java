@@ -1,8 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.client.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 
@@ -18,7 +18,7 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 /** A socket version of a network handler */
-public class NetworkhandlerSocket implements Runnable {
+public class NetworkhandlerSocket implements NetworkHandler {
 	/** A reference to the client's controller */
 	GameControllerClient controller;
 	/** The socket connected to the server */
