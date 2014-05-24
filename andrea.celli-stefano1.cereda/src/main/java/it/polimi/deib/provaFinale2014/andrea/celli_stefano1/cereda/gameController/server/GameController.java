@@ -228,14 +228,17 @@ public class GameController implements Runnable {
 	 * the game is over it throws a GameOverException that has to be managed in
 	 * the manageGame method.
 	 * 
+	 * @return String the name of the next method that has to be called in
+	 *         manageGame()
 	 * @author Andrea
 	 */
-	private void goOn() throws GameOverException {
+	private String goOn() throws GameOverException {
 		do {
 			setNewCurrentPlayer();
 		} while (boardStatus.getCurrentPlayer().isSuspended() && !gameOver());
 		if (gameOver())
 			throw new GameOverException();
+		return "askMoveToClient";
 	}
 
 	/**
