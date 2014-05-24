@@ -49,8 +49,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
-	public Move askMove() throws ClassNotFoundException,
-			ClientDisconnectedException {
+	public Move askMove() {
 		return clientObject.getMove();
 	}
 
@@ -60,18 +59,16 @@ public class ClientHandlerRMI extends ClientHandler {
 
 	}
 
-	public Move sayMoveIsNotValid() throws ClassNotFoundException,
-			ClientDisconnectedException {
+	public Move sayMoveIsNotValid() {
 		return clientObject.notifyNotValidMove();
 	}
 
-	public void sendNewStatus(BoardStatus newStatus)
-			throws ClientDisconnectedException {
+	public void sendNewStatus(BoardStatus newStatus) {
 		clientObject.updateStatus(newStatus);
 
 	}
 
-	public void pingTheClient() throws ClientDisconnectedException {
+	public void pingTheClient() {
 		clientObject.ping();
 	}
 

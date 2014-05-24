@@ -93,9 +93,10 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 	 *            the client disconnected
 	 */
 	public void notifyClientDisconnection() {
-		if (id != 0) {// otherwise it disconnected too soon
-			gameController.notifyDisconnection(controlledPlayer);
+		if (id != 0 && gameController != null && controlledPlayer != null) {
+			// otherwise it disconnected too soon
 
+			gameController.notifyDisconnection(controlledPlayer);
 			serverStarter.notifyDisconnection(id);
 		}
 	}
