@@ -7,10 +7,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.Client
 import java.rmi.Remote;
 
 /**
- * this is the interface of a client handler, is used to be published on the rmi
- * registry
+ * this is the interface of a client handler, containing the methods called by
+ * the game controller
  */
-public interface ClientHandlerInterface extends Remote {
+
+public interface ClientHandlerInterface {
 	/**
 	 * This method asks the client to send a new move, which is returned. The
 	 * client can give an impossible move so it must be checked

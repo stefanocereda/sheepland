@@ -62,7 +62,7 @@ public class ClientHandlerRMI extends ClientHandler {
 
 	public Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
-		clientObject.notifyNotValidMove();
+		return clientObject.notifyNotValidMove();
 	}
 
 	public void sendNewStatus(BoardStatus newStatus)
