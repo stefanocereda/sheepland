@@ -18,11 +18,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
  */
 public class ServerMainClass {
 	/** the max number of players in a game */
-	final static int maxPlayers = Costants.MAX_PLAYERS_IN_A_GAME;
+	static final int maxPlayers = Costants.MAX_PLAYERS_IN_A_GAME;
 	/** the minutes waiting for maxPlayers */
-	final static int minutesWaiting = Costants.MINUTES_WAITING_FOR_MAX_PLAYERS;
+	static final int minutesWaiting = Costants.MINUTES_WAITING_FOR_MAX_PLAYERS;
 	/** the type of game (original/extended rules) */
-	final static GameType gameType = Costants.DEFAULT_GAME_TYPE;
+	static final GameType gameType = Costants.DEFAULT_GAME_TYPE;
 
 	/** The server to launch */
 	static ServerStarter server = null;
