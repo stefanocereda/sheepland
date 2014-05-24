@@ -293,36 +293,33 @@ public class GameController implements Runnable {
 	}
 
 	/**
-	 * askClient() asks the client for a new move and checks it.
+	 * askMoveToClient() asks the client for a new move and checks it.
 	 * 
 	 * @return String the name of the next method that has to be called in
 	 *         manageGame().
 	 * @author Andrea
-	 * @TODO specify the catch for ClassNotFoundException
+	 * @TODO specify the catch for ClassNotFoundException, Test
 	 */
 
 	private String askMoveToClient() {
+		Player currentPlayer = boardStatus.getCurrentPlayer();
+		int indexOfTheCurrentPlayer;
+		boolean found = false;
+		// The new move
+		Move newMove;
+		// Look for the client that corespond to the current player
+		for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
+				.size()) && !found; indexOfTheCurrentPlayer++)
+			if (currentPlayer.equals(clients.values()[indexOfTheCurrentPlayer]
+					.getPlayer()))
+				found = true;
 		try {
-			Player currentPlayer = boardStatus.getCurrentPlayer();
-			int indexOfTheCurrentPlayer;
-			boolean found = false;
-			// The new move
-			Move newMove;
-
-			// Look for the client that corespond to the current player
-			for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
-					.size()) && !found; indexOfTheCurrentPlayer++)
-				if (currentPlayer
-						.equals(clients.values()[indexOfTheCurrentPlayer]
-								.getPlayer()))
-					found = true;
-
 			newMove = clients.values()[indexOfTheCurrentPlayer].askMove();
 			if (!ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
 					boardStatus))
 				// the move is not valid therefore the next step is comunicating
 				// it to the client and ask for it again
-				return "askToClientAgain";
+				return "askMoveToClientAgain";
 
 		} catch (ClientDisconnectedException e) {
 			Logger log = Logger.getAnonymousLogger();
@@ -353,4 +350,58 @@ public class GameController implements Runnable {
 		// that has to be executed
 		return "executeNewMove";
 	}
+
+	/**
+	 * askMoveToClientAgain() notifies to the client that the move was not valid
+	 * and ask again for it.
+	 * 
+	 * @return String the name of the next method that has to be called in
+	 *         manageGame().
+	 * @author Andrea
+	 * @TODO test
+	 */
+	private String askMoveToClientAgain() {
+		Player currentPlayer = boardStatus.getCurrentPlayer();
+		int indexOfTheCurrentPlayer;
+		boolean found = false;
+		// The new move
+		Move newMove;
+		// Look for the client that corespond to the current player
+		for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
+				.size()) && !found; indexOfTheCurrentPlayer++)
+			if (currentPlayer.equals(clients.values()[indexOfTheCurrentPlayer]
+					.getPlayer()))
+				found = true;
+
+		try {
+			newMove = clients.values()[indexOfTheCurrentPlayer]
+					.sayMoveIsNotValid();
+			// if the move is valid the next step is updating the boardstatus
+			if (ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
+					boardStatus))
+				return "executeNewMove";
+		} catch (ClientDisconnectedException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("A CLIENT DISCONNECTED: " + e);
+			notifyDisconnection(e.getPlayer());
+
+			// check if the player that lose the connection is the currentPlayer
+			if (e.getPlayer().equals(currentPlayer)) {
+				// if the current player hasBeen suspended the system goes on
+				if (currentPlayer.isSuspended())
+					return "goOn";
+				// if the currentplayer is back the system ask again for a move
+				if (currentPlayer.isConnected())
+					return "askMoveToClientAgain";
+			} else
+				// a different player went offline
+				return "askMoveToClientAgain";
+		} catch (ClassNotFoundException e) {
+			/** @TODO what to do here? */
+			return "askMoveToClientAgain";
+		}
+
+		return "askMoveToClientAgain";
+	}
+
 }
