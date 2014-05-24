@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerRMI;
@@ -97,12 +98,12 @@ public class ClientMain {
 		/** Login with default id=0 */
 		Integer myID = connector.connect(0);
 
-		/** Create and export a client handler with the returned id */
-		ClientHandlerRMI clientHandler = new ClientHandlerRMI(gameController);
-		ClientHandlerRMI stubClientHandler = (ClientHandlerRMI) UnicastRemoteObject
-				.exportObject(clientHandler, 0);
+		/** Create and export a network handler with the returned id */
+		NetworkHandlerRMI networkHandler = new NetworkHandlerRMI(gameController);
+		NetworkHandlerRMI stubNetworkHandler = (NetworkHandlerRMI) UnicastRemoteObject
+				.exportObject(networkHandler, 0);
 
-		registry.rebind(myID.toString(), stubClientHandler);
+		registry.rebind(myID.toString(), stubNetworkHandler);
 	}
 
 	private static void launchSocket() throws IOException {
