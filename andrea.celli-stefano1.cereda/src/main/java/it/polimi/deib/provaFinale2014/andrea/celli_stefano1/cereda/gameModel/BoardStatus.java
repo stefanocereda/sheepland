@@ -272,7 +272,7 @@ public class BoardStatus implements Serializable {
 	 * @return index the position of the player
 	 */
 	public int getPositionOfAPlayer(Player player) {
-		for (int index = 0; index < (players.getPlayers().length - 1); index++)
+		for (int index = 0; index < (players.getPlayers().length); index++)
 			if (player.equals(players.getPlayers()[index])) {
 				return index;
 			}

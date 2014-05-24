@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Cost
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
@@ -54,9 +55,18 @@ public class GameController implements Runnable {
 		manageGame();
 	}
 
-	/** Manage the game process */
+	/**
+	 * Manage the game process. The system has to behave as a FSM. For that
+	 * reason each method invoked determines,depending on the result of its
+	 * computation, the next method to be called. Every method that is called in
+	 * manageGame() returns a string cointaining the name of the next method.
+	 * Using getMethod(...) it gets the Method Object which is later invoked
+	 * using invoke(...). The process terminates when a gameOver exception is
+	 * raised. After that the winner is determined and the game ends.
+	 * 
+	 * @author Andrea
+	 */
 	private void manageGame() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -282,4 +292,65 @@ public class GameController implements Runnable {
 		return false;
 	}
 
+	/**
+	 * askClient() asks the client for a new move and checks it.
+	 * 
+	 * @return String the name of the next method that has to be called in
+	 *         manageGame().
+	 * @author Andrea
+	 * @TODO specify the catch for ClassNotFoundException
+	 */
+
+	private String askMoveToClient() {
+		try {
+			Player currentPlayer = boardStatus.getCurrentPlayer();
+			int indexOfTheCurrentPlayer;
+			boolean found = false;
+			// The new move
+			Move newMove;
+
+			// Look for the client that corespond to the current player
+			for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
+					.size()) && !found; indexOfTheCurrentPlayer++)
+				if (currentPlayer
+						.equals(clients.values()[indexOfTheCurrentPlayer]
+								.getPlayer()))
+					found = true;
+
+			newMove = clients.values()[indexOfTheCurrentPlayer].askMove();
+			if (!ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
+					boardStatus))
+				// the move is not valid therefore the next step is comunicating
+				// it to the client and ask for it again
+				return "askToClientAgain";
+
+		} catch (ClientDisconnectedException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("A CLIENT DISCONNECTED: " + e);
+			notifyDisconnection(e.getPlayer());
+
+			// check if the player that lost the connection is the current
+			// player
+			if (e.getPlayer().equals(boardStatus.getCurrentPlayer())) {
+				// if the player that have lost the connection is the current
+				// player and it's back again the server ask the move again
+				if (e.getPlayer().isConnected())
+					return "askMoveToClient";
+				// if the player has been suspended the system has to decide
+				// another
+				// currentPlayer, therefore it calls goOn()
+				return "goOn";
+			} else {
+				/** @TODO Is it okay? */
+				return "askMoveToClient";
+			}
+		} catch (ClassNotFoundException e) {
+			/** @TODO what to do here? */
+			return "askMoveToClient";
+		}
+
+		// if the method reaches this point it means that there's a valid move
+		// that has to be executed
+		return "executeNewMove";
+	}
 }
