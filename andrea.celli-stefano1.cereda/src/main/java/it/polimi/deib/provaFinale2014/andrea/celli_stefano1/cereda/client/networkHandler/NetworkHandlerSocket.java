@@ -18,7 +18,7 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 /** A socket version of a network handler */
-public class NetworkhandlerSocket {
+public class NetworkHandlerSocket {
 	/**
 	 * An identificator of this client, the server uses it to perform
 	 * reconnection
@@ -57,7 +57,7 @@ public class NetworkhandlerSocket {
 	 * @throws IOException
 	 *             if is not possible to open the socket
 	 */
-	public NetworkhandlerSocket(InetSocketAddress serverAddress,
+	public NetworkHandlerSocket(InetSocketAddress serverAddress,
 			GameControllerClient controller) throws IOException {
 		// save the server address
 		this.serverAddress = serverAddress;

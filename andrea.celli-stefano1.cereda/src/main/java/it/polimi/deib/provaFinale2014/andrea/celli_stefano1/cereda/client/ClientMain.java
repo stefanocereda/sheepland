@@ -14,7 +14,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkhandlerSocket;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
@@ -109,9 +109,9 @@ public class ClientMain {
 		/** The server address */
 		InetSocketAddress serverAddress = Costants.SERVER_SOCKET_ADDRESS;
 
-		NetworkhandlerSocket socketClient;
+		NetworkHandlerSocket socketClient;
 
-		socketClient = new NetworkhandlerSocket(serverAddress, gameController);
+		socketClient = new NetworkHandlerSocket(serverAddress, gameController);
 		socketClient.start();
 
 	}

@@ -1,60 +1,78 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import java.rmi.registry.Registry;
+import java.util.logging.Logger;
+
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarter;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarterRMI;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
 
 /**
- * This is a class that will be deployed on the client and published to the
- * server that will use this remote object to communicate with the client
- *//TODO
+ * The rmi version of a socket handler. This class will be deployed on the
+ * server and as it starts it will search for a remote object representing the
+ * client's network handler. As the game manager asks this object to perform an
+ * action this object will invoke the clien't correspondent method
+ * 
+ * @author Stefano
+ * 
  */
 public class ClientHandlerRMI extends ClientHandler {
-	/** A reference to the client game controller */
-	private GameControllerClient gameControllerClient;
+	/** The remote object */
+	private NetworkHandlerRMI clientObject;
 
 	/**
-	 * @param creator
+	 * The constructor takes as input the reference of the server starter that
+	 * created this method, the name of the client's object and a reference to
+	 * the rmi registry. It tries to lookup the client's object. Differently
+	 * from the socket version we don't ask for the client's id as that
+	 * operation is already done by the so called RMIConnector, actually the id
+	 * is the remoteName passed to this constructor
+	 * 
+	 * @param registry
 	 */
-	public ClientHandlerRMI(ServerStarter creator) {
-		super(creator);
-		// TODO Auto-generated constructor stub
+	public ClientHandlerRMI(ServerStarterRMI serverStarterRMI,
+			String remoteName, Registry registry) {
+		super(serverStarterRMI);
+
+		// wait a while before trying to lookup the client
+		try {
+			Thread.sleep(RMICostants.WAIT_BEFORE_LOOKUP);
+
+			clientObject = (NetworkHandlerRMI) registry.lookup(remoteName);
+		} catch (Exception e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("Error while looking the remote object" + e);
+		}
 	}
 
-	@Override
 	public Move askMove() throws ClassNotFoundException,
 			ClientDisconnectedException {
-		// TODO Auto-generated method stub
-		return null;
+		return clientObject.getMove();
 	}
 
-	@Override
 	public void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
-		// TODO Auto-generated method stub
+		clientObject.executeMove(moveToExecute);
 
 	}
 
-	@Override
 	public Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
-		// TODO Auto-generated method stub
-		return null;
+		clientObject.notifyNotValidMove();
 	}
 
-	@Override
 	public void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException {
-		// TODO Auto-generated method stub
+		clientObject.updateStatus(newStatus);
 
 	}
 
-	@Override
-	protected void pingTheClient() throws ClientDisconnectedException {
-		// TODO Auto-generated method stub
-
+	public void pingTheClient() throws ClientDisconnectedException {
+		clientObject.ping();
 	}
 
 }
