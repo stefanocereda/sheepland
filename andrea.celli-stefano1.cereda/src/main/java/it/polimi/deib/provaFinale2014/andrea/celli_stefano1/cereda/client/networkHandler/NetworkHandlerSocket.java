@@ -18,15 +18,13 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 /** A socket version of a network handler */
-public class NetworkHandlerSocket {
+public class NetworkHandlerSocket extends NetworkHandler {
 	/**
 	 * An identificator of this client, the server uses it to perform
 	 * reconnection
 	 */
 	private int id = 0;
 
-	/** A reference to the client's controller */
-	GameControllerClient controller;
 	/** The server address */
 	private InetSocketAddress serverAddress;
 
@@ -46,7 +44,7 @@ public class NetworkHandlerSocket {
 	/** the timer task to execute at the end of the timers */
 	private TimerTask timerTaskPong = new TimerTask() {
 		public void run() {
-			checkForPing();
+			ping();
 		}
 	};
 
@@ -59,10 +57,10 @@ public class NetworkHandlerSocket {
 	 */
 	public NetworkHandlerSocket(InetSocketAddress serverAddress,
 			GameControllerClient controller) throws IOException {
+		super(controller);
+
 		// save the server address
 		this.serverAddress = serverAddress;
-		// save the controller
-		this.controller = controller;
 		// try to connect
 		connect();
 		// open the streams
@@ -115,14 +113,6 @@ public class NetworkHandlerSocket {
 	}
 
 	/**
-	 * This method tells the controller to inform the user that we're
-	 * disconnected and trying to reconnect
-	 */
-	private void notifyDisconnection() {
-		controller.notifyDisconnection();
-	}
-
-	/**
 	 * This method tries to reconnect until it is possible, with a little
 	 * waiting in the while
 	 */
@@ -165,7 +155,7 @@ public class NetworkHandlerSocket {
 	}
 
 	/** This method check for ping and replies with pong */
-	private synchronized void checkForPing() {
+	public synchronized void ping() {
 		if (in.hasNext(SocketMessages.PING)) {
 			// throw away the ping
 			in.nextLine();
@@ -187,15 +177,7 @@ public class NetworkHandlerSocket {
 	private void getAndUpdateStatus() throws ClassNotFoundException,
 			IOException {
 		BoardStatus newStatus = (BoardStatus) objectIn.readObject();
-		controller.upDateStatus(newStatus);
-	}
-
-	/**
-	 * This method asks the controller to notify the graphics that the last move
-	 * wasn't valid
-	 */
-	private void notifyNotValidMove() {
-		controller.notifyNotValidMove();
+		updateStatus(newStatus);
 	}
 
 	/**
@@ -210,7 +192,7 @@ public class NetworkHandlerSocket {
 	private void getAndExecuteNewMove() throws ClassNotFoundException,
 			IOException {
 		Move newMove = (Move) objectIn.readObject();
-		controller.executeMove(newMove);
+		executeMove(newMove);
 	}
 
 	/**
@@ -221,8 +203,16 @@ public class NetworkHandlerSocket {
 	 *             when not connected
 	 */
 	private void askAndSendNewMove() throws IOException {
-		Move newMove = controller.getNewMove();
+		Move newMove = getMove();
 		objectOut.writeObject(newMove);
 		objectOut.flush();
+	}
+
+	/**
+	 * This method tells the controller to inform the user that we're
+	 * disconnected and trying to reconnect
+	 */
+	private void notifyDisconnection() {
+		controller.notifyDisconnection();
 	}
 }
