@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 

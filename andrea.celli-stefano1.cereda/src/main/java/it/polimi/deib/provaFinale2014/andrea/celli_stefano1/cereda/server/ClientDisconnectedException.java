@@ -4,7 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControlle
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 /**
- * An exception thrown when the client handler detects a client disconnession
+ * An exception thrown when the client handler detects a client disconnection
  * 
  * @author Stefano
  * 

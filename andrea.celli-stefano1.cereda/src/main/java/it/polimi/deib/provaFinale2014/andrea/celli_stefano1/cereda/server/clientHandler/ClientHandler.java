@@ -11,7 +11,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.Client
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarter;
 
 /**
- * This is an abstract class representing the common proprties of an rmi client
+ * This is an abstract class representing the common properties of an rmi client
  * handler and a socket client handler
  * 
  * @author Stefano
@@ -36,7 +36,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 			} catch (ClientDisconnectedException e) {
 				Logger log = Logger
 						.getLogger("server.clientHandler.ClientHandler");
-				log.severe("SOCKET ERROR: " + e);
+				log.severe("ERROR DURING THE PING: " + e);
 				notifyClientDisconnection();
 			}
 		}

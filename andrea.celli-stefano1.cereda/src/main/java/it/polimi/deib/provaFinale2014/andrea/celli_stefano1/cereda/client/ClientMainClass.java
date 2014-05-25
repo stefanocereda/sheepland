@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
@@ -27,7 +28,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
  * @author Stefano
  * 
  */
-public class ClientMain {
+public class ClientMainClass {
 	/** A Client game controller */
 	static GameControllerClient gameController = new GameControllerClient();
 
@@ -54,7 +55,7 @@ public class ClientMain {
 				log.severe("Unable to launch rmi connection" + e);
 			} catch (NotBoundException e) {
 				Logger log = Logger.getLogger("client.ClientMain");
-				log.severe("Unable to bound the local client handler" + e);
+				log.severe("Unable to launch rmi connection" + e);
 			}
 		}
 	}
@@ -88,7 +89,7 @@ public class ClientMain {
 	private static void launchRMI() throws RemoteException, NotBoundException {
 		/** get the remote registry */
 		Registry registry = LocateRegistry.getRegistry(
-				Costants.SERVER_RMI_ADDRESS, Costants.SOCKET_IP_PORT);
+				Costants.SERVER_RMI_ADDRESS, Costants.REGISTRY_IP_PORT);
 
 		/** Search the server acceptor */
 		RMIConnector connector = (RMIConnector) registry
@@ -98,8 +99,9 @@ public class ClientMain {
 		Integer myID = connector.connect(0);
 
 		/** Create and export a network handler with the returned id */
-		NetworkHandlerRMI networkHandler = new NetworkHandlerRMI(gameController);
-		NetworkHandlerRMI stubNetworkHandler = (NetworkHandlerRMI) UnicastRemoteObject
+		NetworkHandlerInterface networkHandler = new NetworkHandlerRMI(
+				gameController);
+		NetworkHandlerInterface stubNetworkHandler = (NetworkHandlerInterface) UnicastRemoteObject
 				.exportObject(networkHandler, 0);
 
 		registry.rebind(myID.toString(), stubNetworkHandler);

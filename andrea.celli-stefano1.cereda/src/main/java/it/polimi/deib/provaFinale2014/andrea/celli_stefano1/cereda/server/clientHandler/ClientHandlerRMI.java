@@ -1,5 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.logging.Logger;
 
@@ -42,34 +45,86 @@ public class ClientHandlerRMI extends ClientHandler {
 			Thread.sleep(RMICostants.WAIT_BEFORE_LOOKUP);
 
 			clientObject = (NetworkHandlerRMI) registry.lookup(remoteName);
-		} catch (Exception e) {
+		} catch (NotBoundException e) {
 			Logger log = Logger
 					.getLogger("server.clientHandler.ClientHandlerRMI");
 			log.severe("Error while looking the remote object" + e);
+		} catch (AccessException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("Error while looking the remote object" + e);
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("Error while looking the remote object" + e);
+		} catch (InterruptedException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.fine("Thread interrupted" + e);
 		}
 	}
 
-	public Move askMove() {
-		return clientObject.getMove();
+	public Move askMove() throws ClientDisconnectedException {
+		try {
+			return clientObject.getMove();
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
 	}
 
 	public void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
-		clientObject.executeMove(moveToExecute);
+		try {
+			clientObject.executeMove(moveToExecute);
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
+	}
+
+	public Move sayMoveIsNotValid() throws ClientDisconnectedException {
+		try {
+			return clientObject.notifyNotValidMove();
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
+	}
+
+	public void sendNewStatus(BoardStatus newStatus)
+			throws ClientDisconnectedException {
+		try {
+			clientObject.updateStatus(newStatus);
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
 
 	}
 
-	public Move sayMoveIsNotValid() {
-		return clientObject.notifyNotValidMove();
-	}
-
-	public void sendNewStatus(BoardStatus newStatus) {
-		clientObject.updateStatus(newStatus);
-
-	}
-
-	public void pingTheClient() {
-		clientObject.ping();
+	public void pingTheClient() throws ClientDisconnectedException {
+		try {
+			clientObject.ping();
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
 	}
 
 }

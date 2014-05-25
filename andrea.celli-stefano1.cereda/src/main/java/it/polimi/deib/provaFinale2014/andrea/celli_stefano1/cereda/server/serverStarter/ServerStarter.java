@@ -10,6 +10,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandlerSocket;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -136,7 +137,7 @@ public abstract class ServerStarter {
 	 * @throws IOException
 	 *             when is not possible to start the server
 	 */
-	public abstract void start() throws IOException;
+	public abstract void start() throws IOException, RemoteException;
 
 	/** Stop the server */
 	public abstract void stop();

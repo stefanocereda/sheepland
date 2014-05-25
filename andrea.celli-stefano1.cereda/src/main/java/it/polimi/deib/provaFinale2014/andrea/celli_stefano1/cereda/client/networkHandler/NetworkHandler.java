@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler;
 
+import java.rmi.RemoteException;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -19,20 +21,20 @@ public abstract class NetworkHandler implements NetworkHandlerInterface {
 		controller = gameController;
 	}
 
-	public Move getMove() {
+	public Move getMove() throws RemoteException {
 		return controller.getNewMove();
 	}
 
-	public void executeMove(Move moveToExecute) {
+	public void executeMove(Move moveToExecute) throws RemoteException {
 		controller.executeMove(moveToExecute);
 	}
 
-	public Move notifyNotValidMove() {
+	public Move notifyNotValidMove() throws RemoteException {
 		controller.notifyNotValidMove();
 		return controller.getNewMove();
 	}
 
-	public void updateStatus(BoardStatus newStatus) {
+	public void updateStatus(BoardStatus newStatus) throws RemoteException {
 		controller.upDateStatus(newStatus);
 	}
 }
