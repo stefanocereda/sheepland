@@ -13,12 +13,14 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandler;
 
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -307,6 +309,47 @@ public class GameController implements Runnable {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * moveBlackSheep() moves the black sheep according to the sheepland's
+	 * rules.
+	 * 
+	 * @returns String the name of the next method that has to be called in
+	 *          manageGame()
+	 * @author Andrea
+	 */
+	private String moveBlackSheep() {
+		Dice dice = Dice.create();
+		int diceResult = dice.roll(Costants.NUMBER_OF_DICE_SIDES);
+		Terrain newPosition;
+
+		// it finds the road near the black sheep
+		Set<Road> roadsNearBlackSheep = boardStatus.getRoadMap()
+				.findRoadsAdjacentToATerrain(
+						boardStatus.getBlackSheep().getPosition());
+
+		// check if there is a road that has the same number obtained with the
+		// dice
+		for (Road road : roadsNearBlackSheep)
+			if (road.getBoxValue() == diceResult)
+				// check if the road is free
+				if (boardStatus.isFreeRoad(road)) {
+					// find the new terrain
+					for (Terrain terrain : road.getAdjacentTerrains())
+						if (terrain != boardStatus.getBlackSheep()
+								.getPosition())
+							newPosition = Terrain.valueOf(terrain.name());
+					// creates a new move that has to be executed and place it
+					// in newMove attribute
+					newMove = new MoveBlackSheep(newPosition,
+							boardStatus.getBlackSheep());
+					return "executeNewMove";
+				}
+		// otherwise the blackSheep remains in its current position and no move
+		// has to be executed
+		return "askMoveToClient";
+
 	}
 
 	/**

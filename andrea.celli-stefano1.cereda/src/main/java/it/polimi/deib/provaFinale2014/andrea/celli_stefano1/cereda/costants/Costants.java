@@ -1,8 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants;
 
-import java.net.InetSocketAddress;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
+
+import java.net.InetSocketAddress;
 
 /**
  * Class of game constants
@@ -22,8 +22,15 @@ public class Costants {
 
 	/** the type of game to play (default/extended rules) */
 	public static final GameType DEFAULT_GAME_TYPE = GameType.ORIGINAL;
+
 	/** The number of non final gates that can be placed in a game */
 	public static final int NUMBER_OF_NON_FINAL_GATES = 20;
+
+	/** The faces of a dice */
+	public static final int NUMBER_OF_DICE_SIDES = 6;
+
+	/** The number of roads in a map */
+	public static final int NUMBER_OF_ROADS = 42;
 
 	//
 	// NETWORK COSTANTS
