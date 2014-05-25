@@ -1,10 +1,16 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
@@ -20,7 +26,7 @@ import java.util.logging.Logger;
  * the game model, also taking care of handling the move checking and execution.
  * It's like a state machine that steps into the game process
  * 
- * @author Stefano TODO test e dove ci sono errori. Sviluppo del gioco
+ * @author Stefano,Andrea TODO test e dove ci sono errori. Sviluppo del gioco
  */
 
 public class GameController implements Runnable {
@@ -35,6 +41,12 @@ public class GameController implements Runnable {
 
 	/** an object for move cost calculation */
 	private MoveCostCalculator moveCostCalculator;
+
+	/** an attribute used to store the move that has to be managed */
+	private Move newMove;
+
+	/** an object for updating the boardStatus */
+	private ExecuteAction executeMove;
 
 	/**
 	 * GameController constructor
@@ -77,6 +89,8 @@ public class GameController implements Runnable {
 	private void initializeAll() {
 		ruleChecker = RuleChecker.create();
 		moveCostCalculator = MoveCostCalculator.create();
+		newMove = null;
+		executeMove = new ExecuteAction();
 
 		// init the board
 		initBoard();
@@ -238,7 +252,7 @@ public class GameController implements Runnable {
 		} while (boardStatus.getCurrentPlayer().isSuspended() && !gameOver());
 		if (gameOver())
 			throw new GameOverException();
-		return "askMoveToClient";
+		return "moveBlackSheep";
 	}
 
 	/**
@@ -351,6 +365,7 @@ public class GameController implements Runnable {
 
 		// if the method reaches this point it means that there's a valid move
 		// that has to be executed
+		this.newMove = newMove;
 		return "executeNewMove";
 	}
 
@@ -381,8 +396,10 @@ public class GameController implements Runnable {
 					.sayMoveIsNotValid();
 			// if the move is valid the next step is updating the boardstatus
 			if (ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
-					boardStatus))
+					boardStatus)) {
+				this.newMove = newMove;
 				return "executeNewMove";
+			}
 		} catch (ClientDisconnectedException e) {
 			Logger log = Logger.getAnonymousLogger();
 			log.severe("A CLIENT DISCONNECTED: " + e);
@@ -407,4 +424,33 @@ public class GameController implements Runnable {
 		return "askMoveToClientAgain";
 	}
 
+	/**
+	 * executeNewMove() updates the boardStatus of the Server.
+	 * 
+	 * @author Andrea
+	 */
+	private String executeNewMove() {
+		if (newMove instanceof PlayerAction) {
+			if (newMove instanceof BuyCardMove) {
+				executeMove.executeBuyCardMove((BuyCardMove) newMove,
+						boardStatus);
+			} else {
+				if (newMove instanceof MovePlayer)
+					executeMove.executeMovePlayer((MovePlayer) newMove,
+							boardStatus);
+				else if (newMove instanceof MoveSheep)
+					executeMove.executeMoveSheep((MoveSheep) newMove,
+							boardStatus);
+			}
+		} else if (newMove instanceof MoveBlackSheep)
+			executeMove.executeMoveBlackSheep((MoveBlackSheep) newMove,
+					boardStatus);
+		return "updateClients";
+	}
+
+	/**
+	 * updateClients() send the new move to all the clients.
+	 * 
+	 * @author Andrea
+	 */
 }
