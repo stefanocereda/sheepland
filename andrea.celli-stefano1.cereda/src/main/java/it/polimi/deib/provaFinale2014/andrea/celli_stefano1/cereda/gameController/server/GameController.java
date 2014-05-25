@@ -320,10 +320,10 @@ public class GameController implements Runnable {
 	 *          manageGame()
 	 * @author Andrea
 	 */
-	private String moveBlackSheep() {
+	private String blackSheep() {
 		Dice dice = Dice.create();
 		int diceResult = dice.roll(Costants.NUMBER_OF_DICE_SIDES);
-		Terrain newPosition;
+		int index;
 
 		// it finds the road near the black sheep
 		Set<Road> roadsNearBlackSheep = boardStatus.getRoadMap()
@@ -337,14 +337,15 @@ public class GameController implements Runnable {
 				// check if the road is free
 				if (boardStatus.isFreeRoad(road)) {
 					// find the new terrain
-					for (Terrain terrain : road.getAdjacentTerrains())
-						if (terrain != boardStatus.getBlackSheep()
-								.getPosition())
-							newPosition = Terrain.valueOf(terrain.name());
-					// creates a new move that has to be executed and place it
-					// in newMove attribute
-					newMove = new MoveBlackSheep(newPosition,
-							boardStatus.getBlackSheep());
+					for (index = 0; index < road.getAdjacentTerrains().length; index++)
+						if (boardStatus.getBlackSheep().getPosition() != road
+								.getAdjacentTerrains()[index])
+							// creates a new move that has to be executed and
+							// place it
+							// in newMove attribute
+							newMove = new MoveBlackSheep(
+									road.getAdjacentTerrains()[index],
+									boardStatus.getBlackSheep());
 					return "executeNewMove";
 				}
 		// otherwise the blackSheep remains in its current position and no move
