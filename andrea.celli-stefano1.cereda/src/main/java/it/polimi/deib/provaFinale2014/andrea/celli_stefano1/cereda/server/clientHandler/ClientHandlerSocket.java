@@ -57,12 +57,12 @@ public class ClientHandlerSocket extends ClientHandler {
 		objectIn = new ObjectInputStream(socket.getInputStream());
 
 		// ask the id
-		id = in.nextInt();
+		id = Integer.parseInt(in.nextLine());
 		// if the id is zero choose a new one
 		if (id == 0)
 			id = ++created;
 		// send back the right id
-		out.print(id);
+		out.println(id);
 		out.flush();
 	}
 
@@ -76,7 +76,6 @@ public class ClientHandlerSocket extends ClientHandler {
 	 */
 	public synchronized Move askMove() throws ClassNotFoundException,
 			ClientDisconnectedException {
-		clearInput();
 
 		// Send the message
 		out.println(SocketMessages.ASK_NEW_MOVE);
@@ -106,7 +105,6 @@ public class ClientHandlerSocket extends ClientHandler {
 	 */
 	public synchronized void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
-		clearInput();
 
 		out.println(SocketMessages.EXECUTE_MOVE);
 		out.flush();
@@ -133,7 +131,6 @@ public class ClientHandlerSocket extends ClientHandler {
 	 */
 	public synchronized Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
-		clearInput();
 
 		out.println(SocketMessages.NOT_VALID_MOVE);
 		out.flush();
@@ -161,7 +158,6 @@ public class ClientHandlerSocket extends ClientHandler {
 	 */
 	public synchronized void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException {
-		clearInput();
 
 		out.println(SocketMessages.SEND_NEW_STATUS);
 		out.flush();
@@ -184,7 +180,6 @@ public class ClientHandlerSocket extends ClientHandler {
 	 * @throws ClientDisconnectedException
 	 */
 	public synchronized void pingTheClient() throws ClientDisconnectedException {
-		clearInput();
 
 		out.println(SocketMessages.PING);
 		out.flush();
@@ -201,11 +196,5 @@ public class ClientHandlerSocket extends ClientHandler {
 		if (!in.hasNextLine() || !in.nextLine().equals(SocketMessages.PONG))
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer);
-	}
-
-	/** This method empties the input scanner */
-	private void clearInput() {
-		while (in.hasNext())
-			in.next();
 	}
 }

@@ -63,11 +63,6 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		this.serverAddress = serverAddress;
 		// try to connect
 		connect();
-		// open the streams
-		in = new Scanner(socket.getInputStream());
-		out = new PrintWriter(socket.getOutputStream());
-		objectIn = new ObjectInputStream(socket.getInputStream());
-		objectOut = new ObjectOutputStream(socket.getOutputStream());
 	}
 
 	/**
@@ -143,11 +138,17 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 */
 	private void connect() throws IOException {
 		socket.connect(serverAddress);
+		// open the streams
+		in = new Scanner(socket.getInputStream());
+		out = new PrintWriter(socket.getOutputStream());
+		objectIn = new ObjectInputStream(socket.getInputStream());
+		objectOut = new ObjectOutputStream(socket.getOutputStream());
 
 		// if we are connected we send our id and waits for server response
-		out.print(id);
+
+		out.println(id);
 		out.flush();
-		id = in.nextInt();
+		id = Integer.parseInt(in.nextLine());
 
 		// if we are connected start the ping timer
 		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,

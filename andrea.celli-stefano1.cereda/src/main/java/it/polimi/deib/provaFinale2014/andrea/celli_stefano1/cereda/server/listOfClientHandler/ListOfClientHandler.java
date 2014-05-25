@@ -12,9 +12,11 @@ public interface ListOfClientHandler {
 
 	public int size();
 
-	public void add(ClientHandler acceptedHandler);
+	public boolean add(ClientHandler acceptedHandler);
 
-	public ClientHandler[] values();
+	public ClientHandler[] toArray(ClientHandler[] array);
 
-	public void set(int i, ClientHandler newClienthandler);
+	public ClientHandler set(int i, ClientHandler newClienthandler);
+
+	public ClientHandler get(int i);
 }

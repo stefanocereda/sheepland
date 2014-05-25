@@ -9,15 +9,16 @@ import java.util.ArrayList;
 public class ListOfClientHandlerSocket extends ArrayList<ClientHandlerSocket>
 		implements ListOfClientHandler {
 
-	public void add(ClientHandler acceptedHandler) {
-		this.add(acceptedHandler);
+	public boolean add(ClientHandler acceptedHandler) {
+		return super.add((ClientHandlerSocket) acceptedHandler);
 	}
 
-	public ClientHandler[] values() {
-		return this.values();
+	public ClientHandler[] toArray(ClientHandler[] array) {
+		return super.toArray(array);
 	}
 
-	public void set(int i, ClientHandler newClienthandler) {
-		this.set(i, newClienthandler);
+	public ClientHandler set(int i, ClientHandler newClienthandler) {
+		return super.set(i, (ClientHandlerSocket) newClienthandler);
 	}
+
 }
