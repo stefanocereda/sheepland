@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 
 /**
@@ -59,5 +60,9 @@ public interface ClientHandlerInterface {
 	 * @throws ClientDisconnectedException
 	 */
 	void pingTheClient() throws ClientDisconnectedException;
+
+	/** set the new current player */
+	void setCurrentPlayer(Player newCurrentPlayer)
+			throws ClientDisconnectedException;
 
 }

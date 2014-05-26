@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Cost
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -89,7 +90,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					// reply with a pong
 					out.println(SocketMessages.PONG);
 					out.flush();
-				}
+				} else if (command.equals(SocketMessages.SET_CURRENT_PLAYER))
+					getAndSetNewCurrentPlayer();
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
@@ -106,6 +108,12 @@ public class NetworkHandlerSocket extends NetworkHandler {
 			}
 
 		}
+	}
+
+	private void getAndSetNewCurrentPlayer() throws IOException,
+			ClassNotFoundException {
+		Player newCurrentPlayer = (Player) objectIn.readObject();
+		setCurrentPlayer(newCurrentPlayer);
 	}
 
 	/**

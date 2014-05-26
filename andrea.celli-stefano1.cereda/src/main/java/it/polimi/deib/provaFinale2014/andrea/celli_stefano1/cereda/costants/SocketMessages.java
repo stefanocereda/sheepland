@@ -30,6 +30,9 @@ public class SocketMessages {
 	 */
 	public static final String NOT_VALID_MOVE = "NOT-VALID-MOVE";
 
+	/** Tell the client who is the current player */
+	public static final String SET_CURRENT_PLAYER = "SET-CURRENT-PLAYER";
+
 	/** Hide the default constructor */
 	private SocketMessages() {
 	}

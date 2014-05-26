@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 /**
  * This class manage the game in the client executing the up-dates that are
@@ -107,5 +108,10 @@ public class GameControllerClient {
 	public void notifyDisconnection() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setCurrentPlayer(Player newCurrentPlayer) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 /**
  * This abstract class is used for the methods in common between RMI and socket:
@@ -36,5 +37,10 @@ public abstract class NetworkHandler implements NetworkHandlerInterface {
 
 	public void updateStatus(BoardStatus newStatus) throws RemoteException {
 		controller.upDateStatus(newStatus);
+	}
+
+	public void setCurrentPlayer(Player newCurrentPlayer)
+			throws RemoteException {
+		controller.setCurrentPlayer(newCurrentPlayer);
 	}
 }

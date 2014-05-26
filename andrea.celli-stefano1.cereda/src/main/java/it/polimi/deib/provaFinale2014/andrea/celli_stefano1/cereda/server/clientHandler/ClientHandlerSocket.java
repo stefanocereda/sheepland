@@ -12,6 +12,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Cost
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarter;
 
@@ -196,5 +197,22 @@ public class ClientHandlerSocket extends ClientHandler {
 		if (!in.hasNextLine() || !in.nextLine().equals(SocketMessages.PONG))
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer);
+	}
+
+	public void setCurrentPlayer(Player newCurrentPlayer)
+			throws ClientDisconnectedException {
+		out.println(SocketMessages.SET_CURRENT_PLAYER);
+		out.flush();
+
+		try {
+			objectOut.writeObject(newCurrentPlayer);
+			objectOut.flush();
+		} catch (IOException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerSocket");
+			log.severe("SOCKET ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
 	}
 }

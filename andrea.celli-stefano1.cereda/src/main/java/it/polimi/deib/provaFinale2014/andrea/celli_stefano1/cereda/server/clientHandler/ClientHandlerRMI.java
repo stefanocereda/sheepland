@@ -10,6 +10,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networ
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarterRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
@@ -129,4 +130,16 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	public void setCurrentPlayer(Player newCurrentPlayer)
+			throws ClientDisconnectedException {
+		try {
+			clientObject.setCurrentPlayer(newCurrentPlayer);
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
+	}
 }

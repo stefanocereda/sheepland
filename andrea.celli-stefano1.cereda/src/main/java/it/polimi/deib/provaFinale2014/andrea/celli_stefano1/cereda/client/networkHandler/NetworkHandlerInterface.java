@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.netwo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -20,4 +21,7 @@ public interface NetworkHandlerInterface extends Remote {
 	public void updateStatus(BoardStatus newStatus) throws RemoteException;
 
 	public void ping() throws RemoteException;
+
+	public void setCurrentPlayer(Player newCurrentPlayer)
+			throws RemoteException;
 }
