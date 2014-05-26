@@ -604,8 +604,8 @@ public class GameController implements Runnable {
 	 * @author Andrea
 	 */
 	private void calculateWinner() {
-		ArrayList<Player> player = findWinner();
-		// comunicateWinner(ArrayList < Player > winners);
+		ArrayList<Player> winners = findWinner();
+		communicateWinner(winners);
 	}
 
 	/**
@@ -667,6 +667,28 @@ public class GameController implements Runnable {
 
 		return winners;
 
+	}
+
+	/**
+	 * This method comunicates the winners to the clients. This message clearly
+	 * states that the games's over. Therefore clients will start to tear down
+	 * their connection.
+	 * 
+	 * @param winners
+	 *            the ArrayList containing the winners
+	 * @author Andrea
+	 */
+	private void communicateWinner(ArrayList<Player> winners) {
+		for (ClientHandler client : clients.toArray(new ClientHandler[clients
+				.size()])) {
+			try {
+				client.sendWinners(winners);
+			} catch (ClientDisconnectedException e) {
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("A CLIENT DISCONNECTED: " + e);
+				notifyDisconnection(e.getPlayer());
+			}
+		}
 	}
 
 }
