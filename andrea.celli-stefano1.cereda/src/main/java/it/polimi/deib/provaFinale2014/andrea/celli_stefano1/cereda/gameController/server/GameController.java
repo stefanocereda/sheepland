@@ -513,7 +513,8 @@ public class GameController implements Runnable {
 	private String updateClients() {
 
 		// the method send the move to all the clients
-		for (ClientHandler client : clients.values()) {
+		for (ClientHandler client : clients.toArray(new ClientHandler[clients
+				.size()])) {
 			try {
 				client.executeMove(newMove);
 			} catch (ClientDisconnectedException e) {
