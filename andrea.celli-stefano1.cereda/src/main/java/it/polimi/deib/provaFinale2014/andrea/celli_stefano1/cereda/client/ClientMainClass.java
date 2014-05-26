@@ -14,6 +14,8 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceCreator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
@@ -30,8 +32,12 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
  * 
  */
 public class ClientMainClass {
+	/** A user interface */
+	static Interface userInterface = InterfaceCreator
+			.create(Costants.DEFAULT_INTREFACE);
 	/** A Client game controller */
-	static GameControllerClient gameController = new GameControllerClient();
+	static GameControllerClient gameController = new GameControllerClient(
+			userInterface);
 
 	public static void main(String[] args) {
 		// choose a communication model

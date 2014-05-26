@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.TypeOfInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameType;
 
 import java.net.InetSocketAddress;
@@ -31,6 +32,8 @@ public class Costants {
 
 	/** The number of roads in a map */
 	public static final int NUMBER_OF_ROADS = 42;
+
+	public static final TypeOfInterface DEFAULT_INTREFACE = TypeOfInterface.FAKE;
 
 	//
 	// NETWORK COSTANTS
@@ -66,8 +69,6 @@ public class Costants {
 	 * The time in milliseconds that the client waits before trying to reconnect
 	 */
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
-
-	//
 
 	/** Hide the default constructor */
 	private Costants() {

@@ -26,7 +26,7 @@ public class GameControllerClientTest {
 	 */
 	@Test
 	public void executeMoveTest() {
-		GameControllerClient gameController = new GameControllerClient();
+		GameControllerClient gameController = new GameControllerClient(null);
 		gameController.initializeGame(3);
 		Player player1 = new Player(5, gameController.getBoardStatus()
 				.getDeck().extractInitialCard(), gameController

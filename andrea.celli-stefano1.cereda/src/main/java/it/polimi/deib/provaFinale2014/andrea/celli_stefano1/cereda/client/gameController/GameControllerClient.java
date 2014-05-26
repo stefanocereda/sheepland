@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -22,8 +23,15 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  */
 public class GameControllerClient {
 	private ExecuteAction executeAction;
-	// The boardStatus of the current game
+	/** The boardStatus of the current game */
 	private BoardStatus boardStatus;
+	/** The user interface */
+	private Interface userInterface;
+
+	/** The constructor sets the interface */
+	public GameControllerClient(Interface userInterface) {
+		this.userInterface = userInterface;
+	}
 
 	/**
 	 * @return boardStatus the board status of the current game
@@ -112,6 +120,7 @@ public class GameControllerClient {
 
 	public void setCurrentPlayer(Player newCurrentPlayer) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 }
