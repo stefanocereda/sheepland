@@ -229,21 +229,28 @@ public class GameController implements Runnable {
 	}
 
 	/** This method reconnect a player changing his ConnectionHandler */
-	public void notifyReconnection(Player player, ClientHandler newClienthandler) {
+	public void notifyReconnection(Player player, ClientHandler newClientHandler) {
 		// search the old client handler
 		for (int i = 0; i < clients.size(); i++) {
 			// and change the client handler
 			if (clients.get(i).getPlayer() == player)
-				clients.set(i, newClienthandler);
+				clients.set(i, newClientHandler);
 		}
 
 		// set the parameters
-		newClienthandler.setGame(this);
-		newClienthandler.setPlayer(player);
+		newClientHandler.setGame(this);
+		newClientHandler.setPlayer(player);
 
 		// now wake the player
 		player.setConnected();
 		player.resume();
+		try {
+			newClientHandler.sendNewStatus(boardStatus);
+		} catch (ClientDisconnectedException e) {
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("A CLIENT DISCONNECTED: " + e);
+			notifyDisconnection(e.getPlayer());
+		}
 	}
 
 	/**
@@ -376,7 +383,7 @@ public class GameController implements Runnable {
 		int indexOfTheCurrentPlayer;
 		boolean found = false;
 		// The new move
-		Move newMove;
+		Move newMove = null;
 		// Look for the client that corespond to the current player
 		for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
 				.size()) && !found; indexOfTheCurrentPlayer++)
@@ -407,12 +414,9 @@ public class GameController implements Runnable {
 				// another
 				// currentPlayer, therefore it calls goOn()
 				return "goOn";
-			} else {
-				/** @TODO Is it okay? */
-				return "askMoveToClient";
 			}
 		} catch (ClassNotFoundException e) {
-			/** @TODO what to do here? */
+
 			return "askMoveToClient";
 		}
 
@@ -465,9 +469,7 @@ public class GameController implements Runnable {
 				// if the currentplayer is back the system ask again for a move
 				if (currentPlayer.isConnected())
 					return "askMoveToClientAgain";
-			} else
-				// a different player went offline
-				return "askMoveToClientAgain";
+			}
 		} catch (ClassNotFoundException e) {
 			/** @TODO what to do here? */
 			return "askMoveToClientAgain";
