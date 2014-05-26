@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
+import java.io.Serializable;
+
 /**
  * This enum defines all the terrains, each terrain has a type and a number that
  * allows to identify it
@@ -7,7 +9,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ob
  * @author Andrea Celli
  * 
  */
-public enum Terrain {
+public enum Terrain implements Serializable {
 	P1(TerrainType.PLAIN, 1), P2(TerrainType.PLAIN, 2), P3(TerrainType.PLAIN, 3), C1(
 			TerrainType.COUNTRYSIDE, 1), C2(TerrainType.COUNTRYSIDE, 2), C3(
 			TerrainType.COUNTRYSIDE, 3), M1(TerrainType.MOUNTAIN, 1), M2(

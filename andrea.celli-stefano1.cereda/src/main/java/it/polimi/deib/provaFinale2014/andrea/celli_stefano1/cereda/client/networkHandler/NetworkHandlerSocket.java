@@ -73,37 +73,38 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	public synchronized void start() {
 		// we loop waiting for server commands
 		while (true) {
-			// check for commands that aren't ping, the pings are handled by
-			// another thread
-			if (in.hasNextLine() && !in.hasNext(SocketMessages.PING)) {
-				String command = in.nextLine();
+			String command = in.nextLine();
 
-				try {
-					if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
-						askAndSendNewMove();
-					} else if (command.equals(SocketMessages.EXECUTE_MOVE)) {
-						getAndExecuteNewMove();
-					} else if (command.equals(SocketMessages.NOT_VALID_MOVE)) {
-						notifyNotValidMove();
-						askAndSendNewMove();
-					} else if (command.equals(SocketMessages.SEND_NEW_STATUS)) {
-						getAndUpdateStatus();
-					}
-				} catch (IOException e) {
-					// we are disconnected
-					// log the exception
-					Logger log = Logger.getLogger("client.networkHandler");
-					log.severe("DISCONNECTED: " + e);
-					// try to reconnect and stop checking for ping
-					timer.cancel();
-					notifyDisconnection();
-					tryToReconnect();
-				} catch (ClassNotFoundException e) {
-					Logger log = Logger.getLogger("client.networkHandler");
-					log.severe("CLASS NOT FOUND, PROBABLY PROBLEM IN THE NETWORK PROTOCOL: "
-							+ e);
+			try {
+				if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
+					askAndSendNewMove();
+				} else if (command.equals(SocketMessages.EXECUTE_MOVE)) {
+					getAndExecuteNewMove();
+				} else if (command.equals(SocketMessages.NOT_VALID_MOVE)) {
+					notifyNotValidMove();
+					askAndSendNewMove();
+				} else if (command.equals(SocketMessages.SEND_NEW_STATUS)) {
+					getAndUpdateStatus();
+				} else if (command.equals(SocketMessages.PING)) {
+					// reply with a pong
+					out.println(SocketMessages.PONG);
+					out.flush();
 				}
+			} catch (IOException e) {
+				// we are disconnected
+				// log the exception
+				Logger log = Logger.getLogger("client.networkHandler");
+				log.severe("DISCONNECTED: " + e);
+				// try to reconnect and stop checking for ping
+				timer.cancel();
+				notifyDisconnection();
+				tryToReconnect();
+			} catch (ClassNotFoundException e) {
+				Logger log = Logger.getLogger("client.networkHandler");
+				log.severe("CLASS NOT FOUND, PROBABLY PROBLEM IN THE NETWORK PROTOCOL: "
+						+ e);
 			}
+
 		}
 	}
 
@@ -155,7 +156,11 @@ public class NetworkHandlerSocket extends NetworkHandler {
 				Costants.PING_TIME);
 	}
 
-	/** This method check for ping and replies with pong */
+	/**
+	 * This method periodically checks for ping and replies with pong. It runs
+	 * on a parallel thread in order to be able to respond to ping even when the
+	 * "principal" method is stuck executing commands
+	 */
 	public synchronized void ping() {
 		if (in.hasNext(SocketMessages.PING)) {
 			// throw away the ping

@@ -32,7 +32,7 @@ public abstract class ServerStarter {
 	/** the milliseconds for the timer to start a game with less than maxPlayers */
 	private long delay;
 	/** timer to start games with less than four players */
-	private Timer timer = new Timer();
+	private Timer timer = null;
 	/** the timer task to execute at the end of the timers */
 	private TimerTask timerTaskStartGame = new TimerTask() {
 		public void run() {
@@ -66,17 +66,20 @@ public abstract class ServerStarter {
 
 			// start awaiting for new players
 			clientHandlers = new ListOfClientHandlerSocket();
-		}
 
-		// if we came here because we had the right number of player the timer
-		// will tick again even if we don't have any player waiting
-		timer.cancel();
+			// if we came here because we had the right number of player the
+			// timer
+			// will tick again even if we don't have any player waiting
+			timer.cancel();
+		}
 	}
 
 	/** starts the timer if there's at least one player waiting */
 	protected void startTimer() {
-		if (clientHandlers.size() == 1)
+		if (clientHandlers.size() == 1) {
+			timer = new Timer();
 			timer.schedule(timerTaskStartGame, delay);
+		}
 	}
 
 	/** launch a game if there's the right number of players */

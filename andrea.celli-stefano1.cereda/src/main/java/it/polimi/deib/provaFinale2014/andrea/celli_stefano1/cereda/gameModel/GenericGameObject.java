@@ -3,6 +3,8 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
+import java.io.Serializable;
+
 /**
  * This is a superclass for all the game objects (excluding all the enums and
  * the deck of card). It provides an identificator for each object, this is done
@@ -17,7 +19,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
  * @author Stefano
  * 
  */
-public class GenericGameObject {
+public class GenericGameObject implements Serializable {
 	/** a class counter of the number of objects created */
 	private static long created = 0;
 

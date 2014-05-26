@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +11,7 @@ import java.util.Random;
  * @author Stefano
  * 
  */
-public class Deck extends ArrayList<Card> {
+public class Deck extends ArrayList<Card> implements Serializable {
 
 	/** Constructor of a deck, automatically populates the deck */
 	public Deck() {
