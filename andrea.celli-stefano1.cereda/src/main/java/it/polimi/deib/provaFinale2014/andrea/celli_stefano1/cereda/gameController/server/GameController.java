@@ -289,20 +289,51 @@ public class GameController implements Runnable {
 	/**
 	 * This method has to be invoked after the moves session. It searchs for the
 	 * next player that has to play and state if the game is finished or not. If
-	 * the game is over it throws a GameOverException that has to be managed in
-	 * the manageGame method.
+	 * the game is over it comunicates it to the caller using the string
+	 * "gameOver". An exception would have been better but the invoke method
+	 * doesn't let them through.
 	 * 
 	 * @return String the name of the next method that has to be called in
-	 *         manageGame()
+	 *         manageGame() or the signal that the game is finished
 	 * @author Andrea
 	 */
-	private String goOn() throws GameOverException {
+	private String goOn() {
 		do {
 			setNewCurrentPlayer();
 		} while (boardStatus.getCurrentPlayer().isSuspended() && !gameOver());
 		if (gameOver())
-			throw new GameOverException();
-		return "moveBlackSheep";
+			return "gameOver";
+		return "communicateNewCurrentPlayer";
+	}
+
+	/**
+	 * Comunicates the new current player to the clients (in this way they don't
+	 * have to wait for a move to know who's playing). If the current player
+	 * disconnects during the communication the next step will be chooseing
+	 * another current player. Otherwise it's time to move the black sheep.
+	 * 
+	 * @return String nextmethod to be called in manageGame()
+	 * @author Andrea
+	 */
+	private String communicateNewCurrentPlayer() {
+		// the method send the current player to all the clients
+		for (ClientHandler client : clients.toArray(new ClientHandler[clients
+				.size()])) {
+			try {
+				client.setCurrentPlayer(boardStatus.getCurrentPlayer());
+				;
+			} catch (ClientDisconnectedException e) {
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("A CLIENT DISCONNECTED: " + e);
+				notifyDisconnection(e.getPlayer());
+
+				// if the current player has been suspended another current
+				// player has to be selected
+				if (e.getPlayer().equals(boardStatus.getCurrentPlayer()))
+					return "goOn";
+			}
+		}
+		return "blackSheep";
 	}
 
 	/**
@@ -582,14 +613,15 @@ public class GameController implements Runnable {
 	 */
 	private void calculateWinner() {
 		ArrayList<Player> player = findWinner();
-
+		// comunicateWinner(ArrayList < Player > winners);
 	}
 
 	/**
 	 * Finds the winner using Sheepland's rules
 	 * 
-	 * @author Andrea
+	 * 
 	 * @Returns winners the arrayList of winners
+	 * @author Andrea
 	 */
 	public ArrayList<Player> findWinner() {
 		ArrayList<Player> winners = new ArrayList<Player>();
