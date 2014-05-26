@@ -54,7 +54,7 @@ public class Costants {
 	//
 
 	/** the milliseconds between each ping to a client */
-	public static final long PING_TIME = 10 * 1000;
+	public static final long PING_TIME = 20 * 1000;
 
 	/** The milliseconds waiting for the client pong */
 	public static final long PONG_WAITING_TIME = 5 * 1000;

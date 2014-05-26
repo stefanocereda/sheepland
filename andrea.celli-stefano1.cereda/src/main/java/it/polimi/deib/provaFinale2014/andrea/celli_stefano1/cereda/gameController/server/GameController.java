@@ -135,8 +135,8 @@ public class GameController implements Runnable {
 			boardStatus.addPlayerToBoardStatus(p);
 
 			// notify the client handler
-			clients.values()[i].setGame(this);
-			clients.values()[i].setPlayer(p);
+			clients.get(i).setGame(this);
+			clients.get(i).setPlayer(p);
 		}
 	}
 
@@ -185,7 +185,8 @@ public class GameController implements Runnable {
 	 * Send the status to all the players
 	 */
 	private void sendStatusToAllPlayers() {
-		for (ClientHandler client : clients.values()) {
+		for (ClientHandler client : clients.toArray(new ClientHandler[clients
+				.size()])) {
 			try {
 				client.sendNewStatus(boardStatus);
 			} catch (ClientDisconnectedException e) {
@@ -232,7 +233,7 @@ public class GameController implements Runnable {
 		// search the old client handler
 		for (int i = 0; i < clients.size(); i++) {
 			// and change the client handler
-			if (clients.values()[i].getPlayer() == player)
+			if (clients.get(i).getPlayer() == player)
 				clients.set(i, newClienthandler);
 		}
 
@@ -379,11 +380,11 @@ public class GameController implements Runnable {
 		// Look for the client that corespond to the current player
 		for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
 				.size()) && !found; indexOfTheCurrentPlayer++)
-			if (currentPlayer.equals(clients.values()[indexOfTheCurrentPlayer]
+			if (currentPlayer.equals(clients.get(indexOfTheCurrentPlayer)
 					.getPlayer()))
 				found = true;
 		try {
-			newMove = clients.values()[indexOfTheCurrentPlayer].askMove();
+			newMove = clients.get(indexOfTheCurrentPlayer).askMove();
 			if (!ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
 					boardStatus))
 				// the move is not valid therefore the next step is comunicating
@@ -439,13 +440,12 @@ public class GameController implements Runnable {
 		// Look for the client that corespond to the current player
 		for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
 				.size()) && !found; indexOfTheCurrentPlayer++)
-			if (currentPlayer.equals(clients.values()[indexOfTheCurrentPlayer]
+			if (currentPlayer.equals(clients.get(indexOfTheCurrentPlayer)
 					.getPlayer()))
 				found = true;
 
 		try {
-			newMove = clients.values()[indexOfTheCurrentPlayer]
-					.sayMoveIsNotValid();
+			newMove = clients.get(indexOfTheCurrentPlayer).sayMoveIsNotValid();
 			// if the move is valid the next step is updating the boardstatus
 			if (ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
 					boardStatus)) {

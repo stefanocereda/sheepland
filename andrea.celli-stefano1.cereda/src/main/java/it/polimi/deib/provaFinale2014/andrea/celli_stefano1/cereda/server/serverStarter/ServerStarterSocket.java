@@ -48,7 +48,7 @@ public class ServerStarterSocket extends ServerStarter {
 		// wait for connections and create the client handlers
 		while (true) {
 			Socket acceptedSocket = serverSocket.accept();
-			ClientHandler acceptedHandler = new ClientHandlerSocket(this,
+			ClientHandlerSocket acceptedHandler = new ClientHandlerSocket(this,
 					acceptedSocket);
 
 			// if it's a previously disconnected client we don't need to handle
