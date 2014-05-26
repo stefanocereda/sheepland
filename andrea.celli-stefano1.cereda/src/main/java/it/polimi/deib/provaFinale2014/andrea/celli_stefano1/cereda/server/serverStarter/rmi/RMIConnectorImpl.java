@@ -48,4 +48,8 @@ public class RMIConnectorImpl implements RMIConnector {
 			serverStarter.notifyConnection(serverName);
 		}
 	}
+
+	public void ping() throws RemoteException {
+		// empty method
+	}
 }

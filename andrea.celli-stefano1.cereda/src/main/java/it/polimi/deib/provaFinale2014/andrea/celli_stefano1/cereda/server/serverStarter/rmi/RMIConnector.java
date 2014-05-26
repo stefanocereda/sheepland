@@ -23,4 +23,7 @@ public interface RMIConnector extends Remote {
 	 */
 	public int connect(Integer id) throws RemoteException;
 
+	/** A method periodically invoked by the client to check connection */
+	public void ping() throws RemoteException;
+
 }

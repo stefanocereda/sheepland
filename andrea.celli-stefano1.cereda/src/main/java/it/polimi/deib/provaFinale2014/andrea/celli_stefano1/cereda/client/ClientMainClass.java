@@ -17,6 +17,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIStarter;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
@@ -87,24 +88,7 @@ public class ClientMainClass {
 	}
 
 	private static void launchRMI() throws RemoteException, NotBoundException {
-		/** get the remote registry */
-		Registry registry = LocateRegistry.getRegistry(
-				Costants.SERVER_RMI_ADDRESS, Costants.REGISTRY_IP_PORT);
-
-		/** Search the server acceptor */
-		RMIConnector connector = (RMIConnector) registry
-				.lookup(RMICostants.CONNECTOR);
-
-		/** Login with default id=0 */
-		Integer myID = connector.connect(0);
-
-		/** Create and export a network handler with the returned id */
-		NetworkHandlerInterface networkHandler = new NetworkHandlerRMI(
-				gameController);
-		NetworkHandlerInterface stubNetworkHandler = (NetworkHandlerInterface) UnicastRemoteObject
-				.exportObject(networkHandler, 0);
-
-		registry.rebind(myID.toString(), stubNetworkHandler);
+		RMIStarter.startRMI(gameController);
 	}
 
 	private static void launchSocket() throws IOException {
