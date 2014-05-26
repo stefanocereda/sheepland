@@ -71,6 +71,16 @@ public class Player extends GenericGameObject {
 	}
 
 	/**
+	 * Add the specified ammount of money
+	 * 
+	 * @param newMoney
+	 *            the money that have to be added
+	 */
+	public void addMoney(int newMoney) {
+		money = money + newMoney;
+	}
+
+	/**
 	 * Move the player in a new road, without rules checking
 	 * 
 	 * @param newRoad

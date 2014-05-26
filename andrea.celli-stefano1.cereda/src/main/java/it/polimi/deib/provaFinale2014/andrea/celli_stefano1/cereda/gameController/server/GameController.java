@@ -11,16 +11,21 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandler;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -573,11 +578,71 @@ public class GameController implements Runnable {
 	 * CalculateWinner calcultes the winner of a game and comunicates it to the
 	 * clients
 	 * 
-	 * @return Player
 	 * @author Andrea
 	 */
 	private void calculateWinner() {
-		;
+		ArrayList<Player> player = findWinner();
+
+	}
+
+	/**
+	 * Finds the winner using Sheepland's rules
+	 * 
+	 * @author Andrea
+	 * @Returns winners the arrayList of winners
+	 */
+	public ArrayList<Player> findWinner() {
+		ArrayList<Player> winners = new ArrayList<Player>();
+		Integer currentValue;
+		int max;
+		// calculate the number of sheep for each terrain
+		Map<TerrainType, Integer> valuesOfCards = new HashMap<TerrainType, Integer>();
+		// initialize the HashMap
+		valuesOfCards.put(TerrainType.COUNTRYSIDE, 0);
+		valuesOfCards.put(TerrainType.DESERT, 0);
+		valuesOfCards.put(TerrainType.LAKE, 0);
+		valuesOfCards.put(TerrainType.MOUNTAIN, 0);
+		valuesOfCards.put(TerrainType.PLAIN, 0);
+		valuesOfCards.put(TerrainType.WOOD, 0);
+
+		// calculate the number of sheep in each region
+		for (Sheep sheep : boardStatus.getSheeps()) {
+			currentValue = valuesOfCards.get(sheep.getPosition()
+					.getTerrainType());
+			valuesOfCards.put(sheep.getPosition().getTerrainType(),
+					currentValue + 1);
+		}
+
+		// add one to the terrain in which is located the black sheep
+		currentValue = valuesOfCards.get(boardStatus.getBlackSheep()
+				.getPosition().getTerrainType());
+		valuesOfCards.put(boardStatus.getBlackSheep().getPosition()
+				.getTerrainType(), currentValue + 1);
+
+		// add the value of cards to player's money
+		for (Player player : boardStatus.getPlayers()) {
+			for (Card card : player.getCards()) {
+				player.addMoney(valuesOfCards.get(card.getTerrainType()));
+				;
+			}
+		}
+
+		// determines the player (or players) with more money
+		max = 0;
+		for (Player player : boardStatus.getPlayers()) {
+			if (player.getMoney() > max) {
+				// set the new probable winner
+				winners.clear();
+				winners.add(player);
+			}
+			if (player.getMoney() == max) {
+				// if there's a draw
+				winners.add(player);
+			}
+		}
+
+		return winners;
+
 	}
 
 }
