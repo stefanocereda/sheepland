@@ -33,6 +33,9 @@ public class SocketMessages {
 	/** Tell the client who is the current player */
 	public static final String SET_CURRENT_PLAYER = "SET-CURRENT-PLAYER";
 
+	/** Tell the client that the game is over and send an arraylist of winners */
+	public static final Object SEND_WINNERS = "SEND-WINNERS";
+
 	/** Hide the default constructor */
 	private SocketMessages() {
 	}

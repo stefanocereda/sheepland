@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController;
 
+import java.util.ArrayList;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
@@ -121,6 +123,11 @@ public class GameControllerClient {
 	public void setCurrentPlayer(Player newCurrentPlayer) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void notifyWinners(ArrayList<Player> winners) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -214,5 +215,22 @@ public class ClientHandlerSocket extends ClientHandler {
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer);
 		}
+	}
+
+	public void sendWinners(ArrayList<Player> winners)
+			throws ClientDisconnectedException {
+		out.println(SocketMessages.SEND_WINNERS);
+		out.flush();
+		try {
+			objectOut.writeObject(winners);
+			objectOut.flush();
+		} catch (IOException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerSocket");
+			log.severe("SOCKET ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
+
 	}
 }

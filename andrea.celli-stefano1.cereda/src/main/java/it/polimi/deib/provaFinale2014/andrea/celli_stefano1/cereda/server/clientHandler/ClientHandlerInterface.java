@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
+import java.util.ArrayList;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -65,4 +67,7 @@ public interface ClientHandlerInterface {
 	void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException;
 
+	/** Send the list of winners at the end of the game */
+	void sendWinners(ArrayList<Player> winners)
+			throws ClientDisconnectedException;
 }

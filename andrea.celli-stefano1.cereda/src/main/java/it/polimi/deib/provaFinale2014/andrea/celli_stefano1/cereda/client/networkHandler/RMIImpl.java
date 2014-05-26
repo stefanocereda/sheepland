@@ -6,6 +6,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class RMIImpl implements RMIInterface {
 	private GameControllerClient controller;
@@ -34,6 +35,11 @@ public class RMIImpl implements RMIInterface {
 	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws RemoteException {
 		controller.setCurrentPlayer(newCurrentPlayer);
+	}
+
+	public void sendWinners(ArrayList<Player> winners) throws RemoteException {
+		controller.notifyWinners(winners);
+		// TODO handle closing connection
 	}
 
 	public void ping() throws RemoteException {

@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Timer;
 
@@ -104,6 +105,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					out.flush();
 				} else if (command.equals(SocketMessages.SET_CURRENT_PLAYER))
 					getAndSetNewCurrentPlayer();
+				else if (command.equals(SocketMessages.SEND_WINNERS))
+					getWinners();
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
@@ -184,5 +187,17 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		Move newMove = controller.getNewMove();
 		objectOut.writeObject(newMove);
 		objectOut.flush();
+	}
+
+	/**
+	 * This method receives an ArrayList of Players representing the winners, it
+	 * notifies the interface and closes the network
+	 * 
+	 * @throws ClassNotFoundException
+	 */
+	private void getWinners() throws IOException, ClassNotFoundException {
+		ArrayList<Player> winners = (ArrayList<Player>) objectIn.readObject();
+		controller.notifyWinners(winners);
+		// TODO handle the closing
 	}
 }

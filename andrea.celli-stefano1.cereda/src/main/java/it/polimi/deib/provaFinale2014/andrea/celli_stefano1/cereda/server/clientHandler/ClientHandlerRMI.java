@@ -4,9 +4,9 @@ import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -133,6 +133,19 @@ public class ClientHandlerRMI extends ClientHandler {
 			throws ClientDisconnectedException {
 		try {
 			clientObject.setCurrentPlayer(newCurrentPlayer);
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
+	}
+
+	public void sendWinners(ArrayList<Player> winners)
+			throws ClientDisconnectedException {
+		try {
+			clientObject.sendWinners(winners);
 		} catch (RemoteException e) {
 			Logger log = Logger
 					.getLogger("server.clientHandler.ClientHandlerRMI");
