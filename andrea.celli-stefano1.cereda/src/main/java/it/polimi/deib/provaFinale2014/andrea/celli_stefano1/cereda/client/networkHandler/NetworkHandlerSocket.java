@@ -15,18 +15,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Logger;
 
-/** A socket version of a network handler */
+/**
+ * A socket version of a network handler
+ * 
+ * @author Stefano
+ */
 public class NetworkHandlerSocket extends NetworkHandler {
-	/**
-	 * An identificator of this client, the server uses it to perform
-	 * reconnection
-	 */
-	private int id = 0;
-
-	/** The server address */
+	/** The server socket address */
 	private InetSocketAddress serverAddress;
 
 	/** The socket connected to the server */
@@ -39,15 +35,6 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	private ObjectInputStream objectIn;
 	/** An object output on the stream */
 	private ObjectOutputStream objectOut;
-
-	/** A timer used to reply to server's ping */
-	private Timer timer = new Timer();
-	/** the timer task to execute at the end of the timers */
-	private TimerTask timerTaskPong = new TimerTask() {
-		public void run() {
-			ping();
-		}
-	};
 
 	/**
 	 * the constructor of a socket network handler takes as parameter the
@@ -67,9 +54,34 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	}
 
 	/**
+	 * This method connects the socket to the serverAddress and start a timer to
+	 * reply ping
+	 * 
+	 * @throws IOException
+	 */
+	protected void connect() throws IOException {
+		socket.connect(serverAddress);
+
+		// open the streams
+		in = new Scanner(socket.getInputStream());
+		out = new PrintWriter(socket.getOutputStream());
+		objectIn = new ObjectInputStream(socket.getInputStream());
+		objectOut = new ObjectOutputStream(socket.getOutputStream());
+
+		// if we are connected we send our id and waits for server response
+		out.println(myId);
+		out.flush();
+		myId = Integer.parseInt(in.nextLine());
+
+		// if we are connected start the ping timer
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
+				Costants.PING_TIME);
+	}
+
+	/**
 	 * This method start listening to the socket for the server orders and sends
-	 * them to the client's controller. It also starts a timer to check server's
-	 * ping (on another thread)
+	 * them to the client's controller.
 	 */
 	public synchronized void start() {
 		// we loop waiting for server commands
@@ -82,7 +94,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 				} else if (command.equals(SocketMessages.EXECUTE_MOVE)) {
 					getAndExecuteNewMove();
 				} else if (command.equals(SocketMessages.NOT_VALID_MOVE)) {
-					notifyNotValidMove();
+					controller.notifyNotValidMove();
 					askAndSendNewMove();
 				} else if (command.equals(SocketMessages.SEND_NEW_STATUS)) {
 					getAndUpdateStatus();
@@ -95,73 +107,18 @@ public class NetworkHandlerSocket extends NetworkHandler {
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
-				Logger log = Logger.getLogger("client.networkHandler");
-				log.severe("DISCONNECTED: " + e);
+				logger.severe("DISCONNECTED: " + e);
 				// try to reconnect and stop checking for ping
 				timer.cancel();
 				notifyDisconnection();
-				tryToReconnect();
+				reconnect();
 			} catch (ClassNotFoundException e) {
-				Logger log = Logger.getLogger("client.networkHandler");
-				log.severe("CLASS NOT FOUND, PROBABLY PROBLEM IN THE NETWORK PROTOCOL: "
+				// there was a problem in the network protocol
+				logger.severe("CLASS NOT FOUND, PROBABLY PROBLEM IN THE NETWORK PROTOCOL: "
 						+ e);
 			}
 
 		}
-	}
-
-	private void getAndSetNewCurrentPlayer() throws IOException,
-			ClassNotFoundException {
-		Player newCurrentPlayer = (Player) objectIn.readObject();
-		setCurrentPlayer(newCurrentPlayer);
-	}
-
-	/**
-	 * This method tries to reconnect until it is possible, with a little
-	 * waiting in the while
-	 */
-	private void tryToReconnect() {
-		boolean reconnecting = true;
-		while (reconnecting) {
-			try {
-				connect();
-			} catch (IOException e) {
-				Logger log = Logger.getLogger("client.networkHandler");
-				log.fine("UNABLE TO RECONNECT: " + e);
-
-				try {
-					Thread.sleep(Costants.WAIT_FOR_RECONNECTION);
-				} catch (InterruptedException e1) {
-					log.fine("Thread interrupted: " + e);
-					reconnecting = false;
-				}
-			}
-		}
-	}
-
-	/**
-	 * This method connects the socket to the serverAddress and start a timer to
-	 * reply pings
-	 * 
-	 * @throws IOException
-	 */
-	private void connect() throws IOException {
-		socket.connect(serverAddress);
-		// open the streams
-		in = new Scanner(socket.getInputStream());
-		out = new PrintWriter(socket.getOutputStream());
-		objectIn = new ObjectInputStream(socket.getInputStream());
-		objectOut = new ObjectOutputStream(socket.getOutputStream());
-
-		// if we are connected we send our id and waits for server response
-
-		out.println(id);
-		out.flush();
-		id = Integer.parseInt(in.nextLine());
-
-		// if we are connected start the ping timer
-		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
-				Costants.PING_TIME);
 	}
 
 	/**
@@ -169,7 +126,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * on a parallel thread in order to be able to respond to ping even when the
 	 * "principal" method is stuck executing commands
 	 */
-	public synchronized void ping() {
+	public synchronized void checkConnectivity() {
 		if (in.hasNext(SocketMessages.PING)) {
 			// throw away the ping
 			in.nextLine();
@@ -191,7 +148,14 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	private void getAndUpdateStatus() throws ClassNotFoundException,
 			IOException {
 		BoardStatus newStatus = (BoardStatus) objectIn.readObject();
-		updateStatus(newStatus);
+		controller.upDateStatus(newStatus);
+	}
+
+	/** This methos receive a Player and sets it as the new current player */
+	private void getAndSetNewCurrentPlayer() throws IOException,
+			ClassNotFoundException {
+		Player newCurrentPlayer = (Player) objectIn.readObject();
+		controller.setCurrentPlayer(newCurrentPlayer);
 	}
 
 	/**
@@ -206,7 +170,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	private void getAndExecuteNewMove() throws ClassNotFoundException,
 			IOException {
 		Move newMove = (Move) objectIn.readObject();
-		executeMove(newMove);
+		controller.executeMove(newMove);
 	}
 
 	/**
@@ -217,16 +181,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 *             when not connected
 	 */
 	private void askAndSendNewMove() throws IOException {
-		Move newMove = getMove();
+		Move newMove = controller.getNewMove();
 		objectOut.writeObject(newMove);
 		objectOut.flush();
-	}
-
-	/**
-	 * This method tells the controller to inform the user that we're
-	 * disconnected and trying to reconnect
-	 */
-	private void notifyDisconnection() {
-		controller.notifyDisconnection();
 	}
 }

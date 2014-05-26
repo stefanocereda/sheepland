@@ -10,18 +10,32 @@ import java.rmi.RemoteException;
 /**
  * This is the interface of a client's network handler. It is primarily used to
  * publish on the rmi registry the supported methods
+ * 
+ * @author Stefano
  */
-public interface NetworkHandlerInterface extends Remote {
+public interface RMIInterface extends Remote {
+	/** This method is invoked by the server when it wants to receive a move */
 	public Move getMove() throws RemoteException;
 
+	/** This method is invoked by the server when there's a move to execute */
 	public void executeMove(Move moveToExecute) throws RemoteException;
 
+	/**
+	 * This method is called by the server to say that the last move wasn't
+	 * valid and it's expecting a new one
+	 */
 	public Move notifyNotValidMove() throws RemoteException;
 
+	/**
+	 * This method is called by the server to send a board status to substitute
+	 * the old one
+	 */
 	public void updateStatus(BoardStatus newStatus) throws RemoteException;
 
-	public void ping() throws RemoteException;
-
+	/** This method is called by the server to specify who is the current player */
 	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws RemoteException;
+
+	/** This method is used to check connection */
+	public void ping() throws RemoteException;
 }

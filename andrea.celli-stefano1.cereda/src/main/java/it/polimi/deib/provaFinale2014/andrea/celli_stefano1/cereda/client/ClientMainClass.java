@@ -7,22 +7,16 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceCreator;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIStarter;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
 
 /**
  * The main class of the client, asks for RMI/socket and creates a network
@@ -34,11 +28,12 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
 public class ClientMainClass {
 	/** A user interface */
 	static Interface userInterface = InterfaceCreator
-			.create(Costants.DEFAULT_INTREFACE);
+			.create(Costants.DEFAULT_INTERFACE);
 	/** A Client game controller */
 	static GameControllerClient gameController = new GameControllerClient(
 			userInterface);
 
+	/** The main method of a client */
 	public static void main(String[] args) {
 		// choose a communication model
 		int clientType = chooseType();
@@ -93,10 +88,16 @@ public class ClientMainClass {
 		}
 	}
 
+	/** This method launches the rmi version of a client */
 	private static void launchRMI() throws RemoteException, NotBoundException {
-		RMIStarter.startRMI(gameController);
+		NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(gameController);
+		rmiClient.connect();
 	}
 
+	/**
+	 * This method launches the socket version of a client, it connects to the
+	 * server and creates a network handler
+	 */
 	private static void launchSocket() throws IOException {
 		/** The server address */
 		InetSocketAddress serverAddress = Costants.SERVER_SOCKET_ADDRESS;
@@ -105,6 +106,5 @@ public class ClientMainClass {
 
 		socketClient = new NetworkHandlerSocket(serverAddress, gameController);
 		socketClient.start();
-
 	}
 }

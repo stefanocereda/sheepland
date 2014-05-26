@@ -6,8 +6,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.logging.Logger;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -26,7 +26,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
  */
 public class ClientHandlerRMI extends ClientHandler {
 	/** The remote object */
-	private NetworkHandlerInterface clientObject;
+	private RMIInterface clientObject;
 
 	/**
 	 * The constructor takes as input the reference of the server starter that
@@ -46,8 +46,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		try {
 			Thread.sleep(RMICostants.WAIT_BEFORE_LOOKUP);
 
-			clientObject = (NetworkHandlerInterface) registry
-					.lookup(remoteName);
+			clientObject = (RMIInterface) registry.lookup(remoteName);
 		} catch (NotBoundException e) {
 			Logger log = Logger
 					.getLogger("server.clientHandler.ClientHandlerRMI");

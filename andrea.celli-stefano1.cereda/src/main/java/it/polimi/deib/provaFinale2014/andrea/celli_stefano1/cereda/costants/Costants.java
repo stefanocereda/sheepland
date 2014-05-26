@@ -33,7 +33,7 @@ public class Costants {
 	/** The number of roads in a map */
 	public static final int NUMBER_OF_ROADS = 42;
 
-	public static final TypeOfInterface DEFAULT_INTREFACE = TypeOfInterface.FAKE;
+	public static final TypeOfInterface DEFAULT_INTERFACE = TypeOfInterface.FAKE;
 
 	//
 	// NETWORK COSTANTS
