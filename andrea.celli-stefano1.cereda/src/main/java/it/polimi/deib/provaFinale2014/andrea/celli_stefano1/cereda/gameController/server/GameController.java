@@ -106,17 +106,9 @@ public class GameController implements Runnable {
 				Method method = getClass().getMethod(nextMethod, null);
 				// invoke the new method
 				nextMethod = (String) method.invoke(this, null);
-			} catch (RuntimeException e) {
+			} catch (Exception e) {
 				Logger log = Logger.getAnonymousLogger();
-				log.severe("RunTime exception while managing the game" + e);
-			} catch (ReflectiveOperationException e) {
-				Logger log = Logger.getAnonymousLogger();
-				log.severe("ReflectiveOperationException while managing the game"
-						+ e);
-			} catch (ExceptionInInitializerError e) {
-				Logger log = Logger.getAnonymousLogger();
-				log.severe("ExceptionInInitializerError while managing the game"
-						+ e);
+				log.severe("Problems in the game execution:" + e);
 			}
 			if (nextMethod == "gameOver")
 				throw new GameOverException();
