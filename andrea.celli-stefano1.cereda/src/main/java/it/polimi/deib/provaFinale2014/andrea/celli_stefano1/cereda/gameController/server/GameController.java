@@ -67,7 +67,6 @@ public class GameController implements Runnable {
 		clients = playerClients;
 	}
 
-	// TODO manage all the game
 	/** Start the game */
 	public void run() {
 
@@ -75,9 +74,8 @@ public class GameController implements Runnable {
 		try {
 			manageGame();
 		} catch (GameOverException e) {
-			;
+			calculateWinner();
 		}
-
 	}
 
 	/**
@@ -523,10 +521,13 @@ public class GameController implements Runnable {
 				executeMove.executeBuyCardMove((BuyCardMove) newMove,
 						boardStatus);
 			} else {
-				if (newMove instanceof MovePlayer)
+				if (newMove instanceof MovePlayer) {
+					// set the cost before execute the move
+					((MovePlayer) newMove).setCost(moveCostCalculator
+							.getMoveCost(newMove));
 					executeMove.executeMovePlayer((MovePlayer) newMove,
 							boardStatus);
-				else if (newMove instanceof MoveSheep)
+				} else if (newMove instanceof MoveSheep)
 					executeMove.executeMoveSheep((MoveSheep) newMove,
 							boardStatus);
 			}
@@ -545,7 +546,6 @@ public class GameController implements Runnable {
 	 * @TODO test
 	 */
 	private String updateClients() {
-
 		// the method send the move to all the clients
 		for (ClientHandler client : clients.toArray(new ClientHandler[clients
 				.size()])) {
@@ -568,4 +568,16 @@ public class GameController implements Runnable {
 		numberOfMoves = 0;
 		return "goOn";
 	}
+
+	/**
+	 * CalculateWinner calcultes the winner of a game and comunicates it to the
+	 * clients
+	 * 
+	 * @return Player
+	 * @author Andrea
+	 */
+	private void calculateWinner() {
+		;
+	}
+
 }
