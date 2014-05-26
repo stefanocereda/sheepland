@@ -20,6 +20,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.Client
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandler;
 
+import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -71,8 +72,12 @@ public class GameController implements Runnable {
 	public void run() {
 
 		initializeAll();
+		try {
+			manageGame();
+		} catch (GameOverException e) {
+			;
+		}
 
-		manageGame();
 	}
 
 	/**
@@ -81,13 +86,38 @@ public class GameController implements Runnable {
 	 * computation, the next method to be called. Every method that is called in
 	 * manageGame() returns a string cointaining the name of the next method.
 	 * Using getMethod(...) it gets the Method Object which is later invoked
-	 * using invoke(...). The process terminates when a gameOver exception is
-	 * raised. After that the winner is determined and the game ends.
+	 * using invoke(...). The process terminates when goOn() return the string
+	 * "gameOver". At this point a GameOverException is thrown.
 	 * 
+	 * @throws GameOverException
+	 *             when the game is over
 	 * @author Andrea
 	 */
-	private void manageGame() {
-
+	private void manageGame() throws GameOverException {
+		// the first turn starts with a blackSheep move
+		String nextMethod = "blackSheep";
+		// the loop ends when GameOverException is raised
+		while (true) {
+			try {
+				// finds the new method
+				Method method = getClass().getMethod(nextMethod, null);
+				// invoke the new method
+				nextMethod = (String) method.invoke(this, null);
+			} catch (RuntimeException e) {
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("RunTime exception while managing the game" + e);
+			} catch (ReflectiveOperationException e) {
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("ReflectiveOperationException while managing the game"
+						+ e);
+			} catch (ExceptionInInitializerError e) {
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("ExceptionInInitializerError while managing the game"
+						+ e);
+			}
+			if (nextMethod == "gameOver")
+				throw new GameOverException();
+		}
 	}
 
 	/**
@@ -375,7 +405,7 @@ public class GameController implements Runnable {
 	 * @return String the name of the next method that has to be called in
 	 *         manageGame().
 	 * @author Andrea
-	 * @TODO specify the catch for ClassNotFoundException, Test
+	 * @TODO Test
 	 */
 
 	private String askMoveToClient() {
@@ -416,7 +446,8 @@ public class GameController implements Runnable {
 				return "goOn";
 			}
 		} catch (ClassNotFoundException e) {
-
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("class not found:" + e);
 			return "askMoveToClient";
 		}
 
@@ -471,7 +502,8 @@ public class GameController implements Runnable {
 					return "askMoveToClientAgain";
 			}
 		} catch (ClassNotFoundException e) {
-			/** @TODO what to do here? */
+			Logger log = Logger.getAnonymousLogger();
+			log.severe("class not found:" + e);
 			return "askMoveToClientAgain";
 		}
 
@@ -510,7 +542,7 @@ public class GameController implements Runnable {
 	 * @return String the name of the next method that has to be called in
 	 *         manageGame().
 	 * @author Andrea
-	 * @TODO test,catch!
+	 * @TODO test
 	 */
 	private String updateClients() {
 
@@ -520,7 +552,9 @@ public class GameController implements Runnable {
 			try {
 				client.executeMove(newMove);
 			} catch (ClientDisconnectedException e) {
-				/** @TODO here */
+				Logger log = Logger.getAnonymousLogger();
+				log.severe("A CLIENT DISCONNECTED: " + e);
+				notifyDisconnection(e.getPlayer());
 			}
 		}
 		// if the current player has to do other moves the system goes back
