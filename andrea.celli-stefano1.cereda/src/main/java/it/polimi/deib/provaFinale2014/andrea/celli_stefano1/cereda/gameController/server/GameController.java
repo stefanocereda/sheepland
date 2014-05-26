@@ -51,6 +51,12 @@ public class GameController implements Runnable {
 	private ExecuteAction executeMove;
 
 	/**
+	 * an counter that keeps track of the number of move made by one player in
+	 * his turn
+	 */
+	private int numberOfMoves;
+
+	/**
 	 * GameController constructor
 	 * 
 	 * @param playerClients
@@ -93,6 +99,7 @@ public class GameController implements Runnable {
 		moveCostCalculator = MoveCostCalculator.create();
 		newMove = null;
 		executeMove = new ExecuteAction();
+		numberOfMoves = 1;
 
 		// init the board
 		initBoard();
@@ -318,6 +325,7 @@ public class GameController implements Runnable {
 	 * @returns String the name of the next method that has to be called in
 	 *          manageGame()
 	 * @author Andrea
+	 * @TODO test
 	 */
 	private String blackSheep() {
 		Dice dice = Dice.create();
@@ -471,6 +479,8 @@ public class GameController implements Runnable {
 	/**
 	 * executeNewMove() updates the boardStatus of the Server.
 	 * 
+	 * @return String the name of the next method that has to be called in
+	 *         manageGame().
 	 * @author Andrea
 	 */
 	private String executeNewMove() {
@@ -495,6 +505,30 @@ public class GameController implements Runnable {
 	/**
 	 * updateClients() send the new move to all the clients.
 	 * 
+	 * @return String the name of the next method that has to be called in
+	 *         manageGame().
 	 * @author Andrea
+	 * @TODO test,catch!
 	 */
+	private String updateClients() {
+
+		// the method send the move to all the clients
+		for (ClientHandler client : clients.values()) {
+			try {
+				client.executeMove(newMove);
+			} catch (ClientDisconnectedException e) {
+				/** @TODO here */
+			}
+		}
+		// if the current player has to do other moves the system goes back
+		// to askMoveToClient()
+		// otherwise it select a new current player
+		if (numberOfMoves < 3) {
+			numberOfMoves++;
+			return "askMoveToClient";
+		}
+		// a new player has to start his turn
+		numberOfMoves = 0;
+		return "goOn";
+	}
 }
