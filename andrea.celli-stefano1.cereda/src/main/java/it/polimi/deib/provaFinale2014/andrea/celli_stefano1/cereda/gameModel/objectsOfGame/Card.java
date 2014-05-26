@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
+import java.io.Serializable;
+
 /**
  * Enum of all the possible cards, including initial ones shared between all the
  * games
@@ -7,7 +9,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ob
  * @author Stefano
  * 
  */
-public enum Card {
+public enum Card implements Serializable {
 	PLAINi(TerrainType.PLAIN, true, 0), PLAIN0(TerrainType.PLAIN, false, 0), PLAIN1(
 			TerrainType.PLAIN, false, 1), PLAIN2(TerrainType.PLAIN, false, 2), PLAIN3(
 			TerrainType.PLAIN, false, 3), PLAIN4(TerrainType.PLAIN, false, 4),
