@@ -71,4 +71,11 @@ public enum Card implements Serializable {
 	public int getNumber() {
 		return number;
 	}
+
+	/**
+	 * @return the string rapresenting a card
+	 */
+	public String toString() {
+		return this.terrainType.toString() + " " + this.number;
+	}
 }
