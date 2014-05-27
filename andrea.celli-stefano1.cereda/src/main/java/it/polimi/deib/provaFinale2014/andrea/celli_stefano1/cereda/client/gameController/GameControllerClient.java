@@ -104,32 +104,29 @@ public class GameControllerClient {
 		} else if (move instanceof MoveBlackSheep)
 			executeAction.executeMoveBlackSheep((MoveBlackSheep) move,
 					boardStatus);
+
+		userInterface.notifyMove(move);
 	}
 
-	// TODO
 	public void notifyNotValidMove() {
-		// TODO Auto-generated method stub
-
+		userInterface.notifyNotValidMove();
 	}
 
 	public Move getNewMove() {
-		// TODO Auto-generated method stub
 		return userInterface.getNewMove();
 	}
 
 	public void notifyDisconnection() {
-		// TODO Auto-generated method stub
-
+		userInterface.notifyDisconnection();
 	}
 
 	public void setCurrentPlayer(Player newCurrentPlayer) {
-		// TODO Auto-generated method stub
 		boardStatus.setCurrentPlayer(newCurrentPlayer);
+		userInterface.notifyCurrentPlayer(newCurrentPlayer);
 	}
 
 	public void notifyWinners(ArrayList<Player> winners) {
-		// TODO Auto-generated method stub
-
+		userInterface.notifyWinners(winners);
 	}
 
 }

@@ -97,4 +97,29 @@ public class InterfaceFake implements Interface {
 
 		return new BuyCardMove(player, card);
 	}
+
+	public void notifyMove(Move move) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void notifyNotValidMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void notifyDisconnection() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void notifyCurrentPlayer(Player newCurrentPlayer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void notifyWinners(ArrayList<Player> winners) {
+		// TODO Auto-generated method stub
+		
+	}
 }

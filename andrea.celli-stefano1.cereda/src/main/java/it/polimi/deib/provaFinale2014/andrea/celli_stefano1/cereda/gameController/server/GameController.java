@@ -217,7 +217,7 @@ public class GameController implements Runnable {
 			} catch (ClientDisconnectedException e) {
 				Logger log = Logger.getAnonymousLogger();
 				log.severe("A CLIENT DISCONNECTED: " + e);
-				notifyDisconnection(e.getPlayer());
+				catchDisconnection(e.getPlayer());
 			}
 		}
 	}
@@ -253,6 +253,23 @@ public class GameController implements Runnable {
 		}
 	}
 
+	/**
+	 * This method handles the disconnection of a client. It searches the
+	 * correspondent client handler and notifies the disconnection, that method
+	 * will send the notification both to the server acceptor(so the client can
+	 * reconnect) and to the notifyDisconnection method if tgis class that
+	 * actually suspend the player.
+	 * 
+	 * @return
+	 */
+	private void catchDisconnection(Player p) {
+		for (int i = 0; i < clients.size(); i++)
+			if (clients.get(i).getPlayer().equals(p)) {
+				clients.get(i).notifyClientDisconnection();
+				break;
+			}
+	}
+
 	/** This method reconnect a player changing his ConnectionHandler */
 	public void notifyReconnection(Player player, ClientHandler newClientHandler) {
 		// search the old client handler
@@ -274,7 +291,7 @@ public class GameController implements Runnable {
 		} catch (ClientDisconnectedException e) {
 			Logger log = Logger.getAnonymousLogger();
 			log.severe("A CLIENT DISCONNECTED: " + e);
-			notifyDisconnection(e.getPlayer());
+			catchDisconnection(e.getPlayer());
 		}
 	}
 
@@ -317,7 +334,7 @@ public class GameController implements Runnable {
 			} catch (ClientDisconnectedException e) {
 				Logger log = Logger.getAnonymousLogger();
 				log.severe("A CLIENT DISCONNECTED: " + e);
-				notifyDisconnection(e.getPlayer());
+				catchDisconnection(e.getPlayer());
 
 				// if the current player has been suspended another current
 				// player has to be selected
@@ -457,7 +474,7 @@ public class GameController implements Runnable {
 		} catch (ClientDisconnectedException e) {
 			Logger log = Logger.getAnonymousLogger();
 			log.severe("A CLIENT DISCONNECTED: " + e);
-			notifyDisconnection(e.getPlayer());
+			catchDisconnection(e.getPlayer());
 
 			// check if the player that lost the connection is the current
 			// player
@@ -516,7 +533,7 @@ public class GameController implements Runnable {
 		} catch (ClientDisconnectedException e) {
 			Logger log = Logger.getAnonymousLogger();
 			log.severe("A CLIENT DISCONNECTED: " + e);
-			notifyDisconnection(e.getPlayer());
+			catchDisconnection(e.getPlayer());
 
 			// check if the player that lose the connection is the currentPlayer
 			if (e.getPlayer().equals(currentPlayer)) {
@@ -582,7 +599,7 @@ public class GameController implements Runnable {
 			} catch (ClientDisconnectedException e) {
 				Logger log = Logger.getAnonymousLogger();
 				log.severe("A CLIENT DISCONNECTED: " + e);
-				notifyDisconnection(e.getPlayer());
+				catchDisconnection(e.getPlayer());
 			}
 		}
 		// if the current player has to do other moves the system goes back
@@ -615,7 +632,7 @@ public class GameController implements Runnable {
 	 * @Returns winners the arrayList of winners
 	 * @author Andrea
 	 */
-	public ArrayList<Player> findWinner() {
+	private ArrayList<Player> findWinner() {
 		ArrayList<Player> winners = new ArrayList<Player>();
 		Integer currentValue;
 		int max;
@@ -686,7 +703,7 @@ public class GameController implements Runnable {
 			} catch (ClientDisconnectedException e) {
 				Logger log = Logger.getAnonymousLogger();
 				log.severe("A CLIENT DISCONNECTED: " + e);
-				notifyDisconnection(e.getPlayer());
+				catchDisconnection(e.getPlayer());
 			}
 		}
 	}

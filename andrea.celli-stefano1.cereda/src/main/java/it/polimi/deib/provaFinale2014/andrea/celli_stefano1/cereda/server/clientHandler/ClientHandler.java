@@ -45,6 +45,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 	/** This constructor sets the server starter and starts the ping thread */
 	public ClientHandler(ServerStarter creator) {
 		serverStarter = creator;
+		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTaskPing, Costants.PING_TIME,
 				Costants.PING_TIME);
 	}
@@ -93,7 +94,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 	public void notifyClientDisconnection() {
 		if (id != 0 && gameController != null && controlledPlayer != null) {
 			// otherwise it disconnected too soon
-
+			timer.cancel();
 			gameController.notifyDisconnection(controlledPlayer);
 			serverStarter.notifyDisconnection(id);
 		}
