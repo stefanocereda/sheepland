@@ -213,7 +213,23 @@ public class GameController implements Runnable {
 	private void chooseInitialPositions() {
 		for (ClientHandler ch : clients.toArray(new ClientHandler[clients
 				.size()])) {
-			// TODO
+			Road returned = null;
+			do {
+				try {
+					returned = ch.askInitialPosition();
+				} catch (ClientDisconnectedException e) {
+					Logger log = Logger.getAnonymousLogger();
+					log.severe("A CLIENT DISCONNECTED: " + e);
+					catchDisconnection(e.getPlayer());
+					break;
+				} catch (ClassNotFoundException e) {
+					Logger log = Logger.getAnonymousLogger();
+					log.severe("PROBLEM IN THE PROTOCOL: " + e);
+					break;
+				}
+			} while (!boardStatus.isFreeRoad(returned));
+			ch.getPlayer().move(returned);
+			sendStatusToAllPlayers();
 		}
 	}
 

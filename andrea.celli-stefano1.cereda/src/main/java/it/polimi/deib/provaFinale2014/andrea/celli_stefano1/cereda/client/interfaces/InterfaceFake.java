@@ -11,6 +11,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -185,7 +186,9 @@ public class InterfaceFake implements Interface {
 	}
 
 	public Road chooseInitialPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		Dice dice = Dice.create();
+		Map<Integer, Road> roads = gameController.getBoardStatus().getRoadMap()
+				.getHashMapOfRoads();
+		return roads.get(dice.roll(roads.size()));
 	}
 }

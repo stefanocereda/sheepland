@@ -108,6 +108,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					getAndSetNewCurrentPlayer();
 				else if (command.equals(SocketMessages.SEND_WINNERS))
 					getWinners();
+				else if (command.equals(SocketMessages.ASK_INITIAL_POSITION))
+					chooseInitialPosition();
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
