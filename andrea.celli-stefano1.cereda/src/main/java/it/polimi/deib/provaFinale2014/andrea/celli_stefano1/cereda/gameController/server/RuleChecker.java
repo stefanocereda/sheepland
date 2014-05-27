@@ -6,6 +6,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 
@@ -60,7 +62,7 @@ public class RuleChecker {
 					&& isAffordable((PlayerAction) moveToCheck, actualStatus)
 					&& isCorrectTurn((PlayerAction) moveToCheck, oldMoves);
 
-		// otherwise (a move done automatically, like the balcksheep at the end
+		// otherwise (a move done automatically, like the blacksheep at the end
 		// of the turn, only check if it'a valid move
 		else
 			return isCorrectMove(moveToCheck, actualStatus);
@@ -124,7 +126,7 @@ public class RuleChecker {
 	}
 
 	/**
-	 * Check if a shepherd is moving correctly
+	 * Check if a shepherd is moving correctly (moving on a free road)
 	 * 
 	 * @param move
 	 *            the MovePlayer to check
@@ -168,7 +170,8 @@ public class RuleChecker {
 
 	/**
 	 * Check if a buy move is valid: the card must be of the same type of one of
-	 * the two adjacent regions
+	 * the two adjacent regions. It's also not valid if it's a card not in the
+	 * deck or if there's cheaper card of the same type
 	 * 
 	 * @param move
 	 *            The BuyCardMove to check
@@ -179,6 +182,21 @@ public class RuleChecker {
 	 */
 	private boolean isCorrectMoveBuyCard(BuyCardMove move,
 			BoardStatus boardStatus) {
+		// get the type of the card
+		TerrainType tBuying = move.getNewCard().getTerrainType();
+
+		// check if it's in the deck
+		Deck deck = boardStatus.getDeck();
+		if (!deck.contains(move.getNewCard()))
+			return false;
+
+		// check for cheaper cards
+		for (Card c : deck) {
+			if (c.getTerrainType().equals(tBuying)
+					&& c.getNumber() < move.getNewCard().getNumber())
+				return false;
+		}
+
 		// get the adjacent terrains
 		Terrain[] adjacentTerrains = move.getPlayer().getPosition()
 				.getAdjacentTerrains();
@@ -186,9 +204,6 @@ public class RuleChecker {
 		// and their types
 		TerrainType t1 = adjacentTerrains[0].getTerrainType();
 		TerrainType t2 = adjacentTerrains[1].getTerrainType();
-
-		// and the type of the card
-		TerrainType tBuying = move.getNewCard().getTerrainType();
 
 		// now check if the type is valid
 		if (t1.equals(tBuying) || t2.equals(tBuying))
@@ -218,22 +233,20 @@ public class RuleChecker {
 		Object firstMoveType = oldMoves.get(0).getClass();
 		Object thisMoveType = moveToCheck.getClass();
 
-		// the second is correct if it's different from the first or if one of
-		// the two is a shepherd move
+		// the second is correct if it's different from the first or if they're
+		// both move player
 		if (oldMoves.size() == 1)
 			return ((!firstMoveType.equals(thisMoveType))
 					|| (firstMoveType.equals(MovePlayer.class)) || (thisMoveType
 						.equals(MovePlayer.class)));
 
-		// this is the third move, is correct if it's different from both the
-		// previous or if one of the three is a shepherd move
+		// this is the third move, is correct if: 1)they're all different 2)it's
+		// equals to the first and the second is a moveplayer 3)it's equals to
+		// the second and they're both moveplayer => all different or the second
+		// is a move player
 		Object secondMoveType = oldMoves.get(1).getClass();
 		return (((!firstMoveType.equals(thisMoveType)) && (!secondMoveType
-				.equals(thisMoveType)))
-				|| (firstMoveType.equals(MovePlayer.class))
-				|| (secondMoveType.equals(MovePlayer.class)) || (thisMoveType
-					.equals(MovePlayer.class)));
-
+				.equals(thisMoveType))) || (secondMoveType
+				.equals(MovePlayer.class)));
 	}
-
 }

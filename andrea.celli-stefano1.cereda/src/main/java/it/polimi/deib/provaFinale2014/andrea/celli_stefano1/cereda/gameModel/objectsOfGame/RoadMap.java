@@ -33,7 +33,7 @@ public class RoadMap extends GenericGameObject {
 	private RoadMap() {
 		roadMap = new HashMap<Integer, Road>();
 		// initialization of the roads
-		roadMap.put(1, new Road(2, Terrain.P1, Terrain.P2));
+		roadMap.put(1, new Road(2, Terrain.P1, Terrain.C2));
 		roadMap.put(2, new Road(3, Terrain.C2, Terrain.C1));
 		roadMap.put(3, new Road(1, Terrain.C1, Terrain.M2));
 		roadMap.put(4, new Road(1, Terrain.P1, Terrain.P2));
@@ -267,6 +267,12 @@ public class RoadMap extends GenericGameObject {
 		roadMap.get(42).add(roadMap.get(37));
 	}
 
+	/** This method sets the IDs for all the roads */
+	private void setIDs() {
+		for (int i = 1; i <= roadMap.size(); i++)
+			roadMap.get(i).setID();
+	}
+
 	/**
 	 * getRoadMap() is a static method that creates a RoadMap if it doesn't
 	 * already exist, otherwise it will return the existing road map.
@@ -278,6 +284,7 @@ public class RoadMap extends GenericGameObject {
 		if (completeMap == null) {
 			completeMap = new RoadMap();
 			completeMap.addAdjacentRoads();
+			completeMap.setIDs();
 		}
 		return completeMap;
 	}
