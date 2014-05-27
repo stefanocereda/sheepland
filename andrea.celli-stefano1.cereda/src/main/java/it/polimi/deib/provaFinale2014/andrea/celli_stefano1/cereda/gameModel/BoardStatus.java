@@ -291,15 +291,15 @@ public class BoardStatus implements Serializable {
 	 */
 	public Map<Terrain, Integer> calculateNumberOfSheepForEachTerrain() {
 		Map<Terrain, Integer> map = new HashMap<Terrain, Integer>();
-		int currentValue;
+		int newValue;
 
+		// initialize all the values
+		for (Terrain terrain : terrains)
+			map.put(terrain, 0);
 		for (Sheep sheep : sheeps) {
 			if (map.containsKey(sheep.getPosition())) {
-				currentValue = map.get(sheep.getPosition()) + 1;
-				map.put(sheep.getPosition(), currentValue);
-			} else {
-				currentValue = 1;
-				map.put(sheep.getPosition(), currentValue);
+				newValue = map.get(sheep.getPosition()) + 1;
+				map.put(sheep.getPosition(), newValue);
 			}
 		}
 

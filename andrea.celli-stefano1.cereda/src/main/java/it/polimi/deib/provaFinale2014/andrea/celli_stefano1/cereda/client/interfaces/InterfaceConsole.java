@@ -8,9 +8,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -185,6 +187,11 @@ public class InterfaceConsole implements Interface {
 	 * @return move
 	 */
 	private Move askForMoveSheep() {
+		HashMap<Terrain, Integer> map = (HashMap) gameController
+				.getBoardStatus().calculateNumberOfSheepForEachTerrain();
+
+		// print the number of sheep for each terrain
+		System.out.println("There are the number of sheep for each terrain");
 		return null;
 	}
 
