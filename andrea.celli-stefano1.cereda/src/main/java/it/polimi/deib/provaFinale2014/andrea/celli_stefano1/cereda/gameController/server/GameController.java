@@ -103,14 +103,14 @@ public class GameController implements Runnable {
 		while (true) {
 			try {
 				// finds the new method
-				Method method = getClass().getMethod(nextMethod, null);
+				Method method = getClass().getDeclaredMethod(nextMethod, null);
 				// invoke the new method
 				nextMethod = (String) method.invoke(this, null);
 			} catch (Exception e) {
 				Logger log = Logger.getAnonymousLogger();
 				log.severe("Problems in the game execution:" + e);
 			}
-			if (nextMethod == "gameOver")
+			if (nextMethod.equals("gameOver"))
 				throw new GameOverException();
 		}
 	}
