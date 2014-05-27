@@ -12,7 +12,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A complete representation of the game panel, territories, roads, players and
@@ -277,6 +279,31 @@ public class BoardStatus implements Serializable {
 				return index;
 			}
 		return players.getPlayers().length + 1;
+	}
+
+	/**
+	 * This method creates a Map that associates to each terrain the number of
+	 * sheep that contains. It's used in the CL interface. (The blackSheep is
+	 * added
+	 * 
+	 * @return a map that has Terrain as keys and Integer as mapped values.
+	 * @Andrea
+	 */
+	public Map<Terrain, Integer> calculateNumberOfSheepForEachTerrain() {
+		Map<Terrain, Integer> map = new HashMap<Terrain, Integer>();
+		int currentValue;
+
+		for (Sheep sheep : sheeps) {
+			if (map.containsKey(sheep.getPosition())) {
+				currentValue = map.get(sheep.getPosition()) + 1;
+				map.put(sheep.getPosition(), currentValue);
+			} else {
+				currentValue = 1;
+				map.put(sheep.getPosition(), currentValue);
+			}
+		}
+
+		return map;
 	}
 
 }

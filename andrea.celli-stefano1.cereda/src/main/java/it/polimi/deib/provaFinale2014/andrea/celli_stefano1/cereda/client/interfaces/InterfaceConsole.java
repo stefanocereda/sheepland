@@ -177,6 +177,13 @@ public class InterfaceConsole implements Interface {
 				.getCurrentPlayer(), allRoads.get(newRoad), 0);
 	}
 
+	/**
+	 * This method is used to ask to the player a new MoveSheep move. In order
+	 * to help the player to choose a sheep the method will display the number
+	 * of sheep in each terrain of the map.
+	 * 
+	 * @return move
+	 */
 	private Move askForMoveSheep() {
 		return null;
 	}
