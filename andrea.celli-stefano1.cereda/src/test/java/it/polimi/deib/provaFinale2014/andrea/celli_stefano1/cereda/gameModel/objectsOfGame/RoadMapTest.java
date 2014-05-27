@@ -3,11 +3,12 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
-import static org.junit.Assert.*;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -46,4 +47,16 @@ public class RoadMapTest {
 		assertNotNull(roads);
 	}
 
+	@Test
+	public void findRoadsAdjacentToATerrainTest() {
+		Set<Road> adjacentRoad = new HashSet<Road>();
+		RoadMap map = RoadMap.getRoadMap();
+		// roads adjacents to the terrain d3
+		adjacentRoad.add(map.getHashMapOfRoads().get(26));
+		adjacentRoad.add(map.getHashMapOfRoads().get(27));
+		adjacentRoad.add(map.getHashMapOfRoads().get(35));
+
+		Set<Road> roads = map.findRoadsAdjacentToATerrain(Terrain.D3);
+		assertEquals(adjacentRoad, roads);
+	}
 }

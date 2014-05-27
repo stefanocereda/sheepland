@@ -287,9 +287,16 @@ public class RoadMap extends GenericGameObject {
 		return roadMap;
 	}
 
+	/**
+	 * This methods builds a set containing the roads adjacent to a specified
+	 * terrain.
+	 * 
+	 * @param terrain
+	 * @return Set of road adjacent to a terrain
+	 */
 	public Set<Road> findRoadsAdjacentToATerrain(Terrain terrain) {
 		Set<Road> nearRoads = new HashSet<Road>();
-		for (int index = 0; index <= Costants.NUMBER_OF_ROADS; index++)
+		for (int index = 1; index <= Costants.NUMBER_OF_ROADS; index++)
 			for (Terrain terrainNearTheRoad : roadMap.get(index)
 					.getAdjacentTerrains())
 				if (terrain == terrainNearTheRoad)
