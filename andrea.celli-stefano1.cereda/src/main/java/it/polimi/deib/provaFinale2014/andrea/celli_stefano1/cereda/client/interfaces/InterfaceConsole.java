@@ -1,8 +1,10 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.Scanner;
  */
 public class InterfaceConsole implements Interface {
 
+	GameControllerClient gameController;
 	Scanner in = new Scanner(System.in);
 
 	/**
@@ -30,7 +33,6 @@ public class InterfaceConsole implements Interface {
 	 * ask to choose one of them.
 	 * 
 	 * @return move the move to send to the server
-	 * @author Andrea
 	 */
 	public Move getNewMove() {
 		String answer;
@@ -48,14 +50,14 @@ public class InterfaceConsole implements Interface {
 
 		// depending on the type of move the method goes on asking for
 		// information to the player
+
 		// buy a new card
 		if (answer.equals(TypeOfPlayerMoves.BUYCARD.getName()))
-			;
-		// it displays the cards remaining in the deck
+			return askForBuyCardMove();
 		return null;
 	}
 
-	public void setReferencetoStatus(BoardStatus boardStatus) {
+	public void setReferenceToGameController(GameControllerClient gameController) {
 		// TODO Auto-generated method stub
 
 	}
@@ -104,6 +106,31 @@ public class InterfaceConsole implements Interface {
 			if (array[index].toString().equals(answer))
 				return true;
 		return false;
+	}
+
+	/**
+	 * This method is used to ask and create a new buyCardMove
+	 * 
+	 * @return move the new buycard move
+	 */
+	private Move askForBuyCardMove() {
+		String answer;
+		// it displays the cards remaining in the deck
+		for (Card card : gameController.getBoardStatus().getDeck())
+			System.out.println(card.toString());
+		// ask to choose a card
+		do {
+			answer = in.nextLine();
+		} while (!isCorrectAnswer(gameController.getBoardStatus().getDeck()
+				.toArray(), answer));
+		// looks for the card
+		for (Card card : gameController.getBoardStatus().getDeck())
+			if (answer.equals(card.toString()))
+
+				// creates the move
+				return new BuyCardMove(gameController.getBoardStatus()
+						.getCurrentPlayer(), card);
+		return null;
 	}
 
 }

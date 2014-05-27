@@ -1,11 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -19,16 +14,21 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 public class InterfaceFake implements Interface {
-	private BoardStatus status;
+	GameControllerClient gameController;
 	Random rnd = new Random();
 
 	public Move getNewMove() {
 		return newRandomMove();
 	}
 
-	public void setReferencetoStatus(BoardStatus boardStatus) {
-		status = boardStatus;
+	public void setReferenceToGameController(GameControllerClient gameController) {
+		this.gameController = gameController;
 	}
 
 	private Move newRandomMove() {
@@ -49,11 +49,11 @@ public class InterfaceFake implements Interface {
 
 	private Move newMoveSheep() {
 		// randomly choose a player
-		Player[] players = status.getPlayers();
+		Player[] players = gameController.getBoardStatus().getPlayers();
 		Player player = players[rnd.nextInt(players.length)];
 
 		// randomly choose a sheep
-		List<Sheep> sheeps = status.getSheeps();
+		List<Sheep> sheeps = gameController.getBoardStatus().getSheeps();
 		Sheep sheep = sheeps.get(rnd.nextInt(sheeps.size()));
 
 		// and randomly choose a terrain
@@ -66,18 +66,19 @@ public class InterfaceFake implements Interface {
 
 	private Move newMovePlayer() {
 		// randomly choose a player
-		Player[] players = status.getPlayers();
+		Player[] players = gameController.getBoardStatus().getPlayers();
 		Player player = players[rnd.nextInt(players.length)];
 
 		// randomly choose a road
-		Map<Integer, Road> roads = status.getRoadMap().getHashMapOfRoads();
+		Map<Integer, Road> roads = gameController.getBoardStatus().getRoadMap()
+				.getHashMapOfRoads();
 		Road road = roads.get(rnd.nextInt(roads.size()));
 
 		return new MovePlayer(player, road, 0);
 	}
 
 	private Move newMoveBlackSheep() {
-		BlackSheep bs = status.getBlackSheep();
+		BlackSheep bs = gameController.getBoardStatus().getBlackSheep();
 
 		// and randomly choose a terrain
 		Terrain[] terrains = Terrain.values();
@@ -88,11 +89,11 @@ public class InterfaceFake implements Interface {
 
 	private Move newBuyCardMove() {
 		// randomly choose a player
-		Player[] players = status.getPlayers();
+		Player[] players = gameController.getBoardStatus().getPlayers();
 		Player player = players[rnd.nextInt(players.length)];
 
 		// and a card
-		Deck deck = status.getDeck();
+		Deck deck = gameController.getBoardStatus().getDeck();
 		Card card = deck.get(rnd.nextInt(deck.size()));
 
 		return new BuyCardMove(player, card);
@@ -100,26 +101,26 @@ public class InterfaceFake implements Interface {
 
 	public void notifyMove(Move move) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void notifyNotValidMove() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void notifyDisconnection() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void notifyWinners(ArrayList<Player> winners) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

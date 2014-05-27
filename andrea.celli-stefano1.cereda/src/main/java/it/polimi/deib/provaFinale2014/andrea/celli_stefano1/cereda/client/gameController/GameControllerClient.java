@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController;
 
-import java.util.ArrayList;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
@@ -12,6 +10,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+
+import java.util.ArrayList;
 
 /**
  * This class manage the game in the client executing the up-dates that are
@@ -33,7 +33,7 @@ public class GameControllerClient {
 	/** The constructor sets the interface */
 	public GameControllerClient(Interface userInterface) {
 		this.userInterface = userInterface;
-		userInterface.setReferencetoStatus(boardStatus);
+		userInterface.setReferenceToGameController(this);
 	}
 
 	/**
@@ -76,7 +76,6 @@ public class GameControllerClient {
 	 */
 	public void upDateStatus(BoardStatus newBoardStatus) {
 		this.boardStatus = newBoardStatus;
-		userInterface.setReferencetoStatus(newBoardStatus);
 	}
 
 	/**

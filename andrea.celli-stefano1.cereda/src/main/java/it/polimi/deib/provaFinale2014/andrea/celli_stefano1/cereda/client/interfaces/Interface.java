@@ -3,11 +3,11 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
-import java.util.ArrayList;
-
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+
+import java.util.ArrayList;
 
 /**
  * That's the interface of a user interface. It specifies the public methods
@@ -19,7 +19,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 public interface Interface {
 	public Move getNewMove();
 
-	public void setReferencetoStatus(BoardStatus boardStatus);
+	public void setReferenceToGameController(GameControllerClient gameController);
 
 	public void notifyMove(Move move);
 
