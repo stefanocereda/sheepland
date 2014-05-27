@@ -229,7 +229,8 @@ public class GameController implements Runnable {
 
 	/**
 	 * This method handle the disconnection of a player following the specs of
-	 * the project
+	 * the project. It waits for a while that the client reconnects and then go
+	 * on
 	 * 
 	 * @param pc
 	 *            the player to suspend

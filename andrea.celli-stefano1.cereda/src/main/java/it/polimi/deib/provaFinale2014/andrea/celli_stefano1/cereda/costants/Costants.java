@@ -56,14 +56,18 @@ public class Costants {
 	// TIME COSTANTS
 	//
 
+	/***
+	 * QUESTI SONO BASSI SOLO PER MOTIVI DI TESTING, ANDRANNO ALZATI
+	 * CAZZO!!!!!!! OCCHIO QUI!!!! TODO
+	 */
 	/** the milliseconds between each ping to a client */
-	public static final long PING_TIME = 20 * 1000;
+	public static final long PING_TIME = 10 * 1000;
 
 	/** The milliseconds waiting for the client pong */
-	public static final long PONG_WAITING_TIME = 5 * 1000;
+	public static final long PONG_WAITING_TIME = 10 * 1000;
 
 	/** The time in milliseconds waiting for the reconnection of a client */
-	public static final long WAITING_FOR_CLIENT_RECONNECT = 1 * 60 * 1000;// 1'
+	public static final long WAITING_FOR_CLIENT_RECONNECT = 0;// 1'
 
 	/**
 	 * The time in milliseconds that the client waits before trying to reconnect
