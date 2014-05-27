@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 
@@ -54,6 +55,10 @@ public interface ClientHandlerInterface {
 	 */
 	public void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException;
+
+	/** Ask the player to choose a road that will become his initial position 
+	 * @throws ClassNotFoundException */
+	public Road askInitialPosition() throws ClientDisconnectedException, ClassNotFoundException;
 
 	/**
 	 * Ping the client and throw a ClientDisconnectedException if it's

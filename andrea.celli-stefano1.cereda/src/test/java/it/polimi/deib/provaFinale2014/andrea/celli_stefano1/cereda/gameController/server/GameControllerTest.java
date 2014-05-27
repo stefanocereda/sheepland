@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
@@ -145,6 +146,12 @@ public class GameControllerTest {
 				throws ClientDisconnectedException {
 			// TODO Auto-generated method stub
 
+		}
+
+		public Road askInitialPosition() throws ClientDisconnectedException,
+				ClassNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

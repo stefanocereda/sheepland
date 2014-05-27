@@ -181,4 +181,9 @@ public class InterfaceConsole implements Interface {
 		return null;
 	}
 
+	public Road chooseInitialPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

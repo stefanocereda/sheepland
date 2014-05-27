@@ -33,7 +33,11 @@ public class Costants {
 	/** The number of roads in a map */
 	public static final int NUMBER_OF_ROADS = 42;
 
+	/** The default kind of user interface */
 	public static final TypeOfInterface DEFAULT_INTERFACE = TypeOfInterface.FAKE;
+
+	/** The initial money of each player */
+	public static final int INITIAL_MONEY = 20;
 
 	//
 	// NETWORK COSTANTS

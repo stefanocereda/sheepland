@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -24,7 +25,66 @@ public class InterfaceFake implements Interface {
 	Random rnd = new Random();
 
 	public Move getNewMove() {
-		return newRandomMove();
+		return newCorrectMove();
+	}
+
+	private Move newCorrectMove() {
+		BoardStatus status = gameController.getBoardStatus();
+		Player player = status.getCurrentPlayer();
+
+		// try to move on an adjacent road
+		player.hashCode();
+		player.getPosition();
+		player.getPosition().getNextRoads();
+
+		for (Road r : player.getPosition().getNextRoads()) {
+			if (status.isFreeRoad(r)) {
+				Move move = new MovePlayer(player, r, 0);
+				return move;
+			}
+		}
+
+		// if it wasn't possible try to move a sheep
+		for (Sheep s : status.getSheeps()) {
+			if (s.getPosition().equals(
+					player.getPosition().getAdjacentTerrains()[0])) {
+				Move move = new MoveSheep(player, s, player.getPosition()
+						.getAdjacentTerrains()[1]);
+				return move;
+			}
+			if (s.getPosition().equals(
+					player.getPosition().getAdjacentTerrains()[1])) {
+				Move move = new MoveSheep(player, s, player.getPosition()
+						.getAdjacentTerrains()[0]);
+				return move;
+			}
+		}
+
+		// if it wasn't possible try to buy a card
+		Deck deck = status.getDeck();
+		for (Card c : deck) {
+			if (c.getTerrainType().equals(
+					player.getPosition().getAdjacentTerrains()[0])
+					|| c.getTerrainType().equals(
+							player.getPosition().getAdjacentTerrains()[1])) {
+				Move move = new BuyCardMove(player, c);
+				return move;
+			}
+		}
+
+		// if it wasn't possible try to go on a random road
+		for (int i = 1; i <= status.getRoadMap().getHashMapOfRoads().size(); i++)
+			if (status.isFreeRoad(status.getRoadMap().getHashMapOfRoads()
+					.get(i))) {
+				Move move = new MovePlayer(player, status.getRoadMap()
+						.getHashMapOfRoads().get(i), 0);
+				return move;
+			}
+
+		// if it wasn't possible cazzi tuoi
+		System.err
+				.println("l'interfaccia fasulla non riesce a generare una mossa");
+		return null;
 	}
 
 	public void setReferenceToGameController(GameControllerClient gameController) {
@@ -122,5 +182,10 @@ public class InterfaceFake implements Interface {
 	public void notifyWinners(ArrayList<Player> winners) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Road chooseInitialPosition() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

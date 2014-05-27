@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarterRMI;
@@ -146,6 +147,18 @@ public class ClientHandlerRMI extends ClientHandler {
 			throws ClientDisconnectedException {
 		try {
 			clientObject.sendWinners(winners);
+		} catch (RemoteException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerRMI");
+			log.severe("RMI ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
+	}
+
+	public Road askInitialPosition() throws ClientDisconnectedException {
+		try {
+			return clientObject.askInitialPosition();
 		} catch (RemoteException e) {
 			Logger log = Logger
 					.getLogger("server.clientHandler.ClientHandlerRMI");

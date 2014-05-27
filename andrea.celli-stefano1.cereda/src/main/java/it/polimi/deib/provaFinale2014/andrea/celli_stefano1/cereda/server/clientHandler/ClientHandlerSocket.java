@@ -13,6 +13,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Cost
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarter;
@@ -232,5 +233,19 @@ public class ClientHandlerSocket extends ClientHandler {
 					controlledPlayer);
 		}
 
+	}
+
+	public Road askInitialPosition() throws ClientDisconnectedException, ClassNotFoundException {
+		out.println(SocketMessages.ASK_INITIAL_POSITION);
+		out.flush();
+		try {
+			return (Road) objectIn.readObject();
+		} catch (IOException e) {
+			Logger log = Logger
+					.getLogger("server.clientHandler.ClientHandlerSocket");
+			log.severe("SOCKET ERROR: " + e);
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer);
+		}
 	}
 }

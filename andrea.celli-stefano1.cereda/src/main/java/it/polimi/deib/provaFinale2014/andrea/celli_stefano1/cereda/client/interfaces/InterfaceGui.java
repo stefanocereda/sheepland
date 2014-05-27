@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
@@ -41,6 +42,11 @@ public class InterfaceGui implements Interface {
 	public void setReferenceToGameController(GameControllerClient gameController) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Road chooseInitialPosition() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Cost
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.io.IOException;
@@ -199,5 +200,12 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		ArrayList<Player> winners = (ArrayList<Player>) objectIn.readObject();
 		controller.notifyWinners(winners);
 		// TODO handle the closing
+	}
+
+	/** This method ask the user to choose the initial position and returns it */
+	private void chooseInitialPosition() throws IOException {
+		Road toReturn = controller.chooseInitialPosition();
+		objectOut.writeObject(toReturn);
+		objectOut.flush();
 	}
 }

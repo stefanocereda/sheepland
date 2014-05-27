@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.netwo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.rmi.Remote;
@@ -45,4 +46,7 @@ public interface RMIInterface extends Remote {
 
 	/** This method is used to check connection */
 	public void ping() throws RemoteException;
+
+	/** This method is used to choose the initial road */
+	public Road askInitialPosition() throws RemoteException;
 }

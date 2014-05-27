@@ -34,7 +34,10 @@ public class SocketMessages {
 	public static final String SET_CURRENT_PLAYER = "SET-CURRENT-PLAYER";
 
 	/** Tell the client that the game is over and send an arraylist of winners */
-	public static final Object SEND_WINNERS = "SEND-WINNERS";
+	public static final String SEND_WINNERS = "SEND-WINNERS";
+
+	/** ask the client to send an initial position */
+	public static final String ASK_INITIAL_POSITION = "SEND-INITIAL-POSITION";
 
 	/** Hide the default constructor */
 	private SocketMessages() {

@@ -9,6 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
@@ -126,6 +127,10 @@ public class GameControllerClient {
 
 	public void notifyWinners(ArrayList<Player> winners) {
 		userInterface.notifyWinners(winners);
+	}
+
+	public Road chooseInitialPosition() {
+		return userInterface.chooseInitialPosition();
 	}
 
 }

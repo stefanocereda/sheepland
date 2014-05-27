@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.netwo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.rmi.RemoteException;
@@ -44,5 +45,9 @@ public class RMIImpl implements RMIInterface {
 
 	public void ping() throws RemoteException {
 		// empty method
+	}
+
+	public Road askInitialPosition() throws RemoteException {
+		return controller.chooseInitialPosition();
 	}
 }

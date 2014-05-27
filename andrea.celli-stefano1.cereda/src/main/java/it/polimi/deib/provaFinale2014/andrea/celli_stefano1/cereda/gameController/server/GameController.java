@@ -145,6 +145,8 @@ public class GameController implements Runnable {
 		initCards();
 		deleteRemainingInitialCards();
 		chooseFirstPlayer();
+		sendStatusToAllPlayers();
+		chooseInitialPositions();
 	}
 
 	/**
@@ -157,6 +159,7 @@ public class GameController implements Runnable {
 			// create a player and add it to the board
 			Player p = new Player();
 			p.setID();
+			p.setMoney(Costants.INITIAL_MONEY);
 			boardStatus.addPlayerToBoardStatus(p);
 
 			// notify the client handler
@@ -204,6 +207,14 @@ public class GameController implements Runnable {
 		Player firstPlayer = players[sorted];
 		boardStatus.setCurrentPlayer(firstPlayer);
 		boardStatus.setFirstPlayer(firstPlayer);
+	}
+
+	/** Ask to each player to choose an initial position */
+	private void chooseInitialPositions() {
+		for (ClientHandler ch : clients.toArray(new ClientHandler[clients
+				.size()])) {
+			// TODO
+		}
 	}
 
 	/**
