@@ -3,6 +3,8 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameC
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceFake;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -26,7 +28,8 @@ public class GameControllerClientTest {
 	 */
 	@Test
 	public void executeMoveTest() {
-		GameControllerClient gameController = new GameControllerClient(null);
+		Interface ui = new InterfaceFake();
+		GameControllerClient gameController = new GameControllerClient(ui);
 		gameController.initializeGame(3);
 		Player player1 = new Player(5, gameController.getBoardStatus()
 				.getDeck().extractInitialCard(), gameController
