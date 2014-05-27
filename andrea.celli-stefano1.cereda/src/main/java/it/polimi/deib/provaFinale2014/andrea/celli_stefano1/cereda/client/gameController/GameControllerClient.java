@@ -33,6 +33,7 @@ public class GameControllerClient {
 	/** The constructor sets the interface */
 	public GameControllerClient(Interface userInterface) {
 		this.userInterface = userInterface;
+		userInterface.setReferencetoStatus(boardStatus);
 	}
 
 	/**
@@ -75,6 +76,7 @@ public class GameControllerClient {
 	 */
 	public void upDateStatus(BoardStatus newBoardStatus) {
 		this.boardStatus = newBoardStatus;
+		userInterface.setReferencetoStatus(newBoardStatus);
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class GameControllerClient {
 
 	public Move getNewMove() {
 		// TODO Auto-generated method stub
-		return null;
+		return userInterface.getNewMove();
 	}
 
 	public void notifyDisconnection() {
@@ -122,12 +124,12 @@ public class GameControllerClient {
 
 	public void setCurrentPlayer(Player newCurrentPlayer) {
 		// TODO Auto-generated method stub
-
+		boardStatus.setCurrentPlayer(newCurrentPlayer);
 	}
 
 	public void notifyWinners(ArrayList<Player> winners) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

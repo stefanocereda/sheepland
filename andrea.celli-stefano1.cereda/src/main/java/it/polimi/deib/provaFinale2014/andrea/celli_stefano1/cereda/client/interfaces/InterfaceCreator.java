@@ -4,10 +4,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 /**
+ * This class is an interface creator
+ * 
  * @author Stefano
  * 
  */
-public class InterfaceCreator implements Interface {
+public class InterfaceCreator {
 
 	public static Interface create(TypeOfInterface defaultInterface) {
 		switch (defaultInterface) {
