@@ -1,8 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -131,8 +129,7 @@ public class InterfaceConsole implements Interface {
 		String answer;
 		// it displays the cards remaining in the deck
 		System.out.println("The cards in the deck are: ");
-		for (Card card : gameController.getBoardStatus().getDeck())
-			System.out.println(card.toString());
+		show(gameController.getBoardStatus().getDeck().toArray());
 		// ask to choose a card
 		do {
 			System.out.println("Choose a card ");
@@ -159,17 +156,12 @@ public class InterfaceConsole implements Interface {
 				.getRoadMap().getHashMapOfRoads();
 
 		// the numbers identifying free roads
-		ArrayList<Integer> freeRoad = new ArrayList<Integer>();
-		// looks for the free roads and puts them in an arrayList
-		for (int i = 1; i <= Costants.NUMBER_OF_ROADS; i++)
-			if (gameController.getBoardStatus().isFreeRoad(allRoads.get(i)))
-				freeRoad.add(i);
+		ArrayList<Integer> freeRoad = (ArrayList<Integer>) gameController
+				.getBoardStatus().findFreeRoads();
 
 		// shows to the user the free roads
 		System.out.println("The free roads are: ");
-		for (Integer road : freeRoad) {
-			System.out.print(road + " ");
-		}
+		show(freeRoad.toArray());
 
 		// ask the user to choose a road
 		do {
@@ -250,20 +242,17 @@ public class InterfaceConsole implements Interface {
 	 */
 	public Road chooseInitialPosition() {
 		String answer;
-		ArrayList<Integer> freeRoads = new ArrayList<Integer>();
+		ArrayList<Integer> freeRoads;
 		Map<Integer, Road> roadMap = gameController.getBoardStatus()
 				.getRoadMap().getHashMapOfRoads();
-		BoardStatus actualBoardStatus = gameController.getBoardStatus();
 
 		// finds and shows the free roads (another player may have already
 		// choosen a road)
 		System.out
 				.println("Choose your initial position among the following roads:");
-		for (int i = 1; i <= Costants.NUMBER_OF_ROADS; i++)
-			if (actualBoardStatus.isFreeRoad(roadMap.get(i))) {
-				freeRoads.add(i);
-				System.out.print(" " + i + " ");
-			}
+		freeRoads = (ArrayList<Integer>) gameController.getBoardStatus()
+				.findFreeRoads();
+		show(freeRoads.toArray());
 
 		// wait for the answer and check if it the string represents a free road
 		do {
@@ -275,6 +264,17 @@ public class InterfaceConsole implements Interface {
 		Integer road = Integer.parseInt(answer);
 		// returns the road
 		return roadMap.get(road);
+	}
+
+	/**
+	 * This method prints the string values of a generic array of objects.
+	 * 
+	 * @param toShow
+	 */
+	private void show(Object[] toShow) {
+
+		for (int i = 0; i < toShow.length; i++)
+			System.out.println(toShow[i]);
 	}
 
 }

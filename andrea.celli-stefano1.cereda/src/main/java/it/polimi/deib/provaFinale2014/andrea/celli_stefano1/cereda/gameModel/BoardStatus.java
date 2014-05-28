@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
@@ -287,7 +288,7 @@ public class BoardStatus implements Serializable {
 	 * added
 	 * 
 	 * @return a map that has Terrain as keys and Integer as mapped values.
-	 * @Andrea
+	 * @author Andrea
 	 */
 	public Map<Terrain, Integer> calculateNumberOfSheepForEachTerrain() {
 		Map<Terrain, Integer> map = new HashMap<Terrain, Integer>();
@@ -304,6 +305,25 @@ public class BoardStatus implements Serializable {
 		}
 
 		return map;
+	}
+
+	/**
+	 * This method creates an List containing the ID number of all the free
+	 * roads in the map.
+	 * 
+	 * @return The List of the identifier of free roads
+	 * @author Andrea
+	 */
+	public List<Integer> findFreeRoads() {
+		ArrayList<Integer> freeRoads = new ArrayList<Integer>();
+		Map<Integer, Road> roadMap = getRoadMap().getHashMapOfRoads();
+
+		// finds the free roads
+		for (int i = 1; i <= Costants.NUMBER_OF_ROADS; i++)
+			if (this.isFreeRoad(roadMap.get(i))) {
+				freeRoads.add(i);
+			}
+		return freeRoads;
 	}
 
 }
