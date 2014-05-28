@@ -7,10 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.SocketMessages;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -19,13 +18,14 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.Client
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarter;
 
 /**
- * A socket version of a client handler
+ * A socket version of a client handler. This class manages the communication
+ * with the client by sending messages and objects on the socket. All the
+ * methods are synchronized in order to avoid the situation where we send a ping
+ * and get back a move
  * 
  * @author Stefano
  */
 public class ClientHandlerSocket extends ClientHandler {
-	/** The socket linked to the client */
-	private Socket socket;
 	/** The scanner on the socket */
 	private Scanner in;
 	/** The object input on the socket */
@@ -34,12 +34,13 @@ public class ClientHandlerSocket extends ClientHandler {
 	private PrintWriter out;
 	/** The object writer on the socket */
 	private ObjectOutputStream objectOut;
+
 	/** The number of this objects created */
 	private static int created = 0;
 
 	/**
-	 * creates a socket client handler, get the id sent by the client and send
-	 * back a new id (or the same if different from zero)
+	 * The constructor creates a socket client handler, gets the id sent by the
+	 * client and sends back a new id (or the same if different from zero)
 	 * 
 	 * @param creator
 	 *            the server starter that created this object
@@ -51,7 +52,6 @@ public class ClientHandlerSocket extends ClientHandler {
 	public ClientHandlerSocket(ServerStarter creator, Socket socket)
 			throws IOException {
 		super(creator);
-		this.socket = socket;
 
 		// open the streams
 		out = new PrintWriter(socket.getOutputStream());
@@ -69,43 +69,25 @@ public class ClientHandlerSocket extends ClientHandler {
 		out.flush();
 	}
 
-	/**
-	 * This method asks the client to send a new move, which is returned. The
-	 * client can give an impossible move so it must be checked
-	 * 
-	 * @return the move returned from the client
-	 * @throws ClassNotFoundException
-	 * @throws ClientDisconnectedException
-	 */
-	public synchronized Move askMove() throws ClassNotFoundException,
-			ClientDisconnectedException {
+	public synchronized Move askMove() throws ClientDisconnectedException,
+			ClassNotFoundException {
 
 		// Send the message
 		out.println(SocketMessages.ASK_NEW_MOVE);
 		out.flush();
 
+		// get the move
 		Move clientReturned = null;
-
 		try {
 			clientReturned = (Move) objectIn.readObject();
 		} catch (IOException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
+
 		return clientReturned;
 	}
 
-	/**
-	 * Send the client a move to be executed. The clients doesn't do any check
-	 * on the move so it must be already valid
-	 * 
-	 * @param moveToExecute
-	 *            to move to be executed
-	 * @throws ClientDisconnectedException
-	 */
 	public synchronized void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
 
@@ -116,22 +98,11 @@ public class ClientHandlerSocket extends ClientHandler {
 			objectOut.writeObject(moveToExecute);
 			objectOut.flush();
 		} catch (IOException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
-	/**
-	 * Say to the client that the last move wasn't valid, and waits for a new
-	 * one
-	 * 
-	 * @return a new Move
-	 * @throws ClassNotFoundException
-	 * @throws ClientDisconnectedException
-	 */
 	public synchronized Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
 
@@ -139,26 +110,16 @@ public class ClientHandlerSocket extends ClientHandler {
 		out.flush();
 
 		Move clientReturned;
-
 		try {
 			clientReturned = (Move) objectIn.readObject();
 		} catch (IOException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 
 		return clientReturned;
 	}
 
-	/**
-	 * Send to the client a new status to replace the old one
-	 * 
-	 * @throws ClientDisconnectedException
-	 * 
-	 */
 	public synchronized void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException {
 
@@ -169,39 +130,42 @@ public class ClientHandlerSocket extends ClientHandler {
 			objectOut.writeObject(newStatus);
 			objectOut.flush();
 		} catch (IOException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
-	/**
-	 * Ping the client and wait for his answer
-	 * 
-	 * @throws ClientDisconnectedException
-	 */
+	public synchronized Road askInitialPosition()
+			throws ClientDisconnectedException, ClassNotFoundException {
+		out.println(SocketMessages.ASK_INITIAL_POSITION);
+		out.flush();
+
+		try {
+			return (Road) objectIn.readObject();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
+
 	public synchronized void pingTheClient() throws ClientDisconnectedException {
 
 		out.println(SocketMessages.PING);
 		out.flush();
 
 		try {
-			Thread.sleep(Costants.PONG_WAITING_TIME);
+			Thread.sleep(TimeConstants.PONG_WAITING_TIME);
 		} catch (InterruptedException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.fine("thread interrupted: " + e);
-			timer.cancel();
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
 		}
 
 		if (!in.hasNextLine() || !in.nextLine().equals(SocketMessages.PONG))
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, null);
 	}
 
-	public void setCurrentPlayer(Player newCurrentPlayer)
+	public synchronized void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException {
 		out.println(SocketMessages.SET_CURRENT_PLAYER);
 		out.flush();
@@ -210,42 +174,22 @@ public class ClientHandlerSocket extends ClientHandler {
 			objectOut.writeObject(newCurrentPlayer);
 			objectOut.flush();
 		} catch (IOException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
-	public void sendWinners(ArrayList<Player> winners)
+	public synchronized void sendWinners(ArrayList<Player> winners)
 			throws ClientDisconnectedException {
 		out.println(SocketMessages.SEND_WINNERS);
 		out.flush();
+
 		try {
 			objectOut.writeObject(winners);
 			objectOut.flush();
 		} catch (IOException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.severe("SOCKET ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
-		}
-
-	}
-
-	public Road askInitialPosition() throws ClientDisconnectedException, ClassNotFoundException {
-		out.println(SocketMessages.ASK_INITIAL_POSITION);
-		out.flush();
-		try {
-			return (Road) objectIn.readObject();
-		} catch (IOException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerSocket");
-			log.severe("SOCKET ERROR: " + e);
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 }

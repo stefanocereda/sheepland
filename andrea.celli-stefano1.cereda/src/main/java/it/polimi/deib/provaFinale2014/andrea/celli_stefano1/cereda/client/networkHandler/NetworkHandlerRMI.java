@@ -9,10 +9,18 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Timer;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.RMICostants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
 
+/**
+ * The rmi version of a network handler. It connects to the server, receives an
+ * id and publish an object of type RMIInterface with the returned id as name
+ * 
+ * @author Stefano
+ * 
+ */
 public class NetworkHandlerRMI extends NetworkHandler {
 	/** The rmi registry */
 	private static Registry registry;
@@ -28,8 +36,9 @@ public class NetworkHandlerRMI extends NetworkHandler {
 		super(gameController);
 
 		// get the remote registry
-		registry = LocateRegistry.getRegistry(Costants.SERVER_RMI_ADDRESS,
-				Costants.REGISTRY_IP_PORT);
+		registry = LocateRegistry.getRegistry(
+				NetworkConstants.SERVER_RMI_ADDRESS,
+				NetworkConstants.REGISTRY_IP_PORT);
 
 		// Search the server acceptor
 		connector = (RMIConnector) registry.lookup(RMICostants.CONNECTOR);
@@ -53,8 +62,8 @@ public class NetworkHandlerRMI extends NetworkHandler {
 		// Start to periodically ping the server in order to catch our
 		// disconnection
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
-				Costants.PING_TIME);
+		timer.scheduleAtFixedRate(timerTaskPong, TimeConstants.PING_TIME,
+				TimeConstants.PING_TIME);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
@@ -319,7 +319,7 @@ public class BoardStatus implements Serializable {
 		Map<Integer, Road> roadMap = getRoadMap().getHashMapOfRoads();
 
 		// finds the free roads
-		for (int i = 1; i <= Costants.NUMBER_OF_ROADS; i++)
+		for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++)
 			if (this.isFreeRoad(roadMap.get(i))) {
 				freeRoads.add(i);
 			}

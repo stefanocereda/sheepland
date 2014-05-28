@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
@@ -16,7 +16,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceCreator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.DefaultConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
 
 /**
  * The main class of the client, asks for RMI/socket and creates a network
@@ -28,10 +29,13 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Cost
 public class ClientMainClass {
 	/** A user interface */
 	static Interface userInterface = InterfaceCreator
-			.create(Costants.DEFAULT_INTERFACE);
+			.create(DefaultConstants.DEFAULT_INTERFACE);
 	/** A Client game controller */
 	static GameControllerClient gameController = new GameControllerClient(
 			userInterface);
+
+	/** A logger */
+	static Logger logger = Logger.getLogger("client.ClientMainClass");
 
 	/** The main method of a client */
 	public static void main(String[] args) {
@@ -43,8 +47,8 @@ public class ClientMainClass {
 			try {
 				launchSocket();
 			} catch (IOException e) {
-				Logger log = Logger.getLogger("client.ClientMain");
-				log.severe("Unable to launch socket connection" + e);
+				String message = "Unable to start Socket connection";
+				logger.log(Level.SEVERE, message, e);
 			}
 		}
 
@@ -53,11 +57,11 @@ public class ClientMainClass {
 			try {
 				launchRMI();
 			} catch (RemoteException e) {
-				Logger log = Logger.getLogger("client.ClientMain");
-				log.severe("Unable to launch rmi connection" + e);
+				String message = "Unable to start rmi connection";
+				logger.log(Level.SEVERE, message, e);
 			} catch (NotBoundException e) {
-				Logger log = Logger.getLogger("client.ClientMain");
-				log.severe("Unable to launch rmi connection" + e);
+				String message = "Unable to start rmi connection";
+				logger.log(Level.SEVERE, message, e);
 			}
 		}
 	}
@@ -100,7 +104,7 @@ public class ClientMainClass {
 	 */
 	private static void launchSocket() throws IOException {
 		/** The server address */
-		InetSocketAddress serverAddress = Costants.SERVER_SOCKET_ADDRESS;
+		InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
 
 		NetworkHandlerSocket socketClient;
 

@@ -6,6 +6,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InterfaceGui implements Interface {
 
@@ -34,7 +35,7 @@ public class InterfaceGui implements Interface {
 
 	}
 
-	public void notifyWinners(ArrayList<Player> winners) {
+	public void notifyWinners(List<Player> winners) {
 		// TODO Auto-generated method stub
 
 	}

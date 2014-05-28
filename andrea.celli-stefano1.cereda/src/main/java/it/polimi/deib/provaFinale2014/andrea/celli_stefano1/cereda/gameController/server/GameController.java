@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
@@ -20,14 +21,17 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandler;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.hamcrest.core.IsSame;
 
 /**
  * This is the basic game controller, manages the communication from clients to
@@ -39,7 +43,7 @@ import java.util.logging.Logger;
 
 public class GameController implements Runnable {
 	/** The array of client handlers */
-	private ListOfClientHandler clients;
+	private List<ClientHandler> clients;
 
 	/** The actual status of this game */
 	private BoardStatus boardStatus;
@@ -47,28 +51,31 @@ public class GameController implements Runnable {
 	/** An object for rules validation */
 	private RuleChecker ruleChecker;
 
+	/** an object for updating the boardStatus */
+	private ExecuteAction executeMove;
+
 	/** an object for move cost calculation */
 	private MoveCostCalculator moveCostCalculator;
 
 	/** an attribute used to store the move that has to be managed */
 	private Move newMove;
 
-	/** an object for updating the boardStatus */
-	private ExecuteAction executeMove;
-
 	/**
-	 * an counter that keeps track of the number of move made by one player in
+	 * a counter that keeps track of the number of move made by one player in
 	 * his turn
 	 */
 	private int numberOfMoves;
 
+	/** A logger */
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+
 	/**
-	 * GameController constructor
+	 * GameController constructor, saves the list of clients
 	 * 
 	 * @param playerClients
 	 *            The list of clientHandlers for the players
 	 */
-	public GameController(ListOfClientHandler playerClients) {
+	public GameController(List<ClientHandler> playerClients) {
 		clients = playerClients;
 	}
 
@@ -76,42 +83,42 @@ public class GameController implements Runnable {
 	public void run() {
 
 		initializeAll();
-		try {
-			manageGame();
-		} catch (GameOverException e) {
-			calculateWinner();
-		}
+		manageGame();
+		calculateWinner();
 	}
 
 	/**
 	 * Manage the game process. The system has to behave as a FSM. For that
 	 * reason each method invoked determines,depending on the result of its
 	 * computation, the next method to be called. Every method that is called in
-	 * manageGame() returns a string cointaining the name of the next method.
-	 * Using getMethod(...) it gets the Method Object which is later invoked
-	 * using invoke(...). The process terminates when goOn() return the string
-	 * "gameOver". At this point a GameOverException is thrown.
+	 * manageGame() returns a string containing the name of the next method.
+	 * Using getDeclaredMethod(...) it gets the Method Object which is later
+	 * invoked using invoke(...). The process terminates when goOn() return the
+	 * string "gameOver". At this point we return to the run method
 	 * 
-	 * @throws GameOverException
-	 *             when the game is over
 	 * @author Andrea
 	 */
-	private void manageGame() throws GameOverException {
+	private void manageGame() {
 		// the first turn starts with a blackSheep move
 		String nextMethod = "blackSheep";
-		// the loop ends when GameOverException is raised
+
 		while (true) {
 			try {
-				// finds the new method
-				Method method = getClass().getDeclaredMethod(nextMethod, null);
-				// invoke the new method
-				nextMethod = (String) method.invoke(this, null);
+				// finds the next method
+				Method method = getClass().getDeclaredMethod(nextMethod,
+						(Class[]) null);
+				// invoke the next method
+				nextMethod = (String) method.invoke(this, (Object[]) null);
 			} catch (Exception e) {
-				Logger log = Logger.getAnonymousLogger();
-				log.severe("Problems in the game execution:" + e);
+				// Catching a generic exception is not a good idea, but with
+				// java 1.5 there's a problem with the exceptions thrown by
+				// method.invoke
+				String message = "Problems managing the game";
+				logger.log(Level.SEVERE, message, e);
 			}
+
 			if (nextMethod.equals("gameOver"))
-				throw new GameOverException();
+				break;
 		}
 	}
 
@@ -155,21 +162,21 @@ public class GameController implements Runnable {
 	 */
 	private void addPlayersToGame() {
 		// number of players = number of client handlers
-		for (int i = 0; i < clients.size(); i++) {
+		for (ClientHandler client : clients) {
 			// create a player and add it to the board
 			Player p = new Player();
 			p.setID();
-			p.setMoney(Costants.INITIAL_MONEY);
+			p.setMoney(GameConstants.INITIAL_MONEY);
 			boardStatus.addPlayerToBoardStatus(p);
 
 			// notify the client handler
-			clients.get(i).setGame(this);
-			clients.get(i).setPlayer(p);
+			client.setGame(this);
+			client.setPlayer(p);
 		}
 	}
 
 	/**
-	 * Create all the sheep and them on the map, one per terrain ecluding
+	 * Create all the sheep and put them on the map, one per terrain excluding
 	 * sheepsburg
 	 */
 	private void initSheeps() {
@@ -209,43 +216,67 @@ public class GameController implements Runnable {
 		boardStatus.setFirstPlayer(firstPlayer);
 	}
 
-	/** Ask to each player to choose an initial position */
+	/**
+	 * This method asks to each player to choose an initial position, if a
+	 * player disconnects (or if it's already disconnected) we choose a random
+	 * position. When a player choose his position we send all the status to the
+	 * clients
+	 */
 	private void chooseInitialPositions() {
-		for (ClientHandler ch : clients.toArray(new ClientHandler[clients
-				.size()])) {
-			Road returned = null;
-			do {
+		for (ClientHandler ch : clients) {
+			Road initial = null;
+
+			if (!ch.getPlayer().isSuspended()) {
 				try {
-					returned = ch.askInitialPosition();
+
+					do {
+						initial = ch.askInitialPosition();
+					} while (!boardStatus.isFreeRoad(initial));
+
+					ch.getPlayer().move(initial);
+
 				} catch (ClientDisconnectedException e) {
-					Logger log = Logger.getAnonymousLogger();
-					log.severe("A CLIENT DISCONNECTED: " + e);
+					String message = "A client disconnected";
+					logger.log(Level.INFO, message, e);
 					catchDisconnection(e.getPlayer());
-					break;
+
+					chooseRandomPositionForAPlayer(ch.getPlayer());
 				} catch (ClassNotFoundException e) {
-					Logger log = Logger.getAnonymousLogger();
-					log.severe("PROBLEM IN THE PROTOCOL: " + e);
-					break;
+					String message = "A client is not aligned with the communication protocol, suspending it";
+					logger.log(Level.INFO, message, e);
+					ch.getPlayer().suspend();
+					ch.getPlayer().setNotConnected();
+
+					chooseRandomPositionForAPlayer(ch.getPlayer());
 				}
-			} while (!boardStatus.isFreeRoad(returned));
-			ch.getPlayer().move(returned);
+
+			} else {
+				chooseRandomPositionForAPlayer(ch.getPlayer());
+			}
 			sendStatusToAllPlayers();
 		}
 	}
 
-	/**
-	 * Send the status to all the players
-	 */
-	private void sendStatusToAllPlayers() {
-		for (ClientHandler client : clients.toArray(new ClientHandler[clients
-				.size()])) {
-			try {
-				client.sendNewStatus(boardStatus);
-			} catch (ClientDisconnectedException e) {
-				Logger log = Logger.getAnonymousLogger();
-				log.severe("A CLIENT DISCONNECTED: " + e);
-				catchDisconnection(e.getPlayer());
+	/** This method moves the given player to the first free road it finds */
+	private void chooseRandomPositionForAPlayer(Player player) {
+		for (Road r : boardStatus.getRoadMap().getHashMapOfRoads().values()) {
+			if (boardStatus.isFreeRoad(r)) {
+				player.move(r);
 			}
+		}
+	}
+
+	/** Send the status to all the not suspended players */
+	private void sendStatusToAllPlayers() {
+		for (ClientHandler client : clients) {
+			if (!client.getPlayer().isSuspended())
+				try {
+					client.sendNewStatus(boardStatus);
+				} catch (ClientDisconnectedException e) {
+					String message = "A client disconnected";
+					logger.log(Level.INFO, message, e);
+					catchDisconnection(e.getPlayer());
+				}
 		}
 	}
 
@@ -255,9 +286,9 @@ public class GameController implements Runnable {
 	}
 
 	/**
-	 * This method handle the disconnection of a player following the specs of
+	 * This method handles the disconnection of a player following the specs of
 	 * the project. It waits for a while that the client reconnects and then go
-	 * on
+	 * on with or without him
 	 * 
 	 * @param pc
 	 *            the player to suspend
@@ -268,14 +299,15 @@ public class GameController implements Runnable {
 
 		// first of all we suspend this a game for a fixed time
 		try {
-			Thread.sleep(Costants.WAITING_FOR_CLIENT_RECONNECT);
+			Thread.sleep(TimeConstants.WAITING_FOR_CLIENT_RECONNECT);
 		} catch (InterruptedException e) {
-			Logger log = Logger.getAnonymousLogger();
-			log.fine("thread stopped: " + e);
+			String message = "The thread has been interrupted while waiting for a client reconnection";
+			logger.log(Level.SEVERE, message, e);
+			return;
 		}
 
-		// now check if client reconnected, if yes go on, otherwise suspend it
-		// and go on without him
+		// now check if client has been reconnected by the server, if yes go on,
+		// otherwise suspend it and go on without
 		if (!pc.isConnected()) {
 			pc.suspend();
 		}
@@ -283,17 +315,15 @@ public class GameController implements Runnable {
 
 	/**
 	 * This method handles the disconnection of a client. It searches the
-	 * correspondent client handler and notifies the disconnection, that method
-	 * will send the notification both to the server acceptor(so the client can
-	 * reconnect) and to the notifyDisconnection method if tgis class that
-	 * actually suspend the player.
-	 * 
-	 * @return
+	 * correspondent client handler and sends it the disconnection, the client
+	 * handler will send the notification both to the server acceptor(so the
+	 * client can reconnect) and to the notifyDisconnection method of this class
+	 * that will actually suspend the player.
 	 */
 	private void catchDisconnection(Player p) {
-		for (int i = 0; i < clients.size(); i++)
-			if (clients.get(i).getPlayer().equals(p)) {
-				clients.get(i).notifyClientDisconnection();
+		for (ClientHandler client : clients)
+			if (client.getPlayer().equals(p)) {
+				client.notifyClientDisconnection();
 				break;
 			}
 	}
@@ -301,10 +331,10 @@ public class GameController implements Runnable {
 	/** This method reconnect a player changing his ConnectionHandler */
 	public void notifyReconnection(Player player, ClientHandler newClientHandler) {
 		// search the old client handler
-		for (int i = 0; i < clients.size(); i++) {
+		for (ClientHandler client : clients) {
 			// and change the client handler
-			if (clients.get(i).getPlayer() == player)
-				clients.set(i, newClientHandler);
+			if (client.getPlayer().equals(player))
+				client = newClientHandler;
 		}
 
 		// set the parameters
@@ -314,59 +344,65 @@ public class GameController implements Runnable {
 		// now wake the player
 		player.setConnected();
 		player.resume();
+
+		// and give him the current status
 		try {
 			newClientHandler.sendNewStatus(boardStatus);
 		} catch (ClientDisconnectedException e) {
-			Logger log = Logger.getAnonymousLogger();
-			log.severe("A CLIENT DISCONNECTED: " + e);
+			String message = "A client disconnected";
+			logger.log(Level.INFO, message, e);
 			catchDisconnection(e.getPlayer());
 		}
 	}
 
 	/**
-	 * This method has to be invoked after the moves session. It searchs for the
-	 * next player that has to play and state if the game is finished or not. If
-	 * the game is over it comunicates it to the caller using the string
-	 * "gameOver". An exception would have been better but the invoke method
-	 * doesn't let them through.
+	 * This method has to be invoked after the moves session. It searches for
+	 * the next player that has to play and state if the game is finished or
+	 * not. If the game is over it communicates it to the caller using the
+	 * string "gameOver".
 	 * 
 	 * @return String the name of the next method that has to be called in
 	 *         manageGame() or the signal that the game is finished
 	 * @author Andrea
 	 */
 	private String goOn() {
-		do {
-			setNewCurrentPlayer();
-		} while (boardStatus.getCurrentPlayer().isSuspended() && !gameOver());
+		// go to the next player
+		setNewCurrentPlayer();
+
+		// check if the game is finished
 		if (gameOver())
 			return "gameOver";
+
+		// now go to the first not suspended player
+		while (boardStatus.getCurrentPlayer().isSuspended())
+			setNewCurrentPlayer();
+
 		return "communicateNewCurrentPlayer";
 	}
 
 	/**
-	 * Comunicates the new current player to the clients (in this way they don't
-	 * have to wait for a move to know who's playing). If the current player
-	 * disconnects during the communication the next step will be chooseing
-	 * another current player. Otherwise it's time to move the black sheep.
+	 * Communicates the new current player to the clients (in this way they
+	 * don't have to wait for a move to know who's playing). If the current
+	 * player disconnects during the communication the next step will be
+	 * choosing another current player. Otherwise it's time to move the black
+	 * sheep.
 	 * 
 	 * @return String nextmethod to be called in manageGame()
 	 * @author Andrea
 	 */
 	private String communicateNewCurrentPlayer() {
 		// the method send the current player to all the clients
-		for (ClientHandler client : clients.toArray(new ClientHandler[clients
-				.size()])) {
+		for (ClientHandler client : clients) {
 			try {
 				client.setCurrentPlayer(boardStatus.getCurrentPlayer());
-				;
 			} catch (ClientDisconnectedException e) {
-				Logger log = Logger.getAnonymousLogger();
-				log.severe("A CLIENT DISCONNECTED: " + e);
+				String message = "A client disconnected";
+				logger.log(Level.INFO, message, e);
 				catchDisconnection(e.getPlayer());
 
 				// if the current player has been suspended another current
 				// player has to be selected
-				if (e.getPlayer().equals(boardStatus.getCurrentPlayer()))
+				if (boardStatus.getCurrentPlayer().isSuspended())
 					return "goOn";
 			}
 		}
@@ -374,11 +410,10 @@ public class GameController implements Runnable {
 	}
 
 	/**
-	 * This method determins the next player who has to play. The next player
+	 * This method determines the next player who has to play. The next player
 	 * will be the player at the right of the current player.
 	 * 
 	 * @author Andrea
-	 * @TODO test
 	 */
 	private void setNewCurrentPlayer() {
 		Player oldCurrentPlayer = boardStatus.getCurrentPlayer();
@@ -402,7 +437,6 @@ public class GameController implements Runnable {
 	 * 
 	 * 
 	 * @author Andrea
-	 * @TODO test
 	 */
 	private boolean gameOver() {
 		// the position of the first player
@@ -434,14 +468,13 @@ public class GameController implements Runnable {
 	 * @returns String the name of the next method that has to be called in
 	 *          manageGame()
 	 * @author Andrea
-	 * @TODO test
 	 */
 	private String blackSheep() {
 		Dice dice = Dice.create();
-		int diceResult = dice.roll(Costants.NUMBER_OF_DICE_SIDES);
+		int diceResult = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
 		int index;
 
-		// it finds the road near the black sheep
+		// it finds the roads near the black sheep
 		Set<Road> roadsNearBlackSheep = boardStatus.getRoadMap()
 				.findRoadsAdjacentToATerrain(
 						boardStatus.getBlackSheep().getPosition());
@@ -453,17 +486,16 @@ public class GameController implements Runnable {
 				// check if the road is free
 				if (boardStatus.isFreeRoad(road)) {
 					// find the new terrain
-					for (index = 0; index < road.getAdjacentTerrains().length; index++)
-						if (boardStatus.getBlackSheep().getPosition() != road
-								.getAdjacentTerrains()[index])
+					for (Terrain t : road.getAdjacentTerrains())
+						if (!boardStatus.getBlackSheep().getPosition()
+								.equals(t))
 							// creates a new move that has to be executed and
-							// place it
-							// in newMove attribute
-							newMove = new MoveBlackSheep(
-									road.getAdjacentTerrains()[index],
+							// place it in newMove attribute
+							newMove = new MoveBlackSheep(t,
 									boardStatus.getBlackSheep());
 					return "executeNewMove";
 				}
+
 		// otherwise the blackSheep remains in its current position and no move
 		// has to be executed
 		return "askMoveToClient";
@@ -476,50 +508,48 @@ public class GameController implements Runnable {
 	 * @return String the name of the next method that has to be called in
 	 *         manageGame().
 	 * @author Andrea
-	 * @TODO Test
 	 */
 
 	private String askMoveToClient() {
 		Player currentPlayer = boardStatus.getCurrentPlayer();
-		int indexOfTheCurrentPlayer;
-		boolean found = false;
-		// The new move
-		Move newMove = null;
-		// Look for the client that corespond to the current player
-		for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
-				.size()) && !found; indexOfTheCurrentPlayer++)
-			if (currentPlayer.equals(clients.get(indexOfTheCurrentPlayer)
-					.getPlayer()))
-				found = true;
+		Move newMove;
+
+		// Look for the client that correspond to the current player
+		ClientHandler client = null;
+		for (ClientHandler ch : clients)
+			if (currentPlayer.equals(ch.getPlayer())) {
+				client = ch;
+				break;
+			}
+
 		try {
-			newMove = clients.get(indexOfTheCurrentPlayer).askMove();
+			newMove = client.askMove();
 			if (!ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
 					boardStatus))
-				// the move is not valid therefore the next step is comunicating
+				// the move is not valid therefore the next step is
+				// communicating
 				// it to the client and ask for it again
 				return "askMoveToClientAgain";
 
 		} catch (ClientDisconnectedException e) {
-			Logger log = Logger.getAnonymousLogger();
-			log.severe("A CLIENT DISCONNECTED: " + e);
+			String message = "A client disconnected";
+			logger.log(Level.INFO, message, e);
 			catchDisconnection(e.getPlayer());
 
-			// check if the player that lost the connection is the current
-			// player
-			if (e.getPlayer().equals(boardStatus.getCurrentPlayer())) {
-				// if the player that have lost the connection is the current
-				// player and it's back again the server ask the move again
-				if (e.getPlayer().isConnected())
-					return "askMoveToClient";
-				// if the player has been suspended the system has to decide
-				// another
-				// currentPlayer, therefore it calls goOn()
-				return "goOn";
-			}
+			// if the player that have lost the connection is the current
+			// player and it's back again the server ask the move again
+			if (e.getPlayer().isConnected())
+				return "askMoveToClient";
+			// if the player has been suspended the system has to decide
+			// another currentPlayer, therefore it calls goOn()
+			return "goOn";
+
 		} catch (ClassNotFoundException e) {
-			Logger log = Logger.getAnonymousLogger();
-			log.severe("class not found:" + e);
-			return "askMoveToClient";
+			String message = "A client is not aligned with the communication protocol, suspending it";
+			logger.log(Level.INFO, message, e);
+			client.getPlayer().suspend();
+			client.getPlayer().setNotConnected();
+			return "goOn";
 		}
 
 		// if the method reaches this point it means that there's a valid move
@@ -539,43 +569,45 @@ public class GameController implements Runnable {
 	 */
 	private String askMoveToClientAgain() {
 		Player currentPlayer = boardStatus.getCurrentPlayer();
-		int indexOfTheCurrentPlayer;
-		boolean found = false;
-		// The new move
 		Move newMove;
-		// Look for the client that corespond to the current player
-		for (indexOfTheCurrentPlayer = 0; (indexOfTheCurrentPlayer < clients
-				.size()) && !found; indexOfTheCurrentPlayer++)
-			if (currentPlayer.equals(clients.get(indexOfTheCurrentPlayer)
-					.getPlayer()))
-				found = true;
+
+		// Look for the client that correspond to the current player
+		ClientHandler client = null;
+		for (ClientHandler ch : clients)
+			if (currentPlayer.equals(ch.getPlayer())) {
+				client = ch;
+				break;
+			}
 
 		try {
-			newMove = clients.get(indexOfTheCurrentPlayer).sayMoveIsNotValid();
+			newMove = client.sayMoveIsNotValid();
+
 			// if the move is valid the next step is updating the boardstatus
 			if (ruleChecker.isValidMove(newMove, currentPlayer.getLastMoves(),
 					boardStatus)) {
 				this.newMove = newMove;
 				return "executeNewMove";
 			}
+
 		} catch (ClientDisconnectedException e) {
-			Logger log = Logger.getAnonymousLogger();
-			log.severe("A CLIENT DISCONNECTED: " + e);
+			String message = "A client disconnected";
+			logger.log(Level.INFO, message, e);
 			catchDisconnection(e.getPlayer());
 
-			// check if the player that lose the connection is the currentPlayer
-			if (e.getPlayer().equals(currentPlayer)) {
-				// if the current player hasBeen suspended the system goes on
-				if (currentPlayer.isSuspended())
-					return "goOn";
-				// if the currentplayer is back the system ask again for a move
-				if (currentPlayer.isConnected())
-					return "askMoveToClientAgain";
-			}
+			// if the player that have lost the connection is the current
+			// player and it's back again the server ask the move again
+			if (e.getPlayer().isConnected())
+				return "askMoveToClient";
+			// if the player has been suspended the system has to decide
+			// another currentPlayer, therefore it calls goOn()
+			return "goOn";
+
 		} catch (ClassNotFoundException e) {
-			Logger log = Logger.getAnonymousLogger();
-			log.severe("class not found:" + e);
-			return "askMoveToClientAgain";
+			String message = "A client is not aligned with the communication protocol, suspending it";
+			logger.log(Level.INFO, message, e);
+			client.getPlayer().suspend();
+			client.getPlayer().setNotConnected();
+			return "goOn";
 		}
 
 		return "askMoveToClientAgain";
@@ -620,13 +652,12 @@ public class GameController implements Runnable {
 	 */
 	private String updateClients() {
 		// the method send the move to all the clients
-		for (ClientHandler client : clients.toArray(new ClientHandler[clients
-				.size()])) {
+		for (ClientHandler client : clients) {
 			try {
 				client.executeMove(newMove);
 			} catch (ClientDisconnectedException e) {
-				Logger log = Logger.getAnonymousLogger();
-				log.severe("A CLIENT DISCONNECTED: " + e);
+				String message = "A client disconnected";
+				logger.log(Level.INFO, message, e);
 				catchDisconnection(e.getPlayer());
 			}
 		}
@@ -638,13 +669,13 @@ public class GameController implements Runnable {
 			return "askMoveToClient";
 		}
 		// a new player has to start his turn
-		numberOfMoves = 0;
+		numberOfMoves = 1;
 		return "goOn";
 	}
 
 	/**
-	 * CalculateWinner calcultes the winner of a game and comunicates it to the
-	 * clients
+	 * CalculateWinner calculates the winner of a game and communicates it to
+	 * the clients
 	 * 
 	 * @author Andrea
 	 */
@@ -664,6 +695,7 @@ public class GameController implements Runnable {
 		ArrayList<Player> winners = new ArrayList<Player>();
 		Integer currentValue;
 		int max;
+
 		// calculate the number of sheep for each terrain
 		Map<TerrainType, Integer> valuesOfCards = new HashMap<TerrainType, Integer>();
 		// initialize the HashMap
@@ -673,7 +705,6 @@ public class GameController implements Runnable {
 		valuesOfCards.put(TerrainType.MOUNTAIN, 0);
 		valuesOfCards.put(TerrainType.PLAIN, 0);
 		valuesOfCards.put(TerrainType.WOOD, 0);
-
 		// calculate the number of sheep in each region
 		for (Sheep sheep : boardStatus.getSheeps()) {
 			currentValue = valuesOfCards.get(sheep.getPosition()
@@ -703,6 +734,7 @@ public class GameController implements Runnable {
 				// set the new probable winner
 				winners.clear();
 				winners.add(player);
+				max = player.getMoney();
 			}
 			if (player.getMoney() == max) {
 				// if there's a draw
@@ -715,7 +747,7 @@ public class GameController implements Runnable {
 	}
 
 	/**
-	 * This method comunicates the winners to the clients. This message clearly
+	 * This method communicates the winners to the clients. This message clearly
 	 * states that the games's over. Therefore clients will start to tear down
 	 * their connection.
 	 * 
@@ -724,16 +756,14 @@ public class GameController implements Runnable {
 	 * @author Andrea
 	 */
 	private void communicateWinner(ArrayList<Player> winners) {
-		for (ClientHandler client : clients.toArray(new ClientHandler[clients
-				.size()])) {
+		for (ClientHandler client : clients) {
 			try {
 				client.sendWinners(winners);
 			} catch (ClientDisconnectedException e) {
-				Logger log = Logger.getAnonymousLogger();
-				log.severe("A CLIENT DISCONNECTED: " + e);
+				String message = "A client disconnected";
+				logger.log(Level.INFO, message, e);
 				catchDisconnection(e.getPlayer());
 			}
 		}
 	}
-
 }

@@ -1,8 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.SocketMessages;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.SocketMessages;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -15,11 +15,13 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
 /**
- * A socket version of a network handler
+ * A socket version of a network handler. It connects to the server and starts
+ * listening for commands
  * 
  * @author Stefano
  */
@@ -77,8 +79,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 
 		// if we are connected start the ping timer
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTaskPong, Costants.PING_TIME,
-				Costants.PING_TIME);
+		timer.scheduleAtFixedRate(timerTaskPong, TimeConstants.PING_TIME,
+				TimeConstants.PING_TIME);
 	}
 
 	/**
@@ -199,7 +201,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * @throws ClassNotFoundException
 	 */
 	private void getWinners() throws IOException, ClassNotFoundException {
-		ArrayList<Player> winners = (ArrayList<Player>) objectIn.readObject();
+		List<Player> winners = (List<Player>) objectIn.readObject();
 		controller.notifyWinners(winners);
 		// TODO handle the closing
 	}

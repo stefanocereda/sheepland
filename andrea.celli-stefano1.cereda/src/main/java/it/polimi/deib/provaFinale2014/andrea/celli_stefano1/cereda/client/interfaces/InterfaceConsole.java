@@ -14,6 +14,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -115,7 +116,7 @@ public class InterfaceConsole implements Interface {
 
 	}
 
-	public void notifyWinners(ArrayList<Player> winners) {
+	public void notifyWinners(List<Player> winners) {
 		// TODO Auto-generated method stub
 
 	}

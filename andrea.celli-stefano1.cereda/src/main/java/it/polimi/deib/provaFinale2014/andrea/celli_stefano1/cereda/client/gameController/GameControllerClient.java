@@ -13,6 +13,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class manage the game in the client executing the up-dates that are
@@ -125,7 +126,7 @@ public class GameControllerClient {
 		userInterface.notifyCurrentPlayer(newCurrentPlayer);
 	}
 
-	public void notifyWinners(ArrayList<Player> winners) {
+	public void notifyWinners(List<Player> winners) {
 		userInterface.notifyWinners(winners);
 	}
 

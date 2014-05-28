@@ -12,8 +12,8 @@ public interface RMIConnector extends Remote {
 	 * This method is remotely invoked by the client to registry himself to the
 	 * server. The clients pass his id as parameter (0 if it's the first
 	 * connection) the server sends back the new id and the client must use it
-	 * (as a string) for bind his network manager in the registry. It also
-	 * notifies the server starter that there is a client with that id to be
+	 * (as a string) to bind his network manager in the registry. It also
+	 * notifies the rmi server starter that there is a client with that id to be
 	 * handled
 	 * 
 	 * @param id
@@ -25,5 +25,4 @@ public interface RMIConnector extends Remote {
 
 	/** A method periodically invoked by the client to check connection */
 	public void ping() throws RemoteException;
-
 }

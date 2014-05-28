@@ -2,9 +2,10 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
@@ -20,12 +21,17 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
 public abstract class ClientHandler implements ClientHandlerInterface {
 	/** An unique id of this client, zero means still not set */
 	protected int id = 0;
+
 	/** A reference to the player controlled by this client */
 	protected Player controlledPlayer = null;
 	/** A reference to the game this player is playing */
 	protected GameController gameController = null;
-	/** A reference to the server that created this object */
+	/** A reference to the server that will handle the reconnection */
 	private ServerStarter serverStarter = null;
+
+	/** A logger */
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+
 	/** A timer used to ping the client */
 	protected Timer timer = new Timer();
 	/** the timer task to execute at the end of the timers */
@@ -34,9 +40,8 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 			try {
 				pingTheClient();
 			} catch (ClientDisconnectedException e) {
-				Logger log = Logger
-						.getLogger("server.clientHandler.ClientHandler");
-				log.severe("ERROR DURING THE PING: " + e);
+				String message = "Error during the periodic ping, the client disconnected";
+				logger.log(Level.INFO, message, e);
 				notifyClientDisconnection();
 			}
 		}
@@ -46,8 +51,22 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 	public ClientHandler(ServerStarter creator) {
 		serverStarter = creator;
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTaskPing, Costants.PING_TIME,
-				Costants.PING_TIME);
+		timer.scheduleAtFixedRate(timerTaskPing, TimeConstants.PING_TIME,
+				TimeConstants.PING_TIME);
+	}
+
+	/**
+	 * Notify the disconnection of a player to the gameController (so it can
+	 * suspend the player) and to the server starter (so it can wait for this
+	 * player to reconnect and let it play in the same game).
+	 */
+	public void notifyClientDisconnection() {
+		if (id != 0 && gameController != null && controlledPlayer != null) {
+			// otherwise it disconnected too soon
+			timer.cancel();
+			gameController.notifyDisconnection(controlledPlayer);
+			serverStarter.notifyDisconnection(id);
+		}
 	}
 
 	/** Set the game where this client is playing */
@@ -55,9 +74,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 		gameController = gc;
 	}
 
-	/**
-	 * This method returns the player controlled by this client
-	 */
+	/** @return the player controlled by this client */
 	public Player getPlayer() {
 		return controlledPlayer;
 	}
@@ -67,36 +84,13 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 		controlledPlayer = p;
 	}
 
-	/**
-	 * This method returns an identifier for this client
-	 */
+	/** @return the identifier of this client */
 	public int getIdentifier() {
 		return id;
 	}
 
-	/**
-	 * This method set a new identifier
-	 */
+	/** This method set a new identifier */
 	public void setIdentifier(int newIdentifier) {
 		id = newIdentifier;
-	}
-
-	/**
-	 * Notify the disconnection of a player to the gameController (so it can
-	 * suspend the player) and to the server starter (so it can wait for this
-	 * player to reconnect and let it play in the same game).
-	 * 
-	 * @param gc
-	 *            the game controller to notify
-	 * @param pc
-	 *            the client disconnected
-	 */
-	public void notifyClientDisconnection() {
-		if (id != 0 && gameController != null && controlledPlayer != null) {
-			// otherwise it disconnected too soon
-			timer.cancel();
-			gameController.notifyDisconnection(controlledPlayer);
-			serverStarter.notifyDisconnection(id);
-		}
 	}
 }

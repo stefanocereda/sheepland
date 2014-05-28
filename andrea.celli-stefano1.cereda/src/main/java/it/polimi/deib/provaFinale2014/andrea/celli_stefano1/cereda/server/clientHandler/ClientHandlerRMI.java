@@ -5,19 +5,20 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarterRMI;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMICostants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarter;
 
 /**
- * The rmi version of a socket handler. This class will be deployed on the
+ * The rmi version of a client handler. This class will be deployed on the
  * server and as it starts it will search for a remote object representing the
  * client's network handler. As the game manager asks this object to perform an
  * action this object will invoke the clien't correspondent method
@@ -29,53 +30,45 @@ public class ClientHandlerRMI extends ClientHandler {
 	/** The remote object */
 	private RMIInterface clientObject;
 
+	/** A logger */
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+
 	/**
 	 * The constructor takes as input the reference of the server starter that
-	 * created this method, the name of the client's object and a reference to
-	 * the rmi registry. It tries to lookup the client's object. Differently
-	 * from the socket version we don't ask for the client's id as that
-	 * operation is already done by the so called RMIConnector, actually the id
-	 * is the remoteName passed to this constructor
+	 * will handle reconnection for the client, the name of the client's object
+	 * and a reference to the rmi registry. It tries to lookup the client's
+	 * object. Differently from the socket version we don't ask for the client's
+	 * id as that operation is already done by the so called RMIConnector,
+	 * actually the id is the remoteName passed to this constructor. Differently
+	 * from the socket version the methods aren't synchronized because there
+	 * won't be problems to ping while asking a move
 	 * 
 	 * @param registry
+	 * @throws NotBoundException
+	 * @throws RemoteException
+	 * @throws AccessException
 	 */
-	public ClientHandlerRMI(ServerStarterRMI serverStarterRMI,
-			String remoteName, Registry registry) {
-		super(serverStarterRMI);
+	public ClientHandlerRMI(ServerStarter serverStarter, String remoteName,
+			Registry registry) throws AccessException, RemoteException,
+			NotBoundException {
+		super(serverStarter);
 
 		// wait a while before trying to lookup the client
 		try {
-			Thread.sleep(RMICostants.WAIT_BEFORE_LOOKUP);
-
-			clientObject = (RMIInterface) registry.lookup(remoteName);
-		} catch (NotBoundException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("Error while looking the remote object" + e);
-		} catch (AccessException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("Error while looking the remote object" + e);
-		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("Error while looking the remote object" + e);
+			Thread.sleep(TimeConstants.RMI_WAITING_LOOKUP);
 		} catch (InterruptedException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.fine("Thread interrupted" + e);
+			String message = "The thread has been stopped while waiting before looking up the client's object";
+			logger.log(Level.INFO, message, e);
 		}
+		clientObject = (RMIInterface) registry.lookup(remoteName);
 	}
 
 	public Move askMove() throws ClientDisconnectedException {
 		try {
 			return clientObject.getMove();
 		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
@@ -84,11 +77,8 @@ public class ClientHandlerRMI extends ClientHandler {
 		try {
 			clientObject.executeMove(moveToExecute);
 		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
@@ -96,11 +86,8 @@ public class ClientHandlerRMI extends ClientHandler {
 		try {
 			return clientObject.notifyNotValidMove();
 		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
@@ -109,24 +96,26 @@ public class ClientHandlerRMI extends ClientHandler {
 		try {
 			clientObject.updateStatus(newStatus);
 		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
+	}
 
+	public Road askInitialPosition() throws ClientDisconnectedException {
+		try {
+			return clientObject.askInitialPosition();
+		} catch (RemoteException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
 	}
 
 	public void pingTheClient() throws ClientDisconnectedException {
 		try {
 			clientObject.ping();
 		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
@@ -135,11 +124,8 @@ public class ClientHandlerRMI extends ClientHandler {
 		try {
 			clientObject.setCurrentPlayer(newCurrentPlayer);
 		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 
@@ -148,23 +134,8 @@ public class ClientHandlerRMI extends ClientHandler {
 		try {
 			clientObject.sendWinners(winners);
 		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
 			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
-		}
-	}
-
-	public Road askInitialPosition() throws ClientDisconnectedException {
-		try {
-			return clientObject.askInitialPosition();
-		} catch (RemoteException e) {
-			Logger log = Logger
-					.getLogger("server.clientHandler.ClientHandlerRMI");
-			log.severe("RMI ERROR: " + e);
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer);
+					controlledPlayer, e);
 		}
 	}
 }

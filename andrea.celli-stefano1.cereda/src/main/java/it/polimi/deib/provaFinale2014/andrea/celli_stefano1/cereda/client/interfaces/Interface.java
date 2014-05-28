@@ -9,6 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * That's the interface of a user interface. It specifies the public methods
@@ -30,7 +31,7 @@ public interface Interface {
 
 	public void notifyCurrentPlayer(Player newCurrentPlayer);
 
-	public void notifyWinners(ArrayList<Player> winners);
+	public void notifyWinners(List<Player> winners);
 
 	public Road chooseInitialPosition();
 }

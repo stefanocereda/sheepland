@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 
 /**
  * This abstract class is used for the methods in common between RMI and socket
@@ -23,8 +24,7 @@ public abstract class NetworkHandler {
 	protected Integer myId = 0;
 
 	/** A logger */
-	protected Logger logger = Logger
-			.getLogger("client.networkHandler.NetworkHandler");
+	protected Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/** A timer used to reply to server's ping */
 	protected Timer timer = new Timer();
@@ -53,12 +53,14 @@ public abstract class NetworkHandler {
 	/** This method keep trying to reconnect until it can or it's stopped */
 	protected void reconnect() {
 		try {
-			Thread.sleep(Costants.WAIT_FOR_RECONNECTION);
+			Thread.sleep(TimeConstants.WAIT_FOR_RECONNECTION);
 			connect();
 		} catch (InterruptedException e) {
-			logger.fine("Stop trying to reconnect " + e);
+			String message = "Thread interrupted while trying to reconnect";
+			logger.log(Level.SEVERE, message, e);
 		} catch (IOException e) {
-			logger.severe("Unable to reconnect " + e);
+			String message = "Unable to reconnect";
+			logger.log(Level.SEVERE, message, e);
 			reconnect();
 		}
 	}

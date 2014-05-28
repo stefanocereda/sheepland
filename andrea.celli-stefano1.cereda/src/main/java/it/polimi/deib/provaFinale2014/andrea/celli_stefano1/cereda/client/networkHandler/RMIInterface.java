@@ -34,6 +34,12 @@ public interface RMIInterface extends Remote {
 	 */
 	public void updateStatus(BoardStatus newStatus) throws RemoteException;
 
+	/** This method is used to choose the initial road */
+	public Road askInitialPosition() throws RemoteException;
+
+	/** This method is used to check connection */
+	public void ping() throws RemoteException;
+
 	/** This method is called by the server to specify who is the current player */
 	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws RemoteException;
@@ -44,9 +50,4 @@ public interface RMIInterface extends Remote {
 	 */
 	public void sendWinners(ArrayList<Player> winners) throws RemoteException;
 
-	/** This method is used to check connection */
-	public void ping() throws RemoteException;
-
-	/** This method is used to choose the initial road */
-	public Road askInitialPosition() throws RemoteException;
 }

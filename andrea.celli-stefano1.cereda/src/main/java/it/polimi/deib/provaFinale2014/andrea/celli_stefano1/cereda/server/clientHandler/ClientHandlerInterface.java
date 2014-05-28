@@ -10,7 +10,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.Client
 
 /**
  * this is the interface of a client handler, containing the methods called by
- * the game controller
+ * the game controller to sends messages to the client
  */
 
 public interface ClientHandlerInterface {
@@ -41,8 +41,8 @@ public interface ClientHandlerInterface {
 	 * one
 	 * 
 	 * @return a new Move
-	 * @throws ClientDisconnectedException
 	 * @throws ClassNotFoundException
+	 * @throws ClientDisconnectedException
 	 */
 	public Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException;
@@ -51,28 +51,46 @@ public interface ClientHandlerInterface {
 	 * Send to the client a new status to replace the old one
 	 * 
 	 * @throws ClientDisconnectedException
-	 * 
 	 */
 	public void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException;
 
-	/** Ask the player to choose a road that will become his initial position 
-	 * @throws ClassNotFoundException */
-	public Road askInitialPosition() throws ClientDisconnectedException, ClassNotFoundException;
+	/**
+	 * This method asks the client to send back a road wich will be his starting
+	 * position
+	 * 
+	 * @return The road chosen by the client
+	 * @throws ClientDisconnectedException
+	 * @throws ClassNotFoundException
+	 */
+	public Road askInitialPosition() throws ClientDisconnectedException,
+			ClassNotFoundException;
 
 	/**
-	 * Ping the client and throw a ClientDisconnectedException if it's
-	 * disconnected
+	 * Ping the client and wait for his answer
 	 * 
 	 * @throws ClientDisconnectedException
 	 */
 	void pingTheClient() throws ClientDisconnectedException;
 
-	/** set the new current player */
+	/**
+	 * this method sends to the client a player representing the actual player
+	 * 
+	 * @param newCurrentPlayer
+	 *            The current player
+	 * @throws ClientDisconnectedException
+	 */
 	void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException;
 
-	/** Send the list of winners at the end of the game */
+	/**
+	 * This method sends to the client a list of players representing the
+	 * winners
+	 * 
+	 * @param winners
+	 *            the list of winners
+	 * @throws ClientDisconnectedException
+	 */
 	void sendWinners(ArrayList<Player> winners)
 			throws ClientDisconnectedException;
 }

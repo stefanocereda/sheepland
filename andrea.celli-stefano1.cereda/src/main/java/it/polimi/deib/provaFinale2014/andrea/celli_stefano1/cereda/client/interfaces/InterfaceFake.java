@@ -30,6 +30,7 @@ public class InterfaceFake implements Interface {
 	}
 
 	private Move newCorrectMove() {
+		System.out.println("checking for a move");
 		BoardStatus status = gameController.getBoardStatus();
 		Player player = status.getCurrentPlayer();
 
@@ -180,9 +181,8 @@ public class InterfaceFake implements Interface {
 
 	}
 
-	public void notifyWinners(ArrayList<Player> winners) {
-		// TODO Auto-generated method stub
-
+	public void notifyWinners(List<Player> winners) {
+		System.out.println("game ended");
 	}
 
 	public Road chooseInitialPosition() {

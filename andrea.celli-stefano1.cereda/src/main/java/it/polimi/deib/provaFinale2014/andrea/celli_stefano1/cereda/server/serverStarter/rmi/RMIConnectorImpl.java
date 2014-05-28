@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
 
 import java.rmi.RemoteException;
 
+/** The implementation of RMIConnector */
 public class RMIConnectorImpl implements RMIConnector {
 	/** A counter of created objects */
 	private static int created = 0;
@@ -11,8 +12,8 @@ public class RMIConnectorImpl implements RMIConnector {
 	private ServerStarterRMI serverStarter;
 
 	/**
-	 * This constructor takes as input a reference to the server starter that
-	 * will be used to notify the server of new connections
+	 * This constructor takes as input a reference to the rmi server starter
+	 * that will be used to notify the server of new connections
 	 */
 	public RMIConnectorImpl(ServerStarterRMI serverStarterRMI) {
 		serverStarter = serverStarterRMI;
@@ -34,7 +35,7 @@ public class RMIConnectorImpl implements RMIConnector {
 	}
 
 	/**
-	 * This class is used to notify the server starter while returning the
+	 * This class is used to notify the rmi server starter while returning the
 	 * result to the client
 	 */
 	class Notifier implements Runnable {

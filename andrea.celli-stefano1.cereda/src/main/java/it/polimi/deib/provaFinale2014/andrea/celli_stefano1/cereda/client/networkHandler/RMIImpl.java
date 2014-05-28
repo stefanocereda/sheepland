@@ -9,6 +9,13 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * This is the implementation of RMIInterface, for every method calls the
+ * equivalent on the client game controller
+ * 
+ * @author Stefano
+ * 
+ */
 public class RMIImpl implements RMIInterface {
 	private GameControllerClient controller;
 

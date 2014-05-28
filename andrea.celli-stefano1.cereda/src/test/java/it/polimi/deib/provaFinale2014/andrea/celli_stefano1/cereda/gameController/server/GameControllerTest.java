@@ -5,9 +5,8 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -15,11 +14,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerRMI;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerSocket;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandler;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandlerRMI;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.listOfClientHandler.ListOfClientHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.ServerStarter;
 
 import org.junit.Test;
@@ -37,8 +31,8 @@ public class GameControllerTest {
 	 */
 	@Test
 	public void testGameController() {
-		ListOfClientHandler list1 = new ListOfClientHandlerRMI();
-		ListOfClientHandler list2 = new ListOfClientHandlerSocket();
+		List<ClientHandler> list1 = new ArrayList<ClientHandler>();
+		List<ClientHandler> list2 = new ArrayList<ClientHandler>();
 
 		GameController gc1 = new GameController(list1);
 		assertNotNull(gc1);
@@ -54,7 +48,6 @@ public class GameControllerTest {
 	 */
 	@Test
 	public void testNotifyDisconnection() {
-		ClientHandler ch = null;
 		Player p = new Player();
 		GameController gc1 = new GameController(null);
 
@@ -71,7 +64,7 @@ public class GameControllerTest {
 	@Test
 	public void testNotifyReconnection() {
 		ClientHandler ch = new FakeClientHandler(null);
-		ListOfClientHandler players = new ListOfFakeClientHandler();
+		List<ClientHandler> players = new ArrayList<ClientHandler>();
 		players.add(ch);
 
 		Player p = new Player();
@@ -152,24 +145,6 @@ public class GameControllerTest {
 				ClassNotFoundException {
 			// TODO Auto-generated method stub
 			return null;
-		}
-
-	}
-
-	/** Fake class for the tests */
-	class ListOfFakeClientHandler extends ArrayList<FakeClientHandler>
-			implements ListOfClientHandler {
-
-		public boolean add(ClientHandler acceptedHandler) {
-			return super.add((FakeClientHandler) acceptedHandler);
-		}
-
-		public ClientHandler[] toArray(ClientHandler[] array) {
-			return super.toArray(array);
-		}
-
-		public ClientHandler set(int i, ClientHandler newClienthandler) {
-			return super.set(i, (FakeClientHandler) newClienthandler);
 		}
 
 	}

@@ -1,6 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
 
 import java.util.HashMap;
@@ -303,10 +302,10 @@ public class RoadMap extends GenericGameObject {
 	 */
 	public Set<Road> findRoadsAdjacentToATerrain(Terrain terrain) {
 		Set<Road> nearRoads = new HashSet<Road>();
-		for (int index = 1; index <= Costants.NUMBER_OF_ROADS; index++)
+		for (int index = 1; index <= roadMap.size(); index++)
 			for (Terrain terrainNearTheRoad : roadMap.get(index)
 					.getAdjacentTerrains())
-				if (terrain == terrainNearTheRoad)
+				if (terrain.equals(terrainNearTheRoad))
 					nearRoads.add(roadMap.get(index));
 		return nearRoads;
 	}
