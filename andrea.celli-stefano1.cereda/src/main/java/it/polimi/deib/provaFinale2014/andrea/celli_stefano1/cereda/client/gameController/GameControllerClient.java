@@ -134,4 +134,8 @@ public class GameControllerClient {
 		return userInterface.chooseInitialPosition();
 	}
 
+	public void setControlledPlayer(Player controlled) {
+		// TODO
+	}
+
 }

@@ -35,11 +35,14 @@ public class SocketMessages {
 	/** Tell the client who is the current player */
 	public static final String SET_CURRENT_PLAYER = "SET-CURRENT-PLAYER";
 
-	/** Tell the client that the game is over and send an arraylist of winners */
+	/** Tell the client that the game is over and send a list of winners */
 	public static final String SEND_WINNERS = "SEND-WINNERS";
 
 	/** ask the client to send an initial position */
 	public static final String ASK_INITIAL_POSITION = "SEND-INITIAL-POSITION";
+
+	/** Tell to the client that you're sending the controlled player */
+	public static final String NOTIFY_CONTROLLED_PLAYER = "NOTIFY-CONTROLLED-PLAYER";
 
 	/** Hide the default constructor */
 	private SocketMessages() {

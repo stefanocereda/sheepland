@@ -172,6 +172,15 @@ public class GameController implements Runnable {
 			// notify the client handler
 			client.setGame(this);
 			client.setPlayer(p);
+
+			// tell the client his player
+			try {
+				client.notifyControlledPlayer(client.getPlayer());
+			} catch (ClientDisconnectedException e) {
+				String message = "A client disconnected";
+				logger.log(Level.INFO, message, e);
+				catchDisconnection(e.getPlayer());
+			}
 		}
 	}
 

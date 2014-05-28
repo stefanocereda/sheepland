@@ -112,6 +112,9 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					getWinners();
 				else if (command.equals(SocketMessages.ASK_INITIAL_POSITION))
 					chooseInitialPosition();
+				else if (command
+						.equals(SocketMessages.NOTIFY_CONTROLLED_PLAYER))
+					getControlledPlayer();
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
@@ -127,6 +130,19 @@ public class NetworkHandlerSocket extends NetworkHandler {
 			}
 
 		}
+	}
+
+	/**
+	 * This method receives the controlled player and give it to the game
+	 * controller
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
+	private void getControlledPlayer() throws IOException,
+			ClassNotFoundException {
+		Player controlled = (Player) objectIn.readObject();
+		controller.setControlledPlayer(controlled);
 	}
 
 	/**

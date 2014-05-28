@@ -57,4 +57,9 @@ public class RMIImpl implements RMIInterface {
 	public Road askInitialPosition() throws RemoteException {
 		return controller.chooseInitialPosition();
 	}
+
+	public void notifyControlledPlayer(Player controlled)
+			throws RemoteException {
+		controller.setControlledPlayer(controlled);
+	}
 }

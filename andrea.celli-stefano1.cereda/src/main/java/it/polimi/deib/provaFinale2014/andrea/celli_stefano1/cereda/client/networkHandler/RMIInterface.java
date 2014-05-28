@@ -50,4 +50,11 @@ public interface RMIInterface extends Remote {
 	 */
 	public void sendWinners(ArrayList<Player> winners) throws RemoteException;
 
+	/**
+	 * This method is used to let the client know which is the player that he's
+	 * moving
+	 */
+	public void notifyControlledPlayer(Player controlled)
+			throws RemoteException;
+
 }

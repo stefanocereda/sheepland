@@ -93,4 +93,8 @@ public interface ClientHandlerInterface {
 	 */
 	void sendWinners(ArrayList<Player> winners)
 			throws ClientDisconnectedException;
+
+	/** This method is used to let the client know the controlled player */
+	void notifyControlledPlayer(Player controlled)
+			throws ClientDisconnectedException;
 }

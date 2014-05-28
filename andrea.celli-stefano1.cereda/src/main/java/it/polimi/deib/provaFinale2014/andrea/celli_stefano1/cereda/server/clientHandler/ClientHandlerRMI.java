@@ -138,4 +138,14 @@ public class ClientHandlerRMI extends ClientHandler {
 					controlledPlayer, e);
 		}
 	}
+
+	public void notifyControlledPlayer(Player controlled)
+			throws ClientDisconnectedException {
+		try {
+			clientObject.notifyControlledPlayer(controlled);
+		} catch (RemoteException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
 }

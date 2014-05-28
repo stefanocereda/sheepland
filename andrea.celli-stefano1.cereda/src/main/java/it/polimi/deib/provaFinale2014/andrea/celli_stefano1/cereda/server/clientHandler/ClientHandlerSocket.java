@@ -192,4 +192,17 @@ public class ClientHandlerSocket extends ClientHandler {
 					controlledPlayer, e);
 		}
 	}
+
+	public synchronized void notifyControlledPlayer(Player controlled)
+			throws ClientDisconnectedException {
+		out.println(SocketMessages.NOTIFY_CONTROLLED_PLAYER);
+		out.flush();
+		try {
+			objectOut.writeObject(controlled);
+			objectOut.flush();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
 }
