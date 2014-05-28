@@ -12,7 +12,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +30,8 @@ public class GameControllerClient {
 	private BoardStatus boardStatus;
 	/** The user interface */
 	private Interface userInterface;
+	/** The player controlled */
+	private Player controlledPlayer;
 
 	/** The constructor sets the interface */
 	public GameControllerClient(Interface userInterface) {
@@ -135,7 +136,10 @@ public class GameControllerClient {
 	}
 
 	public void setControlledPlayer(Player controlled) {
-		// TODO
+		this.controlledPlayer = controlled;
 	}
 
+	public Player getControlledPlayer() {
+		return controlledPlayer;
+	}
 }
