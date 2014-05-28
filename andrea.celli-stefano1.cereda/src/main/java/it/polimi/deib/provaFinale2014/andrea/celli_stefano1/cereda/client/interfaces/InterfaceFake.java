@@ -26,11 +26,13 @@ public class InterfaceFake implements Interface {
 	Random rnd = new Random();
 
 	public Move getNewMove() {
-		return newCorrectMove();
+		System.out.println("the server asked a move");
+		Move move = newCorrectMove();
+		System.out.println("found a correct move");
+		return move;
 	}
 
 	private Move newCorrectMove() {
-		System.out.println("checking for a move");
 		BoardStatus status = gameController.getBoardStatus();
 		Player player = status.getCurrentPlayer();
 
@@ -84,111 +86,45 @@ public class InterfaceFake implements Interface {
 			}
 
 		// if it wasn't possible cazzi tuoi
-		System.err
+		System.out
 				.println("l'interfaccia fasulla non riesce a generare una mossa");
 		return null;
 	}
 
 	public void setReferenceToGameController(GameControllerClient gameController) {
 		this.gameController = gameController;
-	}
-
-	private Move newRandomMove() {
-		// first of all choose the type of move
-		int type = rnd.nextInt(4);
-		switch (type) {
-		case 0:
-			return newBuyCardMove();
-		case 1:
-			return newMoveBlackSheep();
-		case 2:
-			return newMovePlayer();
-		case 3:
-			return newMoveSheep();
-		}
-		return null;
-	}
-
-	private Move newMoveSheep() {
-		// randomly choose a player
-		Player[] players = gameController.getBoardStatus().getPlayers();
-		Player player = players[rnd.nextInt(players.length)];
-
-		// randomly choose a sheep
-		List<Sheep> sheeps = gameController.getBoardStatus().getSheeps();
-		Sheep sheep = sheeps.get(rnd.nextInt(sheeps.size()));
-
-		// and randomly choose a terrain
-		Terrain[] terrains = Terrain.values();
-		Terrain terrain = terrains[rnd.nextInt(terrains.length)];
-
-		// return the move
-		return new MoveSheep(player, sheep, terrain);
-	}
-
-	private Move newMovePlayer() {
-		// randomly choose a player
-		Player[] players = gameController.getBoardStatus().getPlayers();
-		Player player = players[rnd.nextInt(players.length)];
-
-		// randomly choose a road
-		Map<Integer, Road> roads = gameController.getBoardStatus().getRoadMap()
-				.getHashMapOfRoads();
-		Road road = roads.get(rnd.nextInt(roads.size()));
-
-		return new MovePlayer(player, road, 0);
-	}
-
-	private Move newMoveBlackSheep() {
-		BlackSheep bs = gameController.getBoardStatus().getBlackSheep();
-
-		// and randomly choose a terrain
-		Terrain[] terrains = Terrain.values();
-		Terrain terrain = terrains[rnd.nextInt(terrains.length)];
-
-		return new MoveBlackSheep(terrain, bs);
-	}
-
-	private Move newBuyCardMove() {
-		// randomly choose a player
-		Player[] players = gameController.getBoardStatus().getPlayers();
-		Player player = players[rnd.nextInt(players.length)];
-
-		// and a card
-		Deck deck = gameController.getBoardStatus().getDeck();
-		Card card = deck.get(rnd.nextInt(deck.size()));
-
-		return new BuyCardMove(player, card);
+		System.out.println("Setted the reference to game controller");
 	}
 
 	public void notifyMove(Move move) {
-		// TODO Auto-generated method stub
-
+		System.out.println("The server sended a move");
 	}
 
 	public void notifyNotValidMove() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Server said that the last move wasn't valid");
 	}
 
 	public void notifyDisconnection() {
-		// TODO Auto-generated method stub
-
+		System.out.println("we're disconnected");
 	}
 
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
-		// TODO Auto-generated method stub
-
+		System.out.println("the server sent a new current player");
 	}
 
 	public void notifyWinners(List<Player> winners) {
 		System.out.println("game ended");
+		for (Player p : winners) {
+			System.out.println(p + " is a winner");
+		}
 	}
 
 	public Road chooseInitialPosition() {
+		System.out.println("the server asked our initial position");
 		Dice dice = Dice.create();
 		Map<Integer, Road> roads = gameController.getBoardStatus().getRoadMap()
 				.getHashMapOfRoads();
+		System.out.println("choosen a random initial position");
 		return roads.get(dice.roll(roads.size()));
 	}
 }

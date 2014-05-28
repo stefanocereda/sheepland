@@ -28,19 +28,8 @@ public abstract class NetworkHandler {
 
 	/** A timer used to reply to server's ping */
 	protected Timer timer = new Timer();
-	/** the timer task to execute at the end of the timers */
-	protected TimerTask timerTaskPong = new TimerTask() {
-		public void run() {
-			try {
-				checkConnectivity();
-			} catch (Exception e) {
-				logger.severe("we're disconnected" + e);
-				timer.cancel();
-				notifyDisconnection();
-				reconnect();
-			}
-		}
-	};
+	/** A timer task used to check connectivity */
+	protected TimerTask timerTaskPong;
 
 	/**
 	 * The constructor of a network handler is used to set the reference to the
@@ -78,5 +67,22 @@ public abstract class NetworkHandler {
 	 */
 	protected void notifyDisconnection() {
 		controller.notifyDisconnection();
+	}
+
+	/**
+	 * This class represents a task that has to be executed periodically by the
+	 * timer to check connectivity
+	 */
+	class TimerTaskPong extends TimerTask {
+		public void run() {
+			try {
+				checkConnectivity();
+			} catch (Exception e) {
+				logger.severe("we're disconnected" + e);
+				timerTaskPong.cancel();
+				notifyDisconnection();
+				reconnect();
+			}
+		}
 	}
 }

@@ -92,17 +92,23 @@ public class ClientMainClass {
 		}
 	}
 
-	/** This method launches the rmi version of a client */
-	private static void launchRMI() throws RemoteException, NotBoundException {
+	/**
+	 * This method launches the rmi version of a client. This method is public
+	 * only for testing puropse, we have a test that calls this method (we can't
+	 * call the main because we can't give any input)
+	 */
+	public static void launchRMI() throws RemoteException, NotBoundException {
 		NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(gameController);
 		rmiClient.connect();
 	}
 
 	/**
 	 * This method launches the socket version of a client, it connects to the
-	 * server and creates a network handler
+	 * server and creates a network handler.This method is public only for
+	 * testing puropse, we have a test that calls this method (we can't call the
+	 * main because we can't give any input)
 	 */
-	private static void launchSocket() throws IOException {
+	public static void launchSocket() throws IOException {
 		/** The server address */
 		InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
 

@@ -26,7 +26,8 @@ import java.util.concurrent.Executors;
  * (obviously they will have to be on different ports). All the methods (except
  * start and stop) are synchronized, in this way we're sure that can't happen
  * strange thing like: the server socket and the rmi add a player in the same
- * time and we try to launch a game two times, the second without having players.
+ * time and we try to launch a game two times, the second without having
+ * players.
  * 
  * @author Stefano
  * 
@@ -52,11 +53,17 @@ public class ServerStarter implements Runnable {
 	/** timer to start games with less than four players */
 	private Timer timer = null;
 	/** the timer task to execute at the end of the timer to launch a game */
-	private TimerTask timerTaskStartGame = new TimerTask() {
+	private TimerTask timerTaskStartGame;
+
+	/**
+	 * A TimerTask that will be executed periodically by the timer to check if
+	 * we can start a game
+	 */
+	class TimerTaskStartGame extends TimerTask {
 		public void run() {
 			launchGame();
 		}
-	};
+	}
 
 	/** Threads that will handle multiple games */
 	private ExecutorService executor = Executors.newCachedThreadPool();
@@ -138,7 +145,7 @@ public class ServerStarter implements Runnable {
 	/** starts the timer if there's one player waiting */
 	private synchronized void startTimer() {
 		if (waitingClients.size() == 1) {
-			timer = new Timer();
+			timerTaskStartGame = new TimerTaskStartGame();
 			timer.schedule(timerTaskStartGame, timeWaitingForMaxPlayers);
 		}
 	}
@@ -166,7 +173,7 @@ public class ServerStarter implements Runnable {
 			waitingClients = new ArrayList<ClientHandler>();
 
 			// stop the timer for this game
-			timer.cancel();
+			timerTaskStartGame.cancel();
 		}
 	}
 

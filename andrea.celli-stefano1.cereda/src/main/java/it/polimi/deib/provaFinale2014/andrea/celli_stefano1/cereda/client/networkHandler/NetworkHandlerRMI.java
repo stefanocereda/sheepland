@@ -6,7 +6,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Timer;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
@@ -61,7 +60,7 @@ public class NetworkHandlerRMI extends NetworkHandler {
 
 		// Start to periodically ping the server in order to catch our
 		// disconnection
-		timer = new Timer();
+		timerTaskPong = new TimerTaskPong();
 		timer.scheduleAtFixedRate(timerTaskPong, TimeConstants.PING_TIME,
 				TimeConstants.PING_TIME);
 	}

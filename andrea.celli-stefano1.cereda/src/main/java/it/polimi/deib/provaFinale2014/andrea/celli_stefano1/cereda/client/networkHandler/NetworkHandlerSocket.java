@@ -14,10 +14,9 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A socket version of a network handler. It connects to the server and starts
@@ -78,7 +77,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		myId = Integer.parseInt(in.nextLine());
 
 		// if we are connected start the ping timer
-		timer = new Timer();
+		TimerTask timerTaskPong = new TimerTaskPong();
 		timer.scheduleAtFixedRate(timerTaskPong, TimeConstants.PING_TIME,
 				TimeConstants.PING_TIME);
 	}
@@ -120,7 +119,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 				// log the exception
 				logger.severe("DISCONNECTED: " + e);
 				// try to reconnect and stop checking for ping
-				timer.cancel();
+				timerTaskPong.cancel();
 				notifyDisconnection();
 				reconnect();
 			} catch (ClassNotFoundException e) {
@@ -175,7 +174,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		controller.upDateStatus(newStatus);
 	}
 
-	/** This methos receive a Player and sets it as the new current player */
+	/** This method receive a Player and sets it as the new current player */
 	private void getAndSetNewCurrentPlayer() throws IOException,
 			ClassNotFoundException {
 		Player newCurrentPlayer = (Player) objectIn.readObject();

@@ -35,7 +35,10 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 	/** A timer used to ping the client */
 	protected Timer timer = new Timer();
 	/** the timer task to execute at the end of the timers */
-	private TimerTask timerTaskPing = new TimerTask() {
+	protected TimerTask timerTaskPing;
+
+	/** A TimerTask executed periodically by the timer to check connectivity */
+	class TimerTaskPing extends TimerTask {
 		public void run() {
 			try {
 				pingTheClient();
@@ -45,12 +48,12 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 				notifyClientDisconnection();
 			}
 		}
-	};
+	}
 
 	/** This constructor sets the server starter and starts the ping thread */
 	public ClientHandler(ServerStarter creator) {
 		serverStarter = creator;
-		timer = new Timer();
+		timerTaskPing = new TimerTaskPing();
 		timer.scheduleAtFixedRate(timerTaskPing, TimeConstants.PING_TIME,
 				TimeConstants.PING_TIME);
 	}
@@ -63,7 +66,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 	public void notifyClientDisconnection() {
 		if (id != 0 && gameController != null && controlledPlayer != null) {
 			// otherwise it disconnected too soon
-			timer.cancel();
+			timerTaskPing.cancel();
 			gameController.notifyDisconnection(controlledPlayer);
 			serverStarter.notifyDisconnection(id);
 		}
