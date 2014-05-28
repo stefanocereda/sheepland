@@ -1,11 +1,13 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -32,8 +34,6 @@ public class InterfaceConsole implements Interface {
 	GameControllerClient gameController;
 	/** the input used by the player */
 	Scanner in = new Scanner(System.in);
-	/** The last move made by this player */
-	Move lastMove;
 
 	/**
 	 * This method asks the player for a new move and wait for it. The method
@@ -49,6 +49,7 @@ public class InterfaceConsole implements Interface {
 		String answer;
 		System.out.println("Make your move!");
 		System.out.println("Types of move:");
+
 		// choose the type of move
 		// show options
 		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values())
@@ -64,12 +65,12 @@ public class InterfaceConsole implements Interface {
 
 		// the new move is stored in lastMove
 		if (answer.equals(TypeOfPlayerMoves.BUYCARD.getName()))
-			lastMove = askForBuyCardMove();
+			return askForBuyCardMove();
 		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.getName()))
-			lastMove = askForMovePlayer();
+			return askForMovePlayer();
 		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.getName()))
-			lastMove = askForMoveSheep();
-		return lastMove;
+			return askForMoveSheep();
+		return null;
 	}
 
 	/**
@@ -88,17 +89,82 @@ public class InterfaceConsole implements Interface {
 	 * This methods shows to the player moves that are performed by others.
 	 * Every player also receives moves that he's made. notifyMove() shows only
 	 * moves made by other player (A player should know what he has just done).
-	 * In order to do that it checks if the id of the last move made by the
-	 * player is different from the id of the move to show (using equals(...)).
+	 * In order to do that it checks if the player that made the move isn't
+	 * equal to the controlledPlayer.
+	 * 
+	 * Moves that aren't performed by players are always displayed.
 	 * 
 	 * @param move
 	 */
 	public void notifyMove(Move move) {
-		// execute the move only if made by another player
-		if (!move.equals(lastMove)) {
 
+		if (!(move instanceof PlayerAction)) {
+			// the move is not performed by a player, therefore it's always
+			// displayed
+			// moves performed by the system HAVE TO override toString()
+			System.out.println(move.toString());
+		} else {
+			// check if the player is different from the controlled player
+			if (!gameController.getControlledPlayer().equals(
+					((PlayerAction) move).getPlayer())) {
+				// determines the number of the player
+				int numberOfThePlayer = gameController.getBoardStatus()
+						.getPlayerNumber(((PlayerAction) move).getPlayer());
+
+				if (move instanceof MovePlayer) {
+					// looks for the number of the road
+					int numberOfTheRoad = 0;
+					HashMap<Integer, Road> map = (HashMap<Integer, Road>) gameController
+							.getBoardStatus().getRoadMap().getHashMapOfRoads();
+					for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++)
+						if (((MovePlayer) move).getNewPositionOfThePlayer()
+								.equals(map.get(i))) {
+							numberOfTheRoad = i;
+							break;
+						}
+					System.out.println("Player " + numberOfThePlayer
+							+ " moved to road " + numberOfTheRoad + " paying "
+							+ ((MovePlayer) move).getCost());
+				} else {
+
+					if (move instanceof MoveSheep) {
+						// the black sheep has been moved
+						if (((MoveSheep) move).getMovedSheep()
+								.equals(gameController.getBoardStatus()
+										.getBlackSheep()))
+							System.out.println("Player "
+									+ numberOfThePlayer
+									+ "moved the black sheep from "
+									+ ((MoveSheep) move).getMovedSheep()
+											.getPosition().toString()
+									+ " to "
+									+ ((MoveSheep) move)
+											.getNewPositionOfTheSheep()
+											.toString());
+						else
+							// standard sheep
+							System.out.println("Player "
+									+ numberOfThePlayer
+									+ "moved a sheep from "
+									+ ((MoveSheep) move).getMovedSheep()
+											.getPosition().toString()
+									+ " to "
+									+ ((MoveSheep) move)
+											.getNewPositionOfTheSheep()
+											.toString());
+					} else {
+						if (move instanceof BuyCardMove)
+							System.out.println("Player "
+									+ numberOfThePlayer
+									+ " purchased card "
+									+ ((BuyCardMove) move).getNewCard()
+											.toString());
+					}
+
+				}
+
+			}
 		}
-
 	}
 
 	public void notifyNotValidMove() {
@@ -215,6 +281,8 @@ public class InterfaceConsole implements Interface {
 		Terrain terrainFrom = null;
 		Terrain terrainTo = null;
 		Sheep sheepToMove = null;
+		boolean moveBlackSheep = false;
+		String answer;
 
 		HashMap<Terrain, Integer> map = (HashMap) gameController
 				.getBoardStatus().calculateNumberOfSheepForEachTerrain();
@@ -224,7 +292,14 @@ public class InterfaceConsole implements Interface {
 		for (Terrain terrain : Terrain.values())
 			System.out.println("Terrain " + terrain.toString()
 					+ " number of sheep: " + map.get(terrain));
+		// specifies where the black sheep is
+		System.out
+				.println("The black sheep is among the sheep in the terrain: "
+						+ gameController.getBoardStatus().getBlackSheep()
+								.getPosition().toString());
 
+		System.out
+				.println("(To move the black sheep choose the terrain where it's located)");
 		// ask for the sheep to move (the player has to choose the terrain in
 		// which the seep is)
 		do {
@@ -247,12 +322,28 @@ public class InterfaceConsole implements Interface {
 				terrainTo = terrain;
 		}
 
-		// looks for the sheep to move
-		for (Sheep sheep : gameController.getBoardStatus().getSheeps())
-			if (sheep.getPosition().equals(terrainFrom)) {
-				sheepToMove = sheep;
-				break;
+		// if the terrain from is the one in which the black sheep is the system
+		// ask if the player wants to move a standard sheep or the black sheep
+		if (terrainFrom.equals(gameController.getBoardStatus().getBlackSheep()
+				.getPosition())) {
+			do {
+				System.out
+						.println("Do you want do move the black sheep? (yes/no)");
+				answer = in.nextLine();
+			} while (!(answer.equals("yes") || answer.equals("no")));
+			if (answer.equals("yes")) {
+				moveBlackSheep = true;
+				sheepToMove = gameController.getBoardStatus().getBlackSheep();
 			}
+		}
+		// looks for the sheep to move
+		if (!moveBlackSheep) {
+			for (Sheep sheep : gameController.getBoardStatus().getSheeps())
+				if (sheep.getPosition().equals(terrainFrom)) {
+					sheepToMove = sheep;
+					break;
+				}
+		}
 
 		// creates and return the move
 		return new MoveSheep(

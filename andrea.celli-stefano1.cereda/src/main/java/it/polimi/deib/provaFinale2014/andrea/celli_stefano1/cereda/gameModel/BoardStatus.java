@@ -326,4 +326,15 @@ public class BoardStatus implements Serializable {
 		return freeRoads;
 	}
 
+	/**
+	 * This method returns the position of a player in the array of players
+	 * 
+	 * @returns an int representing the position (going from 1 to the effective
+	 *          number of players)
+	 * @author Andrea
+	 */
+	public int getPlayerNumber(Player player) {
+		return players.findPosition(player);
+	}
+
 }
