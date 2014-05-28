@@ -46,4 +46,5 @@ public class MovePlayer extends PlayerAction {
 	public void setCost(int newCost) {
 		cost = newCost;
 	}
+
 }

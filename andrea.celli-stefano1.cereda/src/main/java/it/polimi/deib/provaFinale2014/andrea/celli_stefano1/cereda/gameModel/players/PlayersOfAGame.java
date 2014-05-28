@@ -54,4 +54,5 @@ public class PlayersOfAGame extends GenericGameObject {
 				return true;
 		return false;
 	}
+
 }

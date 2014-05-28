@@ -36,4 +36,8 @@ public class MoveBlackSheep extends Move {
 		return blackSheep;
 	}
 
+	public String toString() {
+		return "the black sheep moves to " + newPosition.toString();
+	}
+
 }

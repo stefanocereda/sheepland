@@ -31,6 +31,8 @@ public class InterfaceConsole implements Interface {
 	GameControllerClient gameController;
 	/** the input used by the player */
 	Scanner in = new Scanner(System.in);
+	/** The last move made by this player */
+	Move lastMove;
 
 	/**
 	 * This method asks the player for a new move and wait for it. The method
@@ -59,23 +61,42 @@ public class InterfaceConsole implements Interface {
 		// depending on the type of move the method goes on asking for
 		// information to the player
 
-		// buy a new card
+		// the new move is stored in lastMove
 		if (answer.equals(TypeOfPlayerMoves.BUYCARD.getName()))
-			return askForBuyCardMove();
+			lastMove = askForBuyCardMove();
 		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.getName()))
-			return askForMovePlayer();
+			lastMove = askForMovePlayer();
 		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.getName()))
-			return askForMoveSheep();
-		return null;
+			lastMove = askForMoveSheep();
+		return lastMove;
 	}
 
+	/**
+	 * This methods links the InterfaceConsole with the GameController. This
+	 * passage couldn't be done in the initialization because they are created
+	 * at the same time.
+	 * 
+	 * @param the
+	 *            game controller that has to be linked
+	 */
 	public void setReferenceToGameController(GameControllerClient gameController) {
-		// TODO Auto-generated method stub
-
+		this.gameController = gameController;
 	}
 
+	/**
+	 * This methods shows to the player moves that are performed by others.
+	 * Every player also receives moves that he's made. notifyMove() shows only
+	 * moves made by other player (A player should know what he has just done).
+	 * In order to do that it checks if the id of the last move made by the
+	 * player is different from the id of the move to show (using equals(...)).
+	 * 
+	 * @param move
+	 */
 	public void notifyMove(Move move) {
-		// TODO Auto-generated method stub
+		// execute the move only if made by another player
+		if (!move.equals(lastMove)) {
+
+		}
 
 	}
 
@@ -100,6 +121,10 @@ public class InterfaceConsole implements Interface {
 	}
 
 	public void showAllStatus() {
+
+	}
+
+	public void showInitialInformation() {
 
 	}
 
