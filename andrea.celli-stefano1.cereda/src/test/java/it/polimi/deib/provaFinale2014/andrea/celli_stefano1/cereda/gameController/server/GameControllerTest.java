@@ -63,34 +63,28 @@ public class GameControllerTest {
 	 */
 	@Test
 	public void testNotifyReconnection() {
-		ClientHandler ch = new FakeClientHandler(null);
-		List<ClientHandler> players = new ArrayList<ClientHandler>();
-		players.add(ch);
+		ClientHandler ch1 = new FakeClientHandler(null);
+		List<ClientHandler> clients = new ArrayList<ClientHandler>();
+		clients.add(ch1);
 
 		Player p = new Player();
-		ch.setPlayer(p);
+		p.setID();
+		ch1.setPlayer(p);
 
-		GameController gc1 = new GameController(players);
-		ch.setGame(gc1);
+		GameController gc1 = new GameController(clients);
+		ch1.setGame(gc1);
 
 		gc1.notifyDisconnection(p);
 
-		ClientHandler chNew = new FakeClientHandler(null);
-		gc1.notifyReconnection(p, chNew);
+		ClientHandler ch2 = new FakeClientHandler(null);
+		gc1.notifyReconnection(p, ch2);
 
 		assertTrue(p.isConnected());
 		assertFalse(p.isSuspended());
 
-		boolean containsOld = false;
-		boolean containsNew = false;
-		for (int i = 0; i < players.size(); i++)
-			if (players.get(i).equals(chNew))
-				containsNew = true;
-			else if (players.get(i).equals(ch))
-				containsOld = true;
+		assertTrue(clients.contains(ch2));
+		assertFalse(clients.contains(ch1));
 
-		assertTrue(containsNew);
-		assertFalse(containsOld);
 	}
 
 	/** Fake class for the tests */
@@ -145,6 +139,12 @@ public class GameControllerTest {
 				ClassNotFoundException {
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		public void notifyControlledPlayer(Player controlled)
+				throws ClientDisconnectedException {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

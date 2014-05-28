@@ -340,10 +340,10 @@ public class GameController implements Runnable {
 	/** This method reconnect a player changing his ConnectionHandler */
 	public void notifyReconnection(Player player, ClientHandler newClientHandler) {
 		// search the old client handler
-		for (ClientHandler client : clients) {
-			// and change the client handler
-			if (client.getPlayer().equals(player))
-				client = newClientHandler;
+		for (ClientHandler oldClient : clients) {
+			// and change it with the new one
+			if (oldClient.getPlayer().equals(player))
+				clients.set(clients.indexOf(oldClient), newClientHandler);
 		}
 
 		// set the parameters

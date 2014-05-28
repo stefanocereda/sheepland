@@ -15,7 +15,9 @@ public class TimeConstants {
 	public static final long RMI_WAITING_LOOKUP = 1 * 1000;
 
 	/** The time in milliseconds waiting for the reconnection of a client */
-	public static final long WAITING_FOR_CLIENT_RECONNECT = 10 * 1000;//
+	// public static final long WAITING_FOR_CLIENT_RECONNECT = 10 * 1000;//
+	public static final long WAITING_FOR_CLIENT_RECONNECT = 1;
+	// è BASSO PER VELOCIZZARE I TEST, BISOGNERà USARE QUELLO SOPRA
 
 	/** The time in milliseconds between each reconnection test */
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
