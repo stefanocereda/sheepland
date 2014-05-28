@@ -2,9 +2,11 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -18,7 +20,7 @@ import java.util.Scanner;
 
 /**
  * This class manages the command line interface. It has two main types of
- * methods. The first type is methods to asl moves to the client. The secondo is
+ * methods. The first type is methods to ask moves to the client. The secondo is
  * methods to update the view. These methods are called in the game controller
  * when new updates are executed.
  * 
@@ -26,8 +28,9 @@ import java.util.Scanner;
  * 
  */
 public class InterfaceConsole implements Interface {
-
+	/** the game controller acts as a mediator with the board status */
 	GameControllerClient gameController;
+	/** the input used by the player */
 	Scanner in = new Scanner(System.in);
 
 	/**
@@ -187,12 +190,55 @@ public class InterfaceConsole implements Interface {
 	 * @return move
 	 */
 	private Move askForMoveSheep() {
+
+		String from;
+		String to;
+		Terrain terrainFrom = null;
+		Terrain terrainTo = null;
+		Sheep sheepToMove = null;
+
 		HashMap<Terrain, Integer> map = (HashMap) gameController
 				.getBoardStatus().calculateNumberOfSheepForEachTerrain();
 
 		// print the number of sheep for each terrain
-		System.out.println("There are the number of sheep for each terrain");
-		return null;
+		System.out.println("These are the numbers of sheep for each terrain");
+		for (Terrain terrain : Terrain.values())
+			System.out.println("Terrain " + terrain.toString()
+					+ " number of sheep: " + map.get(terrain));
+
+		// ask for the sheep to move (the player has to choose the terrain in
+		// which the seep is)
+		do {
+			System.out.println("Choose the terrain where to pick the sheep:");
+			from = in.nextLine();
+		} while (!isCorrectAnswer(Terrain.values(), from));
+
+		// ask for the new position on the sheep
+		do {
+			System.out
+					.println("Choose the terrain where you want to place the sheep:");
+			to = in.nextLine();
+		} while (!isCorrectAnswer(Terrain.values(), to));
+
+		// looks for the terrains corresponding to the choices of the player
+		for (Terrain terrain : Terrain.values()) {
+			if (from.equals(terrain.toString()))
+				terrainFrom = terrain;
+			else if (to.equals(terrain.toString()))
+				terrainTo = terrain;
+		}
+
+		// looks for the sheep to move
+		for (Sheep sheep : gameController.getBoardStatus().getSheeps())
+			if (sheep.getPosition().equals(terrainFrom)) {
+				sheepToMove = sheep;
+				break;
+			}
+
+		// creates and return the move
+		return new MoveSheep(
+				gameController.getBoardStatus().getCurrentPlayer(),
+				sheepToMove, terrainTo);
 	}
 
 	public Road chooseInitialPosition() {
