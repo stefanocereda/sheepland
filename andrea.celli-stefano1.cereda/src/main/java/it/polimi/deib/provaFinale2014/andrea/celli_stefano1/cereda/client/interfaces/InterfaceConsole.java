@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.costants.Costants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -241,9 +242,39 @@ public class InterfaceConsole implements Interface {
 				sheepToMove, terrainTo);
 	}
 
+	/**
+	 * This method is used during the initialization of a game. It allows the
+	 * player to choose its initial position.
+	 * 
+	 * @return the initial position of the player
+	 */
 	public Road chooseInitialPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		String answer;
+		ArrayList<Integer> freeRoads = new ArrayList<Integer>();
+		Map<Integer, Road> roadMap = gameController.getBoardStatus()
+				.getRoadMap().getHashMapOfRoads();
+		BoardStatus actualBoardStatus = gameController.getBoardStatus();
+
+		// finds and shows the free roads (another player may have already
+		// choosen a road)
+		System.out
+				.println("Choose your initial position among the following roads:");
+		for (int i = 1; i <= Costants.NUMBER_OF_ROADS; i++)
+			if (actualBoardStatus.isFreeRoad(roadMap.get(i))) {
+				freeRoads.add(i);
+				System.out.print(" " + i + " ");
+			}
+
+		// wait for the answer and check if it the string represents a free road
+		do {
+			System.out.println("Choose a road: ");
+			answer = in.nextLine();
+		} while (!isCorrectAnswer(freeRoads.toArray(), answer));
+
+		// find the number of the choosen road
+		Integer road = Integer.parseInt(answer);
+		// returns the road
+		return roadMap.get(road);
 	}
 
 }
