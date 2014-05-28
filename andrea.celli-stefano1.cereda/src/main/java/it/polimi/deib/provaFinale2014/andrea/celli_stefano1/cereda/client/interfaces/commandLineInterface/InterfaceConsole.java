@@ -28,7 +28,7 @@ import java.util.Scanner;
  * when new updates are executed.
  * 
  * @author Andrea
- * 
+ * @TODO showAllStatus
  */
 public class InterfaceConsole implements Interface {
 	/** the game controller acts as a mediator with the board status */
@@ -169,8 +169,8 @@ public class InterfaceConsole implements Interface {
 	}
 
 	public void notifyNotValidMove() {
-		// TODO Auto-generated method stub
-
+		System.out
+				.println("The move goes against Sheepland's rule! Be more careful");
 	}
 
 	public void notifyDisconnection() {
@@ -178,22 +178,53 @@ public class InterfaceConsole implements Interface {
 
 	}
 
+	/**
+	 * This method tells the client who has to play
+	 * 
+	 * @param the
+	 *            current player
+	 */
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
-		// TODO Auto-generated method stub
-
+		if (newCurrentPlayer.equals(gameController.getControlledPlayer()))
+			System.out.println("It's your turn, be ready!");
+		else
+			System.out.println("It's now the turn of player "
+					+ gameController.getBoardStatus().getPlayerNumber(
+							newCurrentPlayer));
 	}
 
 	public void notifyWinners(List<Player> winners) {
-		// TODO Auto-generated method stub
-
+		System.out.println("GAME OVER");
+		if (winners.size() < 1) {
+			System.out.println("There's only one winner: PLAYER "
+					+ gameController.getBoardStatus().getPlayerNumber(
+							winners.get(0)));
+		} else {
+			System.out.println("The winners are:");
+			show(winners.toArray());
+			System.out.println("IT'S TIME TO BAA, make some noiseee");
+		}
+		System.out.println("See you soon, mighty sheperd!");
 	}
 
+	/**
+	 * @TODO all
+	 */
 	public void showAllStatus() {
 
 	}
 
 	public void showInitialInformation() {
-
+		System.out.println("Welcome to sheepland");
+		System.out.println("Brace yourself, sheeps are coming!!");
+		System.out.println(" ");
+		System.out.println(" ");
+		System.out.println("You're player "
+				+ gameController.getBoardStatus().getPlayerNumber(
+						gameController.getControlledPlayer()));
+		System.out.println(" ");
+		System.out.println("Good luck!");
+		System.out.println(" ");
 	}
 
 	/**
