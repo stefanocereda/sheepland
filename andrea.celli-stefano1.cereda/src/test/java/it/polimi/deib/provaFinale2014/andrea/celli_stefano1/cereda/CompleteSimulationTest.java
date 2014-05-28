@@ -1,8 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.ClientMainClass;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
@@ -21,6 +19,7 @@ import org.junit.Test;
 public class CompleteSimulationTest {
 
 	@Test
+	@Ignore
 	public void test() {
 		ServerMainClass.main(null);// starts the server
 

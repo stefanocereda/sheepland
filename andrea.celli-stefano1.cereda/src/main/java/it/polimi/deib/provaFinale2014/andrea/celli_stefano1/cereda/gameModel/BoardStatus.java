@@ -163,7 +163,8 @@ public class BoardStatus implements Serializable {
 	public boolean isFreeRoad(Road roadToCheck) {
 		// first check if we have a shepherd
 		for (Player player : players.getPlayers())
-			if (player.getPosition().equals(roadToCheck))
+			if (player.getPosition() != null
+					&& player.getPosition().equals(roadToCheck))
 				return false;
 
 		// then check the gates
