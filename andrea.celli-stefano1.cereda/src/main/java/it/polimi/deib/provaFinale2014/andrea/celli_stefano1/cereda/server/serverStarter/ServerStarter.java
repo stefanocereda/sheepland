@@ -7,8 +7,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.DisconnectedClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -51,7 +49,7 @@ public class ServerStarter implements Runnable {
 	ServerStarterRMI rmiServer;
 
 	/** timer to start games with less than four players */
-	private Timer timer = null;
+	private Timer timer = new Timer();
 	/** the timer task to execute at the end of the timer to launch a game */
 	private TimerTask timerTaskStartGame;
 
