@@ -15,8 +15,6 @@ public class InterfaceCreator {
 
 	public static Interface create(TypeOfInterface defaultInterface) {
 		switch (defaultInterface) {
-		case FAKE:
-			return new InterfaceFake();
 		case CONSOLE:
 			return new InterfaceConsole();
 		case GUI:
