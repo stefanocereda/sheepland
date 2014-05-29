@@ -1,10 +1,15 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.ClientMainClass;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.commandLineInterface.InterfaceConsole;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ServerMainClass;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,7 +42,13 @@ public class CompleteSimulationTest {
 	class socketClient implements Runnable {
 		public void run() {
 			try {
-				ClientMainClass.launchSocket();
+				Interface ui = new InterfaceConsole();
+				GameControllerClient controller = new GameControllerClient(ui);
+				InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
+				NetworkHandlerSocket socketClient;
+				socketClient = new NetworkHandlerSocket(serverAddress,
+						controller);
+				socketClient.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

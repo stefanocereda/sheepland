@@ -22,8 +22,8 @@ public class TimeConstants {
 	/** The time in milliseconds between each reconnection test */
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
 
-	/** the minutes waiting for the max number of players */
-	public static final int MINUTES_WAITING_FOR_MAX_PLAYERS = 5;
+	/** the time in milliseconds waiting for the max number of players */
+	public static final int MINUTES_WAITING_FOR_MAX_PLAYERS = 1 * 60 * 1000;
 
 	/** Hide the default constructor */
 	private TimeConstants() {
