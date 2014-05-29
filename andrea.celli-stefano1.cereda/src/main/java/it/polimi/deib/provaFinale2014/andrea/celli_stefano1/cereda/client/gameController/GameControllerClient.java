@@ -25,7 +25,7 @@ import java.util.List;
  * @TODO askNewMove and notValidMove
  */
 public class GameControllerClient {
-	private ExecuteAction executeAction;
+	private ExecuteAction executeAction = new ExecuteAction();
 	/** The boardStatus of the current game */
 	private BoardStatus boardStatus;
 	/** The user interface */
@@ -44,27 +44,6 @@ public class GameControllerClient {
 	 */
 	public BoardStatus getBoardStatus() {
 		return boardStatus;
-	}
-
-	/**
-	 * This method links executeAction with a proper instance of the class. This
-	 * method will be overridden in the GameControllerClienExtended class (that
-	 * class will inherit from GameControllerClient). In this way the
-	 * GameControllerClientExtended class is going to have an
-	 * ExecuteActionExtended attribute (it will use the same of its superclass
-	 * through dynamic binding.) This method links boardStatus with a proper
-	 * instance of the class. This method will be overridden in the
-	 * GameControllerExtended class. It will use dynamic binding to use the
-	 * boardStatus attribute of the superclass as a BoardStatusExtended.
-	 * 
-	 * @param numberOfPlayers
-	 *            The number of players that will play the match
-	 */
-	public void initializeGame(int numberOfPlayers) {
-		// It starts a new update executer
-		executeAction = new ExecuteAction();
-		// It creates a new boardStatus
-		boardStatus = new BoardStatus(numberOfPlayers);
 	}
 
 	/**

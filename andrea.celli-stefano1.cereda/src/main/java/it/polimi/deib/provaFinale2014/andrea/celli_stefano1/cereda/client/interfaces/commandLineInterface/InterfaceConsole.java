@@ -409,7 +409,7 @@ public class InterfaceConsole implements Interface {
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(freeRoads.toArray(), answer));
 
-		// find the number of the choosen road
+		// find the number of the chosen road
 		Integer road = Integer.parseInt(answer);
 		// returns the road
 		return roadMap.get(road);

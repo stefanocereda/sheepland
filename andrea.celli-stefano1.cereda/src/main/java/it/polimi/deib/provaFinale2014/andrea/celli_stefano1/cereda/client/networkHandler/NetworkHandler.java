@@ -1,14 +1,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
+
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This abstract class is used for the methods in common between RMI and socket
@@ -25,11 +23,6 @@ public abstract class NetworkHandler {
 
 	/** A logger */
 	protected Logger logger = Logger.getLogger(this.getClass().getName());
-
-	/** A timer used to reply to server's ping */
-	protected Timer timer = new Timer();
-	/** A timer task used to check connectivity */
-	protected TimerTask timerTaskPong;
 
 	/**
 	 * The constructor of a network handler is used to set the reference to the
@@ -57,32 +50,11 @@ public abstract class NetworkHandler {
 	/** Connect to the server */
 	protected abstract void connect() throws RemoteException, IOException;
 
-	/** Check if we're still connected */
-	protected abstract void checkConnectivity() throws RemoteException,
-			IOException;
-
 	/**
 	 * This method tells the controller to inform the user that we're
 	 * disconnected and trying to reconnect
 	 */
 	protected void notifyDisconnection() {
 		controller.notifyDisconnection();
-	}
-
-	/**
-	 * This class represents a task that has to be executed periodically by the
-	 * timer to check connectivity
-	 */
-	class TimerTaskPong extends TimerTask {
-		public void run() {
-			try {
-				checkConnectivity();
-			} catch (Exception e) {
-				logger.severe("we're disconnected" + e);
-				timerTaskPong.cancel();
-				notifyDisconnection();
-				reconnect();
-			}
-		}
 	}
 }

@@ -1,17 +1,15 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler;
 
-import java.io.IOException;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.RMICostants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.RMICostants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
 
 /**
  * The rmi version of a network handler. It connects to the server, receives an
@@ -57,17 +55,5 @@ public class NetworkHandlerRMI extends NetworkHandler {
 				.exportObject(rmiHandler, 0);
 
 		registry.rebind(myId.toString(), stubRMIHandler);
-
-		// Start to periodically ping the server in order to catch our
-		// disconnection
-		timerTaskPong = new TimerTaskPong();
-		timer.scheduleAtFixedRate(timerTaskPong, TimeConstants.PING_TIME,
-				TimeConstants.PING_TIME);
 	}
-
-	@Override
-	protected void checkConnectivity() throws RemoteException, IOException {
-		connector.ping();
-	}
-
 }

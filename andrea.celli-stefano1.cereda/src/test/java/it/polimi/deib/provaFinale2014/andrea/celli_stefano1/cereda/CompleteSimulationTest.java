@@ -1,10 +1,10 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda;
 
-import java.io.IOException;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.ClientMainClass;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ServerMainClass;
+
+import java.io.IOException;
 
 import org.junit.Ignore;
 import org.junit.Test;

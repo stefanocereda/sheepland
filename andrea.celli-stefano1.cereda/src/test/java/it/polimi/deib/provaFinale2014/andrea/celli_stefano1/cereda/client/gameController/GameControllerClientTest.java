@@ -2,9 +2,10 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameC
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceFake;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -30,7 +31,10 @@ public class GameControllerClientTest {
 	public void executeMoveTest() {
 		Interface ui = new InterfaceFake();
 		GameControllerClient gameController = new GameControllerClient(ui);
-		gameController.initializeGame(3);
+		BoardStatus newBoardStatus = new BoardStatus(
+				GameConstants.MAX_PLAYERS_IN_A_GAME);
+		gameController.upDateStatus(newBoardStatus);
+
 		Player player1 = new Player(5, gameController.getBoardStatus()
 				.getDeck().extractInitialCard(), gameController
 				.getBoardStatus().getRoadMap().getHashMapOfRoads().get(1));
