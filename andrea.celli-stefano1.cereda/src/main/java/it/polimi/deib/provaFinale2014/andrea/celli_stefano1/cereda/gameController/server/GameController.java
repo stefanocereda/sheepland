@@ -378,7 +378,7 @@ public class GameController implements Runnable {
 
 		if (!client.getPlayer().isSuspended()) {
 			try {
-				Move toReturn = client.askMove();
+				Move toReturn = client.sayMoveIsNotValid();
 				toReturn.setID();
 				return toReturn;
 			} catch (ClientDisconnectedException e) {

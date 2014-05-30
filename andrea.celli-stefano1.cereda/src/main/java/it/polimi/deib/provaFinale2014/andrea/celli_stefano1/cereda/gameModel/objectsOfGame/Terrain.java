@@ -33,44 +33,6 @@ public enum Terrain implements Serializable {
 	}
 
 	public String toString() {
-		if (this == Terrain.P1)
-			return "p1";
-		if (this == Terrain.P2)
-			return "p2";
-		if (this == Terrain.P3)
-			return "p3";
-		if (this == Terrain.C1)
-			return "c1";
-		if (this == Terrain.C2)
-			return "c2";
-		if (this == Terrain.C3)
-			return "c3";
-		if (this == Terrain.D1)
-			return "d1";
-		if (this == Terrain.D2)
-			return "d2";
-		if (this == Terrain.D3)
-			return "d3";
-		if (this == Terrain.L1)
-			return "l1";
-		if (this == Terrain.L2)
-			return "l2";
-		if (this == Terrain.L3)
-			return "l3";
-		if (this == Terrain.M1)
-			return "m1";
-		if (this == Terrain.M2)
-			return "m2";
-		if (this == Terrain.M3)
-			return "m3";
-		if (this == Terrain.W1)
-			return "w1";
-		if (this == Terrain.W2)
-			return "w2";
-		if (this == Terrain.W3)
-			return "w3";
-
-		return null;
+		return this.name().toLowerCase();
 	}
-
 }
