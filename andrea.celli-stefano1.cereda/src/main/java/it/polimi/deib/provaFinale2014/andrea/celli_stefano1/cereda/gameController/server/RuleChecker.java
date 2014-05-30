@@ -26,20 +26,32 @@ public class RuleChecker {
 
 	/** Check if a BuyCardMove is valid */
 	public static boolean isValidBuyCard(BuyCardMove move, BoardStatus status) {
-		return isValidPlayerAction(move, status)
-				&& isCorrectMoveBuyCard(move, status);
+		try {
+			return isValidPlayerAction(move, status)
+					&& isCorrectMoveBuyCard(move, status);
+		} catch (NullPointerException e) {
+			return false;
+		}
 	}
 
 	/** Check if a MoveSheep is valid */
 	public static boolean isValidMoveSheep(MoveSheep move, BoardStatus status) {
-		return isValidPlayerAction(move, status)
-				&& isCorrectMoveSheep(move, status);
+		try {
+			return isValidPlayerAction(move, status)
+					&& isCorrectMoveSheep(move, status);
+		} catch (NullPointerException e) {
+			return false;
+		}
 	}
 
 	/** Check if a MovePlayer is valid */
 	public static boolean isValidMovePlayer(MovePlayer move, BoardStatus status) {
-		return isValidPlayerAction(move, status)
-				&& isCorrectMovePlayer(move, status);
+		try {
+			return isValidPlayerAction(move, status)
+					&& isCorrectMovePlayer(move, status);
+		} catch (NullPointerException e) {
+			return false;
+		}
 	}
 
 	/** Check if a move that can be done by a player is valid */

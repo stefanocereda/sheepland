@@ -14,6 +14,7 @@ import java.net.InetSocketAddress;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -26,11 +27,12 @@ import org.junit.Test;
 public class CompleteSimulationTest {
 
 	@Test
+	@Ignore
 	public void test() {
 		ServerMainClass.main(null);// starts the server
 
 		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
-			(new Thread(new socketClient())).start();
+			(new Thread(new rmiClient())).start();
 		}
 
 		try {
@@ -59,7 +61,7 @@ public class CompleteSimulationTest {
 	class rmiClient implements Runnable {
 		public void run() {
 			try {
-				Interface ui = new InterfaceFake();
+				Interface ui = new InterfaceConsole();
 				GameControllerClient controller = new GameControllerClient(ui);
 				NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(controller);
 				rmiClient.connect();

@@ -77,9 +77,6 @@ public class GameController implements Runnable {
 
 		// initialize the board
 		initBoard();
-
-		// send the initial status to all the clients
-		sendStatusToAllPlayers();
 	}
 
 	/**

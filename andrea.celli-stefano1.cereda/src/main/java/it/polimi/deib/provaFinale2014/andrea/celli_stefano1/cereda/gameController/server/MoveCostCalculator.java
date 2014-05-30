@@ -38,11 +38,18 @@ public class MoveCostCalculator {
 
 	/**
 	 * The movement of a shepherd is free if it'g going on an adjacent road,
-	 * otherwise 1
+	 * otherwise 1.
 	 */
 	private static int getMoveCostPlayer(MovePlayer move) {
 		Road coming = move.getPlayer().getPosition();
 		Road going = move.getNewPositionOfThePlayer();
+
+		// the first move of the shepherd has coming == null so we return 0, in
+		// other moments of the game this kind of move is not valid, but that is
+		// handled by the rulechecker
+		if (coming == null) {
+			return 0;
+		}
 
 		// check if going is in coming's adjacent roads
 		boolean adjacent = coming.getNextRoads().contains(going);
