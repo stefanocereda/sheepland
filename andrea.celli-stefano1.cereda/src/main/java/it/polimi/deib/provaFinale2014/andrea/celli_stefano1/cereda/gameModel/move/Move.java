@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
 
 import java.io.Serializable;
@@ -13,6 +14,11 @@ import java.io.Serializable;
  * 
  * @author Andrea Celli
  */
-public class Move extends GenericGameObject implements Serializable {
+public abstract class Move extends GenericGameObject implements Serializable {
 
+	/** This method checks if the move is valid */
+	public abstract boolean isValid(BoardStatus boardStatus);
+
+	/** This method execute the move on the given boardstatus */
+	public abstract void execute(BoardStatus boardStatus);
 }

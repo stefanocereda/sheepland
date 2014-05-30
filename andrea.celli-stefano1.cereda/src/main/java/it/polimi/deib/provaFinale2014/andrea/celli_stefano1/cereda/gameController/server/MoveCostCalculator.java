@@ -9,7 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 
 /**
- * object with static method to calculate the cost of a basic move
+ * Static class to calculate the cost of a move
  * 
  * TODO tests
  * 
@@ -17,17 +17,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
  * 
  */
 public class MoveCostCalculator {
-	private static MoveCostCalculator moveCostClaculator;
-
+	/** Hide the default constructor */
 	private MoveCostCalculator() {
-	};
-
-	/** Singleton constructor */
-	public static MoveCostCalculator create() {
-		if (moveCostClaculator == null) {
-			moveCostClaculator = new MoveCostCalculator();
-		}
-		return moveCostClaculator;
 	}
 
 	/**
@@ -37,20 +28,19 @@ public class MoveCostCalculator {
 	 *            the move to evaluate
 	 * @return the move cost
 	 */
-	public int getMoveCost(Move move) {
+	public static int getMoveCost(Move move) {
 		if (move.getClass().equals(MovePlayer.class))
 			return getMoveCostPlayer((MovePlayer) move);
 		if (move.getClass().equals(BuyCardMove.class))
 			return getMoveCostBuyCard((BuyCardMove) move);
 		return 0;
-
 	}
 
 	/**
 	 * The movement of a shepherd is free if it'g going on an adjacent road,
 	 * otherwise 1
 	 */
-	private int getMoveCostPlayer(MovePlayer move) {
+	private static int getMoveCostPlayer(MovePlayer move) {
 		Road coming = move.getPlayer().getPosition();
 		Road going = move.getNewPositionOfThePlayer();
 
@@ -66,7 +56,7 @@ public class MoveCostCalculator {
 	}
 
 	/** Buying a card costs the number on the card */
-	private int getMoveCostBuyCard(BuyCardMove move) {
+	private static int getMoveCostBuyCard(BuyCardMove move) {
 		return move.getNewCard().getNumber();
 	}
 }

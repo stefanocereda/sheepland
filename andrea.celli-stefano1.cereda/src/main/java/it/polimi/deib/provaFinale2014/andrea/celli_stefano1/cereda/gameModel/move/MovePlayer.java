@@ -1,5 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.RuleChecker;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
@@ -11,7 +14,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  */
 public class MovePlayer extends PlayerAction {
 	private Road newPosition;
-	private int cost;
 
 	/**
 	 * The constructor creates a new move in which a shepherd is moved to a new
@@ -21,15 +23,10 @@ public class MovePlayer extends PlayerAction {
 	 *            the moved player (which is also the moving player)
 	 * @param newPosition
 	 *            the new road in which the player is placed
-	 * @param cost
-	 *            the cost of the move.The client sets it to zero and sends the
-	 *            move to the server. The server calculates the right cost and
-	 *            sets it in the move, then gives the move back to the client.
 	 */
-	public MovePlayer(Player player, Road newPosition, int cost) {
+	public MovePlayer(Player player, Road newPosition) {
 		super(player);
 		this.newPosition = newPosition;
-		this.cost = cost;
 	}
 
 	/** @return the new position of the player */
@@ -37,14 +34,13 @@ public class MovePlayer extends PlayerAction {
 		return newPosition;
 	}
 
-	/** @return the cost of the move */
-	public int getCost() {
-		return cost;
+	@Override
+	public boolean isValid(BoardStatus boardStatus) {
+		return RuleChecker.isValidMovePlayer(this, boardStatus);
 	}
 
-	/** Set the cost */
-	public void setCost(int newCost) {
-		cost = newCost;
+	@Override
+	public void execute(BoardStatus boardStatus) {
+		ExecuteAction.executeMovePlayer(this, boardStatus);
 	}
-
 }

@@ -7,7 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the implementation of RMIInterface, for every method calls the
@@ -45,7 +45,7 @@ public class RMIImpl implements RMIInterface {
 		controller.setCurrentPlayer(newCurrentPlayer);
 	}
 
-	public void sendWinners(ArrayList<Player> winners) throws RemoteException {
+	public void sendWinners(List<Player> winners) throws RemoteException {
 		controller.notifyWinners(winners);
 		// TODO handle closing connection
 	}

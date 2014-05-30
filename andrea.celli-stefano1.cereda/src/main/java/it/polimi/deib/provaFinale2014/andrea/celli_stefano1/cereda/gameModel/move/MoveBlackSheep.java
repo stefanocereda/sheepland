@@ -1,5 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.RuleChecker;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
@@ -38,6 +41,16 @@ public class MoveBlackSheep extends Move {
 
 	public String toString() {
 		return "the black sheep moves to " + newPosition.toString();
+	}
+
+	@Override
+	public boolean isValid(BoardStatus boardStatus) {
+		return RuleChecker.isValidAutoMove(this, boardStatus);
+	}
+
+	@Override
+	public void execute(BoardStatus boardStatus) {
+		ExecuteAction.executeMoveBlackSheep(this, boardStatus);
 	}
 
 }

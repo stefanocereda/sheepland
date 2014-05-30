@@ -160,4 +160,8 @@ public class Player extends GenericGameObject {
 	public boolean isConnected() {
 		return connected;
 	}
+
+	public void deleteLastMoves() {
+		lastMoves = new ArrayList<Move>();
+	}
 }

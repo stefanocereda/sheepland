@@ -168,7 +168,7 @@ public class BoardStatus implements Serializable {
 				return false;
 
 		// then check the gates
-		for (Gate gate : placedGates.toArray(new Gate[placedGates.size()]))
+		for (Gate gate : placedGates)
 			if (gate.getPosition().equals(roadToCheck))
 				return false;
 		// to be here it must be free

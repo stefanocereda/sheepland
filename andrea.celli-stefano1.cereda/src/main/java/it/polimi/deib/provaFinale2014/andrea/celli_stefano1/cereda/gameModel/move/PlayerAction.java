@@ -8,7 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * @author Andrea
  * 
  */
-public class PlayerAction extends Move {
+public abstract class PlayerAction extends Move {
 	private Player player;
 
 	/**

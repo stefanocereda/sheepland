@@ -14,59 +14,47 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import java.util.List;
 
 /**
- * A single object (to be shared between games) used to check basic rules
- * 
- * TODO tests, blacksheep move (need something to represent the dice roll)
+ * Static object to check the rules validity
  * 
  * @author Stefano
  * 
  */
 public class RuleChecker {
-	private static RuleChecker ruleChecker;
-
 	/** private constructor for singleton pattern */
 	private RuleChecker() {
 	}
 
-	/**
-	 * A singleton pattern constructor
-	 * 
-	 * @return a rulechecker for the basic rules
-	 */
-	public static RuleChecker create() {
-		if (ruleChecker == null)
-			ruleChecker = new RuleChecker();
-		return ruleChecker;
+	/** Check if a BuyCardMove is valid */
+	public static boolean isValidBuyCard(BuyCardMove move, BoardStatus status) {
+		return isValidPlayerAction(move, status)
+				&& isCorrectMoveBuyCard(move, status);
 	}
 
-	/**
-	 * Check if a move is valid
-	 * 
-	 * @param moveToCheck
-	 *            The move to be checked
-	 * @param oldMoves
-	 *            An ArrayList of the previous moves of the player in this turn
-	 * @param actualStatus
-	 *            The actual status of the game
-	 * @return true if the move is valid
-	 */
-	public boolean isValidMove(Move moveToCheck, List<Move> oldMoves,
-			BoardStatus actualStatus) {
-		// If the move is done by a player check if it's the right player, if
-		// it's a valid move and if it's in a valid turn
-		if (moveToCheck.getClass() == MoveSheep.class
-				|| moveToCheck.getClass() == MovePlayer.class
-				|| moveToCheck.getClass() == BuyCardMove.class)
-			return isCorrectPlayer((PlayerAction) moveToCheck, actualStatus)
-					&& isCorrectMove(moveToCheck, actualStatus)
-					&& isAffordable((PlayerAction) moveToCheck, actualStatus)
-					&& isCorrectTurn((PlayerAction) moveToCheck, oldMoves);
+	/** Check if a MoveSheep is valid */
+	public static boolean isValidMoveSheep(MoveSheep move, BoardStatus status) {
+		return isValidPlayerAction(move, status)
+				&& isCorrectMoveSheep(move, status);
+	}
 
-		// otherwise (a move done automatically, like the blacksheep at the end
-		// of the turn, only check if it'a valid move
-		else
-			return isCorrectMove(moveToCheck, actualStatus);
+	/** Check if a MovePlayer is valid */
+	public static boolean isValidMovePlayer(MovePlayer move, BoardStatus status) {
+		return isValidPlayerAction(move, status)
+				&& isCorrectMovePlayer(move, status);
+	}
 
+	/** Check if a move that can be done by a player is valid */
+	private static boolean isValidPlayerAction(PlayerAction move,
+			BoardStatus status) {
+		return (isCorrectPlayer(move, status) && isAffordable(move, status) && isCorrectTurn(
+				move, status.getCurrentPlayer().getLastMoves()));
+	}
+
+	/** Check if an automatic move (not done by a player) is valid */
+	public static boolean isValidAutoMove(Move move, BoardStatus status) {
+		// TODO CAZZO SI FA QUI????
+		// right now to only time of move we have is the black sheep, it is
+		// created by the server so it is always correct
+		return true;
 	}
 
 	/**
@@ -78,7 +66,8 @@ public class RuleChecker {
 	 *            The actual status
 	 * @return if the move is done by the current player
 	 */
-	private boolean isCorrectPlayer(PlayerAction move, BoardStatus boardStatus) {
+	private static boolean isCorrectPlayer(PlayerAction move,
+			BoardStatus boardStatus) {
 		if (move.getPlayer().equals(boardStatus.getCurrentPlayer()))
 			return true;
 		else
@@ -94,35 +83,14 @@ public class RuleChecker {
 	 *            The current status
 	 * @return if the move is affordable for the player
 	 */
-	private boolean isAffordable(PlayerAction move, BoardStatus boardStatus) {
+	private static boolean isAffordable(PlayerAction move,
+			BoardStatus boardStatus) {
 		int money = move.getPlayer().getMoney();
 
 		// Calculate the cost
-		MoveCostCalculator mcc = MoveCostCalculator.create();
-		int cost = mcc.getMoveCost(move);
+		int cost = MoveCostCalculator.getMoveCost(move);
 
 		return (cost <= money);
-	}
-
-	/**
-	 * Check if a move respect the rules
-	 * 
-	 * @param move
-	 *            The move to be checked
-	 * @param boardStatus
-	 *            the current status
-	 * @return if the move is valid
-	 */
-	private boolean isCorrectMove(Move move, BoardStatus boardStatus) {
-		// call the right sub-method casting the move
-		if (move.getClass() == MovePlayer.class)
-			return isCorrectMovePlayer((MovePlayer) move, boardStatus);
-		if (move.getClass() == MoveSheep.class)
-			return isCorrectMoveSheep((MoveSheep) move, boardStatus);
-		if (move.getClass() == BuyCardMove.class)
-			return isCorrectMoveBuyCard((BuyCardMove) move, boardStatus);
-		// it can't be another type (TODO: throw exception?)
-		return false;
 	}
 
 	/**
@@ -135,7 +103,8 @@ public class RuleChecker {
 	 * @return if the move is valid (=if the player is moving on a free road)
 	 * @author Andrea
 	 */
-	private boolean isCorrectMovePlayer(MovePlayer move, BoardStatus boardStatus) {
+	private static boolean isCorrectMovePlayer(MovePlayer move,
+			BoardStatus boardStatus) {
 		return boardStatus.isFreeRoad(move.getNewPositionOfThePlayer());
 	}
 
@@ -149,7 +118,8 @@ public class RuleChecker {
 	 *            the current status
 	 * @return if the move is valid
 	 */
-	private boolean isCorrectMoveSheep(MoveSheep move, BoardStatus boardStatus) {
+	private static boolean isCorrectMoveSheep(MoveSheep move,
+			BoardStatus boardStatus) {
 		// search the adjacent terrains
 		Terrain[] adjacentTerrains = move.getPlayer().getPosition()
 				.getAdjacentTerrains();
@@ -180,7 +150,7 @@ public class RuleChecker {
 	 * @return if the move is valid
 	 * 
 	 */
-	private boolean isCorrectMoveBuyCard(BuyCardMove move,
+	private static boolean isCorrectMoveBuyCard(BuyCardMove move,
 			BoardStatus boardStatus) {
 		// get the type of the card
 		TerrainType tBuying = move.getNewCard().getTerrainType();
@@ -223,7 +193,8 @@ public class RuleChecker {
 	 *            the List of the previous moves done in this turn
 	 * @return if this move is valid in this turn
 	 */
-	private boolean isCorrectTurn(PlayerAction moveToCheck, List<Move> oldMoves) {
+	private static boolean isCorrectTurn(PlayerAction moveToCheck,
+			List<Move> oldMoves) {
 
 		// the first move is always correct
 		if (oldMoves.size() == 0)

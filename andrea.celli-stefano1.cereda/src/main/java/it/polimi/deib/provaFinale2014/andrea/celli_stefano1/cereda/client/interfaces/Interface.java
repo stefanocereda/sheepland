@@ -4,11 +4,11 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,19 +19,72 @@ import java.util.List;
  * 
  */
 public interface Interface {
-	public Move getNewMove();
 
-	public void setReferenceToGameController(GameControllerClient gameController);
+	/**
+	 * This methods links the InterfaceConsole with the GameController. This
+	 * passage couldn't be done in the initialization because they are created
+	 * at the same time.
+	 * 
+	 * @param the
+	 *            game controller that has to be linked
+	 */
+	void setReferenceToGameController(GameControllerClient gameControllerClient);
 
-	public void notifyMove(Move move);
+	/**
+	 * Tell the user that the game is starting. This method should be called
+	 * only when we receive the initial boardStatus, when we should have all the
+	 * parameters set EXCEPT THE PLAYERS POSITIONS THAT ARE STILL NULL so don't
+	 * try to use them!
+	 */
+	void showInitialInformation();
 
-	public void notifyNotValidMove();
+	/** Tell the user that the server sent a brand new board status and show it */
+	void notifyNewStatus(BoardStatus newBoardStatus);
 
-	public void notifyDisconnection();
+	/**
+	 * Ask the user to choose a road that will be his initial position, the
+	 * server will keep asking until we choose a free road. THE POSITION OF THE
+	 * PLAYERS AT THIS POINT COULD BE STILL NULL, SO CHECK IT!!
+	 * 
+	 * @return the road chosen by the player
+	 */
+	Road chooseInitialPosition();
 
-	public void notifyCurrentPlayer(Player newCurrentPlayer);
+	/**
+	 * Show a move to the user, the move will be executed on the board status
+	 * after this method, so the interface has the old positions on the
+	 * boardStatus and the new ones in the Move
+	 * 
+	 * @Move the move to show
+	 */
+	void notifyMove(Move move);
 
-	public void notifyWinners(List<Player> winners);
+	/**
+	 * Ask the user to insert a new move
+	 * 
+	 * @return the move inserted by the user
+	 */
+	Move getNewMove();
 
-	public Road chooseInitialPosition();
+	/** Tell the user that his last move has been rejected by the server */
+	void notifyNotValidMove();
+
+	/**
+	 * Tell the user that the current player is changed
+	 * 
+	 * @param newCurrentPlayer
+	 *            the new current player
+	 */
+	void notifyCurrentPlayer(Player newCurrentPlayer);
+
+	/**
+	 * Tell the user that the game has come to an end
+	 * 
+	 * @param winners
+	 *            the list of players that have realized the max points
+	 */
+	void notifyWinners(List<Player> winners);
+
+	/** Tell the user that we are disconnected and trying to reconnect */
+	void notifyDisconnection();
 }

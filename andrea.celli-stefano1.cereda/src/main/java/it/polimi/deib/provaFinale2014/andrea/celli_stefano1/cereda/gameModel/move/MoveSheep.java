@@ -1,5 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.RuleChecker;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -41,5 +44,15 @@ public class MoveSheep extends PlayerAction {
 	/** @return the new position of the sheep */
 	public Terrain getNewPositionOfTheSheep() {
 		return newPosition;
+	}
+
+	@Override
+	public boolean isValid(BoardStatus boardStatus) {
+		return RuleChecker.isValidMoveSheep(this, boardStatus);
+	}
+
+	@Override
+	public void execute(BoardStatus boardStatus) {
+		ExecuteAction.executeMoveSheep(this, boardStatus);
 	}
 }

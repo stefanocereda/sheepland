@@ -75,7 +75,7 @@ public class GameControllerClientTest {
 
 		// Check for MovePlayer
 		MovePlayer movePlayer = new MovePlayer(player1, gameController
-				.getBoardStatus().getRoadMap().getHashMapOfRoads().get(38), 1);
+				.getBoardStatus().getRoadMap().getHashMapOfRoads().get(38));
 		movePlayer.setID();
 		gameController.executeMove(movePlayer);
 		// Check if a gate has been placed on road 38

@@ -2,7 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.MoveCostCalculator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
@@ -30,7 +30,6 @@ public class ExecuteActionTest {
 	@Test
 	public void executeMoveSheepTest() {
 		BoardStatus boardStatus = new BoardStatus(3);
-		ExecuteAction executer = new ExecuteAction();
 		Player player = new Player();
 		player.setID();
 		boardStatus.addPlayerToBoardStatus(player);
@@ -39,7 +38,9 @@ public class ExecuteActionTest {
 		boardStatus.addSheep(sheep);
 		MoveSheep move = new MoveSheep(player, sheep, Terrain.C2);
 		move.setID();
-		executer.executeMoveSheep(move, boardStatus);
+
+		move.execute(boardStatus);
+
 		assertEquals(move,
 				player.getLastMoves().get(player.getLastMoves().size() - 1));
 		assertEquals(move.getNewPositionOfTheSheep(), sheep.getPosition());
@@ -48,20 +49,18 @@ public class ExecuteActionTest {
 	@Test
 	public void executeMoveBlackSheepTest() {
 		BoardStatus boardStatus = new BoardStatus(3);
-		ExecuteAction executer = new ExecuteAction();
 		BlackSheep blackSheep = new BlackSheep(Terrain.SHEEPSBURG);
 		blackSheep.setID();
 		boardStatus.addBlackSheepToBoardStatus(blackSheep);
 		MoveBlackSheep move = new MoveBlackSheep(Terrain.C1, blackSheep);
 		move.setID();
-		executer.executeMoveBlackSheep(move, boardStatus);
+		move.execute(boardStatus);
 		assertEquals(move.getNewPositionOfTheBlackSheep(),
 				blackSheep.getPosition());
 	}
 
 	@Test
 	public void executeMovePlayerTest() {
-		ExecuteAction executer = new ExecuteAction();
 		BoardStatus boardStatus = new BoardStatus(4);
 		RoadMap roadMap = RoadMap.getRoadMap();
 		roadMap.setID();
@@ -71,9 +70,9 @@ public class ExecuteActionTest {
 		player.setID();
 		boardStatus.addPlayerToBoardStatus(player);
 		MovePlayer move = new MovePlayer(player, roadMap.getHashMapOfRoads()
-				.get(1), 0);
+				.get(1));
 		move.setID();
-		executer.executeMovePlayer(move, boardStatus);
+		move.execute(boardStatus);
 		// It checks the position of the player after the move
 		assertEquals(move.getNewPositionOfThePlayer(), player.getPosition());
 		// It checks the position of the gate
@@ -85,22 +84,21 @@ public class ExecuteActionTest {
 				.get(player.getLastMoves().size() - 1), move);
 		// It checks the money after the move
 		assertEquals(initialMoneyOfthePlayer - player.getMoney(),
-				move.getCost());
+				MoveCostCalculator.getMoveCost(move));
 
 		// Now make some more moves to start placing final gates and increase
 		// the test coverage
 		player.setMoney(1000);
 		for (Road r : boardStatus.getRoadMap().getHashMapOfRoads().values()) {
-			MovePlayer m = new MovePlayer(player, r, 0);
+			MovePlayer m = new MovePlayer(player, r);
 			m.setID();
-			executer.executeMovePlayer(m, boardStatus);
+			m.execute(boardStatus);
 			assertEquals(player.getPosition(), r);
 		}
 	}
 
 	@Test
 	public void executeBuyCardMoveTest() {
-		ExecuteAction executer = new ExecuteAction();
 		BoardStatus boardStatus = new BoardStatus(4);
 		int initialMoneyOfThePlayer = 5;
 		Player player = new Player(initialMoneyOfThePlayer, null, null);
@@ -108,7 +106,7 @@ public class ExecuteActionTest {
 		boardStatus.addPlayerToBoardStatus(player);
 		BuyCardMove move = new BuyCardMove(player, Card.COUNTRYSIDE2);
 		move.setID();
-		executer.executeBuyCardMove(move, boardStatus);
+		move.execute(boardStatus);
 		// Checks if the card has been removed from the deck
 		assertFalse(boardStatus.getDeck().contains(Card.COUNTRYSIDE2));
 		// Checks if the card has been added to player's card

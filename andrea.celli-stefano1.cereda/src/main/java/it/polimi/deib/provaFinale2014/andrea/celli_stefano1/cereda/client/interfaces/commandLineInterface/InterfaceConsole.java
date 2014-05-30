@@ -3,6 +3,8 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.MoveCostCalculator;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -16,14 +18,13 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 /**
  * This class manages the command line interface. It has two main types of
- * methods. The first type is methods to ask moves to the client. The secondo is
+ * methods. The first type is methods to ask moves to the client. The second is
  * methods to update the view. These methods are called in the game controller
  * when new updates are executed.
  * 
@@ -36,54 +37,51 @@ public class InterfaceConsole implements Interface {
 	/** the input used by the player */
 	Scanner in = new Scanner(System.in);
 
-	/**
-	 * This method asks the player for a new move and wait for it. The method
-	 * checks if the player input is valid. The method "guides" the player
-	 * during the creation of the new move, asking for the correct information
-	 * for the specific type of move. For example, if the player has to move a
-	 * sheep, the system will display the sheep in their current location and
-	 * ask to choose one of them.
-	 * 
-	 * @return move the move to send to the server
-	 */
-	public Move getNewMove() {
-		String answer;
-		System.out.println("Make your move!");
-		System.out.println("Types of move:");
-
-		// choose the type of move
-		// show options
-		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values())
-			System.out.print(move.toString() + "  ");
-		// wait for the player's choice
-		do {
-			System.out.println("Choose the type of move:");
-			answer = in.nextLine();
-		} while (!isCorrectAnswer(TypeOfPlayerMoves.values(), answer));
-
-		// depending on the type of move the method goes on asking for
-		// information to the player
-
-		// the new move is stored in lastMove
-		if (answer.equals(TypeOfPlayerMoves.BUYCARD.toString()))
-			return askForBuyCardMove();
-		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.toString()))
-			return askForMovePlayer();
-		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString()))
-			return askForMoveSheep();
-		return null;
-	}
-
-	/**
-	 * This methods links the InterfaceConsole with the GameController. This
-	 * passage couldn't be done in the initialization because they are created
-	 * at the same time.
-	 * 
-	 * @param the
-	 *            game controller that has to be linked
-	 */
 	public void setReferenceToGameController(GameControllerClient gameController) {
 		this.gameController = gameController;
+	}
+
+	public void showInitialInformation() {
+		System.out.println("Welcome to sheepland");
+		System.out.println("Brace yourself, sheeps are coming!!");
+		System.out.println(" ");
+		System.out.println(" ");
+		System.out.println("You're player "
+				+ gameController.getBoardStatus().getPlayerNumber(
+						gameController.getControlledPlayer()));
+		System.out.println(" ");
+		System.out.println("Good luck!");
+		System.out.println(" ");
+	}
+
+	public void notifyNewStatus(BoardStatus newBoardStatus) {
+		// TODO SHOW ALL THE STATUS
+	}
+
+	public Road chooseInitialPosition() {
+		String answer;
+		List<Integer> freeRoads;
+		Map<Integer, Road> roadMap = gameController.getBoardStatus()
+				.getRoadMap().getHashMapOfRoads();
+
+		// finds and shows the free roads (another player may have already
+		// Chosen a road)
+		System.out
+				.println("Choose your initial position among the following roads:");
+		freeRoads = (List<Integer>) gameController.getBoardStatus()
+				.findFreeRoads();
+		show(freeRoads.toArray());
+
+		// wait for the answer and check if it the string represents a free road
+		do {
+			System.out.println("Choose a road: ");
+			answer = in.nextLine();
+		} while (!isCorrectAnswer(freeRoads.toArray(), answer));
+
+		// find the number of the chosen road
+		Integer road = Integer.parseInt(answer);
+		// returns the road
+		return roadMap.get(road);
 	}
 
 	/**
@@ -98,16 +96,17 @@ public class InterfaceConsole implements Interface {
 	 * @param move
 	 */
 	public void notifyMove(Move move) {
-
 		if (!(move instanceof PlayerAction)) {
 			// the move is not performed by a player, therefore it's always
 			// displayed
 			// moves performed by the system HAVE TO override toString()
 			System.out.println(move.toString());
+
 		} else {
 			// check if the player is different from the controlled player
 			if (!gameController.getControlledPlayer().equals(
 					((PlayerAction) move).getPlayer())) {
+
 				// determines the number of the player
 				int numberOfThePlayer = gameController.getBoardStatus()
 						.getPlayerNumber(((PlayerAction) move).getPlayer());
@@ -115,7 +114,7 @@ public class InterfaceConsole implements Interface {
 				if (move instanceof MovePlayer) {
 					// looks for the number of the road
 					int numberOfTheRoad = 0;
-					HashMap<Integer, Road> map = (HashMap<Integer, Road>) gameController
+					Map<Integer, Road> map = (Map<Integer, Road>) gameController
 							.getBoardStatus().getRoadMap().getHashMapOfRoads();
 					for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++)
 						if (((MovePlayer) move).getNewPositionOfThePlayer()
@@ -125,9 +124,9 @@ public class InterfaceConsole implements Interface {
 						}
 					System.out.println("Player " + numberOfThePlayer
 							+ " moved to road " + numberOfTheRoad + " paying "
-							+ ((MovePlayer) move).getCost());
-				} else {
+							+ (MoveCostCalculator.getMoveCost(move)));
 
+				} else {
 					if (move instanceof MoveSheep) {
 						// the black sheep has been moved
 						if (((MoveSheep) move).getMovedSheep()
@@ -168,22 +167,49 @@ public class InterfaceConsole implements Interface {
 		}
 	}
 
+	/**
+	 * This method asks the player for a new move and wait for it. The method
+	 * checks if the player input is valid. The method "guides" the player
+	 * during the creation of the new move, asking for the correct information
+	 * for the specific type of move. For example, if the player has to move a
+	 * sheep, the system will display the sheep in their current location and
+	 * ask to choose one of them.
+	 * 
+	 * @return move the move to send to the server
+	 */
+	public Move getNewMove() {
+		String answer;
+		System.out.println("Make your move!");
+		System.out.println("Types of move:");
+
+		// choose the type of move
+		// show options
+		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values())
+			System.out.print(move.toString() + "  ");
+		// wait for the player's choice
+		do {
+			System.out.println("Choose the type of move:");
+			answer = in.nextLine();
+		} while (!isCorrectAnswer(TypeOfPlayerMoves.values(), answer));
+
+		// depending on the type of move the method goes on asking for
+		// information to the player
+
+		// the new move is stored in lastMove
+		if (answer.equals(TypeOfPlayerMoves.BUYCARD.toString()))
+			return askForBuyCardMove();
+		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.toString()))
+			return askForMovePlayer();
+		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString()))
+			return askForMoveSheep();
+		return null;
+	}
+
 	public void notifyNotValidMove() {
 		System.out
 				.println("The move goes against Sheepland's rule! Be more careful");
 	}
 
-	public void notifyDisconnection() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * This method tells the client who has to play
-	 * 
-	 * @param the
-	 *            current player
-	 */
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
 		if (newCurrentPlayer.equals(gameController.getControlledPlayer()))
 			System.out.println("It's your turn, be ready!");
@@ -207,42 +233,16 @@ public class InterfaceConsole implements Interface {
 		System.out.println("See you soon, mighty sheperd!");
 	}
 
-	/**
-	 * @TODO all
-	 */
-	public void showAllStatus() {
-
+	public void notifyDisconnection() {
+		System.out
+				.println("We're disconnected from the server, but our shepherd dog is working hard to solve this");
 	}
 
-	public void showInitialInformation() {
-		System.out.println("Welcome to sheepland");
-		System.out.println("Brace yourself, sheeps are coming!!");
-		System.out.println(" ");
-		System.out.println(" ");
-		System.out.println("You're player "
-				+ gameController.getBoardStatus().getPlayerNumber(
-						gameController.getControlledPlayer()));
-		System.out.println(" ");
-		System.out.println("Good luck!");
-		System.out.println(" ");
-	}
-
-	/**
-	 * This method takes a generic array and checks wheter the answer of the
-	 * client has a string equivalent in the array.
-	 * 
-	 * @param array
-	 * @param answer
-	 *            the answer of the client
-	 * @return boolean
-	 */
-
-	private boolean isCorrectAnswer(Object[] array, String answer) {
-		for (int index = 0; index < array.length; index++)
-			if (array[index].toString().equals(answer))
-				return true;
-		return false;
-	}
+	//
+	//
+	// HERE STARTS PRIVATE METHODS USED TO ASK SPECIFIC KIND OF MOVES
+	//
+	//
 
 	/**
 	 * This method is used to ask and create a new buyCardMove
@@ -251,21 +251,25 @@ public class InterfaceConsole implements Interface {
 	 */
 	private Move askForBuyCardMove() {
 		String answer;
+
 		// it displays the cards remaining in the deck
 		System.out.println("The cards in the deck are: ");
 		show(gameController.getBoardStatus().getDeck().toArray());
+
 		// ask to choose a card
 		do {
 			System.out.println("Choose a card ");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(gameController.getBoardStatus().getDeck()
 				.toArray(), answer));
+
 		// looks for the card
 		for (Card card : gameController.getBoardStatus().getDeck())
 			if (answer.equals(card.toString()))
 				// creates the move
 				return new BuyCardMove(gameController.getBoardStatus()
 						.getCurrentPlayer(), card);
+
 		return null;
 	}
 
@@ -296,7 +300,7 @@ public class InterfaceConsole implements Interface {
 		// create the move
 		Integer newRoad = Integer.parseInt(answer);
 		return new MovePlayer(gameController.getBoardStatus()
-				.getCurrentPlayer(), allRoads.get(newRoad), 0);
+				.getCurrentPlayer(), allRoads.get(newRoad));
 	}
 
 	/**
@@ -316,7 +320,7 @@ public class InterfaceConsole implements Interface {
 		boolean moveBlackSheep = false;
 		String answer;
 
-		HashMap<Terrain, Integer> map = (HashMap) gameController
+		Map<Terrain, Integer> map = (Map<Terrain, Integer>) gameController
 				.getBoardStatus().calculateNumberOfSheepForEachTerrain();
 
 		// print the number of sheep for each terrain
@@ -324,14 +328,15 @@ public class InterfaceConsole implements Interface {
 		for (Terrain terrain : Terrain.values())
 			System.out.println("Terrain " + terrain.toString()
 					+ " number of sheep: " + map.get(terrain));
+
 		// specifies where the black sheep is
 		System.out
 				.println("The black sheep is among the sheep in the terrain: "
 						+ gameController.getBoardStatus().getBlackSheep()
 								.getPosition().toString());
-
 		System.out
 				.println("(To move the black sheep choose the terrain where it's located)");
+
 		// ask for the sheep to move (the player has to choose the terrain in
 		// which the seep is)
 		do {
@@ -339,7 +344,7 @@ public class InterfaceConsole implements Interface {
 			from = in.nextLine();
 		} while (!isCorrectAnswer(Terrain.values(), from));
 
-		// ask for the new position on the sheep
+		// ask for the new position of the sheep
 		do {
 			System.out
 					.println("Choose the terrain where you want to place the sheep:");
@@ -368,6 +373,7 @@ public class InterfaceConsole implements Interface {
 				sheepToMove = gameController.getBoardStatus().getBlackSheep();
 			}
 		}
+
 		// looks for the sheep to move
 		if (!moveBlackSheep) {
 			for (Sheep sheep : gameController.getBoardStatus().getSheeps())
@@ -383,36 +389,27 @@ public class InterfaceConsole implements Interface {
 				sheepToMove, terrainTo);
 	}
 
+	//
+	//
+	// HERE STARTS THE PRIVATE METHOD USED TO SHOW VALUES AND CONSEQUENT
+	// VALIDATION
+	//
+	//
 	/**
-	 * This method is used during the initialization of a game. It allows the
-	 * player to choose its initial position.
+	 * This method takes a generic array and checks whether the answer of the
+	 * client has a string equivalent in the array.
 	 * 
-	 * @return the initial position of the player
+	 * @param array
+	 * @param answer
+	 *            the answer of the client
+	 * @return boolean
 	 */
-	public Road chooseInitialPosition() {
-		String answer;
-		ArrayList<Integer> freeRoads;
-		Map<Integer, Road> roadMap = gameController.getBoardStatus()
-				.getRoadMap().getHashMapOfRoads();
 
-		// finds and shows the free roads (another player may have already
-		// choosen a road)
-		System.out
-				.println("Choose your initial position among the following roads:");
-		freeRoads = (ArrayList<Integer>) gameController.getBoardStatus()
-				.findFreeRoads();
-		show(freeRoads.toArray());
-
-		// wait for the answer and check if it the string represents a free road
-		do {
-			System.out.println("Choose a road: ");
-			answer = in.nextLine();
-		} while (!isCorrectAnswer(freeRoads.toArray(), answer));
-
-		// find the number of the chosen road
-		Integer road = Integer.parseInt(answer);
-		// returns the road
-		return roadMap.get(road);
+	private boolean isCorrectAnswer(Object[] array, String answer) {
+		for (int index = 0; index < array.length; index++)
+			if (array[index].toString().equals(answer))
+				return true;
+		return false;
 	}
 
 	/**

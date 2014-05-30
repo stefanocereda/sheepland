@@ -56,7 +56,7 @@ public class PlayersOfAGame extends GenericGameObject {
 	}
 
 	/**
-	 * Calculates the postion of a specified player in the array of players.
+	 * Calculates the position of a specified player in the array of players.
 	 * (From 1 to the array.lenght)
 	 * 
 	 * @return int
@@ -64,7 +64,7 @@ public class PlayersOfAGame extends GenericGameObject {
 	public int findPosition(Player player) {
 		int position = 0;
 		for (int i = 0; i < players.length; i++)
-			if (player.equals(players[i]))
+			if ((players[i] != null) && (player.equals(players[i])))
 				position = i + 1;
 		return position;
 	}

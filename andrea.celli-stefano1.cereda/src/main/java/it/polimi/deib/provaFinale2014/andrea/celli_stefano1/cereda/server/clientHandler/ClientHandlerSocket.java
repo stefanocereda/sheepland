@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A socket version of a client handler. This class manages the communication
@@ -149,7 +149,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized void sendWinners(ArrayList<Player> winners)
+	public synchronized void sendWinners(List<Player> winners)
 			throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.SEND_WINNERS);

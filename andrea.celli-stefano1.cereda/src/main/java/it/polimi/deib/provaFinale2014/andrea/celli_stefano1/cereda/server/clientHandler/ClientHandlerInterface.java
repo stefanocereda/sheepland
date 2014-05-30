@@ -1,12 +1,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
-import java.util.ArrayList;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
+
+import java.util.List;
 
 /**
  * this is the interface of a client handler, containing the methods called by
@@ -91,8 +91,7 @@ public interface ClientHandlerInterface {
 	 *            the list of winners
 	 * @throws ClientDisconnectedException
 	 */
-	void sendWinners(ArrayList<Player> winners)
-			throws ClientDisconnectedException;
+	void sendWinners(List<Player> winners) throws ClientDisconnectedException;
 
 	/** This method is used to let the client know the controlled player */
 	void notifyControlledPlayer(Player controlled)

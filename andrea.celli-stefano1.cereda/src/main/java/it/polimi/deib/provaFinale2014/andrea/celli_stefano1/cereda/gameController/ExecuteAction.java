@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.MoveCostCalculator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
@@ -14,7 +15,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 
 /**
  * This class contains the methods for executing the moves communicated by the
- * server. It updates the model.
+ * server. It updates the model. It's implemented statically
  * 
  * @author Andrea
  * 
@@ -39,7 +40,7 @@ public class ExecuteAction {
 	 *            MoveSheep
 	 * @param boardStatus
 	 */
-	public void executeMoveSheep(MoveSheep move, BoardStatus boardStatus) {
+	public static void executeMoveSheep(MoveSheep move, BoardStatus boardStatus) {
 		addMoveToLastMoves(move, boardStatus);
 		boardStatus.getEquivalentSheep(move.getMovedSheep()).move(
 				move.getNewPositionOfTheSheep());
@@ -54,7 +55,7 @@ public class ExecuteAction {
 	 * @param boardStatus
 	 *            the boardStatus of the current game
 	 */
-	public void executeMoveBlackSheep(MoveBlackSheep move,
+	public static void executeMoveBlackSheep(MoveBlackSheep move,
 			BoardStatus boardStatus) {
 		boardStatus.getBlackSheep().move(move.getNewPositionOfTheBlackSheep());
 	}
@@ -67,11 +68,12 @@ public class ExecuteAction {
 	 * @param boardStatus
 	 *            The boardStatus of the current game
 	 */
-	public void executeMovePlayer(MovePlayer move, BoardStatus boardStatus) {
+	public static void executeMovePlayer(MovePlayer move,
+			BoardStatus boardStatus) {
 		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
 		Road oldPositionOfThePlayer = player.getPosition();
 		player.move(move.getNewPositionOfThePlayer());
-		player.subtractMoney(move.getCost());
+		player.subtractMoney(MoveCostCalculator.getMoveCost(move));
 		addMoveToLastMoves(move, boardStatus);
 		addGate(oldPositionOfThePlayer, boardStatus);
 	}
@@ -79,7 +81,10 @@ public class ExecuteAction {
 	/**
 	 * This method adds a gate in a road. It checks whether the gate has to be
 	 * final or not. This method doesn't check if there are final gates
-	 * available, it has to be done by the server!!!
+	 * available, it has to be done by the server!!! Before creating a gate we
+	 * check if the sent road is different from null because when the players
+	 * first choose an initial road we create a move to represent this decision,
+	 * but we don't want to create gates placed on null
 	 * 
 	 * @param road
 	 *            The road in which the gate has to be placed.
@@ -87,10 +92,13 @@ public class ExecuteAction {
 	 *            The status of the current game
 	 */
 	private static void addGate(Road road, BoardStatus boardStatus) {
-		if (boardStatus.countStandardGates() < GameConstants.NUMBER_OF_NON_FINAL_GATES)
-			boardStatus.addPlacedGateToBoardStatus(new Gate(false, road));
-		else
-			boardStatus.addPlacedGateToBoardStatus(new Gate(true, road));
+		if (road != null) {
+			if (boardStatus.countStandardGates() < GameConstants.NUMBER_OF_NON_FINAL_GATES) {
+				boardStatus.addPlacedGateToBoardStatus(new Gate(false, road));
+			} else {
+				boardStatus.addPlacedGateToBoardStatus(new Gate(true, road));
+			}
+		}
 	}
 
 	/**
@@ -102,12 +110,17 @@ public class ExecuteAction {
 	 * @param boardStatus
 	 *            The boardStatus of the current game.
 	 */
-	public void executeBuyCardMove(BuyCardMove move, BoardStatus boardStatus) {
+	public static void executeBuyCardMove(BuyCardMove move,
+			BoardStatus boardStatus) {
 		Card card = move.getNewCard();
 		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
 		boardStatus.getDeck().remove(card);
 		player.addCard(card);
 		player.subtractMoney(card.getNumber());
 		addMoveToLastMoves(move, boardStatus);
+	}
+
+	/** Override the default constructor */
+	private ExecuteAction() {
 	}
 }

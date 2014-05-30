@@ -36,7 +36,7 @@ public class InterfaceFake implements Interface {
 		// try to move on an adjacent road
 		for (Road r : player.getPosition().getNextRoads()) {
 			if (status.isFreeRoad(r)) {
-				Move move = new MovePlayer(player, r, 0);
+				Move move = new MovePlayer(player, r);
 				return move;
 			}
 		}
@@ -74,7 +74,7 @@ public class InterfaceFake implements Interface {
 			if (status.isFreeRoad(status.getRoadMap().getHashMapOfRoads()
 					.get(i))) {
 				Move move = new MovePlayer(player, status.getRoadMap()
-						.getHashMapOfRoads().get(i), 0);
+						.getHashMapOfRoads().get(i));
 				return move;
 			}
 
@@ -119,5 +119,13 @@ public class InterfaceFake implements Interface {
 				.getHashMapOfRoads();
 		System.out.println("choosen a random initial position");
 		return roads.get(dice.roll(roads.size()));
+	}
+
+	public void showInitialInformation() {
+		System.out.println("the game is starting");
+	}
+
+	public void notifyNewStatus(BoardStatus newBoardStatus) {
+		System.out.println("received a new status");
 	}
 }

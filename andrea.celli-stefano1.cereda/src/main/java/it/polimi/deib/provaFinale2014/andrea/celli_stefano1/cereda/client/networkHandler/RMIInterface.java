@@ -7,7 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the interface of a client's network handler. It is primarily used to
@@ -48,7 +48,7 @@ public interface RMIInterface extends Remote {
 	 * This method is used to notify the end of the game and receive the list of
 	 * winners
 	 */
-	public void sendWinners(ArrayList<Player> winners) throws RemoteException;
+	public void sendWinners(List<Player> winners) throws RemoteException;
 
 	/**
 	 * This method is used to let the client know which is the player that he's

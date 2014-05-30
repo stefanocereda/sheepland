@@ -1,16 +1,32 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InterfaceGui implements Interface {
 
-	public Move getNewMove() {
+	public void setReferenceToGameController(
+			GameControllerClient gameControllerClient) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void showInitialInformation() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void notifyNewStatus(BoardStatus newBoardStatus) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Road chooseInitialPosition() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -20,12 +36,12 @@ public class InterfaceGui implements Interface {
 
 	}
 
-	public void notifyNotValidMove() {
+	public Move getNewMove() {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
-	public void notifyDisconnection() {
+	public void notifyNotValidMove() {
 		// TODO Auto-generated method stub
 
 	}
@@ -40,14 +56,8 @@ public class InterfaceGui implements Interface {
 
 	}
 
-	public void setReferenceToGameController(GameControllerClient gameController) {
+	public void notifyDisconnection() {
 		// TODO Auto-generated method stub
 
 	}
-
-	public Road chooseInitialPosition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

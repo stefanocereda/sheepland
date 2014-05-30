@@ -1,14 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
@@ -22,10 +16,8 @@ import java.util.List;
  * the communication with the server.
  * 
  * @author Andrea
- * @TODO askNewMove and notValidMove
  */
 public class GameControllerClient {
-	private ExecuteAction executeAction = new ExecuteAction();
 	/** The boardStatus of the current game */
 	private BoardStatus boardStatus;
 	/** The user interface */
@@ -33,7 +25,12 @@ public class GameControllerClient {
 	/** The player controlled */
 	private Player controlledPlayer;
 
-	/** The constructor sets the interface */
+	/**
+	 * The constructor sets the interface
+	 * 
+	 * @param userInterface
+	 *            the user interface
+	 */
 	public GameControllerClient(Interface userInterface) {
 		this.userInterface = userInterface;
 		userInterface.setReferenceToGameController(this);
@@ -48,76 +45,99 @@ public class GameControllerClient {
 
 	/**
 	 * This method updates the boardStatus "owned" by a client with the new
-	 * information provided by the server after the creation of the game. This
-	 * method has to be used only once in the course of a game.
+	 * information provided by the server after the creation of the game. When
+	 * we receive the status for the first time we notify to the client that the
+	 * game is starting. The status is update after notifying the interface if
+	 * this is not the first update
 	 * 
 	 * @param newBoardStatus
 	 *            the boardStatus with updates
-	 * @TODO introdurre un controllo sulla correttezza di newBoardStatus con
-	 *       eventuali eccezioni?
 	 */
 	public void upDateStatus(BoardStatus newBoardStatus) {
+		BoardStatus old = this.boardStatus;
+
+		if (old == null)
+			this.boardStatus = newBoardStatus;
+		userInterface.showInitialInformation();
+
+		userInterface.notifyNewStatus(newBoardStatus);
 		this.boardStatus = newBoardStatus;
 	}
 
 	/**
-	 * This method takes as an input parameter a generic move and executes it.
-	 * This couls be done using Late Binding but, to do so, this methods should
-	 * have been placed in move classes. Therefore the distinction between model
-	 * and controller would have been compromised.
+	 * This method is called by the server at the beginning of the game. We ask
+	 * the user for a road and give it back, the server will keep asking until
+	 * we choose a free road
+	 */
+	public Road chooseInitialPosition() {
+		return userInterface.chooseInitialPosition();
+	}
+
+	/**
+	 * This method takes as an input parameter a generic move and notifies the
+	 * user, then executes it.
 	 * 
 	 * @param move
 	 *            the move that has to be executed
 	 */
 	public void executeMove(Move move) {
-		if (move instanceof PlayerAction) {
-			if (move instanceof BuyCardMove) {
-				executeAction.executeBuyCardMove((BuyCardMove) move,
-						boardStatus);
-			} else {
-				if (move instanceof MovePlayer)
-					executeAction.executeMovePlayer((MovePlayer) move,
-							boardStatus);
-				else if (move instanceof MoveSheep)
-					executeAction.executeMoveSheep((MoveSheep) move,
-							boardStatus);
-			}
-		} else if (move instanceof MoveBlackSheep)
-			executeAction.executeMoveBlackSheep((MoveBlackSheep) move,
-					boardStatus);
-
 		userInterface.notifyMove(move);
+		move.execute(boardStatus);
 	}
 
-	public void notifyNotValidMove() {
-		userInterface.notifyNotValidMove();
-	}
-
+	/**
+	 * This method is called by the server to retrieve a new move, we ask it to
+	 * the user and return
+	 */
 	public Move getNewMove() {
 		return userInterface.getNewMove();
 	}
 
-	public void notifyDisconnection() {
-		userInterface.notifyDisconnection();
+	/**
+	 * This method is called by the server when we sent an invalid move, we
+	 * notify it to the user
+	 */
+	public void notifyNotValidMove() {
+		userInterface.notifyNotValidMove();
 	}
 
+	/**
+	 * This method is called after a player change, we notify the user and set
+	 * the current player
+	 */
 	public void setCurrentPlayer(Player newCurrentPlayer) {
-		boardStatus.setCurrentPlayer(newCurrentPlayer);
 		userInterface.notifyCurrentPlayer(newCurrentPlayer);
+		boardStatus.setCurrentPlayer(newCurrentPlayer);
 	}
 
+	/**
+	 * This method is called by the server at the end of a game
+	 * 
+	 * @param winners
+	 *            A list of all the winners
+	 */
 	public void notifyWinners(List<Player> winners) {
 		userInterface.notifyWinners(winners);
 	}
 
-	public Road chooseInitialPosition() {
-		return userInterface.chooseInitialPosition();
+	/**
+	 * This method is called by the network handler when it detects a
+	 * disconnection, we notify the user of the disconnection
+	 */
+	public void notifyDisconnection() {
+		userInterface.notifyDisconnection();
 	}
 
+	/**
+	 * This method is the first that is called by the server, it sets the
+	 * reference to the controlled player. We don't notify nothing to the client
+	 * as we still don't have a boardStatus
+	 */
 	public void setControlledPlayer(Player controlled) {
 		this.controlledPlayer = controlled;
 	}
 
+	/** @return the player controlled by this client */
 	public Player getControlledPlayer() {
 		return controlledPlayer;
 	}
