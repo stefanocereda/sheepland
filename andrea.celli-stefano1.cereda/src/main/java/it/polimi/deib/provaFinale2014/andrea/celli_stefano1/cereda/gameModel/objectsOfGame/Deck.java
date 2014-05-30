@@ -2,7 +2,9 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ob
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -75,5 +77,35 @@ public class Deck extends ArrayList<Card> implements Serializable {
 			if (this.get(i).equals(card))
 				return true;
 		return false;
+	}
+
+	/**
+	 * This method looks for the cards with the lower price for each type of
+	 * terrain.
+	 * 
+	 * @return ArrayList<Card>
+	 * @TODO test,un metodo più carino?
+	 */
+	public ArrayList<Card> getBuyableCards() {
+		Map<TerrainType, Integer> buyable = new HashMap<TerrainType, Integer>();
+		ArrayList<Card> cards = new ArrayList<Card>();
+
+		// finds the lowest price of a card for each type of terrain
+		for (Card card : this) {
+			if (buyable.containsKey(card.getTerrainType())) {
+				if (buyable.get(card.getTerrainType()) > card.getNumber()) {
+					buyable.put(card.getTerrainType(), card.getNumber());
+				}
+			} else
+				buyable.put(card.getTerrainType(), card.getNumber());
+		}
+
+		// creates the arrayList
+		for (Card card : this)
+			if (buyable.get(card.getTerrainType()) == card.getNumber())
+				cards.add(card);
+
+		return cards;
+
 	}
 }
