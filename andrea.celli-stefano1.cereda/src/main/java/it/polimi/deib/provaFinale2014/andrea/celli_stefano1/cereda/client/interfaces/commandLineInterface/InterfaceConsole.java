@@ -54,7 +54,7 @@ public class InterfaceConsole implements Interface {
 		// choose the type of move
 		// show options
 		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values())
-			System.out.print(move.getName() + "  ");
+			System.out.print(move.toString() + "  ");
 		// wait for the player's choice
 		do {
 			System.out.println("Choose the type of move:");
@@ -65,11 +65,11 @@ public class InterfaceConsole implements Interface {
 		// information to the player
 
 		// the new move is stored in lastMove
-		if (answer.equals(TypeOfPlayerMoves.BUYCARD.getName()))
+		if (answer.equals(TypeOfPlayerMoves.BUYCARD.toString()))
 			return askForBuyCardMove();
-		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.getName()))
+		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.toString()))
 			return askForMovePlayer();
-		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.getName()))
+		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString()))
 			return askForMoveSheep();
 		return null;
 	}
