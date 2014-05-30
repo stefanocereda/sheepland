@@ -56,12 +56,13 @@ public class GameControllerClient {
 	public void upDateStatus(BoardStatus newBoardStatus) {
 		BoardStatus old = this.boardStatus;
 
-		if (old == null)
+		if (old == null) {
 			this.boardStatus = newBoardStatus;
-		userInterface.showInitialInformation();
-
-		userInterface.notifyNewStatus(newBoardStatus);
-		this.boardStatus = newBoardStatus;
+			userInterface.showInitialInformation();
+		} else {
+			userInterface.notifyNewStatus(newBoardStatus);
+			this.boardStatus = newBoardStatus;
+		}
 	}
 
 	/**
