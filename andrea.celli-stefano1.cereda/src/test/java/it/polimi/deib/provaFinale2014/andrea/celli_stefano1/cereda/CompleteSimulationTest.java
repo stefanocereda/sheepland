@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.commandLineInterface.InterfaceConsole;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
@@ -31,7 +32,7 @@ public class CompleteSimulationTest {
 		ServerMainClass.main(null);// starts the server
 
 		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
-			(new Thread(new rmiClient())).start();
+			(new Thread(new socketClient())).start();
 		}
 
 		try {
@@ -44,7 +45,7 @@ public class CompleteSimulationTest {
 	class socketClient implements Runnable {
 		public void run() {
 			try {
-				Interface ui = new InterfaceFake();
+				Interface ui = new InterfaceConsole();
 				GameControllerClient controller = new GameControllerClient(ui);
 				InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
 				NetworkHandlerSocket socketClient;
@@ -60,7 +61,7 @@ public class CompleteSimulationTest {
 	class rmiClient implements Runnable {
 		public void run() {
 			try {
-				Interface ui = new InterfaceFake();
+				Interface ui = new InterfaceConsole();
 				GameControllerClient controller = new GameControllerClient(ui);
 				NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(controller);
 				rmiClient.connect();
