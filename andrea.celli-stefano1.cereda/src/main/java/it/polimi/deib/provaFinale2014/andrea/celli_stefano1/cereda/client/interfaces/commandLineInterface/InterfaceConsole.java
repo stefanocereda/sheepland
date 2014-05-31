@@ -252,16 +252,17 @@ public class InterfaceConsole implements Interface {
 	private Move askForBuyCardMove() {
 		String answer;
 
-		// it displays the cards remaining in the deck
-		System.out.println("The cards in the deck are: ");
-		show(gameController.getBoardStatus().getDeck().toArray());
+		// it displays the buyable cards remaining in the deck
+		System.out.println("The buyable cards in the deck are: ");
+		show(gameController.getBoardStatus().getDeck().getBuyableCards()
+				.toArray());
 
 		// ask to choose a card
 		do {
 			System.out.println("Choose a card ");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(gameController.getBoardStatus().getDeck()
-				.toArray(), answer));
+				.getBuyableCards().toArray(), answer));
 
 		// looks for the card
 		for (Card card : gameController.getBoardStatus().getDeck())
