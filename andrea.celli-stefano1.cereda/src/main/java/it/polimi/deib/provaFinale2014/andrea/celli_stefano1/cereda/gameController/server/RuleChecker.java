@@ -12,6 +12,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Static object to check the rules validity
@@ -20,6 +22,12 @@ import java.util.List;
  * 
  */
 public class RuleChecker {
+	/** A logger */
+	private static Logger logger = Logger
+			.getLogger("gameController.server.RuleChecker");
+	/** The message logged when we detect a move containg null attributes */
+	private static String messageNull = "Detected a move with null attributes, setting it to invalid";
+
 	/** private constructor for singleton pattern */
 	private RuleChecker() {
 	}
@@ -30,6 +38,7 @@ public class RuleChecker {
 			return isValidPlayerAction(move, status)
 					&& isCorrectMoveBuyCard(move, status);
 		} catch (NullPointerException e) {
+			logger.log(Level.FINE, messageNull, e);
 			return false;
 		}
 	}
@@ -40,6 +49,7 @@ public class RuleChecker {
 			return isValidPlayerAction(move, status)
 					&& isCorrectMoveSheep(move, status);
 		} catch (NullPointerException e) {
+			logger.log(Level.FINE, messageNull, e);
 			return false;
 		}
 	}
@@ -50,6 +60,7 @@ public class RuleChecker {
 			return isValidPlayerAction(move, status)
 					&& isCorrectMovePlayer(move, status);
 		} catch (NullPointerException e) {
+			logger.log(Level.FINE, messageNull, e);
 			return false;
 		}
 	}
@@ -63,7 +74,7 @@ public class RuleChecker {
 
 	/** Check if an automatic move (not done by a player) is valid */
 	public static boolean isValidAutoMove(Move move, BoardStatus status) {
-		// TODO CAZZO SI FA QUI????
+		// TODO COSA SI FA QUI????
 		// right now to only time of move we have is the black sheep, it is
 		// created by the server so it is always correct
 		return true;

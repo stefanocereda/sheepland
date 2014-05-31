@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * A socket version of a network handler. It connects to the server and starts
@@ -96,9 +97,10 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					getAndUpdateStatus();
 				} else if (command.equals(SocketMessages.SET_CURRENT_PLAYER))
 					getAndSetNewCurrentPlayer();
-				else if (command.equals(SocketMessages.SEND_WINNERS))
+				else if (command.equals(SocketMessages.SEND_WINNERS)) {
 					getWinners();
-				else if (command.equals(SocketMessages.ASK_INITIAL_POSITION))
+					break;
+				} else if (command.equals(SocketMessages.ASK_INITIAL_POSITION))
 					chooseInitialPosition();
 				else if (command
 						.equals(SocketMessages.NOTIFY_CONTROLLED_PLAYER))
@@ -106,13 +108,16 @@ public class NetworkHandlerSocket extends NetworkHandler {
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
-				logger.severe("DISCONNECTED: " + e);
+				String message = "We are disconnected";
+				logger.log(Level.FINE, message, e);
 				notifyDisconnection();
 				reconnect();
 			} catch (ClassNotFoundException e) {
 				// there was a problem in the network protocol
-				logger.severe("CLASS NOT FOUND, PROBABLY PROBLEM IN THE NETWORK PROTOCOL: "
-						+ e);
+				String message = "There's been a communication problem, we're not aligned with the server. Shutting down";
+				logger.log(Level.SEVERE, message, e);
+				notifyDisconnection();
+				break;
 			}
 
 		}

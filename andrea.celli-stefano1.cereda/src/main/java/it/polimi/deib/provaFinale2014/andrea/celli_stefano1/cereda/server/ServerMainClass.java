@@ -34,6 +34,7 @@ public class ServerMainClass {
 	public static void main(String[] args) {
 		ServerStarter server = new ServerStarter(maxPlayers, gameType,
 				minutesWaiting, socketPort, rmiPort);
-		server.run();
+
+		(new Thread(server)).start();
 	}
 }
