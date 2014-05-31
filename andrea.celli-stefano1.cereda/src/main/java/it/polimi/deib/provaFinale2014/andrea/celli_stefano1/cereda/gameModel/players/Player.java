@@ -15,6 +15,10 @@ import java.util.List;
  * @author Andrea Celli
  */
 public class Player extends GenericGameObject {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -811469198290925192L;
 	/** The money of the player */
 	private int money;
 	/** The array of the last moves of this player */

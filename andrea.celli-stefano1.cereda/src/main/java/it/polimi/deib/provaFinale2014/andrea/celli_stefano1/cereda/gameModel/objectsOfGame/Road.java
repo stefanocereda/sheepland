@@ -14,6 +14,10 @@ import java.util.Set;
  */
 
 public class Road extends GenericGameObject {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4591369994622514357L;
 	private Set<Road> nextRoads = new HashSet<Road>();
 	private Terrain[] adjacentTerrains;
 	private int boxValue;

@@ -24,6 +24,10 @@ import java.util.Set;
 
 public class RoadMap extends GenericGameObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8947022539798212914L;
 	private static RoadMap completeMap;
 	private Map<Integer, Road> roadMap;
 

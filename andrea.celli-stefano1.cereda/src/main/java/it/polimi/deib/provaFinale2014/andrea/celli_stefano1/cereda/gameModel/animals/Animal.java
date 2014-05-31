@@ -11,6 +11,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
  */
 public class Animal extends GenericGameObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7465645374799885568L;
 	/** The position of the animal */
 	private Terrain position;
 

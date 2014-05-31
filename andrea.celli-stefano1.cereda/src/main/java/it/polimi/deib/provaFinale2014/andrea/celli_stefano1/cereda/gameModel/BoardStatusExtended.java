@@ -9,6 +9,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ani
  * 
  */
 public class BoardStatusExtended extends BoardStatus {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3691292789992923045L;
 	private Wolf wolf;
 
 	public BoardStatusExtended(int numberOfPlayers) {

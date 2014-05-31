@@ -12,6 +12,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 public class ClientDisconnectedException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7184512801239412016L;
+
 	/** A reference to the game controller where this player was playing */
 	private GameController gameController;
 

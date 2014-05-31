@@ -16,6 +16,11 @@ import java.io.Serializable;
  */
 public abstract class Move extends GenericGameObject implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7908681798785473045L;
+
 	/** This method checks if the move is valid */
 	public abstract boolean isValid(BoardStatus boardStatus);
 

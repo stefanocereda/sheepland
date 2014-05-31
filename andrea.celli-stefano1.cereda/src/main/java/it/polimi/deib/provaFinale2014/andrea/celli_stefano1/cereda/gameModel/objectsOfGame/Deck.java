@@ -15,6 +15,11 @@ import java.util.Random;
  */
 public class Deck extends ArrayList<Card> implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9169032141643327331L;
+
 	/** Constructor of a deck, automatically populates the deck */
 	public Deck() {
 		super();

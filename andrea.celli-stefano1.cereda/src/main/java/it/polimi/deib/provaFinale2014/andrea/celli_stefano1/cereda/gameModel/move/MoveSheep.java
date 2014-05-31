@@ -16,6 +16,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  */
 
 public class MoveSheep extends PlayerAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7103714950580888101L;
 	private Sheep sheep;
 	private Terrain newPosition;
 

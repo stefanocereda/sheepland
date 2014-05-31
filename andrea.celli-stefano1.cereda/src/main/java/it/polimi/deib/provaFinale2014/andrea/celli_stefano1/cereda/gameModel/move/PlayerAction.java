@@ -9,6 +9,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 public abstract class PlayerAction extends Move {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4019045210675324424L;
 	private Player player;
 
 	/**

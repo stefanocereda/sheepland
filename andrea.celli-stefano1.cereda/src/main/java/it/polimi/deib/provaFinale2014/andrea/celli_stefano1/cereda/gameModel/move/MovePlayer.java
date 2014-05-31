@@ -13,6 +13,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 public class MovePlayer extends PlayerAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4825964119025966375L;
 	private Road newPosition;
 
 	/**

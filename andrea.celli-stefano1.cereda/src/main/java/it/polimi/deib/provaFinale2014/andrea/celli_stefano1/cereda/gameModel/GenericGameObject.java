@@ -20,6 +20,11 @@ import java.io.Serializable;
  * 
  */
 public class GenericGameObject implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7360277395568886611L;
+
 	/** a class counter of the number of objects created */
 	private static long created = 0;
 

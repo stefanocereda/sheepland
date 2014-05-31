@@ -9,6 +9,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Gen
  * 
  */
 public class PlayersOfAGame extends GenericGameObject {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4199292990563389889L;
 	private Player[] players;
 
 	/**

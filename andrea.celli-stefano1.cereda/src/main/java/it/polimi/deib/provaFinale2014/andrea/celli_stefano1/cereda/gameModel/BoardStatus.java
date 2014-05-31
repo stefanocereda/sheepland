@@ -28,6 +28,10 @@ import java.util.Map;
  */
 public class BoardStatus implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3722246987094098610L;
+	/**
 	 * The list of gates, either finally and not (the gates that are already
 	 * placed)
 	 */

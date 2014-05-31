@@ -13,6 +13,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 public class BuyCardMove extends PlayerAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9133947441204015956L;
 	private Card newCard;
 
 	/**

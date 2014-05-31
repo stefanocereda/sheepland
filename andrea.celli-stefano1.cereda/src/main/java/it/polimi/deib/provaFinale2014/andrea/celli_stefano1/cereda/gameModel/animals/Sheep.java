@@ -9,6 +9,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
  * 
  */
 public class Sheep extends Animal {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7105905120111100752L;
 	/** The age of the sheep (for advanced rules) */
 	private int age;
 	/** The type (gender) of the sheep (for advanced rules) */

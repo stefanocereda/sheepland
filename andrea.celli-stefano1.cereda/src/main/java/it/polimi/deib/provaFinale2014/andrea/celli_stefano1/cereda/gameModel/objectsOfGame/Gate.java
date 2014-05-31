@@ -9,6 +9,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Gen
  * 
  */
 public class Gate extends GenericGameObject {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2151263876430505393L;
 	/** The gate is last if placed during the last turn */
 	private boolean last;
 	/** The gate is placed on a road */
