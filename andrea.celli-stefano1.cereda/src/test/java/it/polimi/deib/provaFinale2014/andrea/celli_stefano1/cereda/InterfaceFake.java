@@ -45,13 +45,14 @@ public class InterfaceFake implements Interface {
 		}
 
 		// if it wasn't possible try to go on a random road
-		for (int i = 1; i <= status.getRoadMap().getHashMapOfRoads().size(); i++)
+		for (int i = 1; i <= status.getRoadMap().getHashMapOfRoads().size(); i++) {
 			if (status.isFreeRoad(status.getRoadMap().getHashMapOfRoads()
 					.get(i))) {
 				Move move = new MovePlayer(player, status.getRoadMap()
 						.getHashMapOfRoads().get(i));
 				return move;
 			}
+		}
 
 		// if it wasn't possible try to move a sheep
 		for (Sheep s : status.getSheeps()) {
@@ -90,14 +91,18 @@ public class InterfaceFake implements Interface {
 	private Move newReallyRandomMove() {
 		int type = rnd.nextInt(3);
 
-		if (type == 0)
+		if (type == 0) {
 			return newReallyRandomBuyCard();
-		if (type == 1)
+		}
+		if (type == 1) {
 			return newReallyRandomMoveSheep();
-		if (type == 2)
+		}
+		if (type == 2) {
 			return newReallyRandomMovePlayer();
-		if (type == 3)
+		}
+		if (type == 3) {
 			System.out.println("pirla");
+		}
 		return null;
 	}
 
@@ -122,14 +127,18 @@ public class InterfaceFake implements Interface {
 			try {
 				int type = rnd.nextInt(3);
 
-				if (type == 0)
+				if (type == 0) {
 					toReturn = newRandomBuyCard();
-				if (type == 1)
+				}
+				if (type == 1) {
 					toReturn = newRandomMoveSheep();
-				if (type == 2)
+				}
+				if (type == 2) {
 					toReturn = newRandomMovePlayer();
-				if (type == 3)
+				}
+				if (type == 3) {
 					System.out.println("pirla");
+				}
 			} catch (NullPointerException e) {
 				ok = false;
 			}
@@ -161,25 +170,31 @@ public class InterfaceFake implements Interface {
 		Terrain[] adjacent = gameController.getControlledPlayer().getPosition()
 				.getAdjacentTerrains();
 		List<TerrainType> ok = new ArrayList<TerrainType>();
-		for (Terrain t : adjacent)
+		for (Terrain t : adjacent) {
 			ok.add(t.getTerrainType());
+		}
 
 		// search the correct cards
 		List<Card> okCards = new ArrayList<Card>();
 		for (Card c : gameController.getBoardStatus().getDeck()) {
-			if (ok.contains(c.getTerrainType()))
+			if (ok.contains(c.getTerrainType())) {
 				okCards.add(c);
+			}
 		}
 
 		// keep only the cheaper
-		for (int i = 0; i < okCards.size(); i++)
-			for (int j = i + 1; j < okCards.size(); j++)
-				if (okCards.get(i) != null && okCards.get(j) != null)
+		for (int i = 0; i < okCards.size(); i++) {
+			for (int j = i + 1; j < okCards.size(); j++) {
+				if (okCards.get(i) != null && okCards.get(j) != null) {
 					if ((okCards.get(i).getTerrainType() == okCards.get(j)
 							.getTerrainType())
 							&& (okCards.get(i).getNumber() < okCards.get(j)
-									.getNumber()))
+									.getNumber())) {
 						okCards.remove(j);
+					}
+				}
+			}
+		}
 
 		// sort a random one
 		return okCards.get(rnd.nextInt(okCards.size()));
@@ -190,29 +205,34 @@ public class InterfaceFake implements Interface {
 				.getAdjacentTerrains();
 		List<Sheep> okSheep = new ArrayList<Sheep>();
 
-		for (Sheep s : gameController.getBoardStatus().getSheeps())
+		for (Sheep s : gameController.getBoardStatus().getSheeps()) {
 			if (adjacent[0].equals(s.getPosition())
-					|| adjacent[1].equals(s.getPosition()))
+					|| adjacent[1].equals(s.getPosition())) {
 				okSheep.add(s);
+			}
+		}
 
 		return okSheep.get(rnd.nextInt(okSheep.size()));
 	}
 
 	private Terrain correctTerrain(Player player, Sheep sheep) {
 		Terrain[] terrains = player.getPosition().getAdjacentTerrains();
-		if (terrains[0].equals(sheep.getPosition()))
+		if (terrains[0].equals(sheep.getPosition())) {
 			return terrains[1];
-		else
+		} else {
 			return terrains[0];
+		}
 	}
 
 	private Road freeRoad() {
 		List<Road> okRoads = new ArrayList<Road>();
 
 		for (Road r : gameController.getBoardStatus().getRoadMap()
-				.getHashMapOfRoads().values())
-			if (gameController.getBoardStatus().isFreeRoad(r))
+				.getHashMapOfRoads().values()) {
+			if (gameController.getBoardStatus().isFreeRoad(r)) {
 				okRoads.add(r);
+			}
+		}
 
 		return okRoads.get(rnd.nextInt(okRoads.size()));
 	}

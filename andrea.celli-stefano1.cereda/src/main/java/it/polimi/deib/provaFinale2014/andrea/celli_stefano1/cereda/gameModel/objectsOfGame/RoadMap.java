@@ -268,8 +268,9 @@ public class RoadMap extends GenericGameObject {
 
 	/** This method sets the IDs for all the roads */
 	private void setIDs() {
-		for (int i = 1; i <= roadMap.size(); i++)
+		for (int i = 1; i <= roadMap.size(); i++) {
 			roadMap.get(i).setID();
+		}
 	}
 
 	/**
@@ -302,11 +303,14 @@ public class RoadMap extends GenericGameObject {
 	 */
 	public Set<Road> findRoadsAdjacentToATerrain(Terrain terrain) {
 		Set<Road> nearRoads = new HashSet<Road>();
-		for (int index = 1; index <= roadMap.size(); index++)
+		for (int index = 1; index <= roadMap.size(); index++) {
 			for (Terrain terrainNearTheRoad : roadMap.get(index)
-					.getAdjacentTerrains())
-				if (terrain.equals(terrainNearTheRoad))
+					.getAdjacentTerrains()) {
+				if (terrain.equals(terrainNearTheRoad)) {
 					nearRoads.add(roadMap.get(index));
+				}
+			}
+		}
 		return nearRoads;
 	}
 }

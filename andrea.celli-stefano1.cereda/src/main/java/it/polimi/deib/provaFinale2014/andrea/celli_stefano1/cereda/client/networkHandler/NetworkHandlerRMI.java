@@ -45,6 +45,7 @@ public class NetworkHandlerRMI extends NetworkHandler {
 	 * This method connects to the server and creates a network handler and
 	 * starts pinging the server
 	 */
+	@Override
 	public void connect() throws RemoteException {
 		// Login with the previous id (0 the first time)
 		myId = connector.connect(myId);

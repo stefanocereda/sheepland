@@ -39,6 +39,7 @@ public class MoveBlackSheep extends Move {
 		return blackSheep;
 	}
 
+	@Override
 	public String toString() {
 		return "the black sheep moves to " + newPosition.toString();
 	}

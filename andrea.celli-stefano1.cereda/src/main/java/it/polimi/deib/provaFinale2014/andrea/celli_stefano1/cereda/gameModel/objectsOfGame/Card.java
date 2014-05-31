@@ -75,6 +75,7 @@ public enum Card implements Serializable {
 	/**
 	 * @return the string rapresenting a card
 	 */
+	@Override
 	public String toString() {
 		return this.terrainType.toString() + " " + this.number;
 	}

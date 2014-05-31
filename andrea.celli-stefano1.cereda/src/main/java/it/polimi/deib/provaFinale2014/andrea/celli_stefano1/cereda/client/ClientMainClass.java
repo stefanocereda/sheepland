@@ -3,14 +3,6 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceCreator;
@@ -18,6 +10,14 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networ
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.DefaultConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The main class of the client, asks for RMI/socket and creates a network

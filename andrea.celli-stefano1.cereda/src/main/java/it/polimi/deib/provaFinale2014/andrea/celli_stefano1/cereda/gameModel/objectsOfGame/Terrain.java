@@ -32,6 +32,7 @@ public enum Terrain implements Serializable {
 		return type;
 	}
 
+	@Override
 	public String toString() {
 		return this.name().toLowerCase();
 	}

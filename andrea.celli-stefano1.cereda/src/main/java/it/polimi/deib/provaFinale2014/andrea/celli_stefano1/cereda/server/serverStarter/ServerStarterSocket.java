@@ -1,12 +1,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerSocket;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerSocket;
 
 /**
  * A socket server, it accepts new connections, create a ClienthandlerSocket and

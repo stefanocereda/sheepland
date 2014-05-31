@@ -68,8 +68,7 @@ public class InterfaceConsole implements Interface {
 		// Chosen a road)
 		System.out
 				.println("Choose your initial position among the following roads:");
-		freeRoads = (List<Integer>) gameController.getBoardStatus()
-				.findFreeRoads();
+		freeRoads = gameController.getBoardStatus().findFreeRoads();
 		show(freeRoads.toArray());
 
 		// wait for the answer and check if it the string represents a free road
@@ -114,14 +113,15 @@ public class InterfaceConsole implements Interface {
 				if (move instanceof MovePlayer) {
 					// looks for the number of the road
 					int numberOfTheRoad = 0;
-					Map<Integer, Road> map = (Map<Integer, Road>) gameController
-							.getBoardStatus().getRoadMap().getHashMapOfRoads();
-					for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++)
+					Map<Integer, Road> map = gameController.getBoardStatus()
+							.getRoadMap().getHashMapOfRoads();
+					for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++) {
 						if (((MovePlayer) move).getNewPositionOfThePlayer()
 								.equals(map.get(i))) {
 							numberOfTheRoad = i;
 							break;
 						}
+					}
 					System.out.println("Player " + numberOfThePlayer
 							+ " moved to road " + numberOfTheRoad + " paying "
 							+ (MoveCostCalculator.getMoveCost(move)));
@@ -131,7 +131,7 @@ public class InterfaceConsole implements Interface {
 						// the black sheep has been moved
 						if (((MoveSheep) move).getMovedSheep()
 								.equals(gameController.getBoardStatus()
-										.getBlackSheep()))
+										.getBlackSheep())) {
 							System.out.println("Player "
 									+ numberOfThePlayer
 									+ "moved the black sheep from "
@@ -141,7 +141,7 @@ public class InterfaceConsole implements Interface {
 									+ ((MoveSheep) move)
 											.getNewPositionOfTheSheep()
 											.toString());
-						else
+						} else {
 							// standard sheep
 							System.out.println("Player "
 									+ numberOfThePlayer
@@ -152,13 +152,15 @@ public class InterfaceConsole implements Interface {
 									+ ((MoveSheep) move)
 											.getNewPositionOfTheSheep()
 											.toString());
+						}
 					} else {
-						if (move instanceof BuyCardMove)
+						if (move instanceof BuyCardMove) {
 							System.out.println("Player "
 									+ numberOfThePlayer
 									+ " purchased card "
 									+ ((BuyCardMove) move).getNewCard()
 											.toString());
+						}
 					}
 
 				}
@@ -184,8 +186,9 @@ public class InterfaceConsole implements Interface {
 
 		// choose the type of move
 		// show options
-		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values())
+		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values()) {
 			System.out.print(move.toString() + "  ");
+		}
 		// wait for the player's choice
 		do {
 			System.out.println("Choose the type of move:");
@@ -196,12 +199,15 @@ public class InterfaceConsole implements Interface {
 		// information to the player
 
 		// the new move is stored in lastMove
-		if (answer.equals(TypeOfPlayerMoves.BUYCARD.toString()))
+		if (answer.equals(TypeOfPlayerMoves.BUYCARD.toString())) {
 			return askForBuyCardMove();
-		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.toString()))
+		}
+		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.toString())) {
 			return askForMovePlayer();
-		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString()))
+		}
+		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString())) {
 			return askForMoveSheep();
+		}
 		return null;
 	}
 
@@ -211,12 +217,13 @@ public class InterfaceConsole implements Interface {
 	}
 
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
-		if (newCurrentPlayer.equals(gameController.getControlledPlayer()))
+		if (newCurrentPlayer.equals(gameController.getControlledPlayer())) {
 			System.out.println("It's your turn, be ready!");
-		else
+		} else {
 			System.out.println("It's now the turn of player "
 					+ gameController.getBoardStatus().getPlayerNumber(
 							newCurrentPlayer));
+		}
 	}
 
 	public void notifyWinners(List<Player> winners) {
@@ -265,11 +272,13 @@ public class InterfaceConsole implements Interface {
 				.getBuyableCards().toArray(), answer));
 
 		// looks for the card
-		for (Card card : gameController.getBoardStatus().getDeck())
-			if (answer.equals(card.toString()))
+		for (Card card : gameController.getBoardStatus().getDeck()) {
+			if (answer.equals(card.toString())) {
 				// creates the move
 				return new BuyCardMove(gameController.getBoardStatus()
 						.getCurrentPlayer(), card);
+			}
+		}
 
 		return null;
 	}
@@ -321,14 +330,15 @@ public class InterfaceConsole implements Interface {
 		boolean moveBlackSheep = false;
 		String answer;
 
-		Map<Terrain, Integer> map = (Map<Terrain, Integer>) gameController
-				.getBoardStatus().calculateNumberOfSheepForEachTerrain();
+		Map<Terrain, Integer> map = gameController.getBoardStatus()
+				.calculateNumberOfSheepForEachTerrain();
 
 		// print the number of sheep for each terrain
 		System.out.println("These are the numbers of sheep for each terrain");
-		for (Terrain terrain : Terrain.values())
+		for (Terrain terrain : Terrain.values()) {
 			System.out.println("Terrain " + terrain.toString()
 					+ " number of sheep: " + map.get(terrain));
+		}
 
 		// specifies where the black sheep is
 		System.out
@@ -354,10 +364,11 @@ public class InterfaceConsole implements Interface {
 
 		// looks for the terrains corresponding to the choices of the player
 		for (Terrain terrain : Terrain.values()) {
-			if (from.equals(terrain.toString()))
+			if (from.equals(terrain.toString())) {
 				terrainFrom = terrain;
-			else if (to.equals(terrain.toString()))
+			} else if (to.equals(terrain.toString())) {
 				terrainTo = terrain;
+			}
 		}
 
 		// if the terrain from is the one in which the black sheep is the system
@@ -377,11 +388,12 @@ public class InterfaceConsole implements Interface {
 
 		// looks for the sheep to move
 		if (!moveBlackSheep) {
-			for (Sheep sheep : gameController.getBoardStatus().getSheeps())
+			for (Sheep sheep : gameController.getBoardStatus().getSheeps()) {
 				if (sheep.getPosition().equals(terrainFrom)) {
 					sheepToMove = sheep;
 					break;
 				}
+			}
 		}
 
 		// creates and return the move
@@ -407,9 +419,11 @@ public class InterfaceConsole implements Interface {
 	 */
 
 	private boolean isCorrectAnswer(Object[] array, String answer) {
-		for (int index = 0; index < array.length; index++)
-			if (array[index].toString().equals(answer))
+		for (Object element : array) {
+			if (element.toString().equals(answer)) {
 				return true;
+			}
+		}
 		return false;
 	}
 
@@ -420,8 +434,9 @@ public class InterfaceConsole implements Interface {
 	 */
 	private void show(Object[] toShow) {
 
-		for (int i = 0; i < toShow.length; i++)
-			System.out.println(toShow[i]);
+		for (Object element : toShow) {
+			System.out.println(element);
+		}
 	}
 
 }

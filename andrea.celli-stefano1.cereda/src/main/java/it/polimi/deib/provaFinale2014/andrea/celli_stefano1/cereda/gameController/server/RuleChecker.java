@@ -91,10 +91,11 @@ public class RuleChecker {
 	 */
 	private static boolean isCorrectPlayer(PlayerAction move,
 			BoardStatus boardStatus) {
-		if (move.getPlayer().equals(boardStatus.getCurrentPlayer()))
+		if (move.getPlayer().equals(boardStatus.getCurrentPlayer())) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -155,10 +156,11 @@ public class RuleChecker {
 		if ((coming.equals(adjacentTerrains[0]) && going
 				.equals(adjacentTerrains[1]))
 				|| (coming.equals(adjacentTerrains[1]) && going
-						.equals(adjacentTerrains[0])))
+						.equals(adjacentTerrains[0]))) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -180,14 +182,16 @@ public class RuleChecker {
 
 		// check if it's in the deck
 		Deck deck = boardStatus.getDeck();
-		if (!deck.contains(move.getNewCard()))
+		if (!deck.contains(move.getNewCard())) {
 			return false;
+		}
 
 		// check for cheaper cards
 		for (Card c : deck) {
 			if (c.getTerrainType().equals(tBuying)
-					&& c.getNumber() < move.getNewCard().getNumber())
+					&& c.getNumber() < move.getNewCard().getNumber()) {
 				return false;
+			}
 		}
 
 		// get the adjacent terrains
@@ -199,10 +203,11 @@ public class RuleChecker {
 		TerrainType t2 = adjacentTerrains[1].getTerrainType();
 
 		// now check if the type is valid
-		if (t1.equals(tBuying) || t2.equals(tBuying))
+		if (t1.equals(tBuying) || t2.equals(tBuying)) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -220,8 +225,9 @@ public class RuleChecker {
 			List<Move> oldMoves) {
 
 		// the first move is always correct
-		if (oldMoves.size() == 0)
+		if (oldMoves.size() == 0) {
 			return true;
+		}
 
 		// we have at least one oldMove
 		Object firstMoveType = oldMoves.get(0).getClass();
@@ -229,10 +235,11 @@ public class RuleChecker {
 
 		// the second is correct if it's different from the first or if they're
 		// both move player
-		if (oldMoves.size() == 1)
+		if (oldMoves.size() == 1) {
 			return ((!firstMoveType.equals(thisMoveType))
 					|| (firstMoveType.equals(MovePlayer.class)) || (thisMoveType
 						.equals(MovePlayer.class)));
+		}
 
 		// this is the third move, is correct if: 1)they're all different 2)it's
 		// equals to the first and the second is a moveplayer 3)it's equals to

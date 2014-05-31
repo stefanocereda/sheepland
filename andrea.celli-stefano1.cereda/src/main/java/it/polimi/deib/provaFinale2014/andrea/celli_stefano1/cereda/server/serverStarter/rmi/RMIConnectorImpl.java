@@ -21,9 +21,10 @@ public class RMIConnectorImpl implements RMIConnector {
 
 	public int connect(Integer id) throws RemoteException {
 		// if the client sends zero is the first connection
-		if (id == 0)
+		if (id == 0) {
 			id = ++created;
-		// otherwise it'reconnecting (id = id)
+			// otherwise it'reconnecting (id = id)
+		}
 
 		// notify the server starter on a separate thread
 		Notifier notifier = new Notifier(id.toString());

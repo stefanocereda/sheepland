@@ -36,8 +36,9 @@ public class PlayersOfAGame extends GenericGameObject {
 	 */
 	public void addPlayerToPlayersOfAGame(Player player) {
 		int index;
-		for (index = 0; index < players.length && players[index] != null; index++)
+		for (index = 0; index < players.length && players[index] != null; index++) {
 			;
+		}
 		players[index] = player;
 	}
 
@@ -49,9 +50,11 @@ public class PlayersOfAGame extends GenericGameObject {
 	 *            the player whose presence has to be checked
 	 */
 	public boolean isAlreadyThere(Player player) {
-		for (int index = 0; index < players.length; index++)
-			if (player.equals(players[index]))
+		for (Player player2 : players) {
+			if (player.equals(player2)) {
 				return true;
+			}
+		}
 		return false;
 	}
 
@@ -63,9 +66,11 @@ public class PlayersOfAGame extends GenericGameObject {
 	 */
 	public int findPosition(Player player) {
 		int position = 0;
-		for (int i = 0; i < players.length; i++)
-			if ((players[i] != null) && (player.equals(players[i])))
+		for (int i = 0; i < players.length; i++) {
+			if ((players[i] != null) && (player.equals(players[i]))) {
 				position = i + 1;
+			}
+		}
 		return position;
 	}
 

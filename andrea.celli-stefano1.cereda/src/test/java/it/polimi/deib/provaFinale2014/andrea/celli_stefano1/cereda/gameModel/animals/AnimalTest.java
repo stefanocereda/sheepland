@@ -3,8 +3,8 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals;
 
-import static org.junit.Assert.*;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Animal;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
 import org.junit.Test;

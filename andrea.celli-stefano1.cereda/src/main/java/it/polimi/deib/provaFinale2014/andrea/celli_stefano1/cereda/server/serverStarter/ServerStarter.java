@@ -58,6 +58,7 @@ public class ServerStarter implements Runnable {
 	 * we can start a game
 	 */
 	class TimerTaskStartGame extends TimerTask {
+		@Override
 		public void run() {
 			launchGame();
 		}

@@ -53,8 +53,9 @@ public class ClientHandlerSocket extends ClientHandler {
 		// ask the id
 		id = in.readInt();
 		// if the id is zero choose a new one
-		if (id == 0)
+		if (id == 0) {
 			id = ++created;
+		}
 		// send back the right id
 		out.writeInt(id);
 		out.flush();

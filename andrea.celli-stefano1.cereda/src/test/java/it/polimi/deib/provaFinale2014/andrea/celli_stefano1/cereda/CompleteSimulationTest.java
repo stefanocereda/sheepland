@@ -45,7 +45,7 @@ public class CompleteSimulationTest {
 	class socketClient implements Runnable {
 		public void run() {
 			try {
-				Interface ui = new InterfaceFake();
+				Interface ui = new InterfaceConsole();
 				GameControllerClient controller = new GameControllerClient(ui);
 				InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
 				NetworkHandlerSocket socketClient;

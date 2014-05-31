@@ -49,9 +49,11 @@ public class Deck extends ArrayList<Card> implements Serializable {
 
 		// For every card in the deck check if it's initial and eventually add
 		// it
-		for (int i = 0; i < this.size(); i++)
-			if (this.get(i).isInitial())
+		for (int i = 0; i < this.size(); i++) {
+			if (this.get(i).isInitial()) {
 				initials.add(this.get(i));
+			}
+		}
 
 		return initials;
 	}
@@ -73,9 +75,11 @@ public class Deck extends ArrayList<Card> implements Serializable {
 	 * @return true if the card is in the deck
 	 */
 	public boolean isInTheDeck(Card card) {
-		for (int i = 0; i < this.size(); i++)
-			if (this.get(i).equals(card))
+		for (int i = 0; i < this.size(); i++) {
+			if (this.get(i).equals(card)) {
 				return true;
+			}
+		}
 		return false;
 	}
 
@@ -96,14 +100,17 @@ public class Deck extends ArrayList<Card> implements Serializable {
 				if (buyable.get(card.getTerrainType()) > card.getNumber()) {
 					buyable.put(card.getTerrainType(), card.getNumber());
 				}
-			} else
+			} else {
 				buyable.put(card.getTerrainType(), card.getNumber());
+			}
 		}
 
 		// creates the arrayList
-		for (Card card : this)
-			if (buyable.get(card.getTerrainType()) == card.getNumber())
+		for (Card card : this) {
+			if (buyable.get(card.getTerrainType()) == card.getNumber()) {
 				cards.add(card);
+			}
+		}
 
 		return cards;
 

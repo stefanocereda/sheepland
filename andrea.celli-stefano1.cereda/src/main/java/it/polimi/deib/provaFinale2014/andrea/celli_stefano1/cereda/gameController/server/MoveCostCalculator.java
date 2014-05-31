@@ -29,10 +29,12 @@ public class MoveCostCalculator {
 	 * @return the move cost
 	 */
 	public static int getMoveCost(Move move) {
-		if (move.getClass().equals(MovePlayer.class))
+		if (move.getClass().equals(MovePlayer.class)) {
 			return getMoveCostPlayer((MovePlayer) move);
-		if (move.getClass().equals(BuyCardMove.class))
+		}
+		if (move.getClass().equals(BuyCardMove.class)) {
 			return getMoveCostBuyCard((BuyCardMove) move);
+		}
 		return 0;
 	}
 

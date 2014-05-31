@@ -54,6 +54,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * 
 	 * @throws IOException
 	 */
+	@Override
 	protected void connect() throws IOException {
 		socket.connect(serverAddress);
 
@@ -95,16 +96,17 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					askAndSendNewMove();
 				} else if (command.equals(SocketMessages.SEND_NEW_STATUS)) {
 					getAndUpdateStatus();
-				} else if (command.equals(SocketMessages.SET_CURRENT_PLAYER))
+				} else if (command.equals(SocketMessages.SET_CURRENT_PLAYER)) {
 					getAndSetNewCurrentPlayer();
-				else if (command.equals(SocketMessages.SEND_WINNERS)) {
+				} else if (command.equals(SocketMessages.SEND_WINNERS)) {
 					getWinners();
 					break;
-				} else if (command.equals(SocketMessages.ASK_INITIAL_POSITION))
+				} else if (command.equals(SocketMessages.ASK_INITIAL_POSITION)) {
 					chooseInitialPosition();
-				else if (command
-						.equals(SocketMessages.NOTIFY_CONTROLLED_PLAYER))
+				} else if (command
+						.equals(SocketMessages.NOTIFY_CONTROLLED_PLAYER)) {
 					getControlledPlayer();
+				}
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception

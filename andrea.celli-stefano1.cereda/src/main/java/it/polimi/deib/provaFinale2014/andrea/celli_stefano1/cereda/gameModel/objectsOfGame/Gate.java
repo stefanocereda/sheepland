@@ -8,7 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Gen
  * @author Stefano
  * 
  */
-public class Gate extends GenericGameObject{
+public class Gate extends GenericGameObject {
 	/** The gate is last if placed during the last turn */
 	private boolean last;
 	/** The gate is placed on a road */

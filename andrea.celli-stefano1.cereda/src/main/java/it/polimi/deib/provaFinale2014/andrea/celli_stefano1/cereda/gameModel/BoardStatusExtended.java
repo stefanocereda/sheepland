@@ -29,7 +29,8 @@ public class BoardStatusExtended extends BoardStatus {
 	 *            the wolf
 	 */
 	public void addWolfToBoardStatus(Wolf wolf) {
-		if (this.wolf == null)
+		if (this.wolf == null) {
 			this.wolf = wolf;
+		}
 	}
 }

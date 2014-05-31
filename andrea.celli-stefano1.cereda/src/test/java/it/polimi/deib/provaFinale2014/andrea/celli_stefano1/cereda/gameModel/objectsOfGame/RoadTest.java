@@ -3,9 +3,10 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
-import static org.junit.Assert.*;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -62,12 +63,15 @@ public class RoadTest {
 		Terrain[] contained = r.getAdjacentTerrains();
 
 		for (Terrain t : contained) {
-			if (t.equals(t1))
+			if (t.equals(t1)) {
 				t1contained = true;
-			if (t.equals(t2))
+			}
+			if (t.equals(t2)) {
 				t2contained = true;
-			if (t.equals(t3))
+			}
+			if (t.equals(t3)) {
 				t3contained = true;
+			}
 		}
 
 		assertTrue(t1contained);

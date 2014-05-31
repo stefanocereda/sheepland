@@ -14,21 +14,29 @@ public enum TerrainType implements Serializable {
 	/**
 	 * @return the string name of the enum value (lower case letters)
 	 */
+	@Override
 	public String toString() {
-		if (this == PLAIN)
+		if (this == PLAIN) {
 			return "plain";
-		if (this == COUNTRYSIDE)
+		}
+		if (this == COUNTRYSIDE) {
 			return "countryside";
-		if (this == MOUNTAIN)
+		}
+		if (this == MOUNTAIN) {
 			return "mountain";
-		if (this == DESERT)
+		}
+		if (this == DESERT) {
 			return "desert";
-		if (this == WOOD)
+		}
+		if (this == WOOD) {
 			return "wood";
-		if (this == LAKE)
+		}
+		if (this == LAKE) {
 			return "lake";
-		if (this == SHEEPSBURG)
+		}
+		if (this == SHEEPSBURG) {
 			return "sheepsburg";
+		}
 
 		return null;
 	}

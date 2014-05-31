@@ -198,25 +198,27 @@ public class RuleCheckerTest {
 		// now do a valid second move
 		Deck deck = status.getDeck();
 		player.setMoney(100);
-		for (Card c : deck)
+		for (Card c : deck) {
 			if (c.getTerrainType().equals(
 					player.getPosition().getAdjacentTerrains()[0]
 							.getTerrainType())) {
 				secondMove = new BuyCardMove(player, c);
 				break;
 			}
+		}
 		assertTrue(secondMove.isValid(status));
 		player.addLastMove(secondMove);
 
 		// an invalid third move
 		Move thirdMove = null;
-		for (Card c : deck)
+		for (Card c : deck) {
 			if (c.getTerrainType().equals(
 					player.getPosition().getAdjacentTerrains()[0]
 							.getTerrainType())) {
 				thirdMove = new BuyCardMove(player, c);
 				break;
 			}
+		}
 		assertFalse(thirdMove.isValid(status));
 
 		// and a valid third move

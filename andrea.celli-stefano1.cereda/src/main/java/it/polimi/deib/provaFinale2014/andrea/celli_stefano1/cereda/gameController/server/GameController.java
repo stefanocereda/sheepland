@@ -199,11 +199,12 @@ public class GameController implements Runnable {
 	 * that will actually suspend the player.
 	 */
 	private void catchDisconnection(Player p) {
-		for (ClientHandler client : clients)
+		for (ClientHandler client : clients) {
 			if (client.getPlayer().equals(p)) {
 				client.notifyClientDisconnection();
 				break;
 			}
+		}
 	}
 
 	/** This method reconnect a player changing his ConnectionHandler */
@@ -211,8 +212,9 @@ public class GameController implements Runnable {
 		// search the old client handler
 		for (ClientHandler oldClient : clients) {
 			// and change it with the new one
-			if (oldClient.getPlayer().equals(player))
+			if (oldClient.getPlayer().equals(player)) {
 				clients.set(clients.indexOf(oldClient), newClientHandler);
+			}
 		}
 
 		// set the parameters
@@ -242,7 +244,7 @@ public class GameController implements Runnable {
 	/** Send the status to all the not suspended players */
 	private void sendStatusToAllPlayers() {
 		for (ClientHandler client : clients) {
-			if (!client.getPlayer().isSuspended())
+			if (!client.getPlayer().isSuspended()) {
 				try {
 					client.sendNewStatus(boardStatus);
 				} catch (ClientDisconnectedException e) {
@@ -250,6 +252,7 @@ public class GameController implements Runnable {
 					logger.log(Level.INFO, message, e);
 					catchDisconnection(e.getPlayer());
 				}
+			}
 		}
 	}
 
@@ -336,11 +339,12 @@ public class GameController implements Runnable {
 		// search the client handler of the current player
 		ClientHandler client = null;
 
-		for (ClientHandler ch : clients)
+		for (ClientHandler ch : clients) {
 			if (boardStatus.getCurrentPlayer().equals(ch.getPlayer())) {
 				client = ch;
 				break;
 			}
+		}
 
 		if (!client.getPlayer().isSuspended()) {
 			try {
@@ -370,11 +374,12 @@ public class GameController implements Runnable {
 		// search the client handler of the current player
 		ClientHandler client = null;
 
-		for (ClientHandler ch : clients)
+		for (ClientHandler ch : clients) {
 			if (boardStatus.getCurrentPlayer().equals(ch.getPlayer())) {
 				client = ch;
 				break;
 			}
+		}
 
 		if (!client.getPlayer().isSuspended()) {
 			try {
@@ -484,8 +489,9 @@ public class GameController implements Runnable {
 				break;
 			}
 
-			if (nextMethod.equals("gameOver"))
+			if (nextMethod.equals("gameOver")) {
 				break;
+			}
 		}
 	}
 
@@ -527,16 +533,19 @@ public class GameController implements Runnable {
 
 		// check if there is a road that has the same number obtained with the
 		// dice
-		for (Road road : roadsNearBlackSheep)
+		for (Road road : roadsNearBlackSheep) {
 			if (road.getBoxValue() == diceResult
 					&& boardStatus.isFreeRoad(road)) {
 				// find the new terrain
-				for (Terrain t : road.getAdjacentTerrains())
-					if (!boardStatus.getBlackSheep().getPosition().equals(t))
+				for (Terrain t : road.getAdjacentTerrains()) {
+					if (!boardStatus.getBlackSheep().getPosition().equals(t)) {
 						// creates a new move and send it to clients
 						sendMoveToAllPlayers(new MoveBlackSheep(t,
 								boardStatus.getBlackSheep()));
+					}
+				}
 			}
+		}
 
 		// go on by asking the move to the current player
 		return "retrieveMoveFromCurrentPlayer";
@@ -556,8 +565,9 @@ public class GameController implements Runnable {
 		// if the returned move is null the client has disconnected
 		if (returned == null) {
 			// if the player is back reAsk the move
-			if (boardStatus.getCurrentPlayer().isConnected())
+			if (boardStatus.getCurrentPlayer().isConnected()) {
 				return "retrieveMoveFromCurrentPlayer";
+			}
 			// otherwise go on with another player
 			return "goOn";
 		}
@@ -583,8 +593,9 @@ public class GameController implements Runnable {
 		// if the returned move is null the client has disconnected
 		if (returned == null) {
 			// if the player is back reAsk the move
-			if (boardStatus.getCurrentPlayer().isConnected())
+			if (boardStatus.getCurrentPlayer().isConnected()) {
 				return "reRetrieveMoveFromCurrentPlayer";
+			}
 			// otherwise go on with another player
 			return "goOn";
 		}
@@ -632,12 +643,14 @@ public class GameController implements Runnable {
 		setNewCurrentPlayer();
 
 		// check if the game is finished
-		if (isGameFinished())
+		if (isGameFinished()) {
 			return "gameOver";
+		}
 
 		// now go to the first not suspended player
-		while (boardStatus.getCurrentPlayer().isSuspended())
+		while (boardStatus.getCurrentPlayer().isSuspended()) {
 			setNewCurrentPlayer();
+		}
 
 		return "notifyNewCurrentPlayer";
 	}

@@ -141,8 +141,9 @@ public class BoardStatus implements Serializable {
 	 *            the new player
 	 */
 	public void addPlayerToBoardStatus(Player player) {
-		if (!players.isAlreadyThere(player))
+		if (!players.isAlreadyThere(player)) {
 			players.addPlayerToPlayersOfAGame(player);
+		}
 	}
 
 	/**
@@ -162,15 +163,19 @@ public class BoardStatus implements Serializable {
 	 */
 	public boolean isFreeRoad(Road roadToCheck) {
 		// first check if we have a shepherd
-		for (Player player : players.getPlayers())
+		for (Player player : players.getPlayers()) {
 			if (player.getPosition() != null
-					&& player.getPosition().equals(roadToCheck))
+					&& player.getPosition().equals(roadToCheck)) {
 				return false;
+			}
+		}
 
 		// then check the gates
-		for (Gate gate : placedGates)
-			if (gate.getPosition().equals(roadToCheck))
+		for (Gate gate : placedGates) {
+			if (gate.getPosition().equals(roadToCheck)) {
 				return false;
+			}
+		}
 		// to be here it must be free
 		return true;
 	}
@@ -209,9 +214,11 @@ public class BoardStatus implements Serializable {
 	 */
 	public int countStandardGates() {
 		int numberOfStandardGates = 0;
-		for (Gate gate : placedGates)
-			if (!gate.isLast())
+		for (Gate gate : placedGates) {
+			if (!gate.isLast()) {
 				numberOfStandardGates++;
+			}
+		}
 		return numberOfStandardGates;
 	}
 
@@ -226,9 +233,11 @@ public class BoardStatus implements Serializable {
 	 * @author Andrea
 	 */
 	public Player getEquivalentPlayer(Player player) {
-		for (Player equivalentPlayer : players.getPlayers())
-			if (player.equals(equivalentPlayer))
+		for (Player equivalentPlayer : players.getPlayers()) {
+			if (player.equals(equivalentPlayer)) {
 				return equivalentPlayer;
+			}
+		}
 		return null;
 	}
 
@@ -242,9 +251,11 @@ public class BoardStatus implements Serializable {
 	 * @author Andrea
 	 */
 	public Sheep getEquivalentSheep(Sheep sheep) {
-		for (Sheep equivalentSheep : sheeps)
-			if (sheep.equals(equivalentSheep))
+		for (Sheep equivalentSheep : sheeps) {
+			if (sheep.equals(equivalentSheep)) {
 				return equivalentSheep;
+			}
+		}
 		return null;
 	}
 
@@ -276,10 +287,11 @@ public class BoardStatus implements Serializable {
 	 * @return index the position of the player
 	 */
 	public int getPositionOfAPlayer(Player player) {
-		for (int index = 0; index < (players.getPlayers().length); index++)
+		for (int index = 0; index < (players.getPlayers().length); index++) {
 			if (player.equals(players.getPlayers()[index])) {
 				return index;
 			}
+		}
 		return players.getPlayers().length + 1;
 	}
 
@@ -296,8 +308,9 @@ public class BoardStatus implements Serializable {
 		int newValue;
 
 		// initialize all the values
-		for (Terrain terrain : terrains)
+		for (Terrain terrain : terrains) {
 			map.put(terrain, 0);
+		}
 		for (Sheep sheep : sheeps) {
 			if (map.containsKey(sheep.getPosition())) {
 				newValue = map.get(sheep.getPosition()) + 1;
@@ -320,10 +333,11 @@ public class BoardStatus implements Serializable {
 		Map<Integer, Road> roadMap = getRoadMap().getHashMapOfRoads();
 
 		// finds the free roads
-		for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++)
+		for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++) {
 			if (this.isFreeRoad(roadMap.get(i))) {
 				freeRoads.add(i);
 			}
+		}
 		return freeRoads;
 	}
 
