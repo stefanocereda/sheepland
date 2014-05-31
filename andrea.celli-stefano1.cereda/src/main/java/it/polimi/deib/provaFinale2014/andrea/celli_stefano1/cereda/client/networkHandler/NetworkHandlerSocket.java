@@ -196,9 +196,11 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 */
 	private synchronized void getWinners() throws IOException,
 			ClassNotFoundException {
+
+		@SuppressWarnings("unchecked")
 		List<Player> winners = (List<Player>) in.readObject();
+
 		controller.notifyWinners(winners);
-		// TODO handle the closing
 	}
 
 	/** This method ask the user to choose the initial position and returns it */
