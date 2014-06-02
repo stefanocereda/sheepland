@@ -2,8 +2,8 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameC
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.InterfaceFake;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceFake;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
