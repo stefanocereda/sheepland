@@ -15,6 +15,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
@@ -264,6 +265,15 @@ public class InterfaceConsole implements Interface {
 		show(gameController.getBoardStatus().getDeck().getBuyableCards()
 				.toArray());
 
+		// display the adjacent terrain types
+		System.out.println("The terrains around you are: ");
+		Terrain[] adjacent = gameController.getControlledPlayer().getPosition()
+				.getAdjacentTerrains();
+		TerrainType[] tipes = new TerrainType[adjacent.length];
+		for (int i = 0; i < adjacent.length; i++)
+			tipes[i] = adjacent[i].getTerrainType();
+		show(tipes);
+
 		// ask to choose a card
 		do {
 			System.out.println("Choose a card ");
@@ -347,6 +357,11 @@ public class InterfaceConsole implements Interface {
 								.getPosition().toString());
 		System.out
 				.println("(To move the black sheep choose the terrain where it's located)");
+
+		// specifies the terrains around the player
+		System.out.println("The terrains around you are: ");
+		show(gameController.getBoardStatus().getCurrentPlayer().getPosition()
+				.getAdjacentTerrains());
 
 		// ask for the sheep to move (the player has to choose the terrain in
 		// which the seep is)

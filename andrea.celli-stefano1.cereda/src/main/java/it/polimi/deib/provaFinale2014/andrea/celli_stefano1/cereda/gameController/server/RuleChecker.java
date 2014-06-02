@@ -145,7 +145,8 @@ public class RuleChecker {
 	private static boolean isCorrectMoveSheep(MoveSheep move,
 			BoardStatus boardStatus) {
 		// search the adjacent terrains
-		Terrain[] adjacentTerrains = move.getPlayer().getPosition()
+		Terrain[] adjacentTerrains = boardStatus
+				.getEquivalentPlayer(move.getPlayer()).getPosition()
 				.getAdjacentTerrains();
 
 		// get where the sheep is moving
