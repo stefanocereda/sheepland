@@ -1,21 +1,25 @@
-/**
- * 
- */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.commandLineInterface.InterfaceConsole;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.InterfaceGui;
 
 /**
- * This class is an interface creator
+ * This class only contains a method used to create user interfaces
  * 
  * @author Stefano
  * 
  */
 public class InterfaceCreator {
 
-	public static Interface create(TypeOfInterface defaultInterface) {
-		switch (defaultInterface) {
+	/**
+	 * Creates an interface of the given type
+	 * 
+	 * @param type
+	 *            The type of interface desidered
+	 * @return an interface of the given type
+	 */
+	public static Interface create(TypeOfInterface type) {
+		switch (type) {
 		case CONSOLE:
 			return new InterfaceConsole();
 		case GUI:
