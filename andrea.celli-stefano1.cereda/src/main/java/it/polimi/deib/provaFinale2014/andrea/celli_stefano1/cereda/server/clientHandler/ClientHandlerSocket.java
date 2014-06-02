@@ -156,6 +156,9 @@ public class ClientHandlerSocket extends ClientHandler {
 			out.writeUTF(SocketMessages.SEND_WINNERS);
 			out.writeObject(winners);
 			out.flush();
+			timerTaskPing.cancel();
+			in.close();
+			out.close();
 		} catch (IOException e) {
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer, e);

@@ -663,11 +663,11 @@ public class GameController implements Runnable {
 
 	/**
 	 * This method notifies the current player to all the clients, then goes on
-	 * by asking it a new move
+	 * by moving the black sheep
 	 */
 	private String notifyNewCurrentPlayer() {
 		sendNewCurrentPlayerToAllPlayers();
-		return "retrieveMoveFromCurrentPlayer";
+		return "moveTheBlackSheep";
 	}
 
 	/**
@@ -717,7 +717,7 @@ public class GameController implements Runnable {
 		positionCurrentPlayer = boardStatus.getPositionOfAPlayer(currentPlayer);
 
 		if (positionFirstPlayer == positionCurrentPlayer) {
-			if (boardStatus.countStandardGates() > 20) {
+			if (boardStatus.countStandardGates() >= GameConstants.NUMBER_OF_NON_FINAL_GATES) {
 				return true;
 			}
 		}
@@ -749,11 +749,11 @@ public class GameController implements Runnable {
 					currentValue + 1);
 		}
 
-		// add one to the terrain in which is located the black sheep
-		currentValue = valuesOfCards.get(boardStatus.getBlackSheep()
-				.getPosition().getTerrainType());
-		valuesOfCards.put(boardStatus.getBlackSheep().getPosition()
-				.getTerrainType(), currentValue + 1);
+		// // add one to the terrain in which is located the black sheep
+		// currentValue = valuesOfCards.get(boardStatus.getBlackSheep()
+		// .getPosition().getTerrainType());
+		// valuesOfCards.put(boardStatus.getBlackSheep().getPosition()
+		// .getTerrainType(), currentValue + 1);
 
 		// add the value of cards to player's money
 		for (Player player : boardStatus.getPlayers()) {
@@ -771,8 +771,7 @@ public class GameController implements Runnable {
 				winners.clear();
 				winners.add(player);
 				max = player.getMoney();
-			}
-			if (player.getMoney() == max) {
+			} else if (player.getMoney() == max) {
 				// if there's a draw
 				winners.add(player);
 			}

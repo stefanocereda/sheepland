@@ -84,6 +84,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					if (command.equals(SocketMessages.PING)) {
 						out.writeUTF(SocketMessages.PONG);
 						out.flush();
+						continue;
 					}
 				}
 
@@ -201,6 +202,9 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		List<Player> winners = (List<Player>) in.readObject();
 
 		controller.notifyWinners(winners);
+
+		in.close();
+		out.close();
 	}
 
 	/** This method ask the user to choose the initial position and returns it */

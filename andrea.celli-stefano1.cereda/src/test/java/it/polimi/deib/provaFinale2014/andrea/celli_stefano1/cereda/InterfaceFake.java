@@ -52,6 +52,18 @@ public class InterfaceFake implements Interface {
 			}
 		}
 
+		// if it wasn't possible try to buy a card
+		Deck deck = status.getDeck();
+		for (Card c : deck) {
+			if (c.getTerrainType().equals(
+					player.getPosition().getAdjacentTerrains()[0])
+					|| c.getTerrainType().equals(
+							player.getPosition().getAdjacentTerrains()[1])) {
+				Move move = new BuyCardMove(player, c);
+				return move;
+			}
+		}
+
 		// if it wasn't possible try to move a sheep
 		for (Sheep s : status.getSheeps()) {
 			if (s.getPosition().equals(
@@ -64,18 +76,6 @@ public class InterfaceFake implements Interface {
 					player.getPosition().getAdjacentTerrains()[1])) {
 				Move move = new MoveSheep(player, s, player.getPosition()
 						.getAdjacentTerrains()[0]);
-				return move;
-			}
-		}
-
-		// if it wasn't possible try to buy a card
-		Deck deck = status.getDeck();
-		for (Card c : deck) {
-			if (c.getTerrainType().equals(
-					player.getPosition().getAdjacentTerrains()[0])
-					|| c.getTerrainType().equals(
-							player.getPosition().getAdjacentTerrains()[1])) {
-				Move move = new BuyCardMove(player, c);
 				return move;
 			}
 		}
@@ -130,9 +130,6 @@ public class InterfaceFake implements Interface {
 				}
 				if (type == 2) {
 					toReturn = newRandomMovePlayer();
-				}
-				if (type == 3) {
-					System.out.println("pirla");
 				}
 			} catch (Exception e) {
 				ok = false;
@@ -264,7 +261,7 @@ public class InterfaceFake implements Interface {
 	}
 
 	public void notifyMove(Move move) {
-		System.out.println("The server sended a move");
+		System.out.println("The server sent a move");
 	}
 
 	public void notifyNotValidMove() {
@@ -281,7 +278,9 @@ public class InterfaceFake implements Interface {
 	public void notifyWinners(List<Player> winners) {
 		System.out.println("game ended");
 		for (Player p : winners) {
-			System.out.println(p + " is a winner");
+			System.out.println("Player "
+					+ gameController.getBoardStatus().getPlayerNumber(p)
+					+ " is a winner");
 		}
 	}
 
