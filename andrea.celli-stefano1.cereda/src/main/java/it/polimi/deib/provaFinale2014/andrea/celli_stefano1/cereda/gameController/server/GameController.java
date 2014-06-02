@@ -507,12 +507,18 @@ public class GameController implements Runnable {
 
 	/**
 	 * The second action of a game is asking all the clients to choose an
-	 * initial position
+	 * initial position. After that we delete the list of moves for all the
+	 * clients
 	 * 
 	 * @return moveTheBlackSheep
 	 */
 	private String retrieveInitialPositions() {
 		askInitialPositionToAllPlayers();
+
+		for (Player p : boardStatus.getPlayers()) {
+			p.deleteLastMoves();
+		}
+
 		return "moveTheBlackSheep";
 	}
 

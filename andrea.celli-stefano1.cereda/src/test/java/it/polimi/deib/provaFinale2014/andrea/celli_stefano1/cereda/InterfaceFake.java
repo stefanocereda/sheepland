@@ -26,9 +26,7 @@ public class InterfaceFake implements Interface {
 	Random rnd = new Random();
 
 	public Move getNewMove() {
-		System.out.println("the server asked a move");
-		Move move = newRandomMove();
-		System.out.println("found a move");
+		Move move = newReallyRandomMove();
 		return move;
 	}
 
@@ -100,9 +98,6 @@ public class InterfaceFake implements Interface {
 		if (type == 2) {
 			return newReallyRandomMovePlayer();
 		}
-		if (type == 3) {
-			System.out.println("pirla");
-		}
 		return null;
 	}
 
@@ -139,7 +134,7 @@ public class InterfaceFake implements Interface {
 				if (type == 3) {
 					System.out.println("pirla");
 				}
-			} catch (NullPointerException e) {
+			} catch (Exception e) {
 				ok = false;
 			}
 		} while (!ok);
@@ -273,7 +268,6 @@ public class InterfaceFake implements Interface {
 	}
 
 	public void notifyNotValidMove() {
-		System.out.println("Server said that the last move wasn't valid");
 	}
 
 	public void notifyDisconnection() {
