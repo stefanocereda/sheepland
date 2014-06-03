@@ -73,7 +73,7 @@ public enum Card implements Serializable {
 	}
 
 	/**
-	 * @return the string rapresenting a card
+	 * @return the string representing a card
 	 */
 	@Override
 	public String toString() {
