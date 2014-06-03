@@ -21,7 +21,7 @@ public class CompleteSimulationTest {
 
 		// wait for sever starting
 		try {
-			Thread.sleep(5 * 1000);
+			Thread.sleep(2 * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,7 +34,7 @@ public class CompleteSimulationTest {
 
 		// let them play
 		try {
-			Thread.sleep(5 * 1000);
+			Thread.sleep(150000 * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,7 +43,7 @@ public class CompleteSimulationTest {
 
 	class client implements Runnable {
 		public void run() {
-			String[] args = { "fake", "socket" };
+			String[] args = { "socket", "console" };
 			ClientMainClass.main(args);
 		}
 	}

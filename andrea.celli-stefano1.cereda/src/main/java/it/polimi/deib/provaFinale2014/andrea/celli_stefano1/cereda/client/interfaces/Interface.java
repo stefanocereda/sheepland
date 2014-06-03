@@ -4,7 +4,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -39,7 +38,7 @@ public interface Interface {
 	void showInitialInformation();
 
 	/** Tell the user that the server sent a brand new board status and show it */
-	void notifyNewStatus(BoardStatus newBoardStatus);
+	void notifyNewStatus();
 
 	/**
 	 * Ask the user to choose a road that will be his initial position, the

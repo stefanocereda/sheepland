@@ -296,7 +296,7 @@ public class InterfaceFake implements Interface {
 		System.out.println("the game is starting");
 	}
 
-	public void notifyNewStatus(BoardStatus newBoardStatus) {
+	public void notifyNewStatus() {
 		System.out.println("received a new status");
 	}
 }

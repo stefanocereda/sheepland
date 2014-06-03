@@ -316,4 +316,13 @@ public class RoadMap extends GenericGameObject {
 		}
 		return nearRoads;
 	}
+
+	/** Return the cardinal number of the given road */
+	public int getNumberOfRoad(Road r) {
+		for (int i = 1; i < roadMap.size(); i++) {
+			if (roadMap.get(i).equals(r))
+				return i;
+		}
+		return 0;
+	}
 }

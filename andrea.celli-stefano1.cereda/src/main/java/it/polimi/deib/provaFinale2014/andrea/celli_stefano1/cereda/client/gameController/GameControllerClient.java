@@ -47,8 +47,7 @@ public class GameControllerClient {
 	 * This method updates the boardStatus "owned" by a client with the new
 	 * information provided by the server after the creation of the game. When
 	 * we receive the status for the first time we notify to the client that the
-	 * game is starting. The status is update after notifying the interface if
-	 * this is not the first update
+	 * game is starting.
 	 * 
 	 * @param newBoardStatus
 	 *            the boardStatus with updates
@@ -60,8 +59,8 @@ public class GameControllerClient {
 			this.boardStatus = newBoardStatus;
 			userInterface.showInitialInformation();
 		} else {
-			userInterface.notifyNewStatus(newBoardStatus);
 			this.boardStatus = newBoardStatus;
+			userInterface.notifyNewStatus();
 		}
 	}
 

@@ -4,7 +4,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.MoveCostCalculator;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -55,8 +54,20 @@ public class InterfaceConsole implements Interface {
 		System.out.println(" ");
 	}
 
-	public void notifyNewStatus(BoardStatus newBoardStatus) {
-		// TODO SHOW ALL THE STATUS
+	public void notifyNewStatus() {
+		System.out.println("THIS IS THE CURRENT STATUS OF THE GAME");
+
+		System.out.println();
+		printPlayers();
+
+		System.out.println();
+		printSheepCount();
+
+		System.out.println();
+		printAdjacentTerrains();
+
+		System.out.println();
+		printRemainingCards();
 	}
 
 	public Road chooseInitialPosition() {
@@ -194,11 +205,14 @@ public class InterfaceConsole implements Interface {
 		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values()) {
 			System.out.print(move.toString() + "  ");
 		}
+		System.out.println("print status");
+
 		// wait for the player's choice
 		do {
 			System.out.println("Choose the type of move:");
 			answer = in.nextLine();
-		} while (!isCorrectAnswer(TypeOfPlayerMoves.values(), answer));
+		} while (!isCorrectAnswer(TypeOfPlayerMoves.values(), answer)
+				&& !answer.equals("print status"));
 
 		// depending on the type of move the method goes on asking for
 		// information to the player
@@ -213,6 +227,11 @@ public class InterfaceConsole implements Interface {
 		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString())) {
 			return askForMoveSheep();
 		}
+		if (answer.equals("print status")) {
+			notifyNewStatus();
+			return getNewMove();
+		}
+
 		return null;
 	}
 
@@ -368,7 +387,7 @@ public class InterfaceConsole implements Interface {
 				.getAdjacentTerrains());
 
 		// ask for the sheep to move (the player has to choose the terrain in
-		// which the seep is)
+		// which the sheep is)
 		do {
 			System.out.println("Choose the terrain where to pick the sheep:");
 			from = in.nextLine();
@@ -458,4 +477,64 @@ public class InterfaceConsole implements Interface {
 		}
 	}
 
+	//
+	//
+	// HERE STARTS THE METHODS USED TO PRINT INFORMATIONS
+	//
+	//
+
+	/**
+	 * Show all the players with their money and their positions. For the
+	 * controlled player also show the cards
+	 */
+	private void printPlayers() {
+		for (Player p : gameController.getBoardStatus().getPlayers()) {
+			System.out.println("Player "
+					+ gameController.getBoardStatus().getPlayerNumber(p)
+					+ " is on the road "
+					+ gameController.getBoardStatus().getRoadMap()
+							.getNumberOfRoad(p.getPosition()) + " with "
+					+ p.getMoney() + " money.");
+		}
+
+		System.out.println();
+		System.out.println("Those are your cards:");
+		for (Card c : gameController.getControlledPlayer().getCards()) {
+			System.out.println(c.toString());
+		}
+	}
+
+	/**
+	 * Print the number of sheep on each terrain and specifies where is the
+	 * black sheep
+	 */
+	private void printSheepCount() {
+		System.out.println("These are the numbers of sheep for each terrain");
+		Map<Terrain, Integer> map = gameController.getBoardStatus()
+				.calculateNumberOfSheepForEachTerrain();
+		for (Terrain terrain : Terrain.values()) {
+			System.out.println("Terrain " + terrain.toString()
+					+ " number of sheep: " + map.get(terrain));
+		}
+
+		System.out.println();
+		System.out
+				.println("The black sheep is among the sheep in the terrain: "
+						+ gameController.getBoardStatus().getBlackSheep()
+								.getPosition().toString());
+	}
+
+	/** Print the names of the terrains adjacent the controlled player */
+	private void printAdjacentTerrains() {
+		System.out.println("The terrains around you are: ");
+		show(gameController.getBoardStatus().getCurrentPlayer().getPosition()
+				.getAdjacentTerrains());
+	}
+
+	/** Print the remaining cards in the deck */
+	private void printRemainingCards() {
+		System.out.println("The buyable cards in the deck are: ");
+		show(gameController.getBoardStatus().getDeck().getBuyableCards()
+				.toArray());
+	}
 }
