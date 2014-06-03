@@ -417,40 +417,39 @@ public class GameController implements Runnable {
 						initial = ch.askInitialPosition();
 					} while (!boardStatus.isFreeRoad(initial));
 
-					ch.getPlayer().move(initial);
-
 				} catch (ClientDisconnectedException e) {
 					String message = "A client disconnected";
 					logger.log(Level.INFO, message, e);
 					catchDisconnection(e.getPlayer());
 
-					chooseRandomPositionForAPlayer(ch.getPlayer());
+					initial = chooseRandomPositionForAPlayer();
 				} catch (ClassNotFoundException e) {
 					String message = "A client is not aligned with the communication protocol, suspending it";
 					logger.log(Level.INFO, message, e);
 					ch.getPlayer().suspend();
 					ch.getPlayer().setNotConnected();
 
-					chooseRandomPositionForAPlayer(ch.getPlayer());
+					initial = chooseRandomPositionForAPlayer();
 				}
 
 			} else {
-				chooseRandomPositionForAPlayer(ch.getPlayer());
+				initial = chooseRandomPositionForAPlayer();
 			}
 
-			Move move = new MovePlayer(ch.getPlayer(), ch.getPlayer()
-					.getPosition());
+			Move move = new MovePlayer(ch.getPlayer(), initial);
 			sendMoveToAllPlayers(move);
+			move.execute(boardStatus);
 		}
 	}
 
-	/** This method moves the given player to the first free road it finds */
-	private void chooseRandomPositionForAPlayer(Player player) {
+	/** This method returns the first free road it finds */
+	private Road chooseRandomPositionForAPlayer() {
 		for (Road r : boardStatus.getRoadMap().getHashMapOfRoads().values()) {
 			if (boardStatus.isFreeRoad(r)) {
-				player.move(r);
+				return r;
 			}
 		}
+		return null;
 	}
 
 	//
@@ -618,8 +617,8 @@ public class GameController implements Runnable {
 
 	/** This method execute locally the move and notifies the clients */
 	private void executeMove(Move moveToExecute) {
-		moveToExecute.execute(boardStatus);
 		sendMoveToAllPlayers(moveToExecute);
+		moveToExecute.execute(boardStatus);
 	}
 
 	/**

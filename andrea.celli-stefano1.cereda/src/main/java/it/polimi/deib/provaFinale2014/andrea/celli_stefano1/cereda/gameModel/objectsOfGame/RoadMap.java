@@ -24,15 +24,14 @@ import java.util.Set;
 
 public class RoadMap extends GenericGameObject {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8947022539798212914L;
 	private static RoadMap completeMap;
 	private Map<Integer, Road> roadMap;
 
-	// the constructor initialize the HashMap and, at the same time, creates the
-	// roads
+	/**
+	 * the constructor initialize the HashMap and, at the same time, creates the
+	 * roads
+	 */
 	private RoadMap() {
 		roadMap = new HashMap<Integer, Road>();
 		// initialization of the roads
@@ -80,7 +79,7 @@ public class RoadMap extends GenericGameObject {
 		roadMap.put(42, new Road(5, Terrain.L2, Terrain.L3));
 	}
 
-	// this method adds the roads to the HashSets for each road
+	/** this method adds the roads to the HashSets for each road */
 	private void addAdjacentRoads() {
 		// road 1
 		roadMap.get(1).add(roadMap.get(5));

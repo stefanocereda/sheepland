@@ -84,7 +84,7 @@ public class ExecuteActionTest {
 				.get(player.getLastMoves().size() - 1), move);
 		// It checks the money after the move
 		assertEquals(initialMoneyOfthePlayer - player.getMoney(),
-				MoveCostCalculator.getMoveCost(move));
+				MoveCostCalculator.getMoveCost(move, boardStatus));
 
 		// Now make some more moves to start placing final gates and increase
 		// the test coverage

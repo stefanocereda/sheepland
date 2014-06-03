@@ -2,8 +2,8 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ob
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  * Each road has an HashSet containing its adjacent roads, an array containing
@@ -14,14 +14,24 @@ import java.util.Set;
  */
 
 public class Road extends GenericGameObject {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4591369994622514357L;
-	private Set<Road> nextRoads = new HashSet<Road>();
+	/** A list of next roads */
+	private List<Road> nextRoads = new ArrayList<Road>();
+	/** An array of adjacent terrains */
 	private Terrain[] adjacentTerrains;
+	/** The value of the box on the road */
 	private int boxValue;
 
+	/**
+	 * The constructor of a road sets the values:
+	 * 
+	 * @param boxValue
+	 *            The value of the box on the road
+	 * @param terrain1
+	 *            The first adjacent terrain
+	 * @param terrain2
+	 *            The second adjacent terrain
+	 */
 	public Road(int boxValue, Terrain terrain1, Terrain terrain2) {
 		this.boxValue = boxValue;
 		adjacentTerrains = new Terrain[2];
@@ -29,19 +39,22 @@ public class Road extends GenericGameObject {
 		adjacentTerrains[1] = terrain2;
 	}
 
-	// add an adjacent road to the HashSet
+	/** add an adjacent road to the list */
 	public void add(Road newRoad) {
 		nextRoads.add(newRoad);
 	}
 
-	public Set<Road> getNextRoads() {
+	/** Get the list of next roads */
+	public List<Road> getNextRoads() {
 		return nextRoads;
 	}
 
+	/** Get the array of adjacent terrains */
 	public Terrain[] getAdjacentTerrains() {
 		return adjacentTerrains;
 	}
 
+	/** Get the value of the box on the road */
 	public int getBoxValue() {
 		return boxValue;
 	}

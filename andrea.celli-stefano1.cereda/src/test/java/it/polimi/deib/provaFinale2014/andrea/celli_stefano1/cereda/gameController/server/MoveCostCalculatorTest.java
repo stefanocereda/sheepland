@@ -4,6 +4,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
 import static org.junit.Assert.assertEquals;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
@@ -32,11 +33,13 @@ public class MoveCostCalculatorTest {
 		// black sheep
 		Move mbp = new MoveBlackSheep(null, null); // should be free
 		mbp.setID();
-		assertEquals(MoveCostCalculator.getMoveCost(mbp), 0);
+		assertEquals(MoveCostCalculator.getMoveCost(mbp, null), 0);
 
 		// player
 		Player p = new Player();
 		p.setID();
+		BoardStatus boardStatus = new BoardStatus(1);
+		boardStatus.addPlayerToBoardStatus(p);
 
 		Road r1 = new Road(0, null, null);
 		r1.setID();
@@ -55,19 +58,20 @@ public class MoveCostCalculatorTest {
 		Move mp2 = new MovePlayer(p, r3);// should cost 1
 		mp2.setID();
 
-		assertEquals(MoveCostCalculator.getMoveCost(mp1), 0);
-		assertEquals(MoveCostCalculator.getMoveCost(mp2), 1);
+		assertEquals(MoveCostCalculator.getMoveCost(mp1, boardStatus), 0);
+		assertEquals(MoveCostCalculator.getMoveCost(mp2, boardStatus), 1);
 
 		// sheep
 		Move ms = new MoveSheep(null, null, null);// a sheep move is free
 		ms.setID();
-		assertEquals(MoveCostCalculator.getMoveCost(ms), 0);
+		assertEquals(MoveCostCalculator.getMoveCost(ms, null), 0);
 
 		// buycard
 		for (Card c : Card.values()) {
 			Move bcm = new BuyCardMove(null, c);
 			bcm.setID();
-			assertEquals(MoveCostCalculator.getMoveCost(bcm), c.getNumber());
+			assertEquals(MoveCostCalculator.getMoveCost(bcm, null),
+					c.getNumber());
 		}
 	}
 }

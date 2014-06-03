@@ -72,8 +72,8 @@ public class ExecuteAction {
 			BoardStatus boardStatus) {
 		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
 		Road oldPositionOfThePlayer = player.getPosition();
+		player.subtractMoney(MoveCostCalculator.getMoveCost(move, boardStatus));
 		player.move(move.getNewPositionOfThePlayer());
-		player.subtractMoney(MoveCostCalculator.getMoveCost(move));
 		addMoveToLastMoves(move, boardStatus);
 		addGate(oldPositionOfThePlayer, boardStatus);
 	}

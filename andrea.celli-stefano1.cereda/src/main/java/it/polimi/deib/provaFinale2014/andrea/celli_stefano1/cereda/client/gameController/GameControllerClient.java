@@ -108,7 +108,8 @@ public class GameControllerClient {
 	 */
 	public void setCurrentPlayer(Player newCurrentPlayer) {
 		userInterface.notifyCurrentPlayer(newCurrentPlayer);
-		boardStatus.setCurrentPlayer(newCurrentPlayer);
+		boardStatus.setCurrentPlayer(boardStatus
+				.getEquivalentPlayer(newCurrentPlayer));
 	}
 
 	/**

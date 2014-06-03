@@ -123,9 +123,13 @@ public class InterfaceConsole implements Interface {
 							break;
 						}
 					}
-					System.out.println("Player " + numberOfThePlayer
-							+ " moved to road " + numberOfTheRoad + " paying "
-							+ (MoveCostCalculator.getMoveCost(move)));
+					System.out.println("Player "
+							+ numberOfThePlayer
+							+ " moved to road "
+							+ numberOfTheRoad
+							+ " paying "
+							+ (MoveCostCalculator.getMoveCost(move,
+									gameController.getBoardStatus())));
 
 				} else {
 					if (move instanceof MoveSheep) {

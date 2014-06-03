@@ -5,6 +5,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ob
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -58,5 +59,15 @@ public class RoadMapTest {
 
 		Set<Road> roads = map.findRoadsAdjacentToATerrain(Terrain.D3);
 		assertEquals(adjacentRoad, roads);
+	}
+
+	@Test
+	public void testNextRoads() {
+		RoadMap roadMap = RoadMap.getRoadMap();
+
+		Road r5 = roadMap.getHashMapOfRoads().get(5);
+		Road r6 = roadMap.getHashMapOfRoads().get(6);
+
+		assertTrue(r5.getNextRoads().contains(r6));
 	}
 }

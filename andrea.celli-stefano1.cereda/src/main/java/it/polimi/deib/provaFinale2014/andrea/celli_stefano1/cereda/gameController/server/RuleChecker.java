@@ -91,7 +91,8 @@ public class RuleChecker {
 	 */
 	private static boolean isCorrectPlayer(PlayerAction move,
 			BoardStatus boardStatus) {
-		if (move.getPlayer().equals(boardStatus.getCurrentPlayer())) {
+		if (boardStatus.getEquivalentPlayer(move.getPlayer()).equals(
+				boardStatus.getCurrentPlayer())) {
 			return true;
 		} else {
 			return false;
@@ -109,10 +110,11 @@ public class RuleChecker {
 	 */
 	private static boolean isAffordable(PlayerAction move,
 			BoardStatus boardStatus) {
-		int money = move.getPlayer().getMoney();
+		int money = boardStatus.getEquivalentPlayer(move.getPlayer())
+				.getMoney();
 
 		// Calculate the cost
-		int cost = MoveCostCalculator.getMoveCost(move);
+		int cost = MoveCostCalculator.getMoveCost(move, boardStatus);
 
 		return (cost <= money);
 	}
@@ -196,7 +198,8 @@ public class RuleChecker {
 		}
 
 		// get the adjacent terrains
-		Terrain[] adjacentTerrains = move.getPlayer().getPosition()
+		Terrain[] adjacentTerrains = boardStatus
+				.getEquivalentPlayer(move.getPlayer()).getPosition()
 				.getAdjacentTerrains();
 
 		// and their types

@@ -3,6 +3,7 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
@@ -28,9 +29,9 @@ public class MoveCostCalculator {
 	 *            the move to evaluate
 	 * @return the move cost
 	 */
-	public static int getMoveCost(Move move) {
+	public static int getMoveCost(Move move, BoardStatus boardStatus) {
 		if (move.getClass().equals(MovePlayer.class)) {
-			return getMoveCostPlayer((MovePlayer) move);
+			return getMoveCostPlayer((MovePlayer) move, boardStatus);
 		}
 		if (move.getClass().equals(BuyCardMove.class)) {
 			return getMoveCostBuyCard((BuyCardMove) move);
@@ -42,8 +43,10 @@ public class MoveCostCalculator {
 	 * The movement of a shepherd is free if it'g going on an adjacent road,
 	 * otherwise 1.
 	 */
-	private static int getMoveCostPlayer(MovePlayer move) {
-		Road coming = move.getPlayer().getPosition();
+	private static int getMoveCostPlayer(MovePlayer move,
+			BoardStatus boardStatus) {
+		Road coming = boardStatus.getEquivalentPlayer(move.getPlayer())
+				.getPosition();
 		Road going = move.getNewPositionOfThePlayer();
 
 		// the first move of the shepherd has coming == null so we return 0, in
