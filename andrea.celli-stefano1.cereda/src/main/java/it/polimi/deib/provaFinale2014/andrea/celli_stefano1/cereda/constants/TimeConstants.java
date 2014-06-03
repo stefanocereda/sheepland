@@ -12,7 +12,7 @@ public class TimeConstants {
 	 * The milliseconds that the rmi system waits before the server tries to
 	 * lookup the client's object
 	 */
-	public static final long RMI_WAITING_LOOKUP = 5 * 1000;
+	public static final long RMI_WAITING_LOOKUP = 1 * 1000;
 
 	/** The time in milliseconds waiting for the reconnection of a client */
 	// public static final long WAITING_FOR_CLIENT_RECONNECT = 10 * 1000;//

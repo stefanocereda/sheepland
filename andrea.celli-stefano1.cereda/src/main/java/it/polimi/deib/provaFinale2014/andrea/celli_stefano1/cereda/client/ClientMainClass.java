@@ -65,6 +65,8 @@ public class ClientMainClass {
 			network = askNetwork();
 		}
 
+		// in.close();
+
 		// create the interface
 		Interface ux = InterfaceCreator.create(userInterface);
 
@@ -111,8 +113,6 @@ public class ClientMainClass {
 			answer = in.nextLine();
 		} while (!answer.equals("1") && !answer.equals("2"));
 
-		in.close();
-
 		if (answer.equals("1")) {
 			return TypeOfInterface.CONSOLE;
 		} else {
@@ -135,8 +135,6 @@ public class ClientMainClass {
 			System.out.println("Insert answer:");
 			answer = in.nextLine();
 		} while (!answer.equals("1") && !answer.equals("2"));
-
-		in.close();
 
 		if (answer.equals("1")) {
 			return 1;

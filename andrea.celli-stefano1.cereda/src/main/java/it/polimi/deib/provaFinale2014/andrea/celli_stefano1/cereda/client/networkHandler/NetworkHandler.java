@@ -42,7 +42,7 @@ public abstract class NetworkHandler {
 			logger.log(Level.SEVERE, message, e);
 		} catch (IOException e) {
 			String message = "Unable to reconnect";
-			logger.log(Level.SEVERE, message, e);
+			logger.log(Level.INFO, message, e);
 			reconnect();
 		}
 	}

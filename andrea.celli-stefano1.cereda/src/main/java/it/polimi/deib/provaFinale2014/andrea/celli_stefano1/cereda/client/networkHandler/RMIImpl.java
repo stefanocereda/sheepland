@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * This is the implementation of RMIInterface, for every method calls the
- * equivalent on the client game controller
+ * equivalent on the client game controller.
  * 
  * @author Stefano
  * 
