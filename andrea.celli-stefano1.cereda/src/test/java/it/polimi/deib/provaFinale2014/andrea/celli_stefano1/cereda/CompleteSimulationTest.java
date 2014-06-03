@@ -43,7 +43,7 @@ public class CompleteSimulationTest {
 
 	class client implements Runnable {
 		public void run() {
-			String[] args = { "socket", "console" };
+			String[] args = { "socket", "fake" };
 			ClientMainClass.main(args);
 		}
 	}

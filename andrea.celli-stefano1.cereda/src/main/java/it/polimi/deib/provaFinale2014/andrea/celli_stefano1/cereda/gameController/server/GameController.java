@@ -751,11 +751,15 @@ public class GameController implements Runnable {
 					currentValue + 1);
 		}
 
-		// // add one to the terrain in which is located the black sheep
-		// currentValue = valuesOfCards.get(boardStatus.getBlackSheep()
-		// .getPosition().getTerrainType());
-		// valuesOfCards.put(boardStatus.getBlackSheep().getPosition()
-		// .getTerrainType(), currentValue + 1);
+		// add one to the terrain in which is located the black sheep, if it's
+		// different from sheepsburg
+		if (!boardStatus.getBlackSheep().getPosition()
+				.equals(Terrain.SHEEPSBURG)) {
+			currentValue = valuesOfCards.get(boardStatus.getBlackSheep()
+					.getPosition().getTerrainType());
+			valuesOfCards.put(boardStatus.getBlackSheep().getPosition()
+					.getTerrainType(), currentValue + 1);
+		}
 
 		// add the value of cards to player's money
 		for (Player player : boardStatus.getPlayers()) {
