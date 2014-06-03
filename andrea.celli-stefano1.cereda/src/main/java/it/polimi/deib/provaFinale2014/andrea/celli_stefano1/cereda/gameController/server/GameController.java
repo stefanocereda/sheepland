@@ -663,11 +663,14 @@ public class GameController implements Runnable {
 
 	/**
 	 * This method notifies the current player to all the clients, then goes on
-	 * by moving the black sheep
+	 * by moving the black sheep or by asking a move to the current player
 	 */
 	private String notifyNewCurrentPlayer() {
 		sendNewCurrentPlayerToAllPlayers();
-		return "moveTheBlackSheep";
+		if (boardStatus.getCurrentPlayer().equals(boardStatus.getFirstPlayer())) {
+			return "moveTheBlackSheep";
+		}
+		return "retrieveMoveFromCurrentPlayer";
 	}
 
 	/**
