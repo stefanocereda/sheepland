@@ -54,9 +54,9 @@ public class Deck extends ArrayList<Card> implements Serializable {
 
 		// For every card in the deck check if it's initial and eventually add
 		// it
-		for (Card c : this) {
-			if (c.isInitial()) {
-				initials.add(c);
+		for (int i = 0; i < this.size(); i++) {
+			if (this.get(i).isInitial()) {
+				initials.add(this.get(i));
 			}
 		}
 
@@ -65,7 +65,7 @@ public class Deck extends ArrayList<Card> implements Serializable {
 
 	/** Delete all the remaining initial cards in the deck */
 	public void deleteRemainingInitialCards() {
-		for (Card c : this) {
+		for (Card c : this.toArray(new Card[this.size()])) {
 			if (c.isInitial()) {
 				this.remove(c);
 			}
