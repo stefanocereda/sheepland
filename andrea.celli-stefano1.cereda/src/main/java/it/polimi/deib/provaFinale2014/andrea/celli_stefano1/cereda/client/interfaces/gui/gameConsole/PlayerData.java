@@ -50,4 +50,16 @@ public class PlayerData extends JPanel {
 		cards = new CardsPlayer(initialCard, playerColor);
 
 	}
+
+	public NamePlayer getNamePlayer() {
+		return name;
+	}
+
+	public MoneyPlayer getMoneyPlayer() {
+		return money;
+	}
+
+	public CardsPlayer getCardsPlayer() {
+		return cards;
+	}
 }

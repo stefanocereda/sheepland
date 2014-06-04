@@ -24,4 +24,9 @@ public class GuiConstants {
 	/** The color used to mark the current player */
 	public static final Color COLORCURRENTPLAYER = new Color(250, 144, 7);
 
+	/**
+	 * The thickness of the border used to mark the current player in the
+	 * PlayersPanel
+	 */
+	public static final int BORDERTHICKNESS = 10;
 }
