@@ -39,4 +39,25 @@ public class GameControllerCreator {
 	/** Hide the default constructor */
 	private GameControllerCreator() {
 	}
+
+	/**
+	 * Returns a GameController or a GameControllerAdvanced based on the
+	 * gameType passed, but with only two players connected
+	 * 
+	 * @param playerClients
+	 *            The list of client handlers to be passed to the game
+	 *            controller
+	 * @param gameType
+	 *            the set of rules you want to use
+	 * @return a game controller for the right set of rules
+	 */
+	public static GameController createTwoPlayers(
+			List<ClientHandler> playerClients, GameType gameType) {
+		if (gameType.equals(GameType.ORIGINAL)) {
+			return new GameControllerTwoPlayers(playerClients);
+		} else {
+			// TODO return new GameControllerAdvancedTwoPlayers(playerClients);
+		}
+		return null;
+	}
 }

@@ -96,7 +96,7 @@ public class GameController implements Runnable {
 	 * Create all the players and add them to the board, notify to the client
 	 * handlers the reference to the game and to their player
 	 */
-	private void addPlayersToGame() {
+	protected void addPlayersToGame() {
 		// number of players = number of client handlers
 		for (ClientHandler client : clients) {
 			// create a player and add it to the board
@@ -475,8 +475,8 @@ public class GameController implements Runnable {
 		while (true) {
 			try {
 				// finds the next method
-				Method method = getClass().getDeclaredMethod(nextMethod,
-						(Class[]) null);
+				Method method = getClass()
+						.getMethod(nextMethod, (Class[]) null);
 				// invoke the next method
 				nextMethod = (String) method.invoke(this, (Object[]) null);
 			} catch (Exception e) {
@@ -498,7 +498,7 @@ public class GameController implements Runnable {
 	 * Notify to all the client their player, send the board status for the
 	 * first time and return retrieveInitialPositions
 	 */
-	private String notifyControlledPlayers() {
+	public String notifyControlledPlayers() {
 		sendControlledPlayerToAllPlayers();
 		sendStatusToAllPlayers();
 		return "retrieveInitialPositions";
@@ -511,7 +511,7 @@ public class GameController implements Runnable {
 	 * 
 	 * @return moveTheBlackSheep
 	 */
-	private String retrieveInitialPositions() {
+	public String retrieveInitialPositions() {
 		askInitialPositionToAllPlayers();
 
 		for (Player p : boardStatus.getPlayers()) {
@@ -527,7 +527,7 @@ public class GameController implements Runnable {
 	 * @returns retrieveMoveFromCurrentPlayer
 	 * @author Andrea
 	 */
-	private String moveTheBlackSheep() {
+	public String moveTheBlackSheep() {
 		Dice dice = Dice.create();
 		int diceResult = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
 
@@ -563,7 +563,7 @@ public class GameController implements Runnable {
 	 * yes we execute the move and return checkIfPlayerFinishedTurn, if no we
 	 * return reRetrieveMoveFromCurrentPlayer
 	 */
-	private String retrieveMoveFromCurrentPlayer() {
+	public String retrieveMoveFromCurrentPlayer() {
 		// get a move from the current player
 		Move returned = askMoveToCurrentPlayer();
 
@@ -591,7 +591,7 @@ public class GameController implements Runnable {
 	 * This method acts as "retrieveMoveFromCurrentPlayer" except that it uses
 	 * the method that notifies the client that the last move wasn't valid
 	 */
-	private String reRetrieveMoveFromCurrentPlayer() {
+	public String reRetrieveMoveFromCurrentPlayer() {
 		// get a move from the current player
 		Move returned = reAskMoveToCurrentPlayer();
 
@@ -616,7 +616,7 @@ public class GameController implements Runnable {
 	}
 
 	/** This method execute locally the move and notifies the clients */
-	private void executeMove(Move moveToExecute) {
+	public void executeMove(Move moveToExecute) {
 		sendMoveToAllPlayers(moveToExecute);
 		moveToExecute.execute(boardStatus);
 	}
@@ -625,7 +625,7 @@ public class GameController implements Runnable {
 	 * This method checks if the current player has done three moves, in that
 	 * case we goes on with another player, otherwise ask a new move
 	 */
-	private String checkIfPlayerFinishedTurn() {
+	public String checkIfPlayerFinishedTurn() {
 		if (boardStatus.getCurrentPlayer().getLastMoves().size() == 3) {
 			boardStatus.getCurrentPlayer().deleteLastMoves();
 			return "goOn";
@@ -643,7 +643,7 @@ public class GameController implements Runnable {
 	 *         manageGame() or the signal that the game is finished
 	 * @author Andrea
 	 */
-	private String goOn() {
+	public String goOn() {
 		// go to the next player
 		setNewCurrentPlayer();
 
@@ -664,7 +664,7 @@ public class GameController implements Runnable {
 	 * This method notifies the current player to all the clients, then goes on
 	 * by moving the black sheep or by asking a move to the current player
 	 */
-	private String notifyNewCurrentPlayer() {
+	public String notifyNewCurrentPlayer() {
 		sendNewCurrentPlayerToAllPlayers();
 		if (boardStatus.getCurrentPlayer().equals(boardStatus.getFirstPlayer())) {
 			return "moveTheBlackSheep";
@@ -678,7 +678,7 @@ public class GameController implements Runnable {
 	 * 
 	 * @author Andrea
 	 */
-	private void setNewCurrentPlayer() {
+	public void setNewCurrentPlayer() {
 		Player oldCurrentPlayer = boardStatus.getCurrentPlayer();
 
 		// find the position of the current player in the array of players

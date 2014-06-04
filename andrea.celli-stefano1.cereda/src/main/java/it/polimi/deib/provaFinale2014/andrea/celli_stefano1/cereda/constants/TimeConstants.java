@@ -8,12 +8,6 @@ public class TimeConstants {
 	/** The milliseconds waiting for the client pong */
 	public static final long PONG_WAITING_TIME = 10 * 1000;
 
-	/**
-	 * The milliseconds that the rmi system waits before the server tries to
-	 * lookup the client's object
-	 */
-	public static final long RMI_WAITING_LOOKUP = 1 * 1000;
-
 	/** The time in milliseconds waiting for the reconnection of a client */
 	// public static final long WAITING_FOR_CLIENT_RECONNECT = 10 * 1000;//
 	public static final long WAITING_FOR_CLIENT_RECONNECT = 1;
@@ -23,7 +17,7 @@ public class TimeConstants {
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
 
 	/** the time in milliseconds waiting for the max number of players */
-	public static final int MINUTES_WAITING_FOR_MAX_PLAYERS = 1 * 60 * 1000;
+	public static final int MINUTES_WAITING_FOR_MAX_PLAYERS = 15 * 1000;
 
 	/** Hide the default constructor */
 	private TimeConstants() {

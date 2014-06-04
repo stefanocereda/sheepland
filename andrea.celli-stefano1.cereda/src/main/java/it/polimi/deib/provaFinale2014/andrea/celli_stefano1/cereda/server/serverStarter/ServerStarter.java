@@ -164,9 +164,15 @@ public class ServerStarter implements Runnable {
 	 */
 	private synchronized void launchGame() {
 		if (waitingClients.size() > 1) {
-			// launch the game
-			executor.submit(GameControllerCreator.create(waitingClients,
-					gameType));
+			if (waitingClients.size() == 2) {
+				// launch the game with two players
+				executor.submit(GameControllerCreator.createTwoPlayers(
+						waitingClients, gameType));
+			} else {
+				// launch a standard game
+				executor.submit(GameControllerCreator.create(waitingClients,
+						gameType));
+			}
 
 			// start awaiting for new players
 			waitingClients = new ArrayList<ClientHandler>();
