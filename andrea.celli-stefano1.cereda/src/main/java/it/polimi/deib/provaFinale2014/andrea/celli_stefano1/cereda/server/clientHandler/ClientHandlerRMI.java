@@ -1,7 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -12,10 +11,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The rmi version of a client handler. This class will be deployed on the
@@ -30,16 +26,11 @@ public class ClientHandlerRMI extends ClientHandler {
 	/** The remote object */
 	private RMIInterface clientObject;
 
-	/** A logger */
-	private Logger logger = Logger.getLogger(this.getClass().getName());
-
 	/**
 	 * The constructor takes as input the reference of the server starter that
-	 * will handle reconnection for the client, the name of the client's object
-	 * and a reference to the rmi registry. It tries to lookup the client's
-	 * object. Differently from the socket version we don't ask for the client's
-	 * id as that operation is already done by the so called RMIConnector,
-	 * actually the id is the remoteName passed to this constructor. Differently
+	 * will handle reconnection for the clientand the client created object.
+	 * Differently from the socket version we don't ask for the client's id as
+	 * that operation is already done by the so called RMIConnector. Differently
 	 * from the socket version the methods aren't synchronized because there
 	 * won't be problems to ping while asking a move
 	 * 
@@ -48,19 +39,10 @@ public class ClientHandlerRMI extends ClientHandler {
 	 * @throws RemoteException
 	 * @throws AccessException
 	 */
-	public ClientHandlerRMI(ServerStarter serverStarter, String remoteName,
-			Registry registry) throws AccessException, RemoteException,
-			NotBoundException {
+	public ClientHandlerRMI(ServerStarter serverStarter, RMIInterface client)
+			throws RemoteException {
 		super(serverStarter);
-
-		// wait a while before trying to lookup the client
-		try {
-			Thread.sleep(TimeConstants.RMI_WAITING_LOOKUP);
-		} catch (InterruptedException e) {
-			String message = "The thread has been stopped while waiting before looking up the client's object";
-			logger.log(Level.INFO, message, e);
-		}
-		clientObject = (RMIInterface) registry.lookup(remoteName);
+		clientObject = client;
 	}
 
 	public Move askMove() throws ClientDisconnectedException {

@@ -14,7 +14,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
@@ -283,19 +282,9 @@ public class InterfaceConsole implements Interface {
 	private Move askForBuyCardMove() {
 		String answer;
 
-		// it displays the buyable cards remaining in the deck
-		System.out.println("The buyable cards in the deck are: ");
-		show(gameController.getBoardStatus().getDeck().getBuyableCards()
-				.toArray());
+		printRemainingCards();
 
-		// display the adjacent terrain types
-		System.out.println("The terrains around you are: ");
-		Terrain[] adjacent = gameController.getControlledPlayer().getPosition()
-				.getAdjacentTerrains();
-		TerrainType[] tipes = new TerrainType[adjacent.length];
-		for (int i = 0; i < adjacent.length; i++)
-			tipes[i] = adjacent[i].getTerrainType();
-		show(tipes);
+		printAdjacentTerrainTypes();
 
 		// ask to choose a card
 		do {
@@ -363,28 +352,12 @@ public class InterfaceConsole implements Interface {
 		boolean moveBlackSheep = false;
 		String answer;
 
-		Map<Terrain, Integer> map = gameController.getBoardStatus()
-				.calculateNumberOfSheepForEachTerrain();
+		printSheepCount();
 
-		// print the number of sheep for each terrain
-		System.out.println("These are the numbers of sheep for each terrain");
-		for (Terrain terrain : Terrain.values()) {
-			System.out.println("Terrain " + terrain.toString()
-					+ " number of sheep: " + map.get(terrain));
-		}
-
-		// specifies where the black sheep is
-		System.out
-				.println("The black sheep is among the sheep in the terrain: "
-						+ gameController.getBoardStatus().getBlackSheep()
-								.getPosition().toString());
 		System.out
 				.println("(To move the black sheep choose the terrain where it's located)");
 
-		// specifies the terrains around the player
-		System.out.println("The terrains around you are: ");
-		show(gameController.getBoardStatus().getCurrentPlayer().getPosition()
-				.getAdjacentTerrains());
+		printAdjacentTerrains();
 
 		// ask for the sheep to move (the player has to choose the terrain in
 		// which the sheep is)
@@ -518,10 +491,9 @@ public class InterfaceConsole implements Interface {
 		}
 
 		System.out.println();
-		System.out
-				.println("The black sheep is among the sheep in the terrain: "
-						+ gameController.getBoardStatus().getBlackSheep()
-								.getPosition().toString());
+		System.out.println("The black sheep is in the terrain: "
+				+ gameController.getBoardStatus().getBlackSheep().getPosition()
+						.toString());
 	}
 
 	/** Print the names of the terrains adjacent the controlled player */
@@ -533,8 +505,18 @@ public class InterfaceConsole implements Interface {
 
 	/** Print the remaining cards in the deck */
 	private void printRemainingCards() {
-		System.out.println("The buyable cards in the deck are: ");
+		System.out.println("The cards still in the deck are: ");
 		show(gameController.getBoardStatus().getDeck().getBuyableCards()
 				.toArray());
+	}
+
+	/** Print the terrain types around the player */
+	private void printAdjacentTerrainTypes() {
+		System.out
+				.println("You look around and you see these kind of terrain:");
+
+		for (Terrain t : gameController.getBoardStatus().getCurrentPlayer()
+				.getPosition().getAdjacentTerrains())
+			System.out.println(t.getTerrainType());
 	}
 }

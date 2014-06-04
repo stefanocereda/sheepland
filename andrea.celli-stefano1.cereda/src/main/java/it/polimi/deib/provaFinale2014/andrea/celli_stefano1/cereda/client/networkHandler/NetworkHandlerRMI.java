@@ -91,11 +91,12 @@ public class NetworkHandlerRMI extends NetworkHandler {
 		RMIInterface stubRMIHandler = (RMIInterface) UnicastRemoteObject
 				.exportObject(rmiHandler, 0);
 
-		registry.rebind(myId.toString(), stubRMIHandler);
-
 		// start pinging the server
 		timerTaskPing = new TimerTaskPing();
 		timerPing.scheduleAtFixedRate(timerTaskPing, TimeConstants.PING_TIME,
 				TimeConstants.PING_TIME);
+
+		// notify the server
+		connector.notify(stubRMIHandler);
 	}
 }

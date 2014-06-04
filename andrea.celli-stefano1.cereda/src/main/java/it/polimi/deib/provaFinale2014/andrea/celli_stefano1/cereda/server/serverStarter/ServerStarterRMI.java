@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.RMICostants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandlerRMI;
@@ -78,28 +79,22 @@ public class ServerStarterRMI implements Runnable {
 
 	/**
 	 * This method is called by the rmi connector when a client connects, it
-	 * searches for the client handler in the registry and notify to the main
-	 * server
+	 * takes the client network handler and tries to create a server client
+	 * handler. Then notifies the main server
 	 * 
-	 * @param remoteName
-	 *            the name to look for in the registry
+	 * 
+	 * @param client
+	 *            the rmi network handler created by the client
 	 */
-	public void notifyConnection(String remoteName) {
+	public void notifyConnection(RMIInterface client) {
 
 		ClientHandler acceptedHandler;
 		try {
-			acceptedHandler = new ClientHandlerRMI(creator, remoteName,
-					registry);
+			acceptedHandler = new ClientHandlerRMI(creator, client);
 			creator.addClient(acceptedHandler);
 			// if there is a problem we simply don't register this client
-		} catch (AccessException e) {
-			String message = "Problems accepting a client, AccessException";
-			logger.log(Level.SEVERE, message, e);
 		} catch (RemoteException e) {
 			String message = "Problems accepting a client, RemoteException";
-			logger.log(Level.SEVERE, message, e);
-		} catch (NotBoundException e) {
-			String message = "Problems accepting a client, NotBoundException";
 			logger.log(Level.SEVERE, message, e);
 		}
 	}
