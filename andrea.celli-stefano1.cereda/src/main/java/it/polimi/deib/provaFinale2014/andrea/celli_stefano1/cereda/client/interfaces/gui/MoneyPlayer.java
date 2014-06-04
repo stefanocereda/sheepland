@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
-
 import javax.swing.JLabel;
 
 /**
@@ -28,22 +26,6 @@ public class MoneyPlayer extends JLabel {
 	 */
 	public void setMoneyPlayer(Integer money) {
 		this.setText(money.toString() + " $");
-		repaint();
-	}
-
-	/**
-	 * Mark as currentPLayer changeing the background color
-	 */
-	public void markAsCurrentPlayer() {
-		setBackground(GuiConstants.COLORCURRENTPLAYER);
-		repaint();
-	}
-
-	/**
-	 * Mark as waiting for his turn changeing the background color to default
-	 */
-	public void markAsWaiting() {
-		setBackground(GuiConstants.COLORGAMECONSOLE);
 		repaint();
 	}
 

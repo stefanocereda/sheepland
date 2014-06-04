@@ -46,13 +46,22 @@ public class CardsPlayer extends JLabel {
 	}
 
 	/**
-	 * This method adds a card to the map values and in the displayed string
+	 * This method adds a card to the map values and update the label
+	 * consequently
 	 * 
 	 * @param the
 	 *            card that has to be added
 	 */
 	public void addCard(Card card) {
+		int currentValue = map.get(card.getTerrainType());
+		// update the map value
+		map.put(card.getTerrainType(), currentValue + 1);
 
+		// update the displayed text
+		setText();
+
+		// update the label
+		repaint();
 	}
 
 	/**

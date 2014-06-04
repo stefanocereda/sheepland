@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
-
 import javax.swing.JLabel;
 
 /**
@@ -26,23 +24,6 @@ public class NamePlayer extends JLabel {
 	 */
 	public String getNamePlayer() {
 		return this.getText();
-	}
-
-	/**
-	 * Mark the player as current player changeing the back ground color
-	 */
-	public void markAsCurrentPlayer() {
-		this.setBackground(GuiConstants.COLORCURRENTPLAYER);
-		repaint();
-	}
-
-	/**
-	 * Mark the player as wainting for his turn setting to "default" its
-	 * background color
-	 */
-	public void markAsWaiting() {
-		this.setBackground(GuiConstants.COLORGAMECONSOLE);
-		repaint();
 	}
 
 }
