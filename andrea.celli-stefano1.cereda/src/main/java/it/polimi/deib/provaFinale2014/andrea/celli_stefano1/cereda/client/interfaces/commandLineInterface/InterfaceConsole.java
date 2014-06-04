@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ani
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayerDouble;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
@@ -15,6 +16,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -328,9 +330,23 @@ public class InterfaceConsole implements Interface {
 			System.out.println("Choose a road");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(freeRoad.toArray(), answer));
+		Integer newRoad = Integer.parseInt(answer);
+
+		// check if we are controlling two shepherd
+		if (gameController.getBoardStatus().getCurrentPlayer().getClass()
+				.equals(PlayerDouble.class)) {
+			do {
+				System.out
+						.println("You want to move the first or the second shepherd?");
+				answer = in.nextLine();
+			} while (!answer.equals("1") && !answer.equals("2"));
+			Integer shepherd = Integer.parseInt(answer);
+
+			return new MovePlayerDouble(gameController.getBoardStatus()
+					.getCurrentPlayer(), allRoads.get(newRoad), shepherd);
+		}
 
 		// create the move
-		Integer newRoad = Integer.parseInt(answer);
 		return new MovePlayer(gameController.getBoardStatus()
 				.getCurrentPlayer(), allRoads.get(newRoad));
 	}

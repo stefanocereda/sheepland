@@ -11,7 +11,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -155,19 +157,28 @@ public class RuleChecker {
 	private static boolean isCorrectMoveSheep(MoveSheep move,
 			BoardStatus boardStatus) {
 		// search the adjacent terrains
-		Terrain[] adjacentTerrains = boardStatus
-				.getEquivalentPlayer(move.getPlayer()).getPosition()
-				.getAdjacentTerrains();
+		List<Terrain> adjacentTerrains = new ArrayList<Terrain>();
+
+		for (Terrain t : boardStatus.getEquivalentPlayer(move.getPlayer())
+				.getPosition().getAdjacentTerrains()) {
+			adjacentTerrains.add(t);
+		}
+
+		if (move.getPlayer().getClass().equals(PlayerDouble.class)) {
+			for (Terrain t : ((PlayerDouble) boardStatus
+					.getEquivalentPlayer(move.getPlayer())).getSecondposition()
+					.getAdjacentTerrains()) {
+				adjacentTerrains.add(t);
+			}
+		}
 
 		// get where the sheep is moving
 		Terrain coming = move.getMovedSheep().getPosition();
 		Terrain going = move.getNewPositionOfTheSheep();
 
 		// check if the move is actually valid
-		if ((coming.equals(adjacentTerrains[0]) && going
-				.equals(adjacentTerrains[1]))
-				|| (coming.equals(adjacentTerrains[1]) && going
-						.equals(adjacentTerrains[0]))) {
+		if (adjacentTerrains.contains(coming)
+				&& adjacentTerrains.contains(going)) {
 			return true;
 		} else {
 			return false;
@@ -205,17 +216,25 @@ public class RuleChecker {
 			}
 		}
 
-		// get the adjacent terrains
-		Terrain[] adjacentTerrains = boardStatus
-				.getEquivalentPlayer(move.getPlayer()).getPosition()
-				.getAdjacentTerrains();
+		// get the adjacent terrains types
+		List<TerrainType> adjTerrainsTypes = new ArrayList<TerrainType>();
 
-		// and their types
-		TerrainType t1 = adjacentTerrains[0].getTerrainType();
-		TerrainType t2 = adjacentTerrains[1].getTerrainType();
+		for (Terrain t : boardStatus.getEquivalentPlayer(move.getPlayer())
+				.getPosition().getAdjacentTerrains()) {
+			adjTerrainsTypes.add(t.getTerrainType());
+		}
+
+		if (move.getPlayer().getClass().equals(PlayerDouble.class)) {
+			for (Terrain t : ((PlayerDouble) boardStatus
+					.getEquivalentPlayer(move.getPlayer())).getSecondposition()
+					.getAdjacentTerrains()) {
+				adjTerrainsTypes.add(t.getTerrainType());
+			}
+		}
 
 		// now check if the type is valid
-		if (t1.equals(tBuying) || t2.equals(tBuying)) {
+		if (adjTerrainsTypes.contains(tBuying)
+				&& adjTerrainsTypes.contains(tBuying)) {
 			return true;
 		} else {
 			return false;
