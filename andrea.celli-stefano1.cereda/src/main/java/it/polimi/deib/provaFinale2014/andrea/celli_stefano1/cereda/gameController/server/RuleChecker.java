@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayerDouble;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
@@ -63,6 +64,13 @@ public class RuleChecker {
 			logger.log(Level.FINE, messageNull, e);
 			return false;
 		}
+	}
+
+	/** Check if a move player double is valid */
+	public static boolean isValidMovePlayerDouble(MovePlayerDouble move,
+			BoardStatus status) {
+		return isValidMovePlayer(move, status)
+				&& isValidDoubleShepherd(move, status);
 	}
 
 	/** Check if a move that can be done by a player is valid */
@@ -253,5 +261,19 @@ public class RuleChecker {
 		return (((!firstMoveType.equals(thisMoveType)) && (!secondMoveType
 				.equals(thisMoveType))) || (secondMoveType
 				.equals(MovePlayer.class)));
+	}
+
+	/**
+	 * Check if the given move is moving the same shepherd that has been moved a
+	 * precedent move of this turn
+	 */
+	private static boolean isValidDoubleShepherd(MovePlayerDouble move,
+			BoardStatus status) {
+		for (Move m : move.getPlayer().getLastMoves()) {
+			if (m.getClass().equals(MovePlayerDouble.class))
+				if (((MovePlayerDouble) m).getShepherd() != move.getShepherd())
+					return false;
+		}
+		return true;
 	}
 }

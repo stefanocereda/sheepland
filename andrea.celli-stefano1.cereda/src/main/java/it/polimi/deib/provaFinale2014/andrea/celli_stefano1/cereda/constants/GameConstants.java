@@ -25,6 +25,8 @@ public class GameConstants {
 	/** The initial money of each player */
 	public static final int INITIAL_MONEY = 20;
 
+	public static final int INITIAL_MONEY_TWO_PLAYERS = 30;
+
 	/** Hide the default constructor */
 	private GameConstants() {
 	}

@@ -24,6 +24,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 
 	/** A reference to the player controlled by this client */
 	protected Player controlledPlayer = null;
+
 	/** A reference to the game this player is playing */
 	protected GameController gameController = null;
 	/** A reference to the server that will handle the reconnection */
@@ -68,7 +69,9 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 		if (id != 0 && gameController != null && controlledPlayer != null) {
 			// otherwise it disconnected too soon
 			timerTaskPing.cancel();
+
 			gameController.notifyDisconnection(controlledPlayer);
+
 			serverStarter.notifyDisconnection(id);
 		}
 	}

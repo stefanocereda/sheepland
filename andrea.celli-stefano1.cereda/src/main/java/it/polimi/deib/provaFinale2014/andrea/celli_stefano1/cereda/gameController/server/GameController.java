@@ -37,13 +37,13 @@ import java.util.logging.Logger;
 
 public class GameController implements Runnable {
 	/** The array of client handlers */
-	private List<ClientHandler> clients;
+	protected List<ClientHandler> clients;
 
 	/** The actual status of this game */
-	private BoardStatus boardStatus;
+	protected BoardStatus boardStatus;
 
 	/** A logger */
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	protected Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/**
 	 * GameController constructor, saves the list of clients
@@ -198,7 +198,7 @@ public class GameController implements Runnable {
 	 * client can reconnect) and to the notifyDisconnection method of this class
 	 * that will actually suspend the player.
 	 */
-	private void catchDisconnection(Player p) {
+	protected void catchDisconnection(Player p) {
 		for (ClientHandler client : clients) {
 			if (client.getPlayer().equals(p)) {
 				client.notifyClientDisconnection();
@@ -277,7 +277,7 @@ public class GameController implements Runnable {
 	}
 
 	/** Send to all the clients a move to be executed */
-	private void sendMoveToAllPlayers(Move moveToExecute) {
+	protected void sendMoveToAllPlayers(Move moveToExecute) {
 		for (ClientHandler client : clients) {
 			if (!client.getPlayer().isSuspended()) {
 				try {
@@ -406,7 +406,7 @@ public class GameController implements Runnable {
 	 * one. If they disconnect we choose a random position. After every choose
 	 * we create a move representing the choose and send it to all the clients
 	 */
-	private void askInitialPositionToAllPlayers() {
+	protected void askInitialPositionToAllPlayers() {
 		for (ClientHandler ch : clients) {
 			Road initial = null;
 
@@ -443,7 +443,7 @@ public class GameController implements Runnable {
 	}
 
 	/** This method returns the first free road it finds */
-	private Road chooseRandomPositionForAPlayer() {
+	protected Road chooseRandomPositionForAPlayer() {
 		for (Road r : boardStatus.getRoadMap().getHashMapOfRoads().values()) {
 			if (boardStatus.isFreeRoad(r)) {
 				return r;

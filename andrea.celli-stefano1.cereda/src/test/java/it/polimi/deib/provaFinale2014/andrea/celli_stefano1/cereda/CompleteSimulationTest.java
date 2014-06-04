@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.Client
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ServerMainClass;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -16,20 +17,28 @@ import org.junit.Test;
 public class CompleteSimulationTest {
 
 	@Test
+	@Ignore
 	public void test() {
 		ServerMainClass.main(null);// starts the server
 
 		// wait for sever starting
 		try {
-			Thread.sleep(2 * 1000);
+			Thread.sleep(10 * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// launch client
-		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
-			(new Thread(new client())).start();
+		// launch socket client
+		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i++) {
+			Client c = new Client(new String[] { "console", "socket" });
+			(new Thread(c)).start();
+		}
+
+		// launch rmi client
+		for (int i = GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
+			Client c = new Client(new String[] { "console", "rmi" });
+			(new Thread(c)).start();
 		}
 
 		// let them play
@@ -41,9 +50,14 @@ public class CompleteSimulationTest {
 		}
 	}
 
-	class client implements Runnable {
+	class Client implements Runnable {
+		private String[] args;
+
+		public Client(String[] arg) {
+			args = arg;
+		}
+
 		public void run() {
-			String[] args = { "socket", "fake" };
 			ClientMainClass.main(args);
 		}
 	}
