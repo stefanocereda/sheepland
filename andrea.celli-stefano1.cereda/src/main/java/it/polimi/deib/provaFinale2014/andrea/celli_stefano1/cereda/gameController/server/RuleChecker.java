@@ -28,7 +28,7 @@ public class RuleChecker {
 	/** A logger */
 	private static Logger logger = Logger
 			.getLogger("gameController.server.RuleChecker");
-	/** The message logged when we detect a move containg null attributes */
+	/** The message logged when we detect a move containing null attributes */
 	private static String messageNull = "Detected a move with null attributes, setting it to invalid";
 
 	/** private constructor for singleton pattern */
@@ -159,17 +159,18 @@ public class RuleChecker {
 		// search the adjacent terrains
 		List<Terrain> adjacentTerrains = new ArrayList<Terrain>();
 
-		for (Terrain t : boardStatus.getEquivalentPlayer(move.getPlayer())
-				.getPosition().getAdjacentTerrains()) {
-			adjacentTerrains.add(t);
-		}
-
+		// check for double shepherd players
 		if (move.getPlayer().getClass().equals(PlayerDouble.class)) {
 			for (Terrain t : ((PlayerDouble) boardStatus
 					.getEquivalentPlayer(move.getPlayer())).getSecondposition()
 					.getAdjacentTerrains()) {
 				adjacentTerrains.add(t);
 			}
+		}
+
+		for (Terrain t : boardStatus.getEquivalentPlayer(move.getPlayer())
+				.getPosition().getAdjacentTerrains()) {
+			adjacentTerrains.add(t);
 		}
 
 		// get where the sheep is moving
@@ -224,6 +225,7 @@ public class RuleChecker {
 			adjTerrainsTypes.add(t.getTerrainType());
 		}
 
+		// check for double shepherds player
 		if (move.getPlayer().getClass().equals(PlayerDouble.class)) {
 			for (Terrain t : ((PlayerDouble) boardStatus
 					.getEquivalentPlayer(move.getPlayer())).getSecondposition()
@@ -288,7 +290,8 @@ public class RuleChecker {
 	 */
 	private static boolean isValidDoubleShepherd(MovePlayerDouble move,
 			BoardStatus status) {
-		for (Move m : move.getPlayer().getLastMoves()) {
+		for (Move m : status.getEquivalentPlayer(move.getPlayer())
+				.getLastMoves()) {
 			if (m.getClass().equals(MovePlayerDouble.class))
 				if (((MovePlayerDouble) m).getShepherd() != move.getShepherd())
 					return false;

@@ -2,7 +2,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.MoveCostCalculator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -119,71 +118,18 @@ public class InterfaceConsole implements Interface {
 			if (!gameController.getControlledPlayer().equals(
 					((PlayerAction) move).getPlayer())) {
 
-				// determines the number of the player
-				int numberOfThePlayer = gameController.getBoardStatus()
-						.getPlayerNumber(((PlayerAction) move).getPlayer());
-
 				if (move instanceof MovePlayer) {
-					// looks for the number of the road
-					int numberOfTheRoad = 0;
-					Map<Integer, Road> map = gameController.getBoardStatus()
-							.getRoadMap().getHashMapOfRoads();
-					for (int i = 1; i <= GameConstants.NUMBER_OF_ROADS; i++) {
-						if (((MovePlayer) move).getNewPositionOfThePlayer()
-								.equals(map.get(i))) {
-							numberOfTheRoad = i;
-							break;
-						}
-					}
-					System.out.println("Player "
-							+ numberOfThePlayer
-							+ " moved to road "
-							+ numberOfTheRoad
-							+ " paying "
-							+ (MoveCostCalculator.getMoveCost(move,
-									gameController.getBoardStatus())));
+					printMovePlayer((MovePlayer) move);
+				} else if (move instanceof MoveSheep) {
+					printMoveSheep((MoveSheep) move);
 
-				} else {
-					if (move instanceof MoveSheep) {
-						// the black sheep has been moved
-						if (((MoveSheep) move).getMovedSheep()
-								.equals(gameController.getBoardStatus()
-										.getBlackSheep())) {
-							System.out.println("Player "
-									+ numberOfThePlayer
-									+ "moved the black sheep from "
-									+ ((MoveSheep) move).getMovedSheep()
-											.getPosition().toString()
-									+ " to "
-									+ ((MoveSheep) move)
-											.getNewPositionOfTheSheep()
-											.toString());
-						} else {
-							// standard sheep
-							System.out.println("Player "
-									+ numberOfThePlayer
-									+ "moved a sheep from "
-									+ ((MoveSheep) move).getMovedSheep()
-											.getPosition().toString()
-									+ " to "
-									+ ((MoveSheep) move)
-											.getNewPositionOfTheSheep()
-											.toString());
-						}
-					} else {
-						if (move instanceof BuyCardMove) {
-							System.out.println("Player "
-									+ numberOfThePlayer
-									+ " purchased card "
-									+ ((BuyCardMove) move).getNewCard()
-											.toString());
-						}
-					}
-
+				} else if (move instanceof BuyCardMove) {
+					printBuyCardMove((BuyCardMove) move);
 				}
-
 			}
+
 		}
+
 	}
 
 	/**
@@ -478,12 +424,21 @@ public class InterfaceConsole implements Interface {
 	 */
 	private void printPlayers() {
 		for (Player p : gameController.getBoardStatus().getPlayers()) {
-			System.out.println("Player "
+			String message = "Player "
 					+ gameController.getBoardStatus().getPlayerNumber(p)
 					+ " is on the road "
 					+ gameController.getBoardStatus().getRoadMap()
-							.getNumberOfRoad(p.getPosition()) + " with "
-					+ p.getMoney() + " money.");
+							.getNumberOfRoad(p.getPosition());
+
+			// if it's a player controlling a shepherd print the second position
+			if (p.getClass().equals(PlayerDouble.class)) {
+				message += " and on the road "
+						+ ((PlayerDouble) p).getSecondposition();
+			}
+
+			message += " with " + p.getMoney() + " money.";
+
+			System.out.println(message);
 		}
 
 		System.out.println();
@@ -514,9 +469,15 @@ public class InterfaceConsole implements Interface {
 
 	/** Print the names of the terrains adjacent the controlled player */
 	private void printAdjacentTerrains() {
+		Player p = gameController.getBoardStatus().getCurrentPlayer();
+
 		System.out.println("The terrains around you are: ");
-		show(gameController.getBoardStatus().getCurrentPlayer().getPosition()
-				.getAdjacentTerrains());
+		show(p.getPosition().getAdjacentTerrains());
+
+		// if it's a two shepherd player show the other terrains
+		if (p.getClass().equals(PlayerDouble.class)) {
+			show(((PlayerDouble) p).getSecondposition().getAdjacentTerrains());
+		}
 	}
 
 	/** Print the remaining cards in the deck */
@@ -528,11 +489,84 @@ public class InterfaceConsole implements Interface {
 
 	/** Print the terrain types around the player */
 	private void printAdjacentTerrainTypes() {
-		System.out
-				.println("You look around and you see these kind of terrain:");
+		Player p = gameController.getBoardStatus().getCurrentPlayer();
 
-		for (Terrain t : gameController.getBoardStatus().getCurrentPlayer()
-				.getPosition().getAdjacentTerrains())
+		System.out.println("Around you there are these kind of terrain:");
+
+		for (Terrain t : p.getPosition().getAdjacentTerrains())
 			System.out.println(t.getTerrainType());
+
+		// check for two shepherds player
+		if (p.getClass().equals(PlayerDouble.class)) {
+			for (Terrain t : ((PlayerDouble) p).getSecondposition()
+					.getAdjacentTerrains()) {
+				System.out.println(t.getTerrainType());
+			}
+		}
+	}
+
+	//
+	//
+	// HERE STARTS METHODS USED TO PRINT MOVES
+	//
+	//
+
+	/** Print a MovePlayer move, checking for double shepherds */
+	private void printMovePlayer(MovePlayer move) {
+		Player p = move.getPlayer();
+		int numberOfThePlayer = gameController.getBoardStatus()
+				.getPlayerNumber(p);
+		int numberOfTheRoad = gameController.getBoardStatus().getRoadMap()
+				.getNumberOfRoad(move.getNewPositionOfThePlayer());
+
+		String message = "Player "
+				+ numberOfThePlayer
+				+ " moved to road "
+				+ numberOfTheRoad
+				+ " paying "
+				+ (MoveCostCalculator.getMoveCost(move,
+						gameController.getBoardStatus()));
+
+		if (move.getClass().equals(MovePlayerDouble.class)) {
+			message += " with the shepherd "
+					+ ((MovePlayerDouble) move).getShepherd();
+		}
+
+		System.out.println(message);
+	}
+
+	/** Print a move sheep, checking if the moved sheep is the blacksheep */
+	private void printMoveSheep(MoveSheep move) {
+		int numberOfThePlayer = gameController.getBoardStatus()
+				.getPlayerNumber(move.getPlayer());
+
+		// check for blacksheep
+		if (((MoveSheep) move).getMovedSheep().equals(
+				gameController.getBoardStatus().getBlackSheep())) {
+			System.out.println("Player "
+					+ numberOfThePlayer
+					+ "moved the black sheep from "
+					+ ((MoveSheep) move).getMovedSheep().getPosition()
+							.toString() + " to "
+					+ ((MoveSheep) move).getNewPositionOfTheSheep().toString());
+
+		} else {
+			// standard sheep
+			System.out.println("Player "
+					+ numberOfThePlayer
+					+ " moved a sheep from "
+					+ ((MoveSheep) move).getMovedSheep().getPosition()
+							.toString() + " to "
+					+ ((MoveSheep) move).getNewPositionOfTheSheep().toString());
+		}
+	}
+
+	/** Print a Buy Card Move */
+	private void printBuyCardMove(BuyCardMove move) {
+		int numberOfThePlayer = gameController.getBoardStatus()
+				.getPlayerNumber(move.getPlayer());
+
+		System.out.println("Player " + numberOfThePlayer + " bought the card "
+				+ move.getNewCard());
 	}
 }
