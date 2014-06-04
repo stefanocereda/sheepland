@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 
 /**
@@ -12,11 +14,13 @@ public class MoneyPlayer extends JLabel {
 
 	/**
 	 * the constructor takes as input the number of initial money of the player
+	 * and the background color
 	 * 
 	 * @param money
 	 */
-	public MoneyPlayer(Integer money) {
+	public MoneyPlayer(Integer money, Color playerColor) {
 		super(money.toString() + " $");
+		setBackground(playerColor);
 	}
 
 	/**

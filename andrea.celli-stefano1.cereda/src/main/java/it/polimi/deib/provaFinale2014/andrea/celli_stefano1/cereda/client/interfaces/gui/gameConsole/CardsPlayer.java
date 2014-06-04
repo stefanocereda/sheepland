@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +23,15 @@ public class CardsPlayer extends JLabel {
 	private Map<TerrainType, Integer> map = new HashMap<TerrainType, Integer>();
 
 	/**
-	 * The constructor takes as input the initial card of the player
+	 * The constructor takes as input the initial card of the player and the
+	 * color of the player
 	 * 
 	 * @param Card
 	 *            initialCard
 	 */
-	public CardsPlayer(Card initialCard) {
+	public CardsPlayer(Card initialCard, Color playerColor) {
 		super();
+		setBackground(playerColor);
 		mapInit();
 		addCard(initialCard);
 	}

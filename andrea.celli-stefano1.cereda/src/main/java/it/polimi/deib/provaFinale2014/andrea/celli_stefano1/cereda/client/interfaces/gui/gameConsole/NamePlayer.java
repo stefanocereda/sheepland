@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 
 /**
@@ -11,9 +13,10 @@ import javax.swing.JLabel;
 
 public class NamePlayer extends JLabel {
 
-	// the constructor set the name of the player
-	public NamePlayer(String name) {
+	// the constructor set the name of the player and the background color
+	public NamePlayer(String name, Color playerColor) {
 		super(name);
+		setBackground(playerColor);
 	}
 
 	/**
