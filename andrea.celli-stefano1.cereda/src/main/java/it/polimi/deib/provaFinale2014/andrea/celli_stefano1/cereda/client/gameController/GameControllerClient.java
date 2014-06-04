@@ -142,4 +142,9 @@ public class GameControllerClient {
 	public Player getControlledPlayer() {
 		return controlledPlayer;
 	}
+
+	/** This method asks the client to choose a controlled shepherd */
+	public boolean getShepherd() {
+		return userInterface.chooseShepherd();
+	}
 }

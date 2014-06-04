@@ -62,4 +62,8 @@ public class RMIImpl implements RMIInterface {
 			throws RemoteException {
 		controller.setControlledPlayer(controlled);
 	}
+
+	public boolean chooseShepherd() throws RemoteException {
+		return controller.getShepherd();
+	}
 }

@@ -18,17 +18,42 @@ public class PlayerDouble extends Player {
 	private Road secondposition;
 
 	/**
-	 * @return the secondposition
+	 * This variable is set at the beginning of each turn and indicates if the
+	 * player wants to use the first or the second shepherd
 	 */
-	public Road getSecondposition() {
-		return secondposition;
+	private boolean usingSecond = false;
+
+	/** Set if this player is using the second player in this turn */
+	public void setShepherd(boolean usingSecond) {
+		this.usingSecond = usingSecond;
 	}
 
 	/**
-	 * @param secondposition
-	 *            the secondposition to set
+	 * Move the controlled shepherd in a new road, without rules checking.
+	 * 
+	 * @param newRoad
+	 *            The new road
 	 */
-	public void moveSecond(Road secondposition) {
-		this.secondposition = secondposition;
+	@Override
+	public void move(Road newRoad) {
+		if (usingSecond) {
+			secondposition = newRoad;
+		} else {
+			super.move(newRoad);
+		}
+	}
+
+	/**
+	 * Get the position of the controlled shepherd
+	 */
+	public Road getPosition() {
+		if (usingSecond)
+			return secondposition;
+		return super.getPosition();
+	}
+
+	/** Get the position of the second shepherd */
+	public Road getSecondposition() {
+		return secondposition;
 	}
 }

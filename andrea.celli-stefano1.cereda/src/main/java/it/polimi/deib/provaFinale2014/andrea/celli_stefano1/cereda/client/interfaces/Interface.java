@@ -86,4 +86,7 @@ public interface Interface {
 
 	/** Tell the user that we are disconnected and trying to reconnect */
 	void notifyDisconnection();
+
+	/** Ask the user to choose a shepherd for the current turn */
+	boolean chooseShepherd();
 }

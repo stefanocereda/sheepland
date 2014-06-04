@@ -37,6 +37,9 @@ public class InterfaceConsole implements Interface {
 	/** the input used by the player */
 	Scanner in = new Scanner(System.in);
 
+	/** Specifies if we are controlling the second shepherd */
+	boolean usingSecondShepherd = false;
+
 	public void setReferenceToGameController(GameControllerClient gameController) {
 		this.gameController = gameController;
 	}
@@ -127,9 +130,7 @@ public class InterfaceConsole implements Interface {
 					printBuyCardMove((BuyCardMove) move);
 				}
 			}
-
 		}
-
 	}
 
 	/**
@@ -216,6 +217,27 @@ public class InterfaceConsole implements Interface {
 				.println("We're disconnected from the server, but our shepherd dog is working hard to solve this");
 	}
 
+	public boolean chooseShepherd() {
+		int answer;
+
+		do {
+			System.out
+					.println("For this turn you want to use the shepherd number 1 or 2?");
+			answer = Integer.parseInt(in.nextLine());
+		} while (answer != 1 && answer != 2);
+
+		if (answer == 1) {
+			usingSecondShepherd = false;
+			((PlayerDouble) gameController.getControlledPlayer())
+					.setShepherd(usingSecondShepherd);
+			return false;
+		}
+		usingSecondShepherd = true;
+		((PlayerDouble) gameController.getControlledPlayer())
+				.setShepherd(usingSecondShepherd);
+		return true;
+	}
+
 	//
 	//
 	// HERE STARTS PRIVATE METHODS USED TO ASK SPECIFIC KIND OF MOVES
@@ -281,13 +303,10 @@ public class InterfaceConsole implements Interface {
 		// check if we are controlling two shepherd
 		if (gameController.getBoardStatus().getCurrentPlayer().getClass()
 				.equals(PlayerDouble.class)) {
-			do {
-				System.out
-						.println("You want to move the first or the second shepherd?");
-				answer = in.nextLine();
-			} while (!answer.equals("1") && !answer.equals("2"));
-			Integer shepherd = Integer.parseInt(answer);
-
+			int shepherd = 1;
+			if (usingSecondShepherd) {
+				shepherd = 2;
+			}
 			return new MovePlayerDouble(gameController.getBoardStatus()
 					.getCurrentPlayer(), allRoads.get(newRoad), shepherd);
 		}
@@ -540,7 +559,7 @@ public class InterfaceConsole implements Interface {
 		int numberOfThePlayer = gameController.getBoardStatus()
 				.getPlayerNumber(move.getPlayer());
 
-		// check for blacksheep
+		// check for black sheep
 		if (((MoveSheep) move).getMovedSheep().equals(
 				gameController.getBoardStatus().getBlackSheep())) {
 			System.out.println("Player "

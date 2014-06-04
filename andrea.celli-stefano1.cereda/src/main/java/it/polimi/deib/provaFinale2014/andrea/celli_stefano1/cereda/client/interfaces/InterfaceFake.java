@@ -299,4 +299,8 @@ public class InterfaceFake implements Interface {
 	public void notifyNewStatus() {
 		System.out.println("received a new status");
 	}
+
+	public boolean chooseShepherd() {
+		return rnd.nextBoolean();
+	}
 }

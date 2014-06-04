@@ -130,4 +130,13 @@ public class ClientHandlerRMI extends ClientHandler {
 					controlledPlayer, e);
 		}
 	}
+
+	public boolean chooseShepherd() throws ClientDisconnectedException {
+		try {
+			return clientObject.chooseShepherd();
+		} catch (RemoteException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
 }

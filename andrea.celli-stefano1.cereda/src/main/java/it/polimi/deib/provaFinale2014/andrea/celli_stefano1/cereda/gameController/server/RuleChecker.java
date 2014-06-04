@@ -11,7 +11,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,15 +158,6 @@ public class RuleChecker {
 		// search the adjacent terrains
 		List<Terrain> adjacentTerrains = new ArrayList<Terrain>();
 
-		// check for double shepherd players
-		if (move.getPlayer().getClass().equals(PlayerDouble.class)) {
-			for (Terrain t : ((PlayerDouble) boardStatus
-					.getEquivalentPlayer(move.getPlayer())).getSecondposition()
-					.getAdjacentTerrains()) {
-				adjacentTerrains.add(t);
-			}
-		}
-
 		for (Terrain t : boardStatus.getEquivalentPlayer(move.getPlayer())
 				.getPosition().getAdjacentTerrains()) {
 			adjacentTerrains.add(t);
@@ -225,15 +215,6 @@ public class RuleChecker {
 			adjTerrainsTypes.add(t.getTerrainType());
 		}
 
-		// check for double shepherds player
-		if (move.getPlayer().getClass().equals(PlayerDouble.class)) {
-			for (Terrain t : ((PlayerDouble) boardStatus
-					.getEquivalentPlayer(move.getPlayer())).getSecondposition()
-					.getAdjacentTerrains()) {
-				adjTerrainsTypes.add(t.getTerrainType());
-			}
-		}
-
 		// now check if the type is valid
 		if (adjTerrainsTypes.contains(tBuying)
 				&& adjTerrainsTypes.contains(tBuying)) {
@@ -263,25 +244,24 @@ public class RuleChecker {
 		}
 
 		// we have at least one oldMove
-		Object firstMoveType = oldMoves.get(0).getClass();
-		Object thisMoveType = moveToCheck.getClass();
+		Move firstMove = oldMoves.get(0);
 
 		// the second is correct if it's different from the first or if they're
 		// both move player
 		if (oldMoves.size() == 1) {
-			return ((!firstMoveType.equals(thisMoveType))
-					|| (firstMoveType.equals(MovePlayer.class)) || (thisMoveType
-						.equals(MovePlayer.class)));
+			return ((!firstMove.getClass().isInstance(moveToCheck.getClass()))
+					|| (firstMove.getClass().isInstance(MovePlayer.class)) || (moveToCheck
+						.getClass().isInstance(MovePlayer.class)));
 		}
 
 		// this is the third move, is correct if: 1)they're all different 2)it's
 		// equals to the first and the second is a moveplayer 3)it's equals to
 		// the second and they're both moveplayer => all different or the second
 		// is a move player
-		Object secondMoveType = oldMoves.get(1).getClass();
-		return (((!firstMoveType.equals(thisMoveType)) && (!secondMoveType
-				.equals(thisMoveType))) || (secondMoveType
-				.equals(MovePlayer.class)));
+		Move secondMove = oldMoves.get(1);
+		return (((!firstMove.getClass().isInstance(moveToCheck.getClass())) && (!secondMove
+				.getClass().isInstance(moveToCheck.getClass()))) || (secondMove
+				.getClass().isInstance(MovePlayer.class)));
 	}
 
 	/**

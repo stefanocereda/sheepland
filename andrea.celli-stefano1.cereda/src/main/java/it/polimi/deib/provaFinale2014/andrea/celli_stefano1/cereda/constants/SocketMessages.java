@@ -44,6 +44,9 @@ public class SocketMessages {
 	/** Tell to the client that you're sending the controlled player */
 	public static final String NOTIFY_CONTROLLED_PLAYER = "NOTIFY-CONTROLLED-PLAYER";
 
+	/** Ask the player to use the shepherd that he wants to control in this turn */
+	public static final String CHOOSE_SHEPHERD = "CHOOSE-SHEPHERD";
+
 	/** Hide the default constructor */
 	private SocketMessages() {
 	}

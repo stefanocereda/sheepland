@@ -7,9 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayerDouble;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 /**
  * Static class to calculate the cost of a move
@@ -32,52 +30,13 @@ public class MoveCostCalculator {
 	 * @return the move cost
 	 */
 	public static int getMoveCost(Move move, BoardStatus boardStatus) {
-		if (move.getClass().equals(MovePlayerDouble.class)) {
-			return getMoveCostPlayerDouble((MovePlayerDouble) move, boardStatus);
-		}
-
-		if (move.getClass().equals(MovePlayer.class)) {
+		if (move.getClass().isInstance(MovePlayer.class)) {
 			return getMoveCostPlayer((MovePlayer) move, boardStatus);
 		}
-		if (move.getClass().equals(BuyCardMove.class)) {
+		if (move.getClass().isInstance(BuyCardMove.class)) {
 			return getMoveCostBuyCard((BuyCardMove) move);
 		}
 		return 0;
-	}
-
-	/**
-	 * This is similar to getMoveCostplayer, but we have to discern from the
-	 * first or the second shepherd
-	 */
-	private static int getMoveCostPlayerDouble(MovePlayerDouble move,
-			BoardStatus boardStatus) {
-		Road coming = null;
-		if (move.getShepherd() == 1) {
-			coming = boardStatus.getEquivalentPlayer(move.getPlayer())
-					.getPosition();
-		} else {
-			coming = ((PlayerDouble) boardStatus.getEquivalentPlayer(move
-					.getPlayer())).getSecondposition();
-		}
-
-		Road going = move.getNewPositionOfThePlayer();
-
-		// the first move of the shepherd has coming == null so we return 0, in
-		// other moments of the game this kind of move is not valid, but that is
-		// handled by the rulechecker
-		if (coming == null) {
-			return 0;
-		}
-
-		// check if going is in coming's adjacent roads
-		boolean adjacent = coming.getNextRoads().contains(going);
-
-		// return the cost
-		if (adjacent) {
-			return 0;
-		} else {
-			return 1;
-		}
 	}
 
 	/**

@@ -176,4 +176,16 @@ public class ClientHandlerSocket extends ClientHandler {
 					controlledPlayer, e);
 		}
 	}
+
+	public synchronized boolean chooseShepherd()
+			throws ClientDisconnectedException {
+		try {
+			out.writeUTF(SocketMessages.CHOOSE_SHEPHERD);
+			out.flush();
+			return in.readBoolean();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
 }

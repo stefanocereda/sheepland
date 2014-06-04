@@ -107,6 +107,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 				} else if (command
 						.equals(SocketMessages.NOTIFY_CONTROLLED_PLAYER)) {
 					getControlledPlayer();
+				} else if (command.equals(SocketMessages.CHOOSE_SHEPHERD)) {
+					chooseShepherd();
 				}
 			} catch (IOException e) {
 				// we are disconnected
@@ -213,4 +215,15 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		out.writeObject(toReturn);
 		out.flush();
 	}
+
+	/**
+	 * Ask the user to choose a shepherd
+	 * 
+	 * @throws IOException
+	 */
+	private void chooseShepherd() throws IOException {
+		out.writeBoolean(controller.getShepherd());
+		out.flush();
+	}
+
 }

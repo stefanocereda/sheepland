@@ -97,4 +97,64 @@ public class GameControllerTwoPlayers extends GameController {
 			}
 		}
 	}
+
+	private boolean askShepherdToCurrentPlayer() {
+		ClientHandler client = null;
+
+		for (ClientHandler ch : clients) {
+			if (ch.getPlayer().equals(boardStatus.getCurrentPlayer())) {
+				client = ch;
+				break;
+			}
+		}
+
+		if (!client.getPlayer().isSuspended()) {
+			try {
+				return client.chooseShepherd();
+			} catch (ClientDisconnectedException e) {
+				String message = "A client disconnected";
+				logger.log(Level.INFO, message, e);
+				catchDisconnection(e.getPlayer());
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * move the black sheep according to the sheepland's rules.
+	 * 
+	 * @returns retrieveShepherdFromCurrentPlayer
+	 * @author Andrea
+	 */
+	@Override
+	public String moveTheBlackSheep() {
+		super.moveTheBlackSheep();
+
+		// go on by asking the current player to choose his shepherd
+		return "retrieveShepherdFromCurrentPlayer";
+	}
+
+	/** Ask the current player to choose his shepherd for this turn and set it */
+	public String retrieveShepherdFromCurrentPlayer() {
+		boolean controllingSecond = askShepherdToCurrentPlayer();
+
+		((PlayerDouble) boardStatus.getCurrentPlayer())
+				.setShepherd(controllingSecond);
+
+		return "retrieveMoveFromCurrentPlayer";
+	}
+
+	/**
+	 * This method notifies the current player to all the clients, then goes on
+	 * by moving the black sheep or by asking the current player to choose a
+	 * shepherd
+	 */
+	@Override
+	public String notifyNewCurrentPlayer() {
+		if (super.notifyNewCurrentPlayer().equals(
+				"retrieveMoveFromCurrentPlayer"))
+			return "retrieveShepherdFromCurrentPlayer";
+		else
+			return "moveTheBlackSheep";
+	}
 }

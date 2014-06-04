@@ -3,7 +3,6 @@
  */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.RuleChecker;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -44,10 +43,4 @@ public class MovePlayerDouble extends MovePlayer {
 	public boolean isValid(BoardStatus boardStatus) {
 		return RuleChecker.isValidMovePlayerDouble(this, boardStatus);
 	}
-
-	@Override
-	public void execute(BoardStatus boardStatus) {
-		ExecuteAction.executeMovePlayerDouble(this, boardStatus);
-	}
-
 }

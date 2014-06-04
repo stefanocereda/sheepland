@@ -96,4 +96,10 @@ public interface ClientHandlerInterface {
 	/** This method is used to let the client know the controlled player */
 	void notifyControlledPlayer(Player controlled)
 			throws ClientDisconnectedException;
+
+	/**
+	 * This method asks the client to choose the controlled shepherd (true means
+	 * the second)
+	 */
+	boolean chooseShepherd() throws ClientDisconnectedException;
 }

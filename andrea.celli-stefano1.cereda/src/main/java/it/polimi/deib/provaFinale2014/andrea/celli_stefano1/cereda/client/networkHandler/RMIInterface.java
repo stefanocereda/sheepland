@@ -57,4 +57,10 @@ public interface RMIInterface extends Remote {
 	public void notifyControlledPlayer(Player controlled)
 			throws RemoteException;
 
+	/**
+	 * This method is used to set the controlled shepherd at the beginning of a
+	 * turn in two players games
+	 */
+	public boolean chooseShepherd() throws RemoteException;
+
 }

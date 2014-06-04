@@ -148,5 +148,10 @@ public class GameControllerTest {
 
 		}
 
+		public boolean chooseShepherd() throws ClientDisconnectedException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
 	}
 }

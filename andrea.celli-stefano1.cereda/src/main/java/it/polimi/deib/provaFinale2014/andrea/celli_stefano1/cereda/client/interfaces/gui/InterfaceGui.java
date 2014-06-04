@@ -60,4 +60,9 @@ public class InterfaceGui implements Interface {
 		// TODO Auto-generated method stub
 
 	}
+
+	public boolean chooseShepherd() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -6,14 +6,12 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayerDouble;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 /**
  * This class contains the methods for executing the moves communicated by the
@@ -76,36 +74,6 @@ public class ExecuteAction {
 		Road oldPositionOfThePlayer = player.getPosition();
 		player.subtractMoney(MoveCostCalculator.getMoveCost(move, boardStatus));
 		player.move(move.getNewPositionOfThePlayer());
-		addMoveToLastMoves(move, boardStatus);
-		addGate(oldPositionOfThePlayer, boardStatus);
-	}
-
-	/**
-	 * This method execute a MovePlayerDouble move
-	 * 
-	 * @param movePlayerDouble
-	 * @param boardStatus
-	 */
-	public static void executeMovePlayerDouble(MovePlayerDouble move,
-			BoardStatus boardStatus) {
-		PlayerDouble player = (PlayerDouble) boardStatus
-				.getEquivalentPlayer(move.getPlayer());
-
-		Road oldPositionOfThePlayer = null;
-		if (move.getShepherd() == 1) {
-			oldPositionOfThePlayer = player.getPosition();
-		} else {
-			oldPositionOfThePlayer = player.getSecondposition();
-		}
-
-		player.subtractMoney(MoveCostCalculator.getMoveCost(move, boardStatus));
-
-		if (move.getShepherd() == 1) {
-			player.move(move.getNewPositionOfThePlayer());
-		} else {
-			player.moveSecond(move.getNewPositionOfThePlayer());
-		}
-
 		addMoveToLastMoves(move, boardStatus);
 		addGate(oldPositionOfThePlayer, boardStatus);
 	}
