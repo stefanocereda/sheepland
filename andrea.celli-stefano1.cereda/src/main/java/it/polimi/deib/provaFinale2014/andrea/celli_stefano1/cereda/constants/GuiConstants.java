@@ -18,4 +18,10 @@ public class GuiConstants {
 	/** The color of the sea (used to fill spaces in the map) */
 	public static final Color SEACOLOR = new Color(38, 162, 248);
 
+	/** The color used in the background of the Game Console */
+	public static final Color COLORGAMECONSOLE = new Color(234, 234, 234);
+
+	/** The color used to mark the current player */
+	public static final Color COLORCURRENTPLAYER = new Color(250, 144, 7);
+
 }
