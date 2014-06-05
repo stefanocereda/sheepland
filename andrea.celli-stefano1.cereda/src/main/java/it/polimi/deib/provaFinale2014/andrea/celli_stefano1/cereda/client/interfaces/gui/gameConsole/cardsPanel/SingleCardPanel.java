@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -42,10 +43,16 @@ public class SingleCardPanel extends JPanel {
 		g2d.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
 	}
 
-	/** @TODO */
+	/**
+	 * This method loads the image coresponding to the specified card.
+	 * 
+	 * @param card
+	 * @return the image
+	 */
 	private Image findImage(Card card) {
-		// TODO Auto-generated method stub
-		return null;
+		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(
+				card.getImageName()));
+		return imgIcon.getImage();
 	}
 
 	/**

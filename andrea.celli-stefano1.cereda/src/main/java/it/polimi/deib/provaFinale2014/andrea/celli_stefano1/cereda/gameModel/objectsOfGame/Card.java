@@ -80,4 +80,11 @@ public enum Card implements Serializable {
 		return this.terrainType.toString() + " " + this.number;
 	}
 
+	/**
+	 * @return the name of the image of the specified card
+	 */
+	public String getImageName() {
+		return "/" + this.getTerrainType().toString() + this.number + ".png";
+	}
+
 }
