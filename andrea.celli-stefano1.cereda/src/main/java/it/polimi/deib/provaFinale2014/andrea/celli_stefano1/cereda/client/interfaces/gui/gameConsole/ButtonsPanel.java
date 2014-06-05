@@ -1,5 +1,10 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -19,5 +24,20 @@ public class ButtonsPanel extends JPanel {
 
 	/** the flag is true when the player is in his turn */
 	private boolean yourTurn = false;
+	private GridLayout layout = new GridLayout(2, 3);
+
+	public ButtonsPanel() {
+
+		setBackground(GuiConstants.COLORGAMECONSOLE);
+		this.setLayout(layout);
+
+		JButton movePlayerButton = new JButton("move player");
+		JButton moveSheepButton = new JButton("move sheep");
+		JButton buyCardButton = new JButton("buy card");
+
+		this.add(movePlayerButton);
+		this.add(moveSheepButton);
+		this.add(buyCardButton);
+	}
 
 }
