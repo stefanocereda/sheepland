@@ -1,4 +1,4 @@
-package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole;
+package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole.playersPanel;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
@@ -75,7 +75,6 @@ public class PlayersPanel extends JPanel {
 					//
 					panel.setBorder(BorderFactory.createLineBorder(
 							GuiConstants.COLORGAMECONSOLE, 0));
-					;
 				}
 
 			}
