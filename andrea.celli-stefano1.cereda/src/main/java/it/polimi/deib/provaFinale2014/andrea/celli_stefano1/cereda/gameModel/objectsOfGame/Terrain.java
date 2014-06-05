@@ -1,6 +1,9 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This enum defines all the terrains, each terrain has a type and a number that
@@ -35,5 +38,46 @@ public enum Terrain implements Serializable {
 	@Override
 	public String toString() {
 		return this.name().toLowerCase();
+	}
+
+	/**
+	 * @param roadmap
+	 *            A roadmap
+	 * @return a list of adjacent terrains
+	 */
+	public List<Terrain> getAdjacentTerrains(RoadMap roadmap) {
+		List<Terrain> adjacent = new ArrayList<Terrain>();
+
+		Set<Road> availableRoads = roadmap.findRoadsAdjacentToATerrain(this);
+
+		for (Road r : availableRoads) {
+			for (Terrain t : r.getAdjacentTerrains()) {
+				adjacent.add(t);
+			}
+		}
+
+		return adjacent;
+	}
+
+	/**
+	 * Search for the road that is linking two terrains
+	 * 
+	 * @param other
+	 *            The other terrain
+	 * @param roadMap
+	 *            a RoadMap
+	 * @return the linking road
+	 */
+	public Road getLinkWith(Terrain other, RoadMap roadMap) {
+		Set<Road> availableRoads = roadMap.findRoadsAdjacentToATerrain(this);
+
+		for (Road r : availableRoads) {
+			for (Terrain t : r.getAdjacentTerrains()) {
+				if (t.equals(other)) {
+					return r;
+				}
+			}
+		}
+		return null;
 	}
 }

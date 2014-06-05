@@ -188,12 +188,27 @@ public class BoardStatus implements Serializable {
 		}
 
 		// then check the gates
+		if (!isFreeFromGates(roadToCheck)) {
+			return false;
+		}
+
+		// to be here it must be free
+		return true;
+	}
+
+	/**
+	 * Check if the give road is free from gates
+	 * 
+	 * @param toCheck
+	 *            the road to check
+	 * @return if the given road is free from gates
+	 */
+	public boolean isFreeFromGates(Road toCheck) {
 		for (Gate gate : placedGates) {
-			if (gate.getPosition().equals(roadToCheck)) {
+			if (gate.getPosition().equals(toCheck)) {
 				return false;
 			}
 		}
-		// to be here it must be free
 		return true;
 	}
 
@@ -346,7 +361,7 @@ public class BoardStatus implements Serializable {
 	 * @author Andrea
 	 */
 	public List<Integer> findFreeRoads() {
-		ArrayList<Integer> freeRoads = new ArrayList<Integer>();
+		List<Integer> freeRoads = new ArrayList<Integer>();
 		Map<Integer, Road> roadMap = getRoadMap().getHashMapOfRoads();
 
 		// finds the free roads
@@ -369,4 +384,20 @@ public class BoardStatus implements Serializable {
 		return players.findPosition(player);
 	}
 
+	/**
+	 * This method check if the given road has all its road occupied by gates
+	 * 
+	 * @param toCheck
+	 *            the terrain to check
+	 * @return if all the road adjacent to the given terrain are occupied by
+	 *         gates
+	 */
+	public boolean isClosedByGates(Terrain toCheck) {
+		for (Road r : roadMap.findRoadsAdjacentToATerrain(toCheck)) {
+			if (isFreeFromGates(r)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

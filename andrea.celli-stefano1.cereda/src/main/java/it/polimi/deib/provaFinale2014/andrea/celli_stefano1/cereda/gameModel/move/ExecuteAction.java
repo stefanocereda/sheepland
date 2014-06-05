@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -116,5 +117,18 @@ public class ExecuteAction {
 
 	/** Override the default constructor */
 	private ExecuteAction() {
+	}
+
+	//
+	//
+	// HERE STARTS THE METHODS FOR ADVANCED RULES
+	//
+	//
+
+	/** Move the wolf and destroy the sheep */
+	public static void executeMoveWolf(MoveWolf moveWolf,
+			BoardStatusExtended boardStatus) {
+		boardStatus.getWolf().move(moveWolf.getNewPosition());
+		boardStatus.getSheeps().remove(moveWolf.getKilledSheep());
 	}
 }

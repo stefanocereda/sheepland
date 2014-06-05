@@ -1,8 +1,10 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 
@@ -69,8 +71,8 @@ public class RuleChecker {
 	}
 
 	/** Check if an automatic move (not done by a player) is valid */
-	public static boolean isValidAutoMove(Move move, BoardStatus status) {
-		// TODO COSA SI FA QUI????
+	public static boolean isValidMoveBlackSheep(MoveBlackSheep move,
+			BoardStatus status) {
 		// right now to only time of move we have is the black sheep, it is
 		// created by the server so it is always correct
 		return true;
@@ -249,5 +251,47 @@ public class RuleChecker {
 		return (((!firstMove.getClass().isInstance(moveToCheck))) && (!secondMove
 				.getClass().isInstance(moveToCheck)))
 				|| (MovePlayer.class.isInstance(secondMove));
+	}
+
+	//
+	//
+	// HERE STARTS THE METHODS RELATED TO THE ADVANCED RULES
+	//
+	//
+
+	/**
+	 * A MoveWolf is valid if: 1) the new terrain is adjacent to the old one.
+	 * 2)the two terrains are separated by a road without a gate OR all the
+	 * roads are occupied 3) the eaten sheep is null or is a sheep of the new
+	 * terrain
+	 */
+	public static boolean isValidMoveWolf(MoveWolf moveWolf,
+			BoardStatusExtended boardStatus) {
+		Terrain coming = moveWolf.getWolf().getPosition();
+		Terrain going = moveWolf.getNewPosition();
+
+		// Check condition 1
+		if (!coming.getAdjacentTerrains(boardStatus.getRoadMap()).contains(
+				going)) {
+			return false;
+		}
+
+		// check condition 2
+		boolean ok = true;
+		Road used = coming.getLinkWith(going, boardStatus.getRoadMap());
+		if (!boardStatus.isFreeFromGates(used)) {
+			ok = false;
+		}
+		if (!ok && !boardStatus.isClosedByGates(coming)) {
+			return false;
+		}
+
+		// check condition 3
+		if (moveWolf.getKilledSheep() != null
+				&& moveWolf.getKilledSheep().getPosition().equals(going)) {
+			return true;
+		}
+
+		return false;
 	}
 }

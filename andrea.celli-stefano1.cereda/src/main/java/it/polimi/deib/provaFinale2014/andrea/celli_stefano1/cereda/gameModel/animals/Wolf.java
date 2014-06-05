@@ -9,9 +9,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
  * 
  */
 public class Wolf extends Animal {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4738851603905961543L;
 
 	/** Wolf constructor requires the initial position (terrain) */

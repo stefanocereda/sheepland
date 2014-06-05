@@ -12,9 +12,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
  * 
  */
 public class MoveBlackSheep extends Move {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6191726160657360490L;
 	private Terrain newPosition;
 	private BlackSheep blackSheep;
@@ -48,7 +45,7 @@ public class MoveBlackSheep extends Move {
 
 	@Override
 	public boolean isValid(BoardStatus boardStatus) {
-		return RuleChecker.isValidAutoMove(this, boardStatus);
+		return RuleChecker.isValidMoveBlackSheep(this, boardStatus);
 	}
 
 	@Override
