@@ -1,5 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole.cardsPanel;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -12,7 +15,7 @@ import javax.swing.JPanel;
  * @author Andrea
  * 
  */
-public class Card extends JPanel {
+public class SingleCardPanel extends JPanel {
 
 	// the image to display
 	Image image;
@@ -24,7 +27,8 @@ public class Card extends JPanel {
 	 * 
 	 * @param card
 	 */
-	public Card(Card card) {
+	public SingleCardPanel(Card card) {
+		setBackground(GuiConstants.COLORGAMECONSOLE);
 		// finds the image of the specified card
 		image = findImage(card);
 	}
