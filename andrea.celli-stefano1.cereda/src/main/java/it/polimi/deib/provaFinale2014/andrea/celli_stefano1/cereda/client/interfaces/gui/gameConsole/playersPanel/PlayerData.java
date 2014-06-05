@@ -45,9 +45,11 @@ public class PlayerData extends JPanel {
 
 		// create the label for the money and adds it
 		money = new MoneyPlayer(initialMoney, playerColor);
+		this.add(money);
 
 		// create the label for the cards and add it
 		cards = new CardsPlayer(initialCard, playerColor);
+		this.add(cards);
 
 	}
 

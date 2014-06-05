@@ -43,4 +43,12 @@ public class GameConsole extends JPanel {
 		setVisible(true);
 	}
 
+	public PlayersPanel getPlayersPanel() {
+		return playersPanel;
+	}
+
+	public CardsPanel getCardsPanel() {
+		return cardsPanel;
+	}
+
 }

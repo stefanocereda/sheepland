@@ -62,8 +62,7 @@ public class PlayersPanel extends JPanel {
 		// looks for the right PlayerData JPanel
 		for (PlayerData panel : players) {
 			if (currentPlayer.equals(panel.getNamePlayer().getNamePlayer())) {
-				panel.setBorder(BorderFactory.createLineBorder(
-						GuiConstants.COLORCURRENTPLAYER,
+				panel.setBorder(BorderFactory.createLineBorder(Color.WHITE,
 						GuiConstants.BORDERTHICKNESS));
 			} else {
 				// delete the border from the old currentPlayer
@@ -80,5 +79,9 @@ public class PlayersPanel extends JPanel {
 			}
 		}
 
+	}
+
+	public ArrayList<PlayerData> getPlayers() {
+		return players;
 	}
 }

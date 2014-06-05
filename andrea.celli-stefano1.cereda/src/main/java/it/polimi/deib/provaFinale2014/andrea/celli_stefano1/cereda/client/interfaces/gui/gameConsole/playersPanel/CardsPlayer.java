@@ -72,11 +72,11 @@ public class CardsPlayer extends JLabel {
 	 * the text of the label
 	 */
 	private void setText() {
-		String text = "Cards: c:" + map.get(TerrainType.COUNTRYSIDE) + " d:"
-				+ map.get(TerrainType.DESERT) + " l:"
-				+ map.get(TerrainType.LAKE) + " m:"
-				+ map.get(TerrainType.MOUNTAIN) + " p:"
-				+ map.get(TerrainType.PLAIN) + " w:"
+		String text = "Cards: c:" + map.get(TerrainType.COUNTRYSIDE) + "    d:"
+				+ map.get(TerrainType.DESERT) + "   l:"
+				+ map.get(TerrainType.LAKE) + "   m:"
+				+ map.get(TerrainType.MOUNTAIN) + "   p:"
+				+ map.get(TerrainType.PLAIN) + "   w:"
 				+ map.get(TerrainType.WOOD);
 		this.setText(text);
 	}

@@ -38,6 +38,9 @@ public class MainFrame extends JFrame {
 		this.getContentPane().setLayout(layout);
 		setTitle("SHEEPLAND");
 
+		map = new GameBoard();
+		console = new GameConsole(numberOfPlayers);
+
 		// get the size of the screen
 		screenDimension = toolKit.getScreenSize();
 
@@ -67,6 +70,14 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 		setResizable(false);
 
+	}
+
+	public GameBoard getMap() {
+		return map;
+	}
+
+	public GameConsole getConsole() {
+		return console;
 	}
 
 }
