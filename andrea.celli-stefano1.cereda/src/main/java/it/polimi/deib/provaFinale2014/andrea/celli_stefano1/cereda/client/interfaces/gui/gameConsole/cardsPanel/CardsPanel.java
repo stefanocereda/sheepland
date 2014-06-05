@@ -20,7 +20,7 @@ public class CardsPanel extends JPanel {
 
 	private Map<TerrainType, SingleCardPanel> panels = new HashMap<TerrainType, SingleCardPanel>();
 
-	private GridLayout layout = new GridLayout(2, 3, 20, 20);
+	private GridLayout layout = new GridLayout(2, 3, 30, 30);
 
 	public CardsPanel() {
 		setBackground(GuiConstants.COLORGAMECONSOLE);

@@ -28,5 +28,5 @@ public class GuiConstants {
 	 * The thickness of the border used to mark the current player in the
 	 * PlayersPanel
 	 */
-	public static final int BORDERTHICKNESS = 10;
+	public static final int BORDERTHICKNESS = 7;
 }

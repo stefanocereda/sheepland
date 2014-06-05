@@ -11,8 +11,7 @@ import javax.swing.JPanel;
 
 /**
  * 
- * This panel displays the game map. It lies under the layer that contains
- * animals and shepherds.
+ * This panel displays the game map.
  * 
  * @author Andrea
  * 
