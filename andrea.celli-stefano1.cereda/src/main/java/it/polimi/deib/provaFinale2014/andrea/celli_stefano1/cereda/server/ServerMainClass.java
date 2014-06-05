@@ -18,7 +18,7 @@ public class ServerMainClass {
 	/** the type of game (original/extended rules) */
 	static final GameType gameType = DefaultConstants.DEFAULT_GAME_TYPE;
 	/** the minutes waiting for maxPlayers */
-	static final int minutesWaiting = TimeConstants.MINUTES_WAITING_FOR_MAX_PLAYERS;
+	static final int minutesWaiting = TimeConstants.WAITING_FOR_MAX_PLAYERS;
 
 	/** the ip port for socket server */
 	static final int socketPort = NetworkConstants.SOCKET_IP_PORT;
