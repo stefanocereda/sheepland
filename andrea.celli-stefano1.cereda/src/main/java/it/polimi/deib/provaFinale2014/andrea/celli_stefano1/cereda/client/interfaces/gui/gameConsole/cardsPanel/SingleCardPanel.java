@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * This JPanel displays a buyable card of a certain terrain type.
  * 
  * @author Andrea
- * 
+ * @TODO findImage
  */
 public class SingleCardPanel extends JPanel {
 
