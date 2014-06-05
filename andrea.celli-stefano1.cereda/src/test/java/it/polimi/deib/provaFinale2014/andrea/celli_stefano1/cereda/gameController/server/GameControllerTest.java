@@ -153,5 +153,11 @@ public class GameControllerTest {
 			return false;
 		}
 
+		public Road askSecondInitialPosition()
+				throws ClientDisconnectedException, ClassNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 	}
 }

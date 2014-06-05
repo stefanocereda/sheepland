@@ -30,10 +30,10 @@ public class MoveCostCalculator {
 	 * @return the move cost
 	 */
 	public static int getMoveCost(Move move, BoardStatus boardStatus) {
-		if (move.getClass().isInstance(MovePlayer.class)) {
+		if (MovePlayer.class.isInstance(move)) {
 			return getMoveCostPlayer((MovePlayer) move, boardStatus);
 		}
-		if (move.getClass().isInstance(BuyCardMove.class)) {
+		if (BuyCardMove.class.isInstance(move)) {
 			return getMoveCostBuyCard((BuyCardMove) move);
 		}
 		return 0;

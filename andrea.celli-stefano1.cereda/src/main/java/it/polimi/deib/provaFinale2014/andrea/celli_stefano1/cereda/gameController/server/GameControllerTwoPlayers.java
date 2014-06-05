@@ -5,7 +5,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayerDouble;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
@@ -52,49 +52,45 @@ public class GameControllerTwoPlayers extends GameController {
 	}
 
 	/**
-	 * Ask the initial position to all the players until they choose a correct
-	 * one. If they disconnect we choose a random position. After every choose
-	 * we create a move representing the choose and send it to all the clients.
-	 * This method is overridden because we have have to ask two positions for
-	 * each player
+	 * Ask the initial position of the second shepherd to all the players until
+	 * they choose a correct one. If they disconnect we choose a random
+	 * position. After every choose we create a move representing the choose and
+	 * send it to all the clients
 	 */
-	@Override
-	protected void askInitialPositionToAllPlayers() {
+	private void askSecondInitialPositionToAllPlayers() {
 		for (ClientHandler ch : clients) {
+			Road initial = null;
+			((PlayerDouble) ch.getPlayer()).setShepherd(true);
 
-			for (int i = 1; i <= 2; i++) {
-				Road initial = null;
+			if (!ch.getPlayer().isSuspended()) {
+				try {
 
-				if (!ch.getPlayer().isSuspended()) {
-					try {
+					do {
+						initial = ch.askSecondInitialPosition();
+					} while (!boardStatus.isFreeRoad(initial));
 
-						do {
-							initial = ch.askInitialPosition();
-						} while (!boardStatus.isFreeRoad(initial));
+				} catch (ClientDisconnectedException e) {
+					String message = "A client disconnected";
+					logger.log(Level.INFO, message, e);
+					catchDisconnection(e.getPlayer());
 
-					} catch (ClientDisconnectedException e) {
-						String message = "A client disconnected";
-						logger.log(Level.INFO, message, e);
-						catchDisconnection(e.getPlayer());
+					initial = chooseRandomPositionForAPlayer();
+				} catch (ClassNotFoundException e) {
+					String message = "A client is not aligned with the communication protocol, suspending it";
+					logger.log(Level.INFO, message, e);
+					ch.getPlayer().suspend();
+					ch.getPlayer().setNotConnected();
 
-						initial = chooseRandomPositionForAPlayer();
-					} catch (ClassNotFoundException e) {
-						String message = "A client is not aligned with the communication protocol, suspending it";
-						logger.log(Level.INFO, message, e);
-						ch.getPlayer().suspend();
-						ch.getPlayer().setNotConnected();
-
-						initial = chooseRandomPositionForAPlayer();
-					}
-
-				} else {
 					initial = chooseRandomPositionForAPlayer();
 				}
 
-				Move move = new MovePlayerDouble(ch.getPlayer(), initial, i);
-				sendMoveToAllPlayers(move);
-				move.execute(boardStatus);
+			} else {
+				initial = chooseRandomPositionForAPlayer();
 			}
+
+			Move move = new MovePlayer(ch.getPlayer(), initial);
+			sendMoveToAllPlayers(move);
+			move.execute(boardStatus);
 		}
 	}
 
@@ -118,6 +114,25 @@ public class GameControllerTwoPlayers extends GameController {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * The second action of a game is asking all the clients to choose an
+	 * initial position. After that we delete the list of moves for all the
+	 * clients. This method is overridden because we have to ask two positions.
+	 * 
+	 * @return moveTheBlackSheep
+	 */
+	@Override
+	public String retrieveInitialPositions() {
+		askInitialPositionToAllPlayers();
+		askSecondInitialPositionToAllPlayers();
+
+		for (Player p : boardStatus.getPlayers()) {
+			p.deleteLastMoves();
+		}
+
+		return "moveTheBlackSheep";
 	}
 
 	/**

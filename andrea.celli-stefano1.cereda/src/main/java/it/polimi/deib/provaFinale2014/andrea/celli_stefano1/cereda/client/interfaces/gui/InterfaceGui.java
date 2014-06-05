@@ -65,4 +65,9 @@ public class InterfaceGui implements Interface {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public Road chooseSecondInitialPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

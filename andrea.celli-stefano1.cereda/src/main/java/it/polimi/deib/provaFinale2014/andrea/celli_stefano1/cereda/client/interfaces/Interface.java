@@ -89,4 +89,7 @@ public interface Interface {
 
 	/** Ask the user to choose a shepherd for the current turn */
 	boolean chooseShepherd();
+
+	/** Ask the user an initial road for his second shepherd */
+	Road chooseSecondInitialPosition();
 }

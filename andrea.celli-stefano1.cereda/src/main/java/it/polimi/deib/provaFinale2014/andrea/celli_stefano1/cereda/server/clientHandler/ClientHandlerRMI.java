@@ -92,6 +92,15 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	public Road askSecondInitialPosition() throws ClientDisconnectedException {
+		try {
+			return clientObject.askSecondInitialPosition();
+		} catch (RemoteException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
+
 	public void pingTheClient() throws ClientDisconnectedException {
 		try {
 			clientObject.ping();

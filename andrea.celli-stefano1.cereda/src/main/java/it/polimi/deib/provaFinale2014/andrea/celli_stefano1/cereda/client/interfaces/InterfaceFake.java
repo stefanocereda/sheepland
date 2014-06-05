@@ -303,4 +303,8 @@ public class InterfaceFake implements Interface {
 	public boolean chooseShepherd() {
 		return rnd.nextBoolean();
 	}
+
+	public Road chooseSecondInitialPosition() {
+		return chooseInitialPosition();
+	}
 }

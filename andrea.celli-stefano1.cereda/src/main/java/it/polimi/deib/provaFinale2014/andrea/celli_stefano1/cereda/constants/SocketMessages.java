@@ -47,6 +47,9 @@ public class SocketMessages {
 	/** Ask the player to use the shepherd that he wants to control in this turn */
 	public static final String CHOOSE_SHEPHERD = "CHOOSE-SHEPHERD";
 
+	/** Ask the user to choose an initial road for his second shepherd */
+	public static final String ASK_SECOND_INITIAL_POSITION = "SEND-SECOND-POSITION";
+
 	/** Hide the default constructor */
 	private SocketMessages() {
 	}

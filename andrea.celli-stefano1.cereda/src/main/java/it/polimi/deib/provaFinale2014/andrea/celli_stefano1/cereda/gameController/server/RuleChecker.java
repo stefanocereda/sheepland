@@ -4,7 +4,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayerDouble;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
@@ -65,13 +64,6 @@ public class RuleChecker {
 			logger.log(Level.FINE, messageNull, e);
 			return false;
 		}
-	}
-
-	/** Check if a move player double is valid */
-	public static boolean isValidMovePlayerDouble(MovePlayerDouble move,
-			BoardStatus status) {
-		return isValidMovePlayer(move, status)
-				&& isValidDoubleShepherd(move, status);
 	}
 
 	/** Check if a move that can be done by a player is valid */
@@ -249,9 +241,9 @@ public class RuleChecker {
 		// the second is correct if it's different from the first or if they're
 		// both move player
 		if (oldMoves.size() == 1) {
-			return ((!firstMove.getClass().isInstance(moveToCheck.getClass()))
-					|| (firstMove.getClass().isInstance(MovePlayer.class)) || (moveToCheck
-						.getClass().isInstance(MovePlayer.class)));
+			return ((!moveToCheck.getClass().isInstance(firstMove))
+					|| (MovePlayer.class.isInstance(firstMove)) || (MovePlayer.class
+						.isInstance(moveToCheck)));
 		}
 
 		// this is the third move, is correct if: 1)they're all different 2)it's
@@ -259,23 +251,8 @@ public class RuleChecker {
 		// the second and they're both moveplayer => all different or the second
 		// is a move player
 		Move secondMove = oldMoves.get(1);
-		return (((!firstMove.getClass().isInstance(moveToCheck.getClass())) && (!secondMove
-				.getClass().isInstance(moveToCheck.getClass()))) || (secondMove
-				.getClass().isInstance(MovePlayer.class)));
-	}
-
-	/**
-	 * Check if the given move is moving the same shepherd that has been moved a
-	 * precedent move of this turn
-	 */
-	private static boolean isValidDoubleShepherd(MovePlayerDouble move,
-			BoardStatus status) {
-		for (Move m : status.getEquivalentPlayer(move.getPlayer())
-				.getLastMoves()) {
-			if (m.getClass().equals(MovePlayerDouble.class))
-				if (((MovePlayerDouble) m).getShepherd() != move.getShepherd())
-					return false;
-		}
-		return true;
+		return (((!firstMove.getClass().isInstance(moveToCheck))) && (!secondMove
+				.getClass().isInstance(moveToCheck)))
+				|| (MovePlayer.class.isInstance(secondMove));
 	}
 }

@@ -9,6 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayersOfAGame;
 
 import java.io.Serializable;
@@ -171,6 +172,18 @@ public class BoardStatus implements Serializable {
 			if (player.getPosition() != null
 					&& player.getPosition().equals(roadToCheck)) {
 				return false;
+			}
+			// check for players with two shepherds
+			if (PlayerDouble.class.isInstance(player)) {
+				PlayerDouble p = (PlayerDouble) player;
+				if (p.getSecondposition() != null
+						&& p.getSecondposition().equals(roadToCheck)) {
+					return false;
+				}
+				if (p.getFirstPosition() != null
+						&& p.getFirstPosition().equals(roadToCheck)) {
+					return false;
+				}
 			}
 		}
 

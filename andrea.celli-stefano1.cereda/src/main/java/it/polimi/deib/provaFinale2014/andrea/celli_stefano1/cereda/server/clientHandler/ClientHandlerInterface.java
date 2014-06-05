@@ -56,14 +56,18 @@ public interface ClientHandlerInterface {
 			throws ClientDisconnectedException;
 
 	/**
-	 * This method asks the client to send back a road wich will be his starting
-	 * position
+	 * This method asks the client to send back a road which will be his
+	 * starting position
 	 * 
 	 * @return The road chosen by the client
 	 * @throws ClientDisconnectedException
 	 * @throws ClassNotFoundException
 	 */
 	public Road askInitialPosition() throws ClientDisconnectedException,
+			ClassNotFoundException;
+
+	/** This method is used to ask the initial position of the second shepherd */
+	public Road askSecondInitialPosition() throws ClientDisconnectedException,
 			ClassNotFoundException;
 
 	/**

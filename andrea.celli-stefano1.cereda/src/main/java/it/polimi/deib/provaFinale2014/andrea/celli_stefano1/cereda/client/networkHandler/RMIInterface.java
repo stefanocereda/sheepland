@@ -63,4 +63,7 @@ public interface RMIInterface extends Remote {
 	 */
 	public boolean chooseShepherd() throws RemoteException;
 
+	/** This method is used to ask the position of the second shepherd */
+	public Road askSecondInitialPosition() throws RemoteException;
+
 }

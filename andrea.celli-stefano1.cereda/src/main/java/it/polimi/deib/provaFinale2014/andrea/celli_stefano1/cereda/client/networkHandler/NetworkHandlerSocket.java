@@ -109,7 +109,9 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					getControlledPlayer();
 				} else if (command.equals(SocketMessages.CHOOSE_SHEPHERD)) {
 					chooseShepherd();
-				}
+				} else if (command
+						.equals(SocketMessages.ASK_SECOND_INITIAL_POSITION))
+					chooseSecondInitialPosition();
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
@@ -217,11 +219,21 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	}
 
 	/**
+	 * This method ask the user to choose the initial position of the second
+	 * shepherd
+	 */
+	private synchronized void chooseSecondInitialPosition() throws IOException {
+		Road toReturn = controller.chooseSecondInitialPosition();
+		out.writeObject(toReturn);
+		out.flush();
+	}
+
+	/**
 	 * Ask the user to choose a shepherd
 	 * 
 	 * @throws IOException
 	 */
-	private void chooseShepherd() throws IOException {
+	private synchronized void chooseShepherd() throws IOException {
 		out.writeBoolean(controller.getShepherd());
 		out.flush();
 	}

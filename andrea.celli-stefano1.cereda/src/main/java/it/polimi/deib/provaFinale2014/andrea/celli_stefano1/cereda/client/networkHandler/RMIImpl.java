@@ -66,4 +66,8 @@ public class RMIImpl implements RMIInterface {
 	public boolean chooseShepherd() throws RemoteException {
 		return controller.getShepherd();
 	}
+
+	public Road askSecondInitialPosition() throws RemoteException {
+		return controller.chooseSecondInitialPosition();
+	}
 }

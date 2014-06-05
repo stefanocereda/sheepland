@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 import java.util.List;
 
@@ -143,8 +144,24 @@ public class GameControllerClient {
 		return controlledPlayer;
 	}
 
-	/** This method asks the client to choose a controlled shepherd */
+	/**
+	 * This method asks the client to choose a controlled shepherd and sets it
+	 * in the model
+	 */
 	public boolean getShepherd() {
-		return userInterface.chooseShepherd();
+		boolean second = userInterface.chooseShepherd();
+		((PlayerDouble) boardStatus.getCurrentPlayer()).setShepherd(second);
+		return second;
+	}
+
+	/**
+	 * This method ask the client to choose a position for his second shepherd.
+	 * We also set our player as controlling the second shepherd, in this way we
+	 * will recognize the next moved as done by the right shepherd
+	 */
+	public Road chooseSecondInitialPosition() {
+		((PlayerDouble) boardStatus.getCurrentPlayer()).setShepherd(true);
+
+		return userInterface.chooseSecondInitialPosition();
 	}
 }

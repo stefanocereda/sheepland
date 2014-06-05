@@ -127,6 +127,19 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	public synchronized Road askSecondInitialPosition()
+			throws ClientDisconnectedException, ClassNotFoundException {
+		try {
+			out.writeUTF(SocketMessages.ASK_SECOND_INITIAL_POSITION);
+			out.flush();
+
+			return (Road) in.readObject();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
+
 	public synchronized void pingTheClient() throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.PING);
