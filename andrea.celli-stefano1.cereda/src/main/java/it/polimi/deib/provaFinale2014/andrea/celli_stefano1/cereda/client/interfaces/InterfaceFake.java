@@ -307,4 +307,8 @@ public class InterfaceFake implements Interface {
 	public Road chooseSecondInitialPosition() {
 		return chooseInitialPosition();
 	}
+
+	public void notifyShepherd(boolean usingSecond) {
+
+	}
 }

@@ -201,4 +201,16 @@ public class ClientHandlerSocket extends ClientHandler {
 					controlledPlayer, e);
 		}
 	}
+
+	public synchronized void sendShepherd(boolean usingSecond)
+			throws ClientDisconnectedException {
+		try {
+			out.writeUTF(SocketMessages.NOTIFY_SHEPHERD);
+			out.writeBoolean(usingSecond);
+			out.flush();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
 }

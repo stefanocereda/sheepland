@@ -262,7 +262,7 @@ public class GameController implements Runnable {
 	 * 
 	 * @author Andrea
 	 */
-	private void sendNewCurrentPlayerToAllPlayers() {
+	protected void sendNewCurrentPlayerToAllPlayers() {
 		for (ClientHandler client : clients) {
 			if (!client.getPlayer().isSuspended()) {
 				try {

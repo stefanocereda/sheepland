@@ -148,4 +148,14 @@ public class ClientHandlerRMI extends ClientHandler {
 					controlledPlayer, e);
 		}
 	}
+
+	public void sendShepherd(boolean usingSecond)
+			throws ClientDisconnectedException {
+		try {
+			clientObject.notifyShepherd(usingSecond);
+		} catch (RemoteException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
 }

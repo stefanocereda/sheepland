@@ -70,4 +70,9 @@ public class InterfaceGui implements Interface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void notifyShepherd(boolean usingSecond) {
+		// TODO Auto-generated method stub
+
+	}
 }

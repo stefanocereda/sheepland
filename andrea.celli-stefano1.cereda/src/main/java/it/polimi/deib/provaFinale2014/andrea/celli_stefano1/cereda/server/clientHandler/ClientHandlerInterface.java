@@ -106,4 +106,10 @@ public interface ClientHandlerInterface {
 	 * the second)
 	 */
 	boolean chooseShepherd() throws ClientDisconnectedException;
+
+	/**
+	 * This method notifies the client that the current player has made a
+	 * choiche for first/second shepherd
+	 */
+	void sendShepherd(boolean usingSecond) throws ClientDisconnectedException;
 }

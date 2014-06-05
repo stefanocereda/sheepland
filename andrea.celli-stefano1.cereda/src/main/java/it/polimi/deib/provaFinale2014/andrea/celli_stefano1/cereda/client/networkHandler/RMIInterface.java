@@ -66,4 +66,9 @@ public interface RMIInterface extends Remote {
 	/** This method is used to ask the position of the second shepherd */
 	public Road askSecondInitialPosition() throws RemoteException;
 
+	/**
+	 * This method is used to let the client know which shepherd is using the
+	 * current player
+	 */
+	public void notifyShepherd(boolean usingSecond) throws RemoteException;
 }

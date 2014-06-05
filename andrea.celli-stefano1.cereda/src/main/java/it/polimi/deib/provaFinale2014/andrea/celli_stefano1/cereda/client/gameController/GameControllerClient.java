@@ -164,4 +164,14 @@ public class GameControllerClient {
 
 		return userInterface.chooseSecondInitialPosition();
 	}
+
+	/**
+	 * This method is used to let the client know which shepherd is using the
+	 * current player. We notify the user and sets it in the controller
+	 */
+	public void notifyShepherd(boolean usingSecond) {
+		userInterface.notifyShepherd(usingSecond);
+		((PlayerDouble) boardStatus.getCurrentPlayer())
+				.setShepherd(usingSecond);
+	}
 }

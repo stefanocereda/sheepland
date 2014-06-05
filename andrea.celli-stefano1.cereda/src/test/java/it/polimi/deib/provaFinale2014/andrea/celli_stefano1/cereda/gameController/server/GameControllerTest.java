@@ -159,5 +159,11 @@ public class GameControllerTest {
 			return null;
 		}
 
+		public void sendShepherd(boolean usingSecond)
+				throws ClientDisconnectedException {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 }

@@ -12,6 +12,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
@@ -200,6 +201,25 @@ public class InterfaceConsole implements Interface {
 			System.out.println("It's now the turn of player "
 					+ gameController.getBoardStatus().getPlayerNumber(
 							newCurrentPlayer));
+		}
+	}
+
+	public void notifyShepherd(boolean usingSecond) {
+		Player ourPlayer = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
+
+		// if we are the current player we know what we are using
+		if (!ourPlayer.equals(gameController.getBoardStatus()
+				.getCurrentPlayer())) {
+			String shepherd;
+			if (usingSecond) {
+				shepherd = "second";
+			} else {
+				shepherd = "first";
+			}
+
+			System.out.println("The current player is using his " + shepherd
+					+ " shepherd.");
 		}
 	}
 
@@ -430,17 +450,22 @@ public class InterfaceConsole implements Interface {
 	 * controlled player also show the cards
 	 */
 	private void printPlayers() {
+		RoadMap roadMap = gameController.getBoardStatus().getRoadMap();
+
 		for (Player p : gameController.getBoardStatus().getPlayers()) {
 			String message = "Player "
 					+ gameController.getBoardStatus().getPlayerNumber(p)
-					+ " is on the road "
-					+ gameController.getBoardStatus().getRoadMap()
-							.getNumberOfRoad(p.getPosition());
+					+ " is on the road ";
 
-			// if it's a player controlling a shepherd print the second position
+			// if it's a player controlling two shepherd print both the
+			// position
 			if (p.getClass().equals(PlayerDouble.class)) {
-				message += " and on the road "
-						+ ((PlayerDouble) p).getSecondposition();
+				Road one = ((PlayerDouble) p).getFirstPosition();
+				Road two = ((PlayerDouble) p).getSecondposition();
+				message += roadMap.getNumberOfRoad(one) + " and on the road "
+						+ roadMap.getNumberOfRoad(two);
+			} else {
+				message += roadMap.getNumberOfRoad(p.getPosition());
 			}
 
 			message += " with " + p.getMoney() + " money.";
@@ -481,10 +506,6 @@ public class InterfaceConsole implements Interface {
 		System.out.println("The terrains around you are: ");
 		show(p.getPosition().getAdjacentTerrains());
 
-		// if it's a two shepherd player show the other terrains
-		if (p.getClass().equals(PlayerDouble.class)) {
-			show(((PlayerDouble) p).getSecondposition().getAdjacentTerrains());
-		}
 	}
 
 	/** Print the remaining cards in the deck */
@@ -502,14 +523,6 @@ public class InterfaceConsole implements Interface {
 
 		for (Terrain t : p.getPosition().getAdjacentTerrains())
 			System.out.println(t.getTerrainType());
-
-		// check for two shepherds player
-		if (p.getClass().equals(PlayerDouble.class)) {
-			for (Terrain t : ((PlayerDouble) p).getSecondposition()
-					.getAdjacentTerrains()) {
-				System.out.println(t.getTerrainType());
-			}
-		}
 	}
 
 	//

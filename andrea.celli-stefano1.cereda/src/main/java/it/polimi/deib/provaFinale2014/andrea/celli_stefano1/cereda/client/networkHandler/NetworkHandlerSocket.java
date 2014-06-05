@@ -110,8 +110,11 @@ public class NetworkHandlerSocket extends NetworkHandler {
 				} else if (command.equals(SocketMessages.CHOOSE_SHEPHERD)) {
 					chooseShepherd();
 				} else if (command
-						.equals(SocketMessages.ASK_SECOND_INITIAL_POSITION))
+						.equals(SocketMessages.ASK_SECOND_INITIAL_POSITION)) {
 					chooseSecondInitialPosition();
+				} else if (command.equals(SocketMessages.NOTIFY_SHEPHERD)) {
+					getShepherd();
+				}
 			} catch (IOException e) {
 				// we are disconnected
 				// log the exception
@@ -128,6 +131,17 @@ public class NetworkHandlerSocket extends NetworkHandler {
 			}
 
 		}
+	}
+
+	/**
+	 * This method is used to let the client know which shepherd is using the
+	 * current player
+	 * 
+	 * @throws IOException
+	 */
+	private synchronized void getShepherd() throws IOException {
+		boolean usingSecond = in.readBoolean();
+		controller.notifyShepherd(usingSecond);
 	}
 
 	/**

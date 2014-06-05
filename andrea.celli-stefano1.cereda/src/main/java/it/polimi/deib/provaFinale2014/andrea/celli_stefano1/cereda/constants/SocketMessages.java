@@ -50,6 +50,12 @@ public class SocketMessages {
 	/** Ask the user to choose an initial road for his second shepherd */
 	public static final String ASK_SECOND_INITIAL_POSITION = "SEND-SECOND-POSITION";
 
+	/**
+	 * Tell the user that the current player has made a choice for the
+	 * controlled shepherd
+	 */
+	public static final String NOTIFY_SHEPHERD = "NOTIFY_SHEPHERD";
+
 	/** Hide the default constructor */
 	private SocketMessages() {
 	}

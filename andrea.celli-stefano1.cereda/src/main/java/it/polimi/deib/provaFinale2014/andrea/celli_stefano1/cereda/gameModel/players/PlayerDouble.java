@@ -57,7 +57,7 @@ public class PlayerDouble extends Player {
 		return secondposition;
 	}
 
-	public Object getFirstPosition() {
+	public Road getFirstPosition() {
 		return super.getPosition();
 	}
 }

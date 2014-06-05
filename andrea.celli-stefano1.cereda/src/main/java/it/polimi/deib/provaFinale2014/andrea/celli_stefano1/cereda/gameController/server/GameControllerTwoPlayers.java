@@ -62,6 +62,11 @@ public class GameControllerTwoPlayers extends GameController {
 			Road initial = null;
 			((PlayerDouble) ch.getPlayer()).setShepherd(true);
 
+			boardStatus.setCurrentPlayer(boardStatus.getEquivalentPlayer(ch
+					.getPlayer()));
+			super.sendNewCurrentPlayerToAllPlayers();
+			notifyChosenShepherdToAllClients(true);
+
 			if (!ch.getPlayer().isSuspended()) {
 				try {
 
@@ -94,6 +99,10 @@ public class GameControllerTwoPlayers extends GameController {
 		}
 	}
 
+	/**
+	 * Ask to the current player if he wants to use the first or the second
+	 * shepherd
+	 */
 	private boolean askShepherdToCurrentPlayer() {
 		ClientHandler client = null;
 
@@ -114,6 +123,22 @@ public class GameControllerTwoPlayers extends GameController {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * This method notifies all the client which shepherd the current player has
+	 * chosen to use
+	 */
+	private void notifyChosenShepherdToAllClients(boolean usingSecond) {
+		for (ClientHandler ch : clients) {
+			try {
+				ch.sendShepherd(usingSecond);
+			} catch (ClientDisconnectedException e) {
+				String message = "A client disconnected";
+				logger.log(Level.INFO, message, e);
+				catchDisconnection(e.getPlayer());
+			}
+		}
 	}
 
 	/**
@@ -149,12 +174,17 @@ public class GameControllerTwoPlayers extends GameController {
 		return "retrieveShepherdFromCurrentPlayer";
 	}
 
-	/** Ask the current player to choose his shepherd for this turn and set it */
+	/**
+	 * Ask the current player to choose his shepherd for this turn and set it.
+	 * Then notifies all the clients
+	 */
 	public String retrieveShepherdFromCurrentPlayer() {
 		boolean controllingSecond = askShepherdToCurrentPlayer();
 
 		((PlayerDouble) boardStatus.getCurrentPlayer())
 				.setShepherd(controllingSecond);
+
+		notifyChosenShepherdToAllClients(controllingSecond);
 
 		return "retrieveMoveFromCurrentPlayer";
 	}

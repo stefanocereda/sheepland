@@ -92,4 +92,7 @@ public interface Interface {
 
 	/** Ask the user an initial road for his second shepherd */
 	Road chooseSecondInitialPosition();
+
+	/** Tell the user if the current player is using his second shepherd */
+	void notifyShepherd(boolean usingSecond);
 }
