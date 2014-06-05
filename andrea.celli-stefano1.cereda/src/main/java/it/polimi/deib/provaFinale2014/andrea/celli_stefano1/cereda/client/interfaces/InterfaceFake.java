@@ -260,7 +260,6 @@ public class InterfaceFake implements Interface {
 	}
 
 	public void notifyMove(Move move) {
-		System.out.println("The server sent a move");
 	}
 
 	public void notifyNotValidMove() {
@@ -305,10 +304,10 @@ public class InterfaceFake implements Interface {
 	}
 
 	public Road chooseSecondInitialPosition() {
+		System.out.println("this is a game with two players");
 		return chooseInitialPosition();
 	}
 
 	public void notifyShepherd(boolean usingSecond) {
-
 	}
 }
