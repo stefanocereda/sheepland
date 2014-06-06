@@ -2,6 +2,8 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -21,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class RuleChecker {
 	/** A logger */
-	private static Logger logger = Logger
+	private static final Logger LOGGER = Logger
 			.getLogger("gameController.server.RuleChecker");
 	/** The message logged when we detect a move containing null attributes */
 	private static String messageNull = "Detected a move with null attributes, setting it to invalid";
@@ -36,7 +38,7 @@ public class RuleChecker {
 			return isValidPlayerAction(move, status)
 					&& isCorrectMoveBuyCard(move, status);
 		} catch (NullPointerException e) {
-			logger.log(Level.FINE, messageNull, e);
+			LOGGER.log(Level.FINE, messageNull, e);
 			return false;
 		}
 	}
@@ -47,7 +49,7 @@ public class RuleChecker {
 			return isValidPlayerAction(move, status)
 					&& isCorrectMoveSheep(move, status);
 		} catch (NullPointerException e) {
-			logger.log(Level.FINE, messageNull, e);
+			LOGGER.log(Level.FINE, messageNull, e);
 			return false;
 		}
 	}
@@ -58,7 +60,7 @@ public class RuleChecker {
 			return isValidPlayerAction(move, status)
 					&& isCorrectMovePlayer(move, status);
 		} catch (NullPointerException e) {
-			logger.log(Level.FINE, messageNull, e);
+			LOGGER.log(Level.FINE, messageNull, e);
 			return false;
 		}
 	}
@@ -66,8 +68,9 @@ public class RuleChecker {
 	/** Check if a move that can be done by a player is valid */
 	private static boolean isValidPlayerAction(PlayerAction move,
 			BoardStatus status) {
-		return (isCorrectPlayer(move, status) && isAffordable(move, status) && isCorrectTurn(
-				move, status.getCurrentPlayer().getLastMoves()));
+		return isCorrectPlayer(move, status)
+				&& isAffordable(move, status)
+				&& isCorrectTurn(move, status.getCurrentPlayer().getLastMoves());
 	}
 
 	/** Check if an automatic move (not done by a player) is valid */
@@ -89,12 +92,8 @@ public class RuleChecker {
 	 */
 	private static boolean isCorrectPlayer(PlayerAction move,
 			BoardStatus boardStatus) {
-		if (boardStatus.getEquivalentPlayer(move.getPlayer()).equals(
-				boardStatus.getCurrentPlayer())) {
-			return true;
-		} else {
-			return false;
-		}
+		return boardStatus.getEquivalentPlayer(move.getPlayer()).equals(
+				boardStatus.getCurrentPlayer());
 	}
 
 	/**
@@ -114,7 +113,7 @@ public class RuleChecker {
 		// Calculate the cost
 		int cost = MoveCostCalculator.getMoveCost(move, boardStatus);
 
-		return (cost <= money);
+		return cost <= money;
 	}
 
 	/**
@@ -157,12 +156,8 @@ public class RuleChecker {
 		Terrain going = move.getNewPositionOfTheSheep();
 
 		// check if the move is actually valid
-		if (adjacentTerrains.contains(coming)
-				&& adjacentTerrains.contains(going)) {
-			return true;
-		} else {
-			return false;
-		}
+		return adjacentTerrains.contains(coming)
+				&& adjacentTerrains.contains(going);
 	}
 
 	/**
@@ -205,12 +200,8 @@ public class RuleChecker {
 		}
 
 		// now check if the type is valid
-		if (adjTerrainsTypes.contains(tBuying)
-				&& adjTerrainsTypes.contains(tBuying)) {
-			return true;
-		} else {
-			return false;
-		}
+		return adjTerrainsTypes.contains(tBuying)
+				&& adjTerrainsTypes.contains(tBuying);
 	}
 
 	/**
@@ -228,7 +219,7 @@ public class RuleChecker {
 			List<Move> oldMoves) {
 
 		// the first move is always correct
-		if (oldMoves.size() == 0) {
+		if (oldMoves.isEmpty()) {
 			return true;
 		}
 
@@ -238,9 +229,9 @@ public class RuleChecker {
 		// the second is correct if it's different from the first or if they're
 		// both move player
 		if (oldMoves.size() == 1) {
-			return ((!moveToCheck.getClass().isInstance(firstMove))
-					|| (MovePlayer.class.isInstance(firstMove)) || (MovePlayer.class
-						.isInstance(moveToCheck)));
+			return !moveToCheck.getClass().isInstance(firstMove)
+					|| (MovePlayer.class.isInstance(firstMove))
+					|| (MovePlayer.class.isInstance(moveToCheck));
 		}
 
 		// this is the third move, is correct if: 1)they're all different 2)it's
@@ -248,7 +239,7 @@ public class RuleChecker {
 		// the second and they're both moveplayer => all different or the second
 		// is a move player
 		Move secondMove = oldMoves.get(1);
-		return (((!firstMove.getClass().isInstance(moveToCheck))) && (!secondMove
+		return (!firstMove.getClass().isInstance(moveToCheck) && (!secondMove
 				.getClass().isInstance(moveToCheck)))
 				|| (MovePlayer.class.isInstance(secondMove));
 	}
@@ -267,7 +258,7 @@ public class RuleChecker {
 	 */
 	public static boolean isValidMoveWolf(MoveWolf moveWolf,
 			BoardStatusExtended boardStatus) {
-		Terrain coming = moveWolf.getWolf().getPosition();
+		Terrain coming = boardStatus.getWolf().getPosition();
 		Terrain going = moveWolf.getNewPosition();
 
 		// Check condition 1
@@ -297,5 +288,40 @@ public class RuleChecker {
 		}
 
 		return false;
+	}
+
+	/**
+	 * A mate is valid if: 1) the terrain is adjacent to the shepherd 2) In the
+	 * terrain there is at least a maleSheep and a femaleSheep
+	 */
+	public static boolean isValidMating(Mating move, BoardStatus boardStatus) {
+		// get info
+		Terrain terrain = move.getTerrain();
+		Road playerPosition = boardStatus.getEquivalentPlayer(move.getPlayer())
+				.getPosition();
+
+		// check condition 1
+		boolean okTerrain = false;
+		for (Terrain t : playerPosition.getAdjacentTerrains()) {
+			if (t.equals(terrain)) {
+				okTerrain = true;
+				break;
+			}
+		}
+
+		// check condition 2
+		boolean female = false;
+		boolean male = true;
+		for (Sheep s : boardStatus.getSheeps()) {
+			if (s.getPosition().equals(terrain)) {
+				if (s.getTypeOfSheep().equals(TypeOfSheep.MALESHEEP)) {
+					male = true;
+				} else if (s.getTypeOfSheep().equals(TypeOfSheep.FEMALESHEEP)) {
+					female = true;
+				}
+			}
+		}
+
+		return male && female && okTerrain;
 	}
 }

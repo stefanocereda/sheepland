@@ -3,7 +3,10 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -16,6 +19,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 public class ExecuteAction {
+
+	/** Override the default constructor */
+	private ExecuteAction() {
+	}
 
 	/**
 	 * This method add the move as the last move of the player who execute it
@@ -115,10 +122,6 @@ public class ExecuteAction {
 		addMoveToLastMoves(move, boardStatus);
 	}
 
-	/** Override the default constructor */
-	private ExecuteAction() {
-	}
-
 	//
 	//
 	// HERE STARTS THE METHODS FOR ADVANCED RULES
@@ -130,5 +133,23 @@ public class ExecuteAction {
 			BoardStatusExtended boardStatus) {
 		boardStatus.getWolf().move(moveWolf.getNewPosition());
 		boardStatus.getSheeps().remove(moveWolf.getKilledSheep());
+	}
+
+	/**
+	 * Roll a dice, if the result equals the number on the road where is the
+	 * player create a new lamb and put it on the given terrain
+	 */
+	public static void executeMating(Mating move, BoardStatus boardStatus) {
+		Dice dice = Dice.create();
+		int rolled = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
+		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
+
+		if (player.getPosition().getBoxValue() != rolled) {
+			return;
+		}
+
+		Sheep newLamb = new Sheep(0, TypeOfSheep.NORMALSHEEP, move.getTerrain());
+		newLamb.setID();
+		boardStatus.addSheep(newLamb);
 	}
 }
