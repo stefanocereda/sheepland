@@ -46,16 +46,17 @@ public class ClientMainClass {
 		int network = 0;
 
 		for (String arg : args) {
-			if (arg.equals("socket"))
+			if (arg.equals("socket")) {
 				network = 1;
-			else if (arg.equals("rmi"))
+			} else if (arg.equals("rmi")) {
 				network = 2;
-			else if (arg.equals("console"))
+			} else if (arg.equals("console")) {
 				userInterface = TypeOfInterface.CONSOLE;
-			else if (arg.equals("gui"))
+			} else if (arg.equals("gui")) {
 				userInterface = TypeOfInterface.GUI;
-			else if (arg.equals("fake"))
+			} else if (arg.equals("fake")) {
 				userInterface = TypeOfInterface.FAKE;
+			}
 		}
 
 		if (userInterface == null) {

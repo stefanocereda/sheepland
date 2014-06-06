@@ -287,10 +287,10 @@ public class RuleChecker {
 		}
 
 		// check condition 3
-		if (moveWolf.getKilledSheep() == null){
+		if (moveWolf.getKilledSheep() == null) {
 			return true;
 		}
-		
+
 		if (moveWolf.getKilledSheep() != null
 				&& moveWolf.getKilledSheep().getPosition().equals(going)) {
 			return true;

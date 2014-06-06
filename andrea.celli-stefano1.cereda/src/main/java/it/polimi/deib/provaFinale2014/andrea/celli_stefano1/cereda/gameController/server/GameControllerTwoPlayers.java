@@ -197,9 +197,10 @@ public class GameControllerTwoPlayers extends GameController {
 	@Override
 	public String notifyNewCurrentPlayer() {
 		if (super.notifyNewCurrentPlayer().equals(
-				"retrieveMoveFromCurrentPlayer"))
+				"retrieveMoveFromCurrentPlayer")) {
 			return "retrieveShepherdFromCurrentPlayer";
-		else
+		} else {
 			return "moveTheBlackSheep";
+		}
 	}
 }

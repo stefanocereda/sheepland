@@ -320,8 +320,9 @@ public class RoadMap extends GenericGameObject {
 	/** Return the cardinal number of the given road */
 	public int getNumberOfRoad(Road r) {
 		for (int i = 1; i < roadMap.size(); i++) {
-			if (roadMap.get(i).equals(r))
+			if (roadMap.get(i).equals(r)) {
 				return i;
+			}
 		}
 		return 0;
 	}

@@ -46,9 +46,11 @@ public class PlayerDouble extends Player {
 	/**
 	 * Get the position of the controlled shepherd
 	 */
+	@Override
 	public Road getPosition() {
-		if (usingSecond)
+		if (usingSecond) {
 			return secondposition;
+		}
 		return super.getPosition();
 	}
 

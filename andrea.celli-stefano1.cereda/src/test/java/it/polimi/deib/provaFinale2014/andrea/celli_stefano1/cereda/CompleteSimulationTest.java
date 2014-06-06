@@ -91,8 +91,9 @@ public class CompleteSimulationTest {
 
 	private boolean finished(List<Thread> threads) {
 		for (Thread t : threads) {
-			if (t.isAlive())
+			if (t.isAlive()) {
 				return false;
+			}
 		}
 		return true;
 	}
