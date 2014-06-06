@@ -25,7 +25,11 @@ public class GameConstants {
 	/** The initial money of each player */
 	public static final int INITIAL_MONEY = 20;
 
+	/** The initial money when playing with only two clients */
 	public static final int INITIAL_MONEY_TWO_PLAYERS = 30;
+
+	/** The number of player's turn after which a lamb becomes an advanced sheep */
+	public static final int AGE_OF_OLD_LAMBS = 2;
 
 	/** Hide the default constructor */
 	private GameConstants() {

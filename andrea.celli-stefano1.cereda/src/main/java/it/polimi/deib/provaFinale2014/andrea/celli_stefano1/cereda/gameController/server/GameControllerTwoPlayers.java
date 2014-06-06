@@ -14,6 +14,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.client
 
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This controller is used for games with basic rules but only two players.
@@ -24,6 +25,8 @@ import java.util.logging.Level;
  * 
  */
 public class GameControllerTwoPlayers extends GameController {
+	private static final Logger LOGGER = Logger
+			.getLogger(GameControllerTwoPlayers.class.getName());
 
 	/** The passed array must contain two client handlers */
 	public GameControllerTwoPlayers(List<ClientHandler> playerClients) {
@@ -76,13 +79,13 @@ public class GameControllerTwoPlayers extends GameController {
 
 				} catch (ClientDisconnectedException e) {
 					String message = "A client disconnected";
-					logger.log(Level.INFO, message, e);
+					LOGGER.log(Level.INFO, message, e);
 					catchDisconnection(e.getPlayer());
 
 					initial = chooseRandomPositionForAPlayer();
 				} catch (ClassNotFoundException e) {
 					String message = "A client is not aligned with the communication protocol, suspending it";
-					logger.log(Level.INFO, message, e);
+					LOGGER.log(Level.INFO, message, e);
 					ch.getPlayer().suspend();
 					ch.getPlayer().setNotConnected();
 
@@ -118,7 +121,7 @@ public class GameControllerTwoPlayers extends GameController {
 				return client.chooseShepherd();
 			} catch (ClientDisconnectedException e) {
 				String message = "A client disconnected";
-				logger.log(Level.INFO, message, e);
+				LOGGER.log(Level.INFO, message, e);
 				catchDisconnection(e.getPlayer());
 			}
 		}
@@ -135,7 +138,7 @@ public class GameControllerTwoPlayers extends GameController {
 				ch.sendShepherd(usingSecond);
 			} catch (ClientDisconnectedException e) {
 				String message = "A client disconnected";
-				logger.log(Level.INFO, message, e);
+				LOGGER.log(Level.INFO, message, e);
 				catchDisconnection(e.getPlayer());
 			}
 		}

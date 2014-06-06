@@ -66,4 +66,9 @@ public class Sheep extends Animal {
 	public void setNewRandomAndvancedTypeOfSheep() {
 		typeOfSheep = TypeOfSheep.getRandomAndvancedTypeOfSheep();
 	}
+
+	/** @return if it is a standard sheep */
+	public boolean isBasicType() {
+		return typeOfSheep.isNormal();
+	}
 }

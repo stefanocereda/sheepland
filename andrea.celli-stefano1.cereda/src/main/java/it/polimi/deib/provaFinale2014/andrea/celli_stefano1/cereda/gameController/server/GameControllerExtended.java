@@ -3,10 +3,12 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Wolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveWolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
@@ -21,6 +23,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.client
  * 
  */
 public class GameControllerExtended extends GameController {
+	private static final Logger LOGGER = Logger
+			.getLogger(GameControllerExtended.class.getName());
 
 	public GameControllerExtended(List<ClientHandler> playerClients) {
 		super(playerClients);
@@ -43,6 +47,7 @@ public class GameControllerExtended extends GameController {
 	 * Initialize the board following the rules on the second page
 	 * (Preparazione). We also create a wolf
 	 */
+	@Override
 	protected void initBoard() {
 		addPlayersToGame();
 		initSheeps();
@@ -53,6 +58,27 @@ public class GameControllerExtended extends GameController {
 		chooseFirstPlayer();
 	}
 
+	/**
+	 * Create all the sheep and put them on the map, one per terrain excluding
+	 * sheepsburg. It's overridden because we have to choose random types of
+	 * sheep
+	 */
+	@Override
+	protected void initSheeps() {
+		for (Terrain terrain : Terrain.values()) {
+			if (!terrain.equals(Terrain.SHEEPSBURG)) {
+				TypeOfSheep type = TypeOfSheep.getRandomTypeOfSheep();
+				int age = 0;
+				if (!type.isNormal()) {
+					age = 2;
+				}
+				Sheep sheep = new Sheep(age, type, terrain);
+				sheep.setID();
+				boardStatus.addSheep(sheep);
+			}
+		}
+	}
+
 	/** Create a wolf, set his id, put it in Sheepsburg and add it to the board */
 	private void initWolf() {
 		Wolf wolf = new Wolf(Terrain.SHEEPSBURG);
@@ -61,14 +87,15 @@ public class GameControllerExtended extends GameController {
 	}
 
 	/**
-	 * This method checks if the current player has done three moves, in that
-	 * case we goes on with another player, otherwise ask a new move. It is
-	 * overridden in order to go to moveTheWolf instead of goOn
+	 * This method notifies the current player to all the clients, then goes on
+	 * by moving the wolf or by asking a move to the current player. It is
+	 * overridden because after a complete turn we move the wolf before going to
+	 * the first player.
 	 */
 	@Override
-	public String checkIfPlayerFinishedTurn() {
-		if (boardStatus.getCurrentPlayer().getLastMoves().size() == 3) {
-			boardStatus.getCurrentPlayer().deleteLastMoves();
+	public String notifyNewCurrentPlayer() {
+		sendNewCurrentPlayerToAllPlayers();
+		if (boardStatus.getCurrentPlayer().equals(boardStatus.getFirstPlayer())) {
 			return "moveTheWolf";
 		}
 		return "retrieveMoveFromCurrentPlayer";
@@ -77,6 +104,8 @@ public class GameControllerExtended extends GameController {
 	/**
 	 * This method rolls the dice and consequently creates a moveWolf move. If
 	 * it is possible it validates, executes and sends to client the move.
+	 * 
+	 * @return moveTheBlackSheep
 	 */
 	public String moveTheWolf() {
 		Dice dice = Dice.create();
@@ -96,7 +125,7 @@ public class GameControllerExtended extends GameController {
 
 		// if linkingRoad is null go on (it happens near the sea)
 		if (linkingRoad == null) {
-			return "goOn";
+			return "moveTheBlackSheep";
 		}
 
 		// if we have found a road search the new terrain
@@ -110,9 +139,9 @@ public class GameControllerExtended extends GameController {
 
 		// if newPosition is null (should be impossible) log an error and go on
 		if (newPosition == null) {
-			logger.log(Level.SEVERE,
+			LOGGER.log(Level.SEVERE,
 					"There are errors in the method moveTheWolf");
-			return "goOn";
+			return "moveTheBlackSheep";
 		}
 
 		// now randomly select a sheep in the new terrain
@@ -131,7 +160,38 @@ public class GameControllerExtended extends GameController {
 			executeMove(mw);
 		}
 
-		return "goOn";
+		return "moveTheBlackSheep";
+	}
+
+	/**
+	 * This method has to be invoked after the moves session. It searches for
+	 * the next player that has to play and state if the game is finished or
+	 * not. If the game is over it communicates it to the caller using the
+	 * string "gameOver", otherwise "notifyNewCurrentPlayer". It is overridden
+	 * because after each player's turn we increase the age of all the sheeps
+	 * and promotes the old lamb to male or female sheep
+	 */
+	@Override
+	public String goOn() {
+		increaseAgeOfSheep();
+		promoteOldLambs();
+		return super.goOn();
+	}
+
+	/** Increase by 1 the age of all the sheeps */
+	private void increaseAgeOfSheep() {
+		for (Sheep s : boardStatus.getSheeps()) {
+			s.ageIcrement();
+		}
+	}
+
+	/** Search the old lambs and promotes them to advanced sheep */
+	private void promoteOldLambs() {
+		for (Sheep s : boardStatus.getSheeps()) {
+			if (s.isBasicType() && s.getAge() >= GameConstants.AGE_OF_OLD_LAMBS) {
+				s.setNewRandomAndvancedTypeOfSheep();
+			}
+		}
 	}
 
 }

@@ -27,7 +27,7 @@ public class Dice {
 		return sharedDice;
 	}
 
-	/** Get a random number from 0 to max */
+	/** Get a random number from 0 to max (excluded) */
 	public int roll(int max) {
 		return rnd.nextInt(max);
 	}
