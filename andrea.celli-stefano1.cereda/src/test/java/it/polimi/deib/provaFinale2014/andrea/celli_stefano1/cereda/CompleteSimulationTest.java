@@ -13,6 +13,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -25,6 +26,7 @@ import org.junit.Test;
 public class CompleteSimulationTest {
 
 	@Test
+	@Ignore
 	public void test() {
 		ServerMainClass.main(null);// starts the server
 		waitServer();
@@ -61,16 +63,14 @@ public class CompleteSimulationTest {
 		t2.start();
 		System.out.println("created one socket and one rmi");
 
-		// let them play for some minutes or untill they finish
-		int counter = 0;
+		// let them play
 		do {
 			try {
 				Thread.sleep(2 * TimeConstants.WAITING_FOR_MAX_PLAYERS);
-				counter++;
 			} catch (InterruptedException e) {
 				System.out.println("interrupted");
 			}
-		} while (!finished(players) && counter < 30);
+		} while (!finished(players));
 	}
 
 	/** Keep searching for the rmi server */

@@ -29,7 +29,6 @@ import java.util.Scanner;
  * when new updates are executed.
  * 
  * @author Andrea
- * @TODO showAllStatus
  */
 public class InterfaceConsole implements Interface {
 	/** the game controller acts as a mediator with the board status */
@@ -181,7 +180,7 @@ public class InterfaceConsole implements Interface {
 		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString())) {
 			return askForMoveSheep();
 		}
-		if (answer.equals("print status")) {
+		if ("print status".equals(answer)) {
 			notifyNewStatus();
 			return getNewMove();
 		}
@@ -225,7 +224,7 @@ public class InterfaceConsole implements Interface {
 
 	public void notifyWinners(List<Player> winners) {
 		System.out.println("GAME OVER");
-		if (winners.size() < 1) {
+		if (winners.size() == 1) {
 			System.out.println("There's only one winner: PLAYER "
 					+ gameController.getBoardStatus().getPlayerNumber(
 							winners.get(0)));
@@ -305,7 +304,7 @@ public class InterfaceConsole implements Interface {
 				.getRoadMap().getHashMapOfRoads();
 
 		// the numbers identifying free roads
-		ArrayList<Integer> freeRoad = (ArrayList<Integer>) gameController
+		List<Integer> freeRoad = (ArrayList<Integer>) gameController
 				.getBoardStatus().findFreeRoads();
 
 		// shows to the user the free roads
@@ -379,8 +378,8 @@ public class InterfaceConsole implements Interface {
 				System.out
 						.println("Do you want do move the black sheep? (yes/no)");
 				answer = in.nextLine();
-			} while (!(answer.equals("yes") || answer.equals("no")));
-			if (answer.equals("yes")) {
+			} while (!"yes".equals(answer) && !"no".equals(answer));
+			if ("yes".equals(answer)) {
 				moveBlackSheep = true;
 				sheepToMove = gameController.getBoardStatus().getBlackSheep();
 			}
