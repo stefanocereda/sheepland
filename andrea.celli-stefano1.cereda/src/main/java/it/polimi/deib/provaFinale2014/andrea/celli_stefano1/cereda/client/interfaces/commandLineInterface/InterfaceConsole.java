@@ -521,8 +521,9 @@ public class InterfaceConsole implements Interface {
 
 		System.out.println("Around you there are these kind of terrain:");
 
-		for (Terrain t : p.getPosition().getAdjacentTerrains())
+		for (Terrain t : p.getPosition().getAdjacentTerrains()) {
 			System.out.println(t.getTerrainType());
+		}
 	}
 
 	//
@@ -556,23 +557,19 @@ public class InterfaceConsole implements Interface {
 				.getPlayerNumber(move.getPlayer());
 
 		// check for black sheep
-		if (((MoveSheep) move).getMovedSheep().equals(
+		if (move.getMovedSheep().equals(
 				gameController.getBoardStatus().getBlackSheep())) {
-			System.out.println("Player "
-					+ numberOfThePlayer
+			System.out.println("Player " + numberOfThePlayer
 					+ "moved the black sheep from "
-					+ ((MoveSheep) move).getMovedSheep().getPosition()
-							.toString() + " to "
-					+ ((MoveSheep) move).getNewPositionOfTheSheep().toString());
+					+ move.getMovedSheep().getPosition().toString() + " to "
+					+ move.getNewPositionOfTheSheep().toString());
 
 		} else {
 			// standard sheep
-			System.out.println("Player "
-					+ numberOfThePlayer
+			System.out.println("Player " + numberOfThePlayer
 					+ " moved a sheep from "
-					+ ((MoveSheep) move).getMovedSheep().getPosition()
-							.toString() + " to "
-					+ ((MoveSheep) move).getNewPositionOfTheSheep().toString());
+					+ move.getMovedSheep().getPosition().toString() + " to "
+					+ move.getNewPositionOfTheSheep().toString());
 		}
 	}
 

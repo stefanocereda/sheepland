@@ -72,7 +72,7 @@ public class GameController implements Runnable {
 	 * Initialize the ruleChecker, the moveCostCalculator, the moveExecutor and
 	 * the board. Send this initial status to all the players
 	 */
-	private void initializeAll() {
+	protected void initializeAll() {
 		boardStatus = new BoardStatus(clients.size());
 
 		// initialize the board
@@ -83,7 +83,7 @@ public class GameController implements Runnable {
 	 * Initialize the board following the rules on the second page
 	 * (Preparazione)
 	 */
-	private void initBoard() {
+	protected void initBoard() {
 		addPlayersToGame();
 		initSheeps();
 		initBlackSheep();
@@ -115,7 +115,7 @@ public class GameController implements Runnable {
 	 * Create all the sheep and put them on the map, one per terrain excluding
 	 * sheepsburg
 	 */
-	private void initSheeps() {
+	protected void initSheeps() {
 		for (Terrain terrain : Terrain.values()) {
 			if (!terrain.equals(Terrain.SHEEPSBURG)) {
 				Sheep sheep = new Sheep(terrain);
@@ -126,14 +126,14 @@ public class GameController implements Runnable {
 	}
 
 	/** Create a BlackSheep and put it in sheepsburg */
-	private void initBlackSheep() {
+	protected void initBlackSheep() {
 		BlackSheep blackSheep = new BlackSheep(Terrain.SHEEPSBURG);
 		blackSheep.setID();
 		boardStatus.addBlackSheepToBoardStatus(blackSheep);
 	}
 
 	/** Give an initial card to each player */
-	private void initCards() {
+	protected void initCards() {
 		Deck deck = boardStatus.getDeck();
 		Player[] players = boardStatus.getPlayers();
 
@@ -143,12 +143,12 @@ public class GameController implements Runnable {
 	}
 
 	/** Delete all the remaining initial cards in the deck */
-	private void deleteRemainingInitialCards() {
+	protected void deleteRemainingInitialCards() {
 		boardStatus.getDeck().deleteRemainingInitialCards();
 	}
 
 	/** Extract an initial player and notify to the boardstatus */
-	private void chooseFirstPlayer() {
+	protected void chooseFirstPlayer() {
 		Dice dice = Dice.create();
 		Player[] players = boardStatus.getPlayers();
 		int sorted = dice.roll(players.length);
@@ -545,7 +545,7 @@ public class GameController implements Runnable {
 				for (Terrain t : road.getAdjacentTerrains()) {
 					if (!boardStatus.getBlackSheep().getPosition().equals(t)) {
 						// creates a new move and send it to clients
-						sendMoveToAllPlayers(new MoveBlackSheep(t,
+						executeMove(new MoveBlackSheep(t,
 								boardStatus.getBlackSheep()));
 					}
 				}
