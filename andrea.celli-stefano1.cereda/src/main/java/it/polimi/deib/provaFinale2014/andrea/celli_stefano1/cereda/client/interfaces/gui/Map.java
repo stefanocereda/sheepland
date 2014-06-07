@@ -17,12 +17,12 @@ import javax.swing.JPanel;
  * 
  */
 
-public class GameBoard extends JPanel {
+public class Map extends JPanel {
 
 	// the image to be displayed
 	Image img;
 
-	public GameBoard() {
+	public Map() {
 		super();
 		// create first an image icon (the source is places in a source folder)
 		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(
