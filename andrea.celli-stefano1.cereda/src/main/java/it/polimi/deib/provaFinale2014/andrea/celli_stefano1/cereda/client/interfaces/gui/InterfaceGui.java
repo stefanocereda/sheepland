@@ -4,7 +4,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Linker;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole.GameConsole;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -22,7 +21,7 @@ import java.util.List;
 public class InterfaceGui implements Interface {
 
 	/** The game controller used in the game */
-	private GameController gameController;
+	private GameControllerClient gameController;
 
 	/** The frame that contains all the elements of the GUI */
 	private MainFrame frame;
@@ -65,10 +64,10 @@ public class InterfaceGui implements Interface {
 
 	}
 
+	/** Set the reference to the gameController used in this game */
 	public void setReferenceToGameController(
 			GameControllerClient gameControllerClient) {
-		// TODO Auto-generated method stub
-
+		this.gameController = gameControllerClient;
 	}
 
 	public void showInitialInformation() {

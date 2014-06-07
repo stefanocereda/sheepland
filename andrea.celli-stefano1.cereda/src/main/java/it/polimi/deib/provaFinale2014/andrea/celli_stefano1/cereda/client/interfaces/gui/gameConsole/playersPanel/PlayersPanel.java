@@ -2,7 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -44,10 +44,11 @@ public class PlayersPanel extends JPanel {
 	/**
 	 * This method adds a player to the PlayersPanel
 	 */
-	public void addPlayerToPlayersPanel(String namePlayer, int money,
-			Card initialCard, Color playerColor) {
+	public void addPlayerToPlayersPanel(String namePlayer, Player player,
+			Color playerColor) {
 
-		players.add(new PlayerData(namePlayer, money, initialCard, playerColor));
+		players.add(new PlayerData(namePlayer, player.getMoney(), player
+				.getCards().get(0), playerColor));
 		this.add(players.get(players.size() - 1));
 	}
 
@@ -82,7 +83,9 @@ public class PlayersPanel extends JPanel {
 
 	}
 
+	/** Get the arrayList of playerDatas */
 	public ArrayList<PlayerData> getPlayers() {
 		return players;
 	}
+
 }
