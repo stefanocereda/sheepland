@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
@@ -26,13 +27,14 @@ public class ButcheringTest {
 	/**
 	 * Test method for
 	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering#isValid(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus)}
-	 * .
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering#Butchering(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep)}
 	 */
 	@Test
-	public void testIsValid() {
-		BoardStatus bs = new BoardStatusExtended(1);
+	public void testIsValidAndExecute() {
+		BoardStatus bs = new BoardStatusExtended(2);
 
 		Player p = new Player();
+		p.setMoney(GameConstants.INITIAL_MONEY);
 		p.setID();
 		bs.addPlayerToBoardStatus(p);
 
@@ -72,22 +74,29 @@ public class ButcheringTest {
 		assertTrue(bsheep.isValid(bs));
 		assertFalse(bblack.isValid(bs));
 
+		// now execute the move, add a player and keep killing the sheep until
+		// the other player get a sufficient score
+		Player p2 = new Player();
+		p2.setID();
+		p2.move(roads.get(5));
+		bs.addPlayerToBoardStatus(p2);
+
+		do {
+			if (!bs.getSheeps().contains(s)) {
+				bs.getSheeps().add(s);
+			}
+
+			bsheep.execute(bs);
+		} while (bs.getSheeps().contains(s) || p2.getMoney() == 0);
+
+		assertFalse(bs.getSheeps().contains(s));
+		assertEquals(p2.getMoney(), GameConstants.COINS_GIVEN_IN_BUTCHERING);
+		assertEquals(p.getMoney(), GameConstants.INITIAL_MONEY
+				- GameConstants.COINS_GIVEN_IN_BUTCHERING);
 	}
 
 	/**
-	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering#execute(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus)}
-	 * .
-	 */
-	@Test
-	public void testExecute() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering#Butchering(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player, it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep)}
-	 * .
+	 * Test method for .
 	 */
 	@Test
 	public void testButchering() {

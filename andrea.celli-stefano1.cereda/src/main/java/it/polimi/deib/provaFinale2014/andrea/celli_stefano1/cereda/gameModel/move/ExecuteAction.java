@@ -183,23 +183,30 @@ public class ExecuteAction {
 		}
 
 		// search the adjacent players
-		List<Player> nextPlayers = new ArrayList<Player>();
+		Map<Player, Boolean> nextPlayers = new HashMap<Player, Boolean>();
 		for (Player p : boardStatus.getPlayers()) {
 			if (p.getPosition().getNextRoads().contains(player.getPosition())) {
-				nextPlayers.add(p);
+				nextPlayers.put(p, true);
 			}
 		}
 
 		// roll a dice for every adjacent player
-		for (Player p : nextPlayers) {
+		for (Player p : nextPlayers.keySet()) {
 			roll = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
 			if (roll < GameConstants.MINIMUN_SCORE_IN_BUTCHERING) {
-				nextPlayers.remove(p);
+				nextPlayers.replace(p, false);
+			}
+		}
+
+		List<Player> toPay = new ArrayList<Player>();
+		for (Player p : nextPlayers.keySet()) {
+			if (nextPlayers.get(p)) {
+				toPay.add(p);
 			}
 		}
 
 		// compute the total money that the player has to pay
-		int total = nextPlayers.size()
+		int total = toPay.size()
 				* GameConstants.COINS_GIVEN_IN_BUTCHERING;
 		if (total > player.getMoney()) {
 			return;
@@ -207,7 +214,7 @@ public class ExecuteAction {
 
 		// give the money
 		player.subtractMoney(total);
-		for (Player p : nextPlayers) {
+		for (Player p : toPay) {
 			p.addMoney(GameConstants.COINS_GIVEN_IN_BUTCHERING);
 		}
 
