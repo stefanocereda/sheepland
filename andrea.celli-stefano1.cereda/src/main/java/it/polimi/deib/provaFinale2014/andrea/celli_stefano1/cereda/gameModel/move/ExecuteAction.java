@@ -194,7 +194,8 @@ public class ExecuteAction {
 		for (Player p : nextPlayers.keySet()) {
 			roll = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
 			if (roll < GameConstants.MINIMUN_SCORE_IN_BUTCHERING) {
-				nextPlayers.replace(p, false);
+				nextPlayers.remove(p);
+				nextPlayers.put(p, false);
 			}
 		}
 

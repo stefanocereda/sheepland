@@ -10,6 +10,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Wolf;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.AdvancedPlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveWolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -194,4 +196,20 @@ public class GameControllerExtended extends GameController {
 		}
 	}
 
+	/**
+	 * This method execute locally the move and notifies the clients. It is
+	 * overridden to handle the advanced moves like mating and butchering, they
+	 * involve randomness therefore they're executed locally by the server and
+	 * the we sends back to the client the entire boardstatus
+	 */
+	@Override
+	public void executeMove(Move moveToExecute) {
+		if (!AdvancedPlayerAction.class.isInstance(moveToExecute)){
+			super.executeMove(moveToExecute);
+		}
+		else{
+			moveToExecute.execute(boardStatus);
+			sendNewCurrentPlayerToAllPlayers();
+		}
+	}
 }

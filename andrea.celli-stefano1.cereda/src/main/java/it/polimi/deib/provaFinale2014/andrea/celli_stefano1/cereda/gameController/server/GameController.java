@@ -243,7 +243,7 @@ public class GameController implements Runnable {
 	//
 
 	/** Send the status to all the not suspended players */
-	private void sendStatusToAllPlayers() {
+	protected void sendStatusToAllPlayers() {
 		for (ClientHandler client : clients) {
 			if (!client.getPlayer().isSuspended()) {
 				try {
