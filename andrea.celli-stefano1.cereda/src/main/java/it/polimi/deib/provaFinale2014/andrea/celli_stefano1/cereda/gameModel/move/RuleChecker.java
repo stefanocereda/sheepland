@@ -10,6 +10,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -325,5 +326,31 @@ public class RuleChecker {
 		}
 
 		return male && female && okTerrain;
+	}
+
+	/**
+	 * a butchering is valid if the designated sheep is in a terrain adjacent to
+	 * the player's road and if the sheep is not a black sheep
+	 */
+	public static boolean isValidButchering(Butchering move,
+			BoardStatusExtended boardStatus) {
+		// check the black sheep
+		if (BlackSheep.class.isInstance(move.getKilledSheep())) {
+			return false;
+		}
+
+		Player p = boardStatus.getEquivalentPlayer(move.getPlayer());
+		Sheep s = boardStatus.getEquivalentSheep(move.getKilledSheep());
+
+		// check the terrain
+		boolean ok = false;
+		for (Terrain t : p.getPosition().getAdjacentTerrains()) {
+			if (t.equals(s.getPosition())) {
+				ok = true;
+				break;
+			}
+		}
+
+		return ok;
 	}
 }
