@@ -24,14 +24,17 @@ public class GameConsole extends JPanel {
 	private GridLayout layout = new GridLayout(3, 1, 10, 10);
 
 	/**
+	 * Initially the game console is empty. It's filled only when the first
+	 * board status is received by the player.
+	 * 
 	 * @param numbersOfPlayer
 	 */
-	public GameConsole(int numbersOfPlayer) {
+	public GameConsole() {
 		setBackground(GuiConstants.COLORGAMECONSOLE);
 
 		this.setLayout(layout);
 
-		playersPanel = new PlayersPanel(numbersOfPlayer);
+		playersPanel = new PlayersPanel();
 		this.add(playersPanel);
 
 		cardsPanel = new CardsPanel();

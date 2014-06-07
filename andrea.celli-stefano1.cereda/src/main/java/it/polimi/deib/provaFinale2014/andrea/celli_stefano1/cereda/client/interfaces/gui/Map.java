@@ -22,6 +22,10 @@ public class Map extends JPanel {
 	// the image to be displayed
 	Image img;
 
+	/**
+	 * Initially the map is empty. All the "sub-panels" will be added after the
+	 * first board status is received by the player.
+	 */
 	public Map() {
 		super();
 		// create first an image icon (the source is places in a source folder)

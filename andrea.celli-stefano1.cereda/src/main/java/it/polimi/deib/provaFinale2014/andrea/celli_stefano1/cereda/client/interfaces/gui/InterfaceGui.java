@@ -2,9 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Linker;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole.GameConsole;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameController;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -22,7 +20,7 @@ import java.util.List;
 public class InterfaceGui implements Interface {
 
 	/** The game controller used in the game */
-	private GameController gameController;
+	private GameControllerClient gameController;
 
 	/** The frame that contains all the elements of the GUI */
 	private MainFrame frame;
@@ -45,10 +43,30 @@ public class InterfaceGui implements Interface {
 	 */
 	private Linker linker;
 
+	/**
+	 * The constructor create the needed GUI-related objects. Initially the
+	 * GUI's map and "information panels" are empty. They're "populated" when
+	 * the first board status is received.
+	 * 
+	 * @TODO eventually change the linker init to implement the singleton
+	 *       pattern
+	 */
+
+	public InterfaceGui() {
+
+		this.frame = new MainFrame();
+
+		this.console = frame.getConsole();
+		this.map = frame.getMap();
+
+		this.linker = new Linker();
+
+	}
+
+	/** Set the reference to the gameController used in this game */
 	public void setReferenceToGameController(
 			GameControllerClient gameControllerClient) {
-		// TODO Auto-generated method stub
-
+		this.gameController = gameControllerClient;
 	}
 
 	public void showInitialInformation() {
