@@ -152,7 +152,7 @@ public class GameController implements Runnable {
 	protected void chooseFirstPlayer() {
 		Dice dice = Dice.create();
 		Player[] players = boardStatus.getPlayers();
-		int sorted = dice.roll(players.length);
+		int sorted = dice.roll(players.length) - 1;
 		Player firstPlayer = players[sorted];
 		boardStatus.setCurrentPlayer(firstPlayer);
 		boardStatus.setFirstPlayer(firstPlayer);

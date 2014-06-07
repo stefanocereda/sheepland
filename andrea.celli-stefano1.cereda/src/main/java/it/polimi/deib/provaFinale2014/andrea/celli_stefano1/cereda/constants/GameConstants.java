@@ -31,6 +31,18 @@ public class GameConstants {
 	/** The number of player's turn after which a lamb becomes an advanced sheep */
 	public static final int AGE_OF_OLD_LAMBS = 2;
 
+	/**
+	 * This is the minimum score that a player has to achieve in order to be
+	 * payed by a player who is doing a butchering
+	 */
+	public static final int MINIMUN_SCORE_IN_BUTCHERING = 5;
+	
+	/**
+	 * The number of coins that a butcher has to give to every player that
+	 * scores a value > 5
+	 */
+	public static final int COINS_GIVEN_IN_BUTCHERING = 2;
+
 	/** Hide the default constructor */
 	private GameConstants() {
 	}

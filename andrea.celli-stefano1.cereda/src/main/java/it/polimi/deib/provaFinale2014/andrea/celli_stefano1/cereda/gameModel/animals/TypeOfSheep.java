@@ -14,7 +14,7 @@ public enum TypeOfSheep {
 	public static TypeOfSheep getRandomAndvancedTypeOfSheep() {
 		Dice dice = Dice.create();
 
-		if (dice.roll(2) == 0) {
+		if (dice.roll(2) == 1) {
 			return MALESHEEP;
 		} else {
 			return FEMALESHEEP;
@@ -24,7 +24,7 @@ public enum TypeOfSheep {
 	/** @Return a random type of sheep() */
 	public static TypeOfSheep getRandomTypeOfSheep() {
 		Dice dice = Dice.create();
-		int roll = dice.roll(TypeOfSheep.values().length);
+		int roll = dice.roll(TypeOfSheep.values().length) - 1;
 
 		return TypeOfSheep.values()[roll];
 	}

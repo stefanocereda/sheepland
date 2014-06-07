@@ -45,13 +45,14 @@ public class Butchering extends AdvancedPlayerAction {
 
 	@Override
 	public boolean isValid(BoardStatus boardStatus) {
-		return RuleChecker.isValidButchering(this, (BoardStatusExtended)boardStatus);
+		return RuleChecker.isValidButchering(this,
+				(BoardStatusExtended) boardStatus);
 	}
 
 	@Override
 	public void execute(BoardStatus boardStatus) {
-		// TODO Auto-generated method stub
-
+		ExecuteAction.executeButchering(this,
+				((BoardStatusExtended) boardStatus));
 	}
 
 }

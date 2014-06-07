@@ -1,5 +1,10 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
@@ -16,6 +21,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * server. It updates the model. It's implemented statically
  * 
  * @author Andrea
+ * @author Stefano (advanced moves)
  * 
  */
 public class ExecuteAction {
@@ -136,10 +142,12 @@ public class ExecuteAction {
 	}
 
 	/**
-	 * Roll a dice, if the result equals the number on the road where is the
-	 * player create a new lamb and put it on the given terrain
+	 * This move has to be executed only by the server. Roll a dice, if the
+	 * result equals the number on the road where is the player create a new
+	 * lamb and put it on the given terrain
 	 */
-	public static void executeMating(Mating move, BoardStatus boardStatus) {
+	public static void executeMating(Mating move,
+			BoardStatusExtended boardStatus) {
 		Dice dice = Dice.create();
 		int rolled = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
 		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
@@ -151,5 +159,59 @@ public class ExecuteAction {
 		Sheep newLamb = new Sheep(0, TypeOfSheep.NORMALSHEEP, move.getTerrain());
 		newLamb.setID();
 		boardStatus.addSheep(newLamb);
+	}
+
+	/**
+	 * This move has to be executed only by the server. Roll a dice, if the
+	 * result equals the number on the road where is the player go on. Roll a
+	 * dice for every player near to the acting player, every player that scores
+	 * a number greater than five receives two coins from the player, if the
+	 * player has insufficient founds the move is aborted. Otherwise the sheep
+	 * is killed
+	 */
+	public static void executeButchering(Butchering move,
+			BoardStatusExtended boardStatus) {
+		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
+		Sheep sheep = boardStatus.getEquivalentSheep(move.getKilledSheep());
+
+		Dice dice = Dice.create();
+
+		// roll a dice for the acting player
+		int roll = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
+		if (roll != player.getPosition().getBoxValue()) {
+			return;
+		}
+
+		// search the adjacent players
+		List<Player> nextPlayers = new ArrayList<Player>();
+		for (Player p : boardStatus.getPlayers()) {
+			if (p.getPosition().getNextRoads().contains(player.getPosition())) {
+				nextPlayers.add(p);
+			}
+		}
+
+		// roll a dice for every adjacent player
+		for (Player p : nextPlayers) {
+			roll = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
+			if (roll < GameConstants.MINIMUN_SCORE_IN_BUTCHERING) {
+				nextPlayers.remove(p);
+			}
+		}
+
+		// compute the total money that the player has to pay
+		int total = nextPlayers.size()
+				* GameConstants.COINS_GIVEN_IN_BUTCHERING;
+		if (total > player.getMoney()) {
+			return;
+		}
+
+		// give the money
+		player.subtractMoney(total);
+		for (Player p : nextPlayers) {
+			p.addMoney(GameConstants.COINS_GIVEN_IN_BUTCHERING);
+		}
+
+		// kill the sheep
+		boardStatus.getSheeps().remove(sheep);
 	}
 }

@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
@@ -27,9 +28,9 @@ public class Mating extends AdvancedPlayerAction {
 		super(player);
 		this.terrain = terrain;
 	}
-	
-	/**@return the terrain where this action is taking place*/
-	public Terrain getTerrain(){
+
+	/** @return the terrain where this action is taking place */
+	public Terrain getTerrain() {
 		return terrain;
 	}
 
@@ -40,7 +41,7 @@ public class Mating extends AdvancedPlayerAction {
 
 	@Override
 	public void execute(BoardStatus boardStatus) {
-		ExecuteAction.executeMating(this, boardStatus);
+		BoardStatusExtended bs = ((BoardStatusExtended) boardStatus);
+		ExecuteAction.executeMating(this, bs);
 	}
-
 }

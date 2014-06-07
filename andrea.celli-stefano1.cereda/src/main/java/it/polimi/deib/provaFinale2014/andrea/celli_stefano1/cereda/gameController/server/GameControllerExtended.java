@@ -151,7 +151,7 @@ public class GameControllerExtended extends GameController {
 				availableVictims.add(s);
 			}
 		}
-		int victimNumber = dice.roll(availableVictims.size());
+		int victimNumber = dice.roll(availableVictims.size()) - 1;
 		Sheep sacrificialLamb = availableVictims.get(victimNumber);
 
 		// create the move and try to execute
