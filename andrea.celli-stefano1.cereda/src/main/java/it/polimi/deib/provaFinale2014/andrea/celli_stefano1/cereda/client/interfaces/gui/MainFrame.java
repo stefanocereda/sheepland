@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
 	private GroupLayout layout = new GroupLayout(this.getContentPane());
 
 	/** The panel containing the map */
-	private GameBoard map;
+	private Map map;
 
 	/** The panel containing the game console */
 	private GameConsole console;
@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
 		this.getContentPane().setLayout(layout);
 		setTitle("SHEEPLAND");
 
-		map = new GameBoard();
+		map = new Map();
 		console = new GameConsole(numberOfPlayers);
 
 		// get the size of the screen
@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
 
 	}
 
-	public GameBoard getMap() {
+	public Map getMap() {
 		return map;
 	}
 
