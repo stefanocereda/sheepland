@@ -8,6 +8,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Wolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
@@ -55,7 +56,13 @@ public class MoveWolfTest {
 		mw = new MoveWolf(wolf, Terrain.D2, s);
 		assertFalse(mw.isValid(bs));
 
-		// now go on an adjacent terrain without the sheep but don't kill
+		// try with an adjacent black sheep
+		BlackSheep black = new BlackSheep(Terrain.D1);
+		black.setID();
+		bs.addBlackSheepToBoardStatus(black);
+		assertFalse(mw.isValid(bs));
+
+		// now go on an adjacent terrain with the sheep but don't kill
 		mw = new MoveWolf(wolf, Terrain.D1, null);
 		assertTrue(mw.isValid(bs));
 

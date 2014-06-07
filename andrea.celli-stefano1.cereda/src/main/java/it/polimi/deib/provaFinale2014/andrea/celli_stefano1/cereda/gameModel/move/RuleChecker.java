@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
@@ -254,7 +255,7 @@ public class RuleChecker {
 	 * A MoveWolf is valid if: 1) the new terrain is adjacent to the old one.
 	 * 2)the two terrains are separated by a road without a gate OR all the
 	 * roads are occupied 3) the eaten sheep is null or is a sheep of the new
-	 * terrain
+	 * terrain (but not the black sheep)
 	 */
 	public static boolean isValidMoveWolf(MoveWolf moveWolf,
 			BoardStatusExtended boardStatus) {
@@ -283,6 +284,7 @@ public class RuleChecker {
 		}
 
 		if (moveWolf.getKilledSheep() != null
+				&& !BlackSheep.class.isInstance(moveWolf.getKilledSheep())
 				&& moveWolf.getKilledSheep().getPosition().equals(going)) {
 			return true;
 		}
