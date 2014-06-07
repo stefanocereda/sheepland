@@ -40,7 +40,7 @@ public class BoardStatus implements Serializable {
 	/** The black sheep */
 	private BlackSheep blackSheep;
 	/** The list of sheep */
-	private List<Sheep> sheeps;
+	protected List<Sheep> sheeps;
 	/** The array of players */
 	private PlayersOfAGame players;
 	/** The list of all the terrains of the map */
@@ -329,8 +329,7 @@ public class BoardStatus implements Serializable {
 
 	/**
 	 * This method creates a Map that associates to each terrain the number of
-	 * sheep that contains. It's used in the CL interface. (The blackSheep is
-	 * added
+	 * sheep that contains. It's used in the CL interface.
 	 * 
 	 * @return a map that has Terrain as keys and Integer as mapped values.
 	 * @author Andrea

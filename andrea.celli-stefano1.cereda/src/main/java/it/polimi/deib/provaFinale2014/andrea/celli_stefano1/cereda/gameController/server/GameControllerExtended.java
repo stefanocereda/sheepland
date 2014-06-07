@@ -204,10 +204,9 @@ public class GameControllerExtended extends GameController {
 	 */
 	@Override
 	public void executeMove(Move moveToExecute) {
-		if (!AdvancedPlayerAction.class.isInstance(moveToExecute)){
+		if (!AdvancedPlayerAction.class.isInstance(moveToExecute)) {
 			super.executeMove(moveToExecute);
-		}
-		else{
+		} else {
 			moveToExecute.execute(boardStatus);
 			sendNewCurrentPlayerToAllPlayers();
 		}

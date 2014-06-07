@@ -2,13 +2,17 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Mating;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveCostCalculator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfAdvancedPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -70,6 +74,12 @@ public class InterfaceConsole implements Interface {
 
 		System.out.println();
 		printRemainingCards();
+
+		if (BoardStatusExtended.class.isInstance(gameController
+				.getBoardStatus())) {
+			System.out.println();
+			printWolf();
+		}
 	}
 
 	public Road chooseInitialPosition() {
@@ -128,6 +138,7 @@ public class InterfaceConsole implements Interface {
 
 				if (move instanceof MovePlayer) {
 					printMovePlayer((MovePlayer) move);
+
 				} else if (move instanceof MoveSheep) {
 					printMoveSheep((MoveSheep) move);
 
@@ -155,17 +166,14 @@ public class InterfaceConsole implements Interface {
 
 		// choose the type of move
 		// show options
-		for (TypeOfPlayerMoves move : TypeOfPlayerMoves.values()) {
-			System.out.print(move.toString() + "  ");
-		}
-		System.out.println("print status");
+		List<String> availableMoves = getAvailableMoves();
+		show(availableMoves.toArray());
 
 		// wait for the player's choice
 		do {
 			System.out.println("Choose the type of move:");
 			answer = in.nextLine();
-		} while (!isCorrectAnswer(TypeOfPlayerMoves.values(), answer)
-				&& !answer.equals("print status"));
+		} while (!isCorrectAnswer(availableMoves.toArray(), answer));
 
 		// depending on the type of move the method goes on asking for
 		// information to the player
@@ -184,8 +192,37 @@ public class InterfaceConsole implements Interface {
 			notifyNewStatus();
 			return getNewMove();
 		}
+		if (answer.equals(TypeOfAdvancedPlayerMoves.BUTCHERING.toString())) {
+			return askForButchering();
+		}
+		if (answer.equals(TypeOfAdvancedPlayerMoves.MATING.toString())) {
+			return askForMating();
+		}
 
 		return null;
+	}
+
+	/**
+	 * Return a list of String with the name of moves that the player can
+	 * perform
+	 */
+	private List<String> getAvailableMoves() {
+		List<String> available = new ArrayList<String>();
+
+		available.add("print status");
+
+		for (TypeOfPlayerMoves t : TypeOfPlayerMoves.values()) {
+			available.add(t.name());
+		}
+
+		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
+			for (TypeOfAdvancedPlayerMoves t : TypeOfAdvancedPlayerMoves
+					.values()) {
+				available.add(t.name());
+			}
+		}
+
+		return available;
 	}
 
 	public void notifyNotValidMove() {
@@ -481,21 +518,54 @@ public class InterfaceConsole implements Interface {
 
 	/**
 	 * Print the number of sheep on each terrain and specifies where is the
-	 * black sheep
+	 * black sheep. If we are using an advanced boardstatus we specify the type
+	 * of sheep
 	 */
 	private void printSheepCount() {
-		System.out.println("These are the numbers of sheep for each terrain");
-		Map<Terrain, Integer> map = gameController.getBoardStatus()
-				.calculateNumberOfSheepForEachTerrain();
-		for (Terrain terrain : Terrain.values()) {
-			System.out.println("Terrain " + terrain.toString()
-					+ " number of sheep: " + map.get(terrain));
+		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
+			printSheepCountForType();
+
+		} else {
+			System.out
+					.println("These are the numbers of sheep for each terrain");
+			Map<Terrain, Integer> map = gameController.getBoardStatus()
+					.calculateNumberOfSheepForEachTerrain();
+			for (Terrain terrain : Terrain.values()) {
+				System.out.println("Terrain " + terrain + " number of sheep: "
+						+ map.get(terrain));
+			}
 		}
 
 		System.out.println();
 		System.out.println("The black sheep is in the terrain: "
 				+ gameController.getBoardStatus().getBlackSheep().getPosition()
 						.toString());
+	}
+
+	/**
+	 * This method print the number of sheep on each terraing, making a
+	 * distinction between lambs, sheeps and rams
+	 */
+	private void printSheepCountForType() {
+		Map<Terrain, Integer> mapLambs = ((BoardStatusExtended) gameController
+				.getBoardStatus())
+				.calculateNumberOfSheepForEachTerrain(TypeOfSheep.NORMALSHEEP);
+		Map<Terrain, Integer> mapMale = ((BoardStatusExtended) gameController
+				.getBoardStatus())
+				.calculateNumberOfSheepForEachTerrain(TypeOfSheep.MALESHEEP);
+		Map<Terrain, Integer> mapFemale = ((BoardStatusExtended) gameController
+				.getBoardStatus())
+				.calculateNumberOfSheepForEachTerrain(TypeOfSheep.FEMALESHEEP);
+
+		System.out
+				.println("these are the of sheep for each terrain (lambs / rams / sheep");
+
+		for (Terrain t : Terrain.values()) {
+			System.out.println("Terrain" + t + " number of lambs: "
+					+ mapLambs.get(t) + " rams: " + mapMale.get(t) + " sheep: "
+					+ mapFemale.get(t));
+		}
+
 	}
 
 	/** Print the names of the terrains adjacent the controlled player */
@@ -579,5 +649,22 @@ public class InterfaceConsole implements Interface {
 
 		System.out.println("Player " + numberOfThePlayer + " bought the card "
 				+ move.getNewCard());
+	}
+
+	// TODO THESE METHODS
+
+	private void printWolf() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private Move askForMating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Move askForButchering() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
