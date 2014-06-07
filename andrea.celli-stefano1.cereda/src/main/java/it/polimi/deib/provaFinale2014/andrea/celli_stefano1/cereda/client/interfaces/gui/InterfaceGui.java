@@ -45,6 +45,26 @@ public class InterfaceGui implements Interface {
 	 */
 	private Linker linker;
 
+	/**
+	 * The constructor create the needed GUI-related objects. Initially the
+	 * GUI's map and "information panels" are empty. They're "populated" when
+	 * the first board status is received.
+	 * 
+	 * @TODO eventually change the linker init to implement the singleton
+	 *       pattern
+	 */
+
+	public InterfaceGui() {
+
+		this.frame = new MainFrame();
+
+		this.console = frame.getConsole();
+		this.map = frame.getMap();
+
+		this.linker = new Linker();
+
+	}
+
 	public void setReferenceToGameController(
 			GameControllerClient gameControllerClient) {
 		// TODO Auto-generated method stub

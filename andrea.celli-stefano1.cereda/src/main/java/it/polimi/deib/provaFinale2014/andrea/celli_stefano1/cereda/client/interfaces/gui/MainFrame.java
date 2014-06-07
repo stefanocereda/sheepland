@@ -33,13 +33,13 @@ public class MainFrame extends JFrame {
 	 * @param the
 	 *            number of player that take part in the game
 	 */
-	public MainFrame(int numberOfPlayers) {
+	public MainFrame() {
 
 		this.getContentPane().setLayout(layout);
 		setTitle("SHEEPLAND");
 
 		map = new Map();
-		console = new GameConsole(numberOfPlayers);
+		console = new GameConsole();
 
 		// get the size of the screen
 		screenDimension = toolKit.getScreenSize();
