@@ -226,8 +226,9 @@ public class GameController implements Runnable {
 		player.setConnected();
 		player.resume();
 
-		// and give him the current status
+		// and give him his player and the current status
 		try {
+			newClientHandler.notifyControlledPlayer(player);
 			newClientHandler.sendNewStatus(boardStatus);
 		} catch (ClientDisconnectedException e) {
 			String message = "A client disconnected";
