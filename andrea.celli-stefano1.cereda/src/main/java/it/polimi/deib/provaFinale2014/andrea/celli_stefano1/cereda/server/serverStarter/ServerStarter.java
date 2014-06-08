@@ -136,9 +136,9 @@ public class ServerStarter implements Runnable {
 	 * This method is called when a clients disconnects, it takes note of the
 	 * client so it will be possible to reconnect him to the right game
 	 */
-	public synchronized void notifyDisconnection(int identificator) {
-		disconnectedClients.add(new DisconnectedClient(identificator, null,
-				null));
+	public synchronized void notifyDisconnection(int identificator, GameController gc, Player p) {
+		disconnectedClients.add(new DisconnectedClient(identificator, p,
+				gc));
 	}
 
 	/** starts the timer if there's one player waiting */
@@ -190,7 +190,7 @@ public class ServerStarter implements Runnable {
 		DisconnectedClient toCheck = new DisconnectedClient(
 				newClient.getIdentifier(), null, null);
 
-		return waitingClients.contains(toCheck);
+		return disconnectedClients.contains(toCheck);
 	}
 
 	/**

@@ -90,8 +90,7 @@ public class InterfaceConsole implements Interface {
 
 		// finds and shows the free roads (another player may have already
 		// Chosen a road)
-		System.out
-				.println("Choose your initial position among the following roads:");
+		Printer.println("Choose your initial position among the following roads:");
 		freeRoads = gameController.getBoardStatus().findFreeRoads();
 		show(freeRoads.toArray());
 
@@ -108,8 +107,7 @@ public class InterfaceConsole implements Interface {
 	}
 
 	public Road chooseSecondInitialPosition() {
-		System.out
-				.println("This is a game with two players and four shepherd, choose the position of your second shepherd:");
+		Printer.println("This is a game with two players and four shepherd, choose the position of your second shepherd:");
 		return chooseInitialPosition();
 	}
 
@@ -177,8 +175,6 @@ public class InterfaceConsole implements Interface {
 
 		// depending on the type of move the method goes on asking for
 		// information to the player
-
-		// the new move is stored in lastMove
 		if (answer.equals(TypeOfPlayerMoves.BUYCARD.toString())) {
 			return askForBuyCardMove();
 		}
@@ -212,13 +208,13 @@ public class InterfaceConsole implements Interface {
 		available.add("print status");
 
 		for (TypeOfPlayerMoves t : TypeOfPlayerMoves.values()) {
-			available.add(t.name());
+			available.add(t.toString());
 		}
 
 		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
 			for (TypeOfAdvancedPlayerMoves t : TypeOfAdvancedPlayerMoves
 					.values()) {
-				available.add(t.name());
+				available.add(t.toString());
 			}
 		}
 

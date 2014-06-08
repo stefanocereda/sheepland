@@ -72,7 +72,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 
 			gameController.notifyDisconnection(controlledPlayer);
 
-			serverStarter.notifyDisconnection(id);
+			serverStarter.notifyDisconnection(id, gameController, controlledPlayer);
 		}
 	}
 
