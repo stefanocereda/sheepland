@@ -548,6 +548,7 @@ public class GameController implements Runnable {
 						// creates a new move and send it to clients
 						executeMove(new MoveBlackSheep(t,
 								boardStatus.getBlackSheep()));
+						break;
 					}
 				}
 			}

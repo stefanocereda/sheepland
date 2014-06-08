@@ -48,36 +48,36 @@ public class InterfaceConsole implements Interface {
 	}
 
 	public void showInitialInformation() {
-		System.out.println("Welcome to sheepland");
-		System.out.println("Brace yourself, sheeps are coming!!");
-		System.out.println(" ");
-		System.out.println(" ");
-		System.out.println("You're player "
+		Printer.println("Welcome to sheepland");
+		Printer.println("Brace yourself, sheeps are coming!!");
+		Printer.println(" ");
+		Printer.println(" ");
+		Printer.println("You're player "
 				+ gameController.getBoardStatus().getPlayerNumber(
 						gameController.getControlledPlayer()));
-		System.out.println(" ");
-		System.out.println("Good luck!");
-		System.out.println(" ");
+		Printer.println(" ");
+		Printer.println("Good luck!");
+		Printer.println(" ");
 	}
 
 	public void notifyNewStatus() {
-		System.out.println("THIS IS THE CURRENT STATUS OF THE GAME");
+		Printer.println("THIS IS THE CURRENT STATUS OF THE GAME");
 
-		System.out.println();
+		Printer.println();
 		printPlayers();
 
-		System.out.println();
+		Printer.println();
 		printSheepCount();
 
-		System.out.println();
+		Printer.println();
 		printAdjacentTerrains();
 
-		System.out.println();
+		Printer.println();
 		printRemainingCards();
 
 		if (BoardStatusExtended.class.isInstance(gameController
 				.getBoardStatus())) {
-			System.out.println();
+			Printer.println();
 			printWolf();
 		}
 	}
@@ -97,7 +97,7 @@ public class InterfaceConsole implements Interface {
 
 		// wait for the answer and check if it the string represents a free road
 		do {
-			System.out.println("Choose a road: ");
+			Printer.println("Choose a road: ");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(freeRoads.toArray(), answer));
 
@@ -129,7 +129,7 @@ public class InterfaceConsole implements Interface {
 			// the move is not performed by a player, therefore it's always
 			// displayed
 			// moves performed by the system HAVE TO override toString()
-			System.out.println(move.toString());
+			Printer.println(move.toString());
 
 		} else {
 			// check if the player is different from the controlled player
@@ -161,8 +161,8 @@ public class InterfaceConsole implements Interface {
 	 */
 	public Move getNewMove() {
 		String answer;
-		System.out.println("Make your move!");
-		System.out.println("Types of move:");
+		Printer.println("Make your move!");
+		Printer.println("Types of move:");
 
 		// choose the type of move
 		// show options
@@ -171,7 +171,7 @@ public class InterfaceConsole implements Interface {
 
 		// wait for the player's choice
 		do {
-			System.out.println("Choose the type of move:");
+			Printer.println("Choose the type of move:");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(availableMoves.toArray(), answer));
 
@@ -232,9 +232,9 @@ public class InterfaceConsole implements Interface {
 
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
 		if (newCurrentPlayer.equals(gameController.getControlledPlayer())) {
-			System.out.println("It's your turn, be ready!");
+			Printer.println("It's your turn, be ready!");
 		} else {
-			System.out.println("It's now the turn of player "
+			Printer.println("It's now the turn of player "
 					+ gameController.getBoardStatus().getPlayerNumber(
 							newCurrentPlayer));
 		}
@@ -254,23 +254,23 @@ public class InterfaceConsole implements Interface {
 				shepherd = "first";
 			}
 
-			System.out.println("The current player is using his " + shepherd
+			Printer.println("The current player is using his " + shepherd
 					+ " shepherd.");
 		}
 	}
 
 	public void notifyWinners(List<Player> winners) {
-		System.out.println("GAME OVER");
+		Printer.println("GAME OVER");
 		if (winners.size() == 1) {
-			System.out.println("There's only one winner: PLAYER "
+			Printer.println("There's only one winner: PLAYER "
 					+ gameController.getBoardStatus().getPlayerNumber(
 							winners.get(0)));
 		} else {
-			System.out.println("The winners are:");
+			Printer.println("The winners are:");
 			show(winners.toArray());
-			System.out.println("IT'S TIME TO BAA, make some noiseee");
+			Printer.println("IT'S TIME TO BAA, make some noiseee");
 		}
-		System.out.println("See you soon, mighty sheperd!");
+		Printer.println("See you soon, mighty sheperd!");
 	}
 
 	public void notifyDisconnection() {
@@ -313,7 +313,7 @@ public class InterfaceConsole implements Interface {
 
 		// ask to choose a card
 		do {
-			System.out.println("Choose a card ");
+			Printer.println("Choose a card ");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(gameController.getBoardStatus().getDeck()
 				.getBuyableCards().toArray(), answer));
@@ -345,12 +345,12 @@ public class InterfaceConsole implements Interface {
 				.getBoardStatus().findFreeRoads();
 
 		// shows to the user the free roads
-		System.out.println("The free roads are: ");
+		Printer.println("The free roads are: ");
 		show(freeRoad.toArray());
 
 		// ask the user to choose a road
 		do {
-			System.out.println("Choose a road");
+			Printer.println("Choose a road");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(freeRoad.toArray(), answer));
 		Integer newRoad = Integer.parseInt(answer);
@@ -387,7 +387,7 @@ public class InterfaceConsole implements Interface {
 		// ask for the sheep to move (the player has to choose the terrain in
 		// which the sheep is)
 		do {
-			System.out.println("Choose the terrain where to pick the sheep:");
+			Printer.println("Choose the terrain where to pick the sheep:");
 			from = in.nextLine();
 		} while (!isCorrectAnswer(Terrain.values(), from));
 
@@ -471,7 +471,7 @@ public class InterfaceConsole implements Interface {
 	private void show(Object[] toShow) {
 
 		for (Object element : toShow) {
-			System.out.println(element);
+			Printer.println(element);
 		}
 	}
 
@@ -506,13 +506,13 @@ public class InterfaceConsole implements Interface {
 
 			message += " with " + p.getMoney() + " money.";
 
-			System.out.println(message);
+			Printer.println(message);
 		}
 
-		System.out.println();
-		System.out.println("Those are your cards:");
+		Printer.println();
+		Printer.println("Those are your cards:");
 		for (Card c : gameController.getControlledPlayer().getCards()) {
-			System.out.println(c.toString());
+			Printer.println(c.toString());
 		}
 	}
 
@@ -531,13 +531,13 @@ public class InterfaceConsole implements Interface {
 			Map<Terrain, Integer> map = gameController.getBoardStatus()
 					.calculateNumberOfSheepForEachTerrain();
 			for (Terrain terrain : Terrain.values()) {
-				System.out.println("Terrain " + terrain + " number of sheep: "
+				Printer.println("Terrain " + terrain + " number of sheep: "
 						+ map.get(terrain));
 			}
 		}
 
-		System.out.println();
-		System.out.println("The black sheep is in the terrain: "
+		Printer.println();
+		Printer.println("The black sheep is in the terrain: "
 				+ gameController.getBoardStatus().getBlackSheep().getPosition()
 						.toString());
 	}
@@ -561,7 +561,7 @@ public class InterfaceConsole implements Interface {
 				.println("these are the of sheep for each terrain (lambs / rams / sheep");
 
 		for (Terrain t : Terrain.values()) {
-			System.out.println("Terrain" + t + " number of lambs: "
+			Printer.println("Terrain" + t + " number of lambs: "
 					+ mapLambs.get(t) + " rams: " + mapMale.get(t) + " sheep: "
 					+ mapFemale.get(t));
 		}
@@ -572,14 +572,14 @@ public class InterfaceConsole implements Interface {
 	private void printAdjacentTerrains() {
 		Player p = gameController.getBoardStatus().getCurrentPlayer();
 
-		System.out.println("The terrains around you are: ");
+		Printer.println("The terrains around you are: ");
 		show(p.getPosition().getAdjacentTerrains());
 
 	}
 
 	/** Print the remaining cards in the deck */
 	private void printRemainingCards() {
-		System.out.println("The cards still in the deck are: ");
+		Printer.println("The cards still in the deck are: ");
 		show(gameController.getBoardStatus().getDeck().getBuyableCards()
 				.toArray());
 	}
@@ -588,10 +588,10 @@ public class InterfaceConsole implements Interface {
 	private void printAdjacentTerrainTypes() {
 		Player p = gameController.getBoardStatus().getCurrentPlayer();
 
-		System.out.println("Around you there are these kind of terrain:");
+		Printer.println("Around you there are these kind of terrain:");
 
 		for (Terrain t : p.getPosition().getAdjacentTerrains()) {
-			System.out.println(t.getTerrainType());
+			Printer.println(t.getTerrainType());
 		}
 	}
 
@@ -617,7 +617,7 @@ public class InterfaceConsole implements Interface {
 				+ (MoveCostCalculator.getMoveCost(move,
 						gameController.getBoardStatus()));
 
-		System.out.println(message);
+		Printer.println(message);
 	}
 
 	/** Print a move sheep, checking if the moved sheep is the blacksheep */
@@ -628,14 +628,14 @@ public class InterfaceConsole implements Interface {
 		// check for black sheep
 		if (move.getMovedSheep().equals(
 				gameController.getBoardStatus().getBlackSheep())) {
-			System.out.println("Player " + numberOfThePlayer
+			Printer.println("Player " + numberOfThePlayer
 					+ "moved the black sheep from "
 					+ move.getMovedSheep().getPosition().toString() + " to "
 					+ move.getNewPositionOfTheSheep().toString());
 
 		} else {
 			// standard sheep
-			System.out.println("Player " + numberOfThePlayer
+			Printer.println("Player " + numberOfThePlayer
 					+ " moved a sheep from "
 					+ move.getMovedSheep().getPosition().toString() + " to "
 					+ move.getNewPositionOfTheSheep().toString());
@@ -647,7 +647,7 @@ public class InterfaceConsole implements Interface {
 		int numberOfThePlayer = gameController.getBoardStatus()
 				.getPlayerNumber(move.getPlayer());
 
-		System.out.println("Player " + numberOfThePlayer + " bought the card "
+		Printer.println("Player " + numberOfThePlayer + " bought the card "
 				+ move.getNewCard());
 	}
 
