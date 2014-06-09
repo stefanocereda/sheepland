@@ -29,4 +29,9 @@ public class GuiConstants {
 	 * PlayersPanel
 	 */
 	public static final int BORDERTHICKNESS = 7;
+
+	/**
+	 * Duration of game messages diplayed over the map
+	 */
+	public static final int MESSAGETIME = 4000;
 }
