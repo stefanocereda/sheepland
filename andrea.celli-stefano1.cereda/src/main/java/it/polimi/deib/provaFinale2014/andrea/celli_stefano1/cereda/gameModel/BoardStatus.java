@@ -15,6 +15,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -398,5 +399,48 @@ public class BoardStatus implements Serializable {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * This iterator go through the players from the first player (the first to
+	 * play, not the first in the array) to the last
+	 */
+	public Iterator<Player> getPlayersIterator() {
+		return new PlayerOrderedIterator();
+	}
+
+	/**
+	 * This is an iterator that iterates the players of a game from the first in
+	 * the turn to the last.
+	 */
+	private class PlayerOrderedIterator implements Iterator<Player> {
+		private Player playerPointed;
+		private int firstPos;
+		private boolean firstCallToDo = true;
+
+		public PlayerOrderedIterator() {
+			firstPos = getPositionOfAPlayer(firstPlayer) - 1;
+			playerPointed = getPlayers()[firstPos];
+		}
+
+		public boolean hasNext() {
+			int curPos = getPositionOfAPlayer(playerPointed);
+			int nextPos = (curPos + 1) % getPlayers().length;
+			return (nextPos != (firstPos+1) % getPlayers().length) || firstCallToDo;
+		}
+
+		public Player next() {
+			if (firstCallToDo) {
+				firstCallToDo = false;
+			}
+			int curPos = getPositionOfAPlayer(playerPointed);
+			int nextPos = (curPos + 1) % getPlayers().length;
+			playerPointed = getPlayers()[nextPos];
+			return playerPointed;
+		}
+
+		public void remove() {
+			return;
+		}
 	}
 }

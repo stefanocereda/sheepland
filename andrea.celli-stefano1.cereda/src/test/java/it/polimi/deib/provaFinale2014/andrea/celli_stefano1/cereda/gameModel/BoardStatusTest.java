@@ -17,6 +17,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -312,5 +313,37 @@ public class BoardStatusTest {
 		bs.addPlacedGateToBoardStatus(g);
 
 		assertTrue(bs.isClosedByGates(t));
+	}
+
+	@Test
+	public void PlayersIteratorTest() {
+		int numplayers = 4;
+		int firstPlayer = 2;
+		BoardStatus bs = new BoardStatus(numplayers);
+		Player[] players = new Player[numplayers];
+
+		for (int i = 0; i < numplayers; i++) {
+			Player p = new Player();
+			p.setID();
+			bs.addPlayerToBoardStatus(p);
+			players[i] = p;
+		}
+
+		bs.setFirstPlayer(players[firstPlayer]);
+		Iterator<Player> it = bs.getPlayersIterator();
+
+		assertTrue(it.hasNext());
+		assertEquals(players[2], it.next());
+
+		assertTrue(it.hasNext());
+		assertEquals(players[3], it.next());
+
+		assertTrue(it.hasNext());
+		assertEquals(players[0], it.next());
+
+		assertTrue(it.hasNext());
+		assertEquals(players[1], it.next());
+
+		assertFalse(it.hasNext());
 	}
 }
