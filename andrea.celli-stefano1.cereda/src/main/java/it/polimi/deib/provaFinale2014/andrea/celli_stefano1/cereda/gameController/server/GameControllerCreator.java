@@ -15,6 +15,10 @@ import java.util.List;
  * 
  */
 public class GameControllerCreator {
+	/** Hide the default constructor */
+	private GameControllerCreator() {
+	}
+
 	/**
 	 * Returns a GameController or a GameControllerAdvanced based on the
 	 * gameType passed
@@ -31,13 +35,8 @@ public class GameControllerCreator {
 		if (gameType.equals(GameType.ORIGINAL)) {
 			return new GameController(playerClients);
 		} else {
-			// TODO return new GameControllerAdvanced(playerClients);
+			return new GameControllerExtended(playerClients);
 		}
-		return null;
-	}
-
-	/** Hide the default constructor */
-	private GameControllerCreator() {
 	}
 
 	/**

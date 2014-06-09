@@ -25,6 +25,10 @@ public class ServerMainClass {
 	/** the ip port for the rmi registry */
 	static final int rmiPort = NetworkConstants.REGISTRY_IP_PORT;
 
+	/** Hide the default constructor */
+	private ServerMainClass() {
+	}
+
 	/**
 	 * The main method of the server, launches the server
 	 * 

@@ -2,7 +2,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameControllerExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
@@ -162,6 +161,7 @@ public class InterfaceConsole implements Interface {
 	 * @return move the move to send to the server
 	 */
 	public Move getNewMove() {
+		final String printStatus = "print status";
 		String answer;
 		Printer.println("Make your move!");
 		Printer.println("Types of move:");
@@ -188,7 +188,7 @@ public class InterfaceConsole implements Interface {
 		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString())) {
 			return askForMoveSheep();
 		}
-		if ("print status".equals(answer)) {
+		if (answer.equals(printStatus)) {
 			notifyNewStatus();
 			return getNewMove();
 		}
@@ -226,8 +226,7 @@ public class InterfaceConsole implements Interface {
 	}
 
 	public void notifyNotValidMove() {
-		System.out
-				.println("The move goes against Sheepland's rule! Be more careful");
+		Printer.println("The move goes against Sheepland's rule! Be more careful");
 	}
 
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
@@ -268,29 +267,27 @@ public class InterfaceConsole implements Interface {
 		} else {
 			Printer.println("The winners are:");
 			show(winners.toArray());
-			Printer.println("IT'S TIME TO BAA, make some noiseee");
+			if (winners.contains(gameController.getBoardStatus()
+					.getEquivalentPlayer(gameController.getControlledPlayer()))) {
+				Printer.println("IT'S TIME TO BAA, make some noiseee");
+			}
 		}
 		Printer.println("See you soon, mighty sheperd!");
 	}
 
 	public void notifyDisconnection() {
-		System.out
-				.println("We're disconnected from the server, but our shepherd dog is working hard to solve this");
+		Printer.println("We're disconnected from the server, but our shepherd dog is working hard to solve this");
 	}
 
 	public boolean chooseShepherd() {
 		int answer;
 
 		do {
-			System.out
-					.println("For this turn you want to use the shepherd number 1 or 2?");
+			Printer.println("For this turn you want to use the shepherd number 1 or 2?");
 			answer = Integer.parseInt(in.nextLine());
 		} while (answer != 1 && answer != 2);
 
-		if (answer == 1) {
-			return false;
-		}
-		return true;
+		return answer == 2;
 	}
 
 	//
@@ -302,9 +299,9 @@ public class InterfaceConsole implements Interface {
 	/**
 	 * This method is used to ask and create a new buyCardMove
 	 * 
-	 * @return move the new buycard move
+	 * @return move the new buyCard move
 	 */
-	private Move askForBuyCardMove() {
+	private BuyCardMove askForBuyCardMove() {
 		String answer;
 
 		printRemainingCards();
@@ -335,7 +332,7 @@ public class InterfaceConsole implements Interface {
 	 * 
 	 * @return move
 	 */
-	private Move askForMovePlayer() {
+	private MovePlayer askForMovePlayer() {
 		String answer;
 		Map<Integer, Road> allRoads = gameController.getBoardStatus()
 				.getRoadMap().getHashMapOfRoads();
@@ -367,7 +364,7 @@ public class InterfaceConsole implements Interface {
 	 * 
 	 * @return move
 	 */
-	private Move askForMoveSheep() {
+	private MoveSheep askForMoveSheep() {
 
 		String from;
 		String to;
@@ -379,8 +376,7 @@ public class InterfaceConsole implements Interface {
 
 		printSheepCount();
 
-		System.out
-				.println("(To move the black sheep choose the terrain where it's located)");
+		Printer.println("(To move the black sheep choose the terrain where it's located)");
 
 		printAdjacentTerrains();
 
@@ -393,8 +389,7 @@ public class InterfaceConsole implements Interface {
 
 		// ask for the new position of the sheep
 		do {
-			System.out
-					.println("Choose the terrain where you want to place the sheep:");
+			Printer.println("Choose the terrain where you want to place the sheep:");
 			to = in.nextLine();
 		} while (!isCorrectAnswer(Terrain.values(), to));
 
@@ -412,8 +407,7 @@ public class InterfaceConsole implements Interface {
 		if (terrainFrom.equals(gameController.getBoardStatus().getBlackSheep()
 				.getPosition())) {
 			do {
-				System.out
-						.println("Do you want do move the black sheep? (yes/no)");
+				Printer.println("Do you want do move the black sheep? (yes/no)");
 				answer = in.nextLine();
 			} while (!"yes".equals(answer) && !"no".equals(answer));
 			if ("yes".equals(answer)) {
@@ -444,6 +438,7 @@ public class InterfaceConsole implements Interface {
 	// VALIDATION
 	//
 	//
+
 	/**
 	 * This method takes a generic array and checks whether the answer of the
 	 * client has a string equivalent in the array.
@@ -469,7 +464,6 @@ public class InterfaceConsole implements Interface {
 	 * @param toShow
 	 */
 	private void show(Object[] toShow) {
-
 		for (Object element : toShow) {
 			Printer.println(element);
 		}
@@ -518,7 +512,7 @@ public class InterfaceConsole implements Interface {
 
 	/**
 	 * Print the number of sheep on each terrain and specifies where is the
-	 * black sheep. If we are using an advanced boardstatus we specify the type
+	 * black sheep. If we are using an advanced boardStatus we specify the type
 	 * of sheep
 	 */
 	private void printSheepCount() {
@@ -526,8 +520,7 @@ public class InterfaceConsole implements Interface {
 			printSheepCountForType();
 
 		} else {
-			System.out
-					.println("These are the numbers of sheep for each terrain");
+			Printer.println("These are the numbers of sheep for each terrain");
 			Map<Terrain, Integer> map = gameController.getBoardStatus()
 					.calculateNumberOfSheepForEachTerrain();
 			for (Terrain terrain : Terrain.values()) {
@@ -543,8 +536,8 @@ public class InterfaceConsole implements Interface {
 	}
 
 	/**
-	 * This method print the number of sheep on each terraing, making a
-	 * distinction between lambs, sheeps and rams
+	 * This method print the number of sheep on each terrain making a
+	 * distinction between lambs, sheep and rams
 	 */
 	private void printSheepCountForType() {
 		Map<Terrain, Integer> mapLambs = ((BoardStatusExtended) gameController
@@ -557,11 +550,10 @@ public class InterfaceConsole implements Interface {
 				.getBoardStatus())
 				.calculateNumberOfSheepForEachTerrain(TypeOfSheep.FEMALESHEEP);
 
-		System.out
-				.println("these are the of sheep for each terrain (lambs / rams / sheep");
+		Printer.println("these are the of sheep for each terrain (lambs / rams / sheep)");
 
 		for (Terrain t : Terrain.values()) {
-			Printer.println("Terrain" + t + " number of lambs: "
+			Printer.println("Terrain " + t + " number of lambs: "
 					+ mapLambs.get(t) + " rams: " + mapMale.get(t) + " sheep: "
 					+ mapFemale.get(t));
 		}
@@ -620,7 +612,7 @@ public class InterfaceConsole implements Interface {
 		Printer.println(message);
 	}
 
-	/** Print a move sheep, checking if the moved sheep is the blacksheep */
+	/** Print a move sheep, checking if the moved sheep is the black sheep */
 	private void printMoveSheep(MoveSheep move) {
 		int numberOfThePlayer = gameController.getBoardStatus()
 				.getPlayerNumber(move.getPlayer());
@@ -651,7 +643,11 @@ public class InterfaceConsole implements Interface {
 				+ move.getNewCard());
 	}
 
-	// TODO THESE METHODS
+	//
+	//
+	// ADVANCED METHODS
+	//
+	//
 
 	/** This method prints the position of the wolf */
 	private void printWolf() {
@@ -682,9 +678,10 @@ public class InterfaceConsole implements Interface {
 		Terrain terrain = askForAdjacentTerrain();
 
 		TypeOfSheep type = askForTypeOfSheep(terrain);
-		
-		Sheep sheep = ((BoardStatusExtended)gameController.getBoardStatus()).findASheep(terrain, type);
-		
+
+		Sheep sheep = ((BoardStatusExtended) gameController.getBoardStatus())
+				.findASheep(terrain, type);
+
 		return new Butchering(player, sheep);
 	}
 
@@ -716,26 +713,26 @@ public class InterfaceConsole implements Interface {
 	 */
 	private TypeOfSheep askForTypeOfSheep(Terrain terrain) {
 		Set<TypeOfSheep> available = new HashSet<TypeOfSheep>();
-		
-		for (Sheep s: gameController.getBoardStatus().getSheeps()){
-			if (s.getPosition().equals(terrain)){
+
+		for (Sheep s : gameController.getBoardStatus().getSheeps()) {
+			if (s.getPosition().equals(terrain)) {
 				available.add(s.getTypeOfSheep());
 			}
 		}
-		
+
 		show(available.toArray());
 		String answer;
-		do{
+		do {
 			Printer.println("Choose a type of sheep: ");
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(available.toArray(), answer));
-		
-		for (TypeOfSheep t: TypeOfSheep.values()){
-			if (t.toString().equals(answer)){
+
+		for (TypeOfSheep t : TypeOfSheep.values()) {
+			if (t.toString().equals(answer)) {
 				return t;
 			}
 		}
-		
+
 		return null;
 	}
 }

@@ -14,7 +14,7 @@ public class DefaultConstants {
 	public static final TypeOfInterface DEFAULT_INTERFACE = TypeOfInterface.CONSOLE;
 
 	/** the default type of game to play (default/extended rules) */
-	public static final GameType DEFAULT_GAME_TYPE = GameType.ORIGINAL;
+	public static final GameType DEFAULT_GAME_TYPE = GameType.EXTENDED;
 
 	/** Hide the default constructor */
 	private DefaultConstants() {
