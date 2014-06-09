@@ -2,9 +2,11 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server.GameControllerExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Mating;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -22,9 +24,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * This class manages the command line interface. It has two main types of
@@ -649,18 +653,89 @@ public class InterfaceConsole implements Interface {
 
 	// TODO THESE METHODS
 
+	/** This method prints the position of the wolf */
 	private void printWolf() {
-		// TODO Auto-generated method stub
-
+		Printer.println("The wolf is on the terrain "
+				+ ((BoardStatusExtended) gameController.getBoardStatus())
+						.getWolf().getPosition().toString());
 	}
 
-	private Move askForMating() {
-		// TODO Auto-generated method stub
+	/**
+	 * This method asks the user to insert the information needed for the
+	 * creation of a Mating move (the terrain)
+	 * 
+	 * @return the created Mating move
+	 */
+	private Mating askForMating() {
+		Player player = gameController.getBoardStatus().getCurrentPlayer();
+		Terrain terrain = askForAdjacentTerrain();
+
+		return new Mating(player, terrain);
+	}
+
+	/**
+	 * This method asks the user to insert the information needed for the
+	 * creation of a Butchering move (the terrain and the type of sheep)
+	 */
+	private Butchering askForButchering() {
+		Player player = gameController.getBoardStatus().getCurrentPlayer();
+		Terrain terrain = askForAdjacentTerrain();
+
+		TypeOfSheep type = askForTypeOfSheep(terrain);
+		
+		Sheep sheep = ((BoardStatusExtended)gameController.getBoardStatus()).findASheep(terrain, type);
+		
+		return new Butchering(player, sheep);
+	}
+
+	private Terrain askForAdjacentTerrain() {
+		printAdjacentTerrains();
+		String answer;
+
+		do {
+			Printer.println("Choose a terrain: ");
+			answer = in.nextLine();
+		} while (!isCorrectAnswer(gameController.getBoardStatus()
+				.getCurrentPlayer().getPosition().getAdjacentTerrains(), answer));
+
+		for (Terrain t : Terrain.values()) {
+			if (t.toString().equals(answer)) {
+				return t;
+			}
+		}
 		return null;
 	}
 
-	private Move askForButchering() {
-		// TODO Auto-generated method stub
+	/**
+	 * This method prints the types of sheep present in the given terrain then
+	 * asks the user to choose one which is returned
+	 * 
+	 * @param terrain
+	 *            The terrain where look for sheep
+	 * @return the chosen type of sheep
+	 */
+	private TypeOfSheep askForTypeOfSheep(Terrain terrain) {
+		Set<TypeOfSheep> available = new HashSet<TypeOfSheep>();
+		
+		for (Sheep s: gameController.getBoardStatus().getSheeps()){
+			if (s.getPosition().equals(terrain)){
+				available.add(s.getTypeOfSheep());
+			}
+		}
+		
+		show(available.toArray());
+		String answer;
+		do{
+			Printer.println("Choose a type of sheep: ");
+			answer = in.nextLine();
+		} while (!isCorrectAnswer(available.toArray(), answer));
+		
+		for (TypeOfSheep t: TypeOfSheep.values()){
+			if (t.toString().equals(answer)){
+				return t;
+			}
+		}
+		
 		return null;
 	}
 }

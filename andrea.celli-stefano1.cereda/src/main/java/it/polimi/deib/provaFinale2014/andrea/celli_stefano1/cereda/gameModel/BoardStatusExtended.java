@@ -50,21 +50,42 @@ public class BoardStatusExtended extends BoardStatus {
 	 * @return A map that associates to each terrain the number of sheep of the
 	 *         given type contained
 	 */
-	public Map<Terrain, Integer> calculateNumberOfSheepForEachTerrain(TypeOfSheep type) {
+	public Map<Terrain, Integer> calculateNumberOfSheepForEachTerrain(
+			TypeOfSheep type) {
 		Map<Terrain, Integer> map = new HashMap<Terrain, Integer>();
 
 		for (Terrain t : Terrain.values()) {
 			map.put(t, 0);
 		}
-		
-		for (Sheep s: sheeps){
-			if (s.getTypeOfSheep().equals(type)){
+
+		for (Sheep s : sheeps) {
+			if (s.getTypeOfSheep().equals(type)) {
 				int value = map.get(s.getPosition());
 				value++;
 				map.put(s.getPosition(), value);
 			}
 		}
-		
+
 		return map;
+	}
+
+	/**
+	 * This method seach in the given terrain the given type of sheep and
+	 * returns a sheep of that type in that terrain
+	 * 
+	 * @param terrain
+	 *            the terrain where search
+	 * @param type
+	 *            the type of sheep searched
+	 * @return a sheep in that terrain of taht type, or null
+	 */
+	public Sheep findASheep(Terrain terrain, TypeOfSheep type) {
+		for (Sheep s : sheeps) {
+			if (s.getPosition().equals(terrain)
+					&& s.getTypeOfSheep().equals(type)) {
+				return s;
+			}
+		}
+		return null;
 	}
 }
