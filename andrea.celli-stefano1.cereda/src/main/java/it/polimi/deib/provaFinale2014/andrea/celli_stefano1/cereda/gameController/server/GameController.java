@@ -200,23 +200,14 @@ public class GameController implements Runnable {
 	 * that will actually suspend the player.
 	 */
 	protected void catchDisconnection(Player p) {
-		for (ClientHandler client : clients) {
-			if (client.getPlayer().equals(p)) {
-				client.notifyClientDisconnection();
-				break;
-			}
-		}
+		searchClientHandler(p).notifyClientDisconnection();
 	}
 
 	/** This method reconnect a player changing his ConnectionHandler */
 	public void notifyReconnection(Player player, ClientHandler newClientHandler) {
-		// search the old client handler
-		for (ClientHandler oldClient : clients) {
-			// and change it with the new one
-			if (oldClient.getPlayer().equals(player)) {
-				clients.set(clients.indexOf(oldClient), newClientHandler);
-			}
-		}
+		// search the old client handler and change with the new one
+		ClientHandler old = searchClientHandler(player);
+		clients.set(clients.indexOf(old), newClientHandler);
 
 		// set the parameters
 		newClientHandler.setGame(this);
@@ -235,6 +226,16 @@ public class GameController implements Runnable {
 			LOGGER.log(Level.INFO, message, e);
 			catchDisconnection(e.getPlayer());
 		}
+	}
+
+	/** @return the client handler of the given player */
+	private ClientHandler searchClientHandler(Player player) {
+		for (ClientHandler ch : clients) {
+			if (ch.getPlayer().equals(player)) {
+				return ch;
+			}
+		}
+		return null;
 	}
 
 	//
@@ -339,14 +340,8 @@ public class GameController implements Runnable {
 
 	private Move askMoveToCurrentPlayer() {
 		// search the client handler of the current player
-		ClientHandler client = null;
-
-		for (ClientHandler ch : clients) {
-			if (boardStatus.getCurrentPlayer().equals(ch.getPlayer())) {
-				client = ch;
-				break;
-			}
-		}
+		ClientHandler client = searchClientHandler(boardStatus
+				.getCurrentPlayer());
 
 		if (!client.getPlayer().isSuspended()) {
 			try {
@@ -374,14 +369,8 @@ public class GameController implements Runnable {
 	 */
 	private Move reAskMoveToCurrentPlayer() {
 		// search the client handler of the current player
-		ClientHandler client = null;
-
-		for (ClientHandler ch : clients) {
-			if (boardStatus.getCurrentPlayer().equals(ch.getPlayer())) {
-				client = ch;
-				break;
-			}
-		}
+		ClientHandler client = searchClientHandler(boardStatus
+				.getCurrentPlayer());
 
 		if (!client.getPlayer().isSuspended()) {
 			try {
