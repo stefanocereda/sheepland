@@ -260,37 +260,42 @@ public class RuleChecker {
 	 */
 	public static boolean isValidMoveWolf(MoveWolf moveWolf,
 			BoardStatusExtended boardStatus) {
-		Terrain coming = boardStatus.getWolf().getPosition();
-		Terrain going = moveWolf.getNewPosition();
+		try {
+			Terrain coming = boardStatus.getWolf().getPosition();
+			Terrain going = moveWolf.getNewPosition();
 
-		// Check condition 1
-		if (!coming.getAdjacentTerrains(boardStatus.getRoadMap()).contains(
-				going)) {
+			// Check condition 1
+			if (!coming.getAdjacentTerrains(boardStatus.getRoadMap()).contains(
+					going)) {
+				return false;
+			}
+
+			// check condition 2
+			boolean ok = true;
+			Road used = coming.getLinkWith(going, boardStatus.getRoadMap());
+			if (!boardStatus.isFreeFromGates(used)) {
+				ok = false;
+			}
+			if (!ok && !boardStatus.isClosedByGates(coming)) {
+				return false;
+			}
+
+			// check condition 3
+			if (moveWolf.getKilledSheep() == null) {
+				return true;
+			}
+
+			if (moveWolf.getKilledSheep() != null
+					&& !BlackSheep.class.isInstance(moveWolf.getKilledSheep())
+					&& moveWolf.getKilledSheep().getPosition().equals(going)) {
+				return true;
+			}
+
+			return false;
+		} catch (NullPointerException e) {
+			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
 		}
-
-		// check condition 2
-		boolean ok = true;
-		Road used = coming.getLinkWith(going, boardStatus.getRoadMap());
-		if (!boardStatus.isFreeFromGates(used)) {
-			ok = false;
-		}
-		if (!ok && !boardStatus.isClosedByGates(coming)) {
-			return false;
-		}
-
-		// check condition 3
-		if (moveWolf.getKilledSheep() == null) {
-			return true;
-		}
-
-		if (moveWolf.getKilledSheep() != null
-				&& !BlackSheep.class.isInstance(moveWolf.getKilledSheep())
-				&& moveWolf.getKilledSheep().getPosition().equals(going)) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -298,34 +303,40 @@ public class RuleChecker {
 	 * terrain there is at least a maleSheep and a femaleSheep
 	 */
 	public static boolean isValidMating(Mating move, BoardStatus boardStatus) {
-		// get info
-		Terrain terrain = move.getTerrain();
-		Road playerPosition = boardStatus.getEquivalentPlayer(move.getPlayer())
-				.getPosition();
+		try {
+			// get info
+			Terrain terrain = move.getTerrain();
+			Road playerPosition = boardStatus.getEquivalentPlayer(
+					move.getPlayer()).getPosition();
 
-		// check condition 1
-		boolean okTerrain = false;
-		for (Terrain t : playerPosition.getAdjacentTerrains()) {
-			if (t.equals(terrain)) {
-				okTerrain = true;
-				break;
-			}
-		}
-
-		// check condition 2
-		boolean female = false;
-		boolean male = true;
-		for (Sheep s : boardStatus.getSheeps()) {
-			if (s.getPosition().equals(terrain)) {
-				if (s.getTypeOfSheep().equals(TypeOfSheep.MALESHEEP)) {
-					male = true;
-				} else if (s.getTypeOfSheep().equals(TypeOfSheep.FEMALESHEEP)) {
-					female = true;
+			// check condition 1
+			boolean okTerrain = false;
+			for (Terrain t : playerPosition.getAdjacentTerrains()) {
+				if (t.equals(terrain)) {
+					okTerrain = true;
+					break;
 				}
 			}
-		}
 
-		return male && female && okTerrain;
+			// check condition 2
+			boolean female = false;
+			boolean male = true;
+			for (Sheep s : boardStatus.getSheeps()) {
+				if (s.getPosition().equals(terrain)) {
+					if (s.getTypeOfSheep().equals(TypeOfSheep.MALESHEEP)) {
+						male = true;
+					} else if (s.getTypeOfSheep().equals(
+							TypeOfSheep.FEMALESHEEP)) {
+						female = true;
+					}
+				}
+			}
+
+			return male && female && okTerrain;
+		} catch (NullPointerException e) {
+			LOGGER.log(Level.INFO, messageNull, e);
+			return false;
+		}
 	}
 
 	/**
@@ -334,23 +345,28 @@ public class RuleChecker {
 	 */
 	public static boolean isValidButchering(Butchering move,
 			BoardStatusExtended boardStatus) {
-		// check the black sheep
-		if (BlackSheep.class.isInstance(move.getKilledSheep())) {
+		try {
+			// check the black sheep
+			if (BlackSheep.class.isInstance(move.getKilledSheep())) {
+				return false;
+			}
+
+			Player p = boardStatus.getEquivalentPlayer(move.getPlayer());
+			Sheep s = boardStatus.getEquivalentSheep(move.getKilledSheep());
+
+			// check the terrain
+			boolean ok = false;
+			for (Terrain t : p.getPosition().getAdjacentTerrains()) {
+				if (t.equals(s.getPosition())) {
+					ok = true;
+					break;
+				}
+			}
+
+			return ok;
+		} catch (NullPointerException e) {
+			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
 		}
-
-		Player p = boardStatus.getEquivalentPlayer(move.getPlayer());
-		Sheep s = boardStatus.getEquivalentSheep(move.getKilledSheep());
-
-		// check the terrain
-		boolean ok = false;
-		for (Terrain t : p.getPosition().getAdjacentTerrains()) {
-			if (t.equals(s.getPosition())) {
-				ok = true;
-				break;
-			}
-		}
-
-		return ok;
 	}
 }
