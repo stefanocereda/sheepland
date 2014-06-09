@@ -5,6 +5,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.Gui
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -21,6 +23,13 @@ public class Map extends JPanel {
 
 	// the image to be displayed
 	Image img;
+
+	/**
+	 * This array list contains all the smaller JLabel that have to be displayed
+	 * on the map (for ex. sheeps, pawns...)
+	 */
+
+	private List<PiecesOnTheMap> toBeDisplayed = new ArrayList<PiecesOnTheMap>();
 
 	/**
 	 * Initially the map is empty. All the "sub-panels" will be added after the
