@@ -44,7 +44,7 @@ public class ClientMainClass {
 		// parse param
 		TypeOfInterface userInterface = null;
 		int network = 0;
-		int token = 0;
+		int token = -1;
 
 		for (String arg : args) {
 			if (arg.equals("socket")) {
@@ -57,18 +57,27 @@ public class ClientMainClass {
 				userInterface = TypeOfInterface.GUI;
 			} else if (arg.equals("fake")) {
 				userInterface = TypeOfInterface.FAKE;
+			} else {
+				try {
+					token = Integer.parseInt(arg);
+				} catch (NumberFormatException e) {
+				}
 			}
 		}
-
-		System.out
-				.println("Insert a previous token if you have one, 0 otherwise: ");
-		token = Integer.parseInt(in.nextLine());
 
 		if (userInterface == null) {
 			userInterface = askUserInterface();
 		}
-		if (network == 0) {
+		if (network == -1) {
 			network = askNetwork();
+		}
+		if (token == -1) {
+			System.out
+					.println("Insert a previous token if you have one, 0 otherwise: ");
+			token = Integer.parseInt(in.nextLine());
+		}
+		if (token == -1) {
+			token = 0;
 		}
 
 		// create the interface

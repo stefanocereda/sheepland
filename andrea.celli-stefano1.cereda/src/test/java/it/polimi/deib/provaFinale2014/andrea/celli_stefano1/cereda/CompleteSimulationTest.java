@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.Gam
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.RMICostants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ServerMainClass;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.serverStarter.rmi.RMIConnector;
 
 import java.rmi.registry.LocateRegistry;
@@ -25,15 +26,15 @@ public class CompleteSimulationTest {
 
 	@Test
 	public void test() {
-		/**
-		 * ServerMainClass.main(null);// starts the server waitServer();
-		 * System.out.println("server started");
-		 */
+		// starts the server
+		ServerMainClass.main(null);
+		waitServer();
+		System.out.println("server started");
 
 		List<Thread> players = new ArrayList<Thread>();
 		// launch two socket client
 		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
-			Client c = new Client(new String[] { "console", "socket" });
+			Client c = new Client(new String[] { "fake", "socket", "0" });
 			Thread t = new Thread(c);
 			players.add(t);
 			t.start();
@@ -54,6 +55,7 @@ public class CompleteSimulationTest {
 		 * "fake", "rmi" }); Thread t2 = new Thread(c2); players.add(t2);
 		 * t2.start(); System.out.println("created one socket and one rmi");
 		 */
+		
 		// let them play for at most one minute
 		int counter = 0;
 		do {
@@ -63,7 +65,7 @@ public class CompleteSimulationTest {
 			} catch (InterruptedException e) {
 				System.out.println("interrupted");
 			}
-		} while (!finished(players) && counter < 200);
+		} while (!finished(players) && counter < 2);
 	}
 
 	/** Keep searching for the rmi server */
