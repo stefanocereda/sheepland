@@ -34,4 +34,10 @@ public class GuiConstants {
 	 * Duration of game messages diplayed over the map
 	 */
 	public static final int MESSAGETIME = 4000;
+
+	/**
+	 * The original dimension of the MAP image, used for conversion purposes.
+	 */
+	public static final int MAP_WIDTH = 900;
+	public static final int MAP_HEIGHT = 1292;
 }

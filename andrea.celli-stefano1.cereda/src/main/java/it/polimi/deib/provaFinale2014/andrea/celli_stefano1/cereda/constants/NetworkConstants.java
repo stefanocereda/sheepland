@@ -17,10 +17,10 @@ public class NetworkConstants {
 
 	/** The address of the socket server as seen by the client */
 	public static final InetSocketAddress SERVER_SOCKET_ADDRESS = new InetSocketAddress(
-			"localhost", SOCKET_IP_PORT);
+			"10.42.0.1", SOCKET_IP_PORT);
 
 	/** The address of the rmi server registry as seen by the client */
-	public static final String SERVER_RMI_ADDRESS = "localhost";
+	public static final String SERVER_RMI_ADDRESS = "10.42.0.1";
 
 	/** Hide the default constructor */
 	private NetworkConstants() {
