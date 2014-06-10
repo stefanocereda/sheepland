@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
@@ -153,6 +154,16 @@ public class ClientHandlerRMI extends ClientHandler {
 			throws ClientDisconnectedException {
 		try {
 			clientObject.notifyShepherd(usingSecond);
+		} catch (RemoteException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
+
+	public List<MarketOffer> askMarketOffers()
+			throws ClientDisconnectedException, ClientDisconnectedException {
+		try {
+			return clientObject.askMarketOffers();
 		} catch (RemoteException e) {
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer, e);

@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.Gam
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
@@ -402,11 +403,19 @@ public class BoardStatus implements Serializable {
 	}
 
 	/**
-	 * This iterator go through the players from the first player (the first to
-	 * play, not the first in the array) to the last
+	 * @return an iterator that goes through the players from the first player
+	 *         (the first to play, not the first in the array) to the last
 	 */
 	public Iterator<Player> getPlayersIterator() {
 		return new PlayerOrderedIterator();
+	}
+
+	/**
+	 * @return an iterator that goes through the players starting from a random
+	 *         one
+	 */
+	public Iterator<Player> getPlayersRandomIterator() {
+		return new PlayerRandomIterator();
 	}
 
 	/**
@@ -426,7 +435,45 @@ public class BoardStatus implements Serializable {
 		public boolean hasNext() {
 			int curPos = getPositionOfAPlayer(playerPointed);
 			int nextPos = (curPos + 1) % getPlayers().length;
-			return (nextPos != (firstPos+1) % getPlayers().length) || firstCallToDo;
+			return (nextPos != (firstPos + 1) % getPlayers().length)
+					|| firstCallToDo;
+		}
+
+		public Player next() {
+			if (firstCallToDo) {
+				firstCallToDo = false;
+			}
+			int curPos = getPositionOfAPlayer(playerPointed);
+			int nextPos = (curPos + 1) % getPlayers().length;
+			playerPointed = getPlayers()[nextPos];
+			return playerPointed;
+		}
+
+		public void remove() {
+			return;
+		}
+	}
+
+	/**
+	 * This is an iterator that goes through the players starting from a random
+	 * one
+	 */
+	private class PlayerRandomIterator implements Iterator<Player> {
+		private Player playerPointed;
+		private int firstPos;
+		private boolean firstCallToDo = true;
+
+		public PlayerRandomIterator() {
+			Dice dice = Dice.create();
+			firstPos = dice.roll(getPlayers().length) - 2;
+			playerPointed = getPlayers()[firstPos];
+		}
+
+		public boolean hasNext() {
+			int curPos = getPositionOfAPlayer(playerPointed);
+			int nextPos = (curPos + 1) % getPlayers().length;
+			return (nextPos != (firstPos + 1) % getPlayers().length)
+					|| firstCallToDo;
 		}
 
 		public Player next() {

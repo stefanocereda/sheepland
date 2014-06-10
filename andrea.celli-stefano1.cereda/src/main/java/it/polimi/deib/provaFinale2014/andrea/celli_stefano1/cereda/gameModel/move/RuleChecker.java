@@ -7,6 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ani
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
@@ -368,5 +369,27 @@ public class RuleChecker {
 			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
 		}
+	}
+
+	/**
+	 * A market offer is valid if it's done by the offerer (we can't offer cards
+	 * of other players) if the player has that card and if the card is not an
+	 * initial card
+	 */
+	public static boolean isValidMarketOffer(MarketOffer marketOffer,
+			Player offerer) {
+		if (!marketOffer.getOfferer().equals(offerer)) {
+			return false;
+		}
+
+		if (!offerer.getCards().contains(marketOffer.getCardOffered())) {
+			return false;
+		}
+
+		if (marketOffer.getCardOffered().isInitial()) {
+			return false;
+		}
+
+		return true;
 	}
 }

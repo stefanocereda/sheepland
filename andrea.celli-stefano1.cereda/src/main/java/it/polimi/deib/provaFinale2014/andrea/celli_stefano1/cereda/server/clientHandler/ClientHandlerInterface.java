@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
@@ -75,7 +76,7 @@ public interface ClientHandlerInterface {
 	 * 
 	 * @throws ClientDisconnectedException
 	 */
-	void pingTheClient() throws ClientDisconnectedException;
+	public void pingTheClient() throws ClientDisconnectedException;
 
 	/**
 	 * this method sends to the client a player representing the actual player
@@ -84,7 +85,7 @@ public interface ClientHandlerInterface {
 	 *            The current player
 	 * @throws ClientDisconnectedException
 	 */
-	void setCurrentPlayer(Player newCurrentPlayer)
+	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException;
 
 	/**
@@ -95,21 +96,32 @@ public interface ClientHandlerInterface {
 	 *            the list of winners
 	 * @throws ClientDisconnectedException
 	 */
-	void sendWinners(List<Player> winners) throws ClientDisconnectedException;
+	public void sendWinners(List<Player> winners)
+			throws ClientDisconnectedException;
 
 	/** This method is used to let the client know the controlled player */
-	void notifyControlledPlayer(Player controlled)
+	public void notifyControlledPlayer(Player controlled)
 			throws ClientDisconnectedException;
 
 	/**
 	 * This method asks the client to choose the controlled shepherd (true means
 	 * the second)
 	 */
-	boolean chooseShepherd() throws ClientDisconnectedException;
+	public boolean chooseShepherd() throws ClientDisconnectedException;
 
 	/**
 	 * This method notifies the client that the current player has made a
 	 * choiche for first/second shepherd
 	 */
-	void sendShepherd(boolean usingSecond) throws ClientDisconnectedException;
+	public void sendShepherd(boolean usingSecond)
+			throws ClientDisconnectedException;
+
+	/**
+	 * This method ask the client to send some market offers
+	 * 
+	 * @throws ClassNotFoundException
+	 *             , ClientDisconnectedException ion
+	 */
+	public List<MarketOffer> askMarketOffers() throws ClassNotFoundException,
+			ClientDisconnectedException;
 }

@@ -114,6 +114,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					chooseSecondInitialPosition();
 				} else if (command.equals(SocketMessages.NOTIFY_SHEPHERD)) {
 					getShepherd();
+				} else if (command.equals(SocketMessages.ASK_MARKET_OFFERS)) {
+					askMarketOffers();
 				}
 			} catch (IOException e) {
 				// we are disconnected
@@ -249,6 +251,12 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 */
 	private synchronized void chooseShepherd() throws IOException {
 		out.writeBoolean(controller.getShepherd());
+		out.flush();
+	}
+
+	/** Ask the user to choose some cards to sell */
+	private synchronized void askMarketOffers() throws IOException {
+		out.writeObject(controller.askMarketOffers());
 		out.flush();
 	}
 

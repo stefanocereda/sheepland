@@ -229,7 +229,7 @@ public class GameController implements Runnable {
 	}
 
 	/** @return the client handler of the given player */
-	private ClientHandler searchClientHandler(Player player) {
+	protected ClientHandler searchClientHandler(Player player) {
 		for (ClientHandler ch : clients) {
 			if (ch.getPlayer().equals(player)) {
 				return ch;

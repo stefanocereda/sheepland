@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameC
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
@@ -173,5 +174,10 @@ public class GameControllerClient {
 		userInterface.notifyShepherd(usingSecond);
 		((PlayerDouble) boardStatus.getCurrentPlayer())
 				.setShepherd(usingSecond);
+	}
+
+	/** This method asks the user to choose some cards to sell */
+	public List<MarketOffer> askMarketOffers() {
+		return userInterface.askMarketOffers();
 	}
 }

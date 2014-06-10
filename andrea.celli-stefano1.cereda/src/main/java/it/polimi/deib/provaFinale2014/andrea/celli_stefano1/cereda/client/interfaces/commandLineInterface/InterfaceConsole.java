@@ -16,6 +16,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfAdvancedPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
@@ -734,5 +735,40 @@ public class InterfaceConsole implements Interface {
 		}
 
 		return null;
+	}
+
+	public List<MarketOffer> askMarketOffers() {
+		List<MarketOffer> toReturn = new ArrayList<MarketOffer>();
+		Player me = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
+
+		List<Card> myCards = me.getCards();
+
+		for (Card c : myCards) {
+			if (!c.isInitial() && wantToSell(c)) {
+				toReturn.add(new MarketOffer(me, c, askPriceForMarket(c)));
+			}
+		}
+
+		return toReturn;
+	}
+
+	/** Asks the user if he wants to sell the given card */
+	private boolean wantToSell(Card c) {
+		String answer;
+		do {
+			Printer.println("Do you want to sell the card " + c.toString()
+					+ " ? [yes/no]");
+			answer = in.nextLine();
+		} while (!"yes".equals(answer) && !"no".equals(answer));
+		return ("yes".equals(answer));
+	}
+
+	/** Asks the user to insert a market price for the given card */
+	private int askPriceForMarket(Card c) {
+		String answer;
+		Printer.println("Insert a price for the card " + c.toString());
+		answer = in.nextLine();
+		return Integer.parseInt(answer);
 	}
 }

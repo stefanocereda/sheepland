@@ -5,6 +5,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
@@ -95,4 +96,10 @@ public interface Interface {
 
 	/** Tell the user if the current player is using his second shepherd */
 	void notifyShepherd(boolean usingSecond);
+
+	/**
+	 * Ask the user to choose some cards that he wants to sell and the price
+	 * required
+	 */
+	List<MarketOffer> askMarketOffers();
 }
