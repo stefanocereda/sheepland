@@ -27,7 +27,8 @@ public enum RamPositions {
 			Terrain.D1, new Point(588, 497)), RD2(Terrain.D2, new Point(743,
 			609)), RD3(Terrain.D3, new Point(702, 839)), RW1(Terrain.W1,
 			new Point(157, 854)), RW2(Terrain.W2, new Point(291, 998)), RW3(
-			Terrain.W3, new Point(460, 750));
+			Terrain.W3, new Point(460, 750)), RS(Terrain.SHEEPSBURG, new Point(
+			451, 576));
 
 	private Terrain terrain;
 	private Point point;

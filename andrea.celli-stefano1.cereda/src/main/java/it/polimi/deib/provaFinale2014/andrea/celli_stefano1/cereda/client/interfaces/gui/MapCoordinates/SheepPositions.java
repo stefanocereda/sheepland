@@ -27,7 +27,8 @@ public enum SheepPositions {
 			Terrain.W1, new Point(150, 786)), SW2(Terrain.W2, new Point(268,
 			924)), SW3(Terrain.W3, new Point(426, 810)), SD1(Terrain.D1,
 			new Point(597, 449)), SD2(Terrain.D2, new Point(728, 565)), SD3(
-			Terrain.D3, new Point(694, 786));
+			Terrain.D3, new Point(694, 786)), SH(Terrain.SHEEPSBURG, new Point(
+			451, 525));
 
 	private Terrain terrain;
 	private Point point;
