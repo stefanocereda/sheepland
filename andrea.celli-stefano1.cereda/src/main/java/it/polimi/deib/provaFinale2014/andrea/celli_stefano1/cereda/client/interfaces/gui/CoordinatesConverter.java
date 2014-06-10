@@ -133,7 +133,15 @@ public class CoordinatesConverter {
 		return hashMap;
 	}
 
-	// @TODO
+	/**
+	 * This method creates an hashMap containing the origin of pawn's label for
+	 * each road
+	 * 
+	 * @param roads
+	 *            (the hash map of roads contained in the board status)
+	 * @return the hashMap containing roads and the origin of the pawns that
+	 *         thay may display
+	 */
 	public Map<Road, Point> calculatePawnOrigins(HashMap<Integer, Road> roads) {
 
 		HashMap<Road, Point> hashMap = new HashMap<Road, Point>();
