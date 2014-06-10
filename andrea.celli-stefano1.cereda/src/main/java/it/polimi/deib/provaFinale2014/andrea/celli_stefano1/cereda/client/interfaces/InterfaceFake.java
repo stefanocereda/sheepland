@@ -10,6 +10,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
@@ -309,5 +311,22 @@ public class InterfaceFake implements Interface {
 	}
 
 	public void notifyShepherd(boolean usingSecond) {
+	}
+
+	//
+	//
+	//
+	// TODO ADVANCED MOVES
+	//
+	//
+	//
+	public List<MarketOffer> askMarketOffers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

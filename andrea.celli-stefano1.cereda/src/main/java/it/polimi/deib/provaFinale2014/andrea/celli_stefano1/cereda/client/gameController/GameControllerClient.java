@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameC
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -179,5 +180,9 @@ public class GameControllerClient {
 	/** This method asks the user to choose some cards to sell */
 	public List<MarketOffer> askMarketOffers() {
 		return userInterface.askMarketOffers();
+	}
+
+	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
+		return userInterface.askMarketBuy(offers);
 	}
 }

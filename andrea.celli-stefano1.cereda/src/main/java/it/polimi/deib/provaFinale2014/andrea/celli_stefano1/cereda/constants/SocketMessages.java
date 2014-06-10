@@ -59,6 +59,9 @@ public class SocketMessages {
 	/** Ask the client to send a List of MarketOffers */
 	public static final String ASK_MARKET_OFFERS = "N";
 
+	/** Send a list of available market offers and get back a list of market buy */
+	public static final String ASK_MARKET_BUY = "O";
+
 	/** Hide the default constructor */
 	private SocketMessages() {
 	}

@@ -7,6 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ani
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
@@ -373,7 +374,7 @@ public class RuleChecker {
 
 	/**
 	 * A market offer is valid if it's done by the offerer (we can't offer cards
-	 * of other players) if the player has that card and if the card is not an
+	 * of other players), if the player has that card and if the card is not an
 	 * initial card
 	 */
 	public static boolean isValidMarketOffer(MarketOffer marketOffer,
@@ -391,5 +392,31 @@ public class RuleChecker {
 		}
 
 		return true;
+	}
+
+	/**
+	 * A market buy is valid if in the given list of market offers we have an
+	 * offer for the same card and if the buy is done by the current player. The
+	 * buyer must have the coins to perform the buy
+	 */
+	public static boolean isValidMarketBuy(MarketBuy buy,
+			List<MarketOffer> offers, Player buyer) {
+		if (!buy.getBuyer().equals(buyer)) {
+			return false;
+		}
+
+		MarketOffer rightOffer = null;
+		for (MarketOffer offer : offers) {
+			if (offer.getCardOffered().equals(buy.getCardBought())) {
+				rightOffer = offer;
+				break;
+			}
+		}
+
+		if (rightOffer == null) {
+			return false;
+		}
+
+		return buyer.getMoney() >= rightOffer.getPrice();
 	}
 }

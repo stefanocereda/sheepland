@@ -16,6 +16,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfAdvancedPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.TypeOfPlayerMoves;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
@@ -770,5 +771,36 @@ public class InterfaceConsole implements Interface {
 		Printer.println("Insert a price for the card " + c.toString());
 		answer = in.nextLine();
 		return Integer.parseInt(answer);
+	}
+
+	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
+		List<MarketBuy> toReturn = new ArrayList<MarketBuy>();
+		Player me = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
+
+		for (MarketOffer offer : offers) {
+			if (wantsToBuy(offer)) {
+				toReturn.add(new MarketBuy(me, offer.getCardOffered()));
+			}
+		}
+
+		return toReturn;
+	}
+
+	/** Ask the user if he wants to buy the given offer */
+	private boolean wantsToBuy(MarketOffer offer) {
+		int playerNum = gameController.getBoardStatus().getPlayerNumber(
+				offer.getOfferer());
+
+		Printer.println("The user " + playerNum + " is selling the card "
+				+ offer.getCardOffered() + " for " + offer.getPrice());
+
+		String answer;
+		do {
+			Printer.println("Do you want to buy it? [yes/no]");
+			answer = in.nextLine();
+		} while (!"yes".equals(answer) && !"no".equals(answer));
+
+		return ("yes".equals(answer));
 	}
 }

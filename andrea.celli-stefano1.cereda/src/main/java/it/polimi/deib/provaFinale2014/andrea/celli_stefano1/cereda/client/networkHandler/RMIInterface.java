@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.netwo
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -73,5 +74,16 @@ public interface RMIInterface extends Remote {
 	 */
 	public void notifyShepherd(boolean usingSecond) throws RemoteException;
 
+	/**
+	 * This method is used to ask the user to choose the cards that he wants to
+	 * sell
+	 */
 	public List<MarketOffer> askMarketOffers() throws RemoteException;
+
+	/**
+	 * This method is used to asks the user to send a list of card that he wants
+	 * to buy
+	 */
+	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
+			throws RemoteException;
 }

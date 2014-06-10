@@ -16,6 +16,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveWolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
@@ -222,7 +223,7 @@ public class GameControllerExtended extends GameController {
 	//
 	// HERE STARTS THE MARKET
 	//
-	// TODO
+	//
 
 	/**
 	 * This is the method that handles all the market phase. It starts by asking
@@ -234,6 +235,10 @@ public class GameControllerExtended extends GameController {
 		List<MarketOffer> offers = askMarketOffersToAllClients();
 
 		letThePlayersBuy(offers);
+
+		sendStatusToAllPlayers();
+
+		return "moveTheBlackSheep";
 	}
 
 	/**
@@ -302,13 +307,48 @@ public class GameControllerExtended extends GameController {
 
 		while (it.hasNext()) {
 			ClientHandler ch = searchClientHandler(it.next());
-			List<MarketBuy> buy = null
-			
-			do {
-				buy = ch.askMarketBuy(offers);
-			} while (!areValidBuy(buy));
-			
-			executeMarketBuy(buy, offers);
+			if (!ch.getPlayer().isSuspended()) {
+				try {
+					List<MarketBuy> buy = null;
+
+					do {
+						buy = ch.askMarketBuy(offers);
+					} while (!areValidBuy(buy, offers, ch.getPlayer()));
+
+					executeAllMarketBuy(buy, offers);
+				} catch (ClientDisconnectedException e) {
+					String message = "A client disconnected";
+					LOGGER.log(Level.INFO, message, e);
+					catchDisconnection(e.getPlayer());
+				} catch (ClassNotFoundException e) {
+					String message = "A client is not aligned with the communication protocol, suspending it";
+					LOGGER.log(Level.INFO, message, e);
+					ch.getPlayer().suspend();
+					ch.getPlayer().setNotConnected();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Check if the give List of MarketBuy contains only buy that are legal in
+	 * given offers
+	 */
+	private boolean areValidBuy(List<MarketBuy> buy, List<MarketOffer> offers,
+			Player buyer) {
+		for (MarketBuy mb : buy) {
+			if (!mb.isValidBuy(offers, buyer)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/** For every buy we delete the correspondent offer and trades the card */
+	private void executeAllMarketBuy(List<MarketBuy> buy,
+			List<MarketOffer> offers) {
+		for (MarketBuy mb : buy) {
+			mb.execute(offers, (BoardStatusExtended) boardStatus);
 		}
 	}
 }
