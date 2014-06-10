@@ -7,6 +7,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +42,38 @@ public class Linker {
 	 */
 	private Map<Color, Road> colorsAndRoad = new HashMap<Color, Road>();
 
+	/**
+	 * This hashmap links terrains and sheep's labels origins
+	 */
+	private Map<Terrain, Point> sheepOrigins = new HashMap<Terrain, Point>();
+
+	/**
+	 * This hashmap links terrains and wolf's labels origins
+	 */
+	private Map<Terrain, Point> wolfOrigins = new HashMap<Terrain, Point>();
+
+	/**
+	 * This hashmap links terrains and ram's labels origins
+	 */
+	private Map<Terrain, Point> ramOrigins = new HashMap<Terrain, Point>();
+
+	/**
+	 * This hashmap links terrains and lamb's labels origins
+	 */
+	private Map<Terrain, Point> lambOrigins = new HashMap<Terrain, Point>();
+
+	/**
+	 * This hashmap links terrains and black sheep's labels origins
+	 */
+	private Map<Terrain, Point> blackSheepOrigins = new HashMap<Terrain, Point>();
+
+	/**
+	 * This hashmap links roads and pawn's labels origins
+	 * 
+	 * @TODO define the starting origins
+	 **/
+	private Map<Road, Point> pawnOrigins = new HashMap<Road, Point>();
+
 	//
 	//
 	//
@@ -59,8 +93,10 @@ public class Linker {
 	 * 
 	 * @param BoardStatus
 	 *            (the initial status of the game)
+	 * @param mapDimension
+	 *            (The dimension of the map(without possible borders))
 	 */
-	public void initLinker(BoardStatus boardStatus) {
+	public void initLinker(BoardStatus boardStatus, Dimension mapDimension) {
 
 		// pawns and, therefore, player names and colors
 		givePawns(boardStatus.getPlayers());
@@ -70,6 +106,34 @@ public class Linker {
 
 		// colors-Roads
 		initColorsAndRoad(boardStatus.getRoadMap());
+
+		// creates hashMap of origins
+		calculateOrigins(mapDimension);
+	}
+
+	/**
+	 * This method creates an istance of the class "originCreator" and
+	 * calculates the points considering the size of the map.
+	 * 
+	 * @param mapDimension
+	 */
+	private void calculateOrigins(Dimension mapDimension) {
+		// the class containing the methods to create the hashmaps with the
+		// right points
+		CoordinatesConverter converter = new CoordinatesConverter(mapDimension);
+
+		sheepOrigins = converter.calculateSheepOrigins();
+
+		wolfOrigins = converter.calculateWolfOrigins();
+
+		lambOrigins = converter.calculateLambOrigins();
+
+		ramOrigins = converter.calculateRamOrigins();
+
+		blackSheepOrigins = converter.calculateBlackSheepOrigins();
+
+		pawnOrigins = converter.calculatePawnOrigins();
+
 	}
 
 	/**
