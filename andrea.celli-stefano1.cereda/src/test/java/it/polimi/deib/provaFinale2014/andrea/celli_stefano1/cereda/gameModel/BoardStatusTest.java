@@ -346,4 +346,30 @@ public class BoardStatusTest {
 
 		assertFalse(it.hasNext());
 	}
+	
+	@Test
+	public void PlayersIteratorTwoPlayersTest(){
+		int numplayers = 2;
+		int firstPlayer = 1;
+		BoardStatus bs = new BoardStatus(numplayers);
+		Player[] players = new Player[numplayers];
+
+		for (int i = 0; i < numplayers; i++) {
+			Player p = new Player();
+			p.setID();
+			bs.addPlayerToBoardStatus(p);
+			players[i] = p;
+		}
+
+		bs.setFirstPlayer(players[firstPlayer]);
+		Iterator<Player> it = bs.getPlayersIterator();
+
+		assertTrue(it.hasNext());
+		assertEquals(players[1], it.next());
+
+		assertTrue(it.hasNext());
+		assertEquals(players[0], it.next());
+
+		assertFalse(it.hasNext());
+	}
 }
