@@ -68,7 +68,7 @@ public class ClientMainClass {
 		if (userInterface == null) {
 			userInterface = askUserInterface();
 		}
-		if (network == -1) {
+		if (network == 0) {
 			network = askNetwork();
 		}
 		if (token == -1) {
