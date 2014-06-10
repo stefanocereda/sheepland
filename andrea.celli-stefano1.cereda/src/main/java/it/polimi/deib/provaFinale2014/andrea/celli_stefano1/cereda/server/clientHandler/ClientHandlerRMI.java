@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.RMIInterface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -167,6 +168,16 @@ public class ClientHandlerRMI extends ClientHandler {
 			throws ClientDisconnectedException, ClientDisconnectedException {
 		try {
 			return clientObject.askMarketOffers();
+		} catch (RemoteException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
+
+	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
+			throws ClientDisconnectedException {
+		try {
+			return clientObject.askMarketBuy(offers);
 		} catch (RemoteException e) {
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer, e);

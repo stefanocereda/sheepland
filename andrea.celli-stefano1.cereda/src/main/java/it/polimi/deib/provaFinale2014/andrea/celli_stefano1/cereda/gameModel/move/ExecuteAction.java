@@ -13,6 +13,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ani
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
@@ -207,8 +209,7 @@ public class ExecuteAction {
 		}
 
 		// compute the total money that the player has to pay
-		int total = toPay.size()
-				* GameConstants.COINS_GIVEN_IN_BUTCHERING;
+		int total = toPay.size() * GameConstants.COINS_GIVEN_IN_BUTCHERING;
 		if (total > player.getMoney()) {
 			return;
 		}
@@ -221,5 +222,33 @@ public class ExecuteAction {
 
 		// kill the sheep
 		boardStatus.getSheeps().remove(sheep);
+	}
+
+	/**
+	 * In order to execute a market buy we have to: find the correspondent
+	 * offer, exchange the money, exchange the cards, delete the offer from the
+	 * list of available offers
+	 */
+	public static void executeMarketTrade(MarketBuy buy,
+			List<MarketOffer> offers, BoardStatusExtended boardStatus) {
+		MarketOffer rightOffer = null;
+		for (MarketOffer offer : offers) {
+			if (offer.getCardOffered().equals(buy.getCardBought())) {
+				rightOffer = offer;
+				break;
+			}
+		}
+
+		Player seller = boardStatus
+				.getEquivalentPlayer(rightOffer.getOfferer());
+		Player buyer = boardStatus.getEquivalentPlayer(buy.getBuyer());
+
+		seller.addMoney(rightOffer.getPrice());
+		buyer.subtractMoney(rightOffer.getPrice());
+
+		seller.getCards().remove(buy.getCardBought());
+		buyer.addCard(buy.getCardBought());
+
+		offers.remove(rightOffer);
 	}
 }

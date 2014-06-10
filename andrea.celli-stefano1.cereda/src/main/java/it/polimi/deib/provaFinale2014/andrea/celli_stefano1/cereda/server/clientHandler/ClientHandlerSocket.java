@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.SocketMessages;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -214,6 +215,19 @@ public class ClientHandlerSocket extends ClientHandler {
 			out.writeUTF(SocketMessages.ASK_MARKET_OFFERS);
 			out.flush();
 			return (List<MarketOffer>) in.readObject();
+		} catch (IOException e) {
+			throw new ClientDisconnectedException(gameController,
+					controlledPlayer, e);
+		}
+	}
+
+	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
+			throws ClassNotFoundException, ClientDisconnectedException {
+		try {
+			out.writeUTF(SocketMessages.ASK_MARKET_BUY);
+			out.writeObject(offers);
+			out.flush();
+			return (List<MarketBuy>) in.readObject();
 		} catch (IOException e) {
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer, e);

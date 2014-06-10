@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clien
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
@@ -124,4 +125,13 @@ public interface ClientHandlerInterface {
 	 */
 	public List<MarketOffer> askMarketOffers() throws ClassNotFoundException,
 			ClientDisconnectedException;
+
+	/**
+	 * This method sends to the client a list of available MarketOffers and asks
+	 * back a list of MarketBuy
+	 * 
+	 * @param offers
+	 */
+	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
+			throws ClassNotFoundException, ClientDisconnectedException;
 }

@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.SocketMessages;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
@@ -111,6 +112,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					getShepherd();
 				} else if (command.equals(SocketMessages.ASK_MARKET_OFFERS)) {
 					askMarketOffers();
+				} else if (command.equals(SocketMessages.ASK_MARKET_BUY)) {
+					askMarketBuy();
 				}
 			} catch (IOException e) {
 				// we are disconnected
@@ -254,4 +257,15 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		out.flush();
 	}
 
+	/**
+	 * Ask the user to choose a list of cards to buy
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void askMarketBuy() throws ClassNotFoundException, IOException {
+		List<MarketOffer> offers = (List<MarketOffer>) in.readObject();
+		out.writeObject(controller.askMarketBuy(offers));
+		out.flush();
+	}
 }
