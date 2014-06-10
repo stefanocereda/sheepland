@@ -35,15 +35,18 @@ public class ClientHandlerRMI extends ClientHandler {
 	 * from the socket version the methods aren't synchronized because there
 	 * won't be problems to ping while asking a move
 	 * 
+	 * @param token
+	 * 
 	 * @param registry
 	 * @throws NotBoundException
 	 * @throws RemoteException
 	 * @throws AccessException
 	 */
-	public ClientHandlerRMI(ServerStarter serverStarter, RMIInterface client)
-			throws RemoteException {
+	public ClientHandlerRMI(ServerStarter serverStarter, RMIInterface client,
+			int token) throws RemoteException {
 		super(serverStarter);
 		clientObject = client;
+		id = token;
 	}
 
 	public Move askMove() throws ClientDisconnectedException {

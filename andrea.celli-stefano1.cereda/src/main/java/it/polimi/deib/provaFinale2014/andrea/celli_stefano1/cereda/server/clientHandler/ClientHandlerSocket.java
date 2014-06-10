@@ -17,9 +17,7 @@ import java.util.List;
 
 /**
  * A socket version of a client handler. This class manages the communication
- * with the client by sending messages and objects on the socket. All the
- * methods are synchronized in order to avoid the situation where we send a ping
- * and get back a move
+ * with the client by sending messages and objects on the socket.
  * 
  * @author Stefano
  */
@@ -28,9 +26,6 @@ public class ClientHandlerSocket extends ClientHandler {
 	private ObjectInputStream in;
 	/** The object writer on the socket */
 	private ObjectOutputStream out;
-
-	/** The number of this objects created */
-	private static int created = 0;
 
 	/**
 	 * The constructor creates a socket client handler, gets the id sent by the
@@ -55,14 +50,14 @@ public class ClientHandlerSocket extends ClientHandler {
 		id = in.readInt();
 		// if the id is zero choose a new one
 		if (id == 0) {
-			id = ++created;
+			id = creator.getNewToken();
 		}
 		// send back the right id
 		out.writeInt(id);
 		out.flush();
 	}
 
-	public synchronized Move askMove() throws ClientDisconnectedException,
+	public Move askMove() throws ClientDisconnectedException,
 			ClassNotFoundException {
 		try {
 			// Send the message
@@ -77,7 +72,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized void executeMove(Move moveToExecute)
+	public void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
 
 		try {
@@ -90,7 +85,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized Move sayMoveIsNotValid() throws ClassNotFoundException,
+	public Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.NOT_VALID_MOVE);
@@ -102,7 +97,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized void sendNewStatus(BoardStatus newStatus)
+	public void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException {
 
 		try {
@@ -115,8 +110,8 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized Road askInitialPosition()
-			throws ClientDisconnectedException, ClassNotFoundException {
+	public Road askInitialPosition() throws ClientDisconnectedException,
+			ClassNotFoundException {
 		try {
 			out.writeUTF(SocketMessages.ASK_INITIAL_POSITION);
 			out.flush();
@@ -128,8 +123,8 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized Road askSecondInitialPosition()
-			throws ClientDisconnectedException, ClassNotFoundException {
+	public Road askSecondInitialPosition() throws ClientDisconnectedException,
+			ClassNotFoundException {
 		try {
 			out.writeUTF(SocketMessages.ASK_SECOND_INITIAL_POSITION);
 			out.flush();
@@ -141,18 +136,17 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized void pingTheClient() throws ClientDisconnectedException {
+	public void pingTheClient() throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.PING);
 			out.flush();
-			in.readUTF();
 		} catch (IOException e) {
 			throw new ClientDisconnectedException(gameController,
 					controlledPlayer, e);
 		}
 	}
 
-	public synchronized void setCurrentPlayer(Player newCurrentPlayer)
+	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.SET_CURRENT_PLAYER);
@@ -164,7 +158,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized void sendWinners(List<Player> winners)
+	public void sendWinners(List<Player> winners)
 			throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.SEND_WINNERS);
@@ -179,7 +173,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized void notifyControlledPlayer(Player controlled)
+	public void notifyControlledPlayer(Player controlled)
 			throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.NOTIFY_CONTROLLED_PLAYER);
@@ -191,8 +185,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized boolean chooseShepherd()
-			throws ClientDisconnectedException {
+	public boolean chooseShepherd() throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.CHOOSE_SHEPHERD);
 			out.flush();
@@ -203,7 +196,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized void sendShepherd(boolean usingSecond)
+	public void sendShepherd(boolean usingSecond)
 			throws ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.NOTIFY_SHEPHERD);
@@ -215,8 +208,8 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
-	public synchronized List<MarketOffer> askMarketOffers()
-			throws ClassNotFoundException, ClientDisconnectedException {
+	public List<MarketOffer> askMarketOffers() throws ClassNotFoundException,
+			ClientDisconnectedException {
 		try {
 			out.writeUTF(SocketMessages.ASK_MARKET_OFFERS);
 			out.flush();

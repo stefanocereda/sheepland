@@ -85,12 +85,14 @@ public class ServerStarterRMI implements Runnable {
 	 * 
 	 * @param client
 	 *            the rmi network handler created by the client
+	 * @param token
+	 *            an identificator of the client
 	 */
-	public void notifyConnection(RMIInterface client) {
+	public void notifyConnection(RMIInterface client, int token) {
 
 		ClientHandler acceptedHandler;
 		try {
-			acceptedHandler = new ClientHandlerRMI(creator, client);
+			acceptedHandler = new ClientHandlerRMI(creator, client, token);
 			creator.addClient(acceptedHandler);
 			// if there is a problem we simply don't register this client
 		} catch (RemoteException e) {
@@ -114,5 +116,10 @@ public class ServerStarterRMI implements Runnable {
 			String message = "Problems closing the rmi server";
 			logger.log(Level.SEVERE, message, e);
 		}
+	}
+
+	/** @return a new token */
+	public int getNewToken() {
+		return creator.getNewToken();
 	}
 }

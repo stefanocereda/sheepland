@@ -26,10 +26,11 @@ public abstract class NetworkHandler {
 
 	/**
 	 * The constructor of a network handler is used to set the reference to the
-	 * client's game controller
+	 * client's game controller and to set a token used for reconnection
 	 */
-	public NetworkHandler(GameControllerClient gameController) {
+	public NetworkHandler(GameControllerClient gameController, int token) {
 		controller = gameController;
+		myId = token;
 	}
 
 	/** This method keep trying to reconnect until it can or it's stopped */

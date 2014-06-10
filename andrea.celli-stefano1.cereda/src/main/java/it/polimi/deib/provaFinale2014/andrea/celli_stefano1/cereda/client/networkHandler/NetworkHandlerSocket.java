@@ -36,12 +36,14 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * the constructor of a socket network handler takes as parameter the
 	 * address of the server and a reference to the client's game controller
 	 * 
+	 * @param token
+	 * 
 	 * @throws IOException
 	 *             if is not possible to open the socket
 	 */
 	public NetworkHandlerSocket(InetSocketAddress serverAddress,
-			GameControllerClient controller) throws IOException {
-		super(controller);
+			GameControllerClient controller, int token) throws IOException {
+		super(controller, token);
 
 		// save the server address
 		this.serverAddress = serverAddress;
@@ -66,6 +68,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 		out.writeInt(myId);
 		out.flush();
 		myId = in.readInt();
+		logger.log(Level.INFO, "You have received the token: " + myId);
 	}
 
 	/**
@@ -78,15 +81,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 			String command;
 
 			try {
-				synchronized (this) {
-					command = in.readUTF();
-
-					if (command.equals(SocketMessages.PING)) {
-						out.writeUTF(SocketMessages.PONG);
-						out.flush();
-						continue;
-					}
-				}
+				command = in.readUTF();
 
 				if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
 					askAndSendNewMove();
@@ -141,7 +136,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * 
 	 * @throws IOException
 	 */
-	private synchronized void getShepherd() throws IOException {
+	private void getShepherd() throws IOException {
 		boolean usingSecond = in.readBoolean();
 		controller.notifyShepherd(usingSecond);
 	}
@@ -153,7 +148,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	private synchronized void getControlledPlayer() throws IOException,
+	private void getControlledPlayer() throws IOException,
 			ClassNotFoundException {
 		Player controlled = (Player) in.readObject();
 		controller.setControlledPlayer(controlled);
@@ -168,14 +163,14 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * @throws ClassNotFoundException
 	 *             if something went wrong in the communication protocol
 	 */
-	private synchronized void getAndUpdateStatus()
-			throws ClassNotFoundException, IOException {
+	private void getAndUpdateStatus() throws ClassNotFoundException,
+			IOException {
 		BoardStatus newStatus = (BoardStatus) in.readObject();
 		controller.upDateStatus(newStatus);
 	}
 
 	/** This method receive a Player and sets it as the new current player */
-	private synchronized void getAndSetNewCurrentPlayer() throws IOException,
+	private void getAndSetNewCurrentPlayer() throws IOException,
 			ClassNotFoundException {
 		Player newCurrentPlayer = (Player) in.readObject();
 		controller.setCurrentPlayer(newCurrentPlayer);
@@ -190,8 +185,8 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * @throws ClassNotFoundException
 	 *             if something went wrong in the communication protocol
 	 */
-	private synchronized void getAndExecuteNewMove()
-			throws ClassNotFoundException, IOException {
+	private void getAndExecuteNewMove() throws ClassNotFoundException,
+			IOException {
 		Move newMove = (Move) in.readObject();
 		controller.executeMove(newMove);
 	}
@@ -203,7 +198,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * @throws IOException
 	 *             when not connected
 	 */
-	private synchronized void askAndSendNewMove() throws IOException {
+	private void askAndSendNewMove() throws IOException {
 		Move newMove = controller.getNewMove();
 		out.writeObject(newMove);
 		out.flush();
@@ -215,8 +210,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
-	private synchronized void getWinners() throws IOException,
-			ClassNotFoundException {
+	private void getWinners() throws IOException, ClassNotFoundException {
 
 		@SuppressWarnings("unchecked")
 		List<Player> winners = (List<Player>) in.readObject();
@@ -228,7 +222,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	}
 
 	/** This method ask the user to choose the initial position and returns it */
-	private synchronized void chooseInitialPosition() throws IOException {
+	private void chooseInitialPosition() throws IOException {
 		Road toReturn = controller.chooseInitialPosition();
 		out.writeObject(toReturn);
 		out.flush();
@@ -238,7 +232,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * This method ask the user to choose the initial position of the second
 	 * shepherd
 	 */
-	private synchronized void chooseSecondInitialPosition() throws IOException {
+	private void chooseSecondInitialPosition() throws IOException {
 		Road toReturn = controller.chooseSecondInitialPosition();
 		out.writeObject(toReturn);
 		out.flush();
@@ -249,13 +243,13 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * 
 	 * @throws IOException
 	 */
-	private synchronized void chooseShepherd() throws IOException {
+	private void chooseShepherd() throws IOException {
 		out.writeBoolean(controller.getShepherd());
 		out.flush();
 	}
 
 	/** Ask the user to choose some cards to sell */
-	private synchronized void askMarketOffers() throws IOException {
+	private void askMarketOffers() throws IOException {
 		out.writeObject(controller.askMarketOffers());
 		out.flush();
 	}

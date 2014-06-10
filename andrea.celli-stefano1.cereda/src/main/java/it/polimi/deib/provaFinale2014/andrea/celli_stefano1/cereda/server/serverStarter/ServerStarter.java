@@ -43,6 +43,9 @@ public class ServerStarter implements Runnable {
 	/** the ip port for the rmi registry */
 	private int rmiPort;
 
+	/** the number of clients passed through this server */
+	private int created = 0;
+
 	/** The socket server */
 	ServerStarterSocket socketServer;
 	/** The rmi server */
@@ -136,9 +139,9 @@ public class ServerStarter implements Runnable {
 	 * This method is called when a clients disconnects, it takes note of the
 	 * client so it will be possible to reconnect him to the right game
 	 */
-	public synchronized void notifyDisconnection(int identificator, GameController gc, Player p) {
-		disconnectedClients.add(new DisconnectedClient(identificator, p,
-				gc));
+	public synchronized void notifyDisconnection(int identificator,
+			GameController gc, Player p) {
+		disconnectedClients.add(new DisconnectedClient(identificator, p, gc));
 	}
 
 	/** starts the timer if there's one player waiting */
@@ -216,5 +219,10 @@ public class ServerStarter implements Runnable {
 
 		// remove the client from the disconnected list
 		disconnectedClients.remove(index);
+	}
+
+	/** @return a new token */
+	public int getNewToken() {
+		return ++created;
 	}
 }

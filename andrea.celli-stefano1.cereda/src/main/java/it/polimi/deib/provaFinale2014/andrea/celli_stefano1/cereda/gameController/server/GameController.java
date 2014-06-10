@@ -625,14 +625,15 @@ public class GameController implements Runnable {
 		return "retrieveMoveFromCurrentPlayer";
 	}
 
-	/**
+	/*
 	 * This method has to be invoked after the moves session. It searches for
 	 * the next player that has to play and state if the game is finished or
 	 * not. If the game is over it communicates it to the caller using the
 	 * string "gameOver", otherwise "notifyNewCurrentPlayer"
 	 * 
 	 * @return String the name of the next method that has to be called in
-	 *         manageGame() or the signal that the game is finished
+	 * manageGame() or the signal that the game is finished
+	 * 
 	 * @author Andrea
 	 */
 	public String goOn() {
@@ -644,8 +645,8 @@ public class GameController implements Runnable {
 			return "gameOver";
 		}
 
-		// now go to the first not suspended player
-		while (boardStatus.getCurrentPlayer().isSuspended()) {
+		// now go to the first connected player
+		while (!boardStatus.getCurrentPlayer().isConnected()) {
 			setNewCurrentPlayer();
 		}
 

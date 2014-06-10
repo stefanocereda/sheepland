@@ -54,10 +54,12 @@ public class NetworkHandlerRMI extends NetworkHandler {
 	/**
 	 * the constructor of an rmi network handler needs to receive a reference to
 	 * the client's game controller
+	 * 
+	 * @param token
 	 */
-	public NetworkHandlerRMI(GameControllerClient gameController)
+	public NetworkHandlerRMI(GameControllerClient gameController, int token)
 			throws RemoteException, NotBoundException {
-		super(gameController);
+		super(gameController, token);
 
 		// get the remote registry
 		registry = LocateRegistry.getRegistry(
@@ -85,6 +87,7 @@ public class NetworkHandlerRMI extends NetworkHandler {
 	public void connect() throws RemoteException {
 		// Login with the previous id (0 the first time)
 		myId = connector.connect(myId);
+		logger.log(Level.INFO, "You have received the token: " + myId);
 
 		// Create and export a network handler with the returned id
 		RMIInterface rmiHandler = new RMIImpl(controller);
