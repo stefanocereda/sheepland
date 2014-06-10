@@ -1,6 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,8 +16,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveWolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.ClientDisconnectedException;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.clientHandler.ClientHandler;
 
 /**
@@ -107,9 +112,10 @@ public class GameControllerExtended extends GameController {
 	 * This method rolls the dice and consequently creates a moveWolf move. If
 	 * it is possible it validates, executes and sends to client the move.
 	 * 
-	 * @return moveTheBlackSheep
+	 * @return manageMarket
 	 */
 	public String moveTheWolf() {
+		String toReturn = "manageMarket";
 		Dice dice = Dice.create();
 		int roadNum = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
 		Wolf wolf = ((BoardStatusExtended) boardStatus).getWolf();
@@ -127,7 +133,7 @@ public class GameControllerExtended extends GameController {
 
 		// if linkingRoad is null go on (it happens near the sea)
 		if (linkingRoad == null) {
-			return "moveTheBlackSheep";
+			return toReturn;
 		}
 
 		// if we have found a road search the new terrain
@@ -143,7 +149,7 @@ public class GameControllerExtended extends GameController {
 		if (newPosition == null) {
 			LOGGER.log(Level.SEVERE,
 					"There are errors in the method moveTheWolf");
-			return "moveTheBlackSheep";
+			return toReturn;
 		}
 
 		// now randomly select a sheep in the new terrain
@@ -162,7 +168,7 @@ public class GameControllerExtended extends GameController {
 			executeMove(mw);
 		}
 
-		return "moveTheBlackSheep";
+		return toReturn;
 	}
 
 	/**
@@ -209,6 +215,100 @@ public class GameControllerExtended extends GameController {
 		} else {
 			moveToExecute.execute(boardStatus);
 			sendNewCurrentPlayerToAllPlayers();
+		}
+	}
+
+	//
+	//
+	// HERE STARTS THE MARKET
+	//
+	// TODO
+
+	/**
+	 * This is the method that handles all the market phase. It starts by asking
+	 * all players (from the first) to send the cards that they wants to trade,
+	 * then chooses a random player and starting from him asks all the players
+	 * which cards they want to buy
+	 */
+	private String manageMarket() {
+		List<MarketOffer> offers = askMarketOffersToAllClients();
+
+		letThePlayersBuy(offers);
+	}
+
+	/**
+	 * This method asks all the clients (from the first) to send a list of card
+	 * that they wants to sell
+	 */
+	private List<MarketOffer> askMarketOffersToAllClients() {
+		List<MarketOffer> offered = new ArrayList<MarketOffer>();
+
+		Iterator<Player> it = boardStatus.getPlayersIterator();
+
+		while (it.hasNext()) {
+			Player current = it.next();
+			ClientHandler ch = searchClientHandler(current);
+			offered.addAll(askMarketOffersToClient(ch));
+		}
+		return offered;
+	}
+
+	/**
+	 * This method keep asking some market offers to the given client handler
+	 * until he gives valid proposal which are returned
+	 */
+	private List<MarketOffer> askMarketOffersToClient(ClientHandler ch) {
+		List<MarketOffer> toReturn = null;
+
+		if (!ch.getPlayer().isSuspended()) {
+			try {
+				do {
+					toReturn = ch.askMarketOffers();
+				} while (!areValidOffers(toReturn, ch.getPlayer()));
+			} catch (ClientDisconnectedException e) {
+				String message = "A client disconnected";
+				LOGGER.log(Level.INFO, message, e);
+				catchDisconnection(e.getPlayer());
+			} catch (ClassNotFoundException e) {
+				String message = "A client is not aligned with the communication protocol, suspending it";
+				LOGGER.log(Level.INFO, message, e);
+				ch.getPlayer().suspend();
+				ch.getPlayer().setNotConnected();
+			}
+		}
+
+		return toReturn;
+	}
+
+	/**
+	 * This method scan all the passed market offers and check for their
+	 * validity
+	 */
+	private boolean areValidOffers(List<MarketOffer> toCheck, Player offerer) {
+		for (MarketOffer mo : toCheck) {
+			if (!mo.isValidOffer(offerer)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * This method asks all the player (starting from a random one) if they
+	 * wants to buy some cards from the available list and updates the status
+	 */
+	private void letThePlayersBuy(List<MarketOffer> offers) {
+		Iterator<Player> it = boardStatus.getPlayersRandomIterator();
+
+		while (it.hasNext()) {
+			ClientHandler ch = searchClientHandler(it.next());
+			List<MarketBuy> buy = null
+			
+			do {
+				buy = ch.askMarketBuy(offers);
+			} while (!areValidBuy(buy));
+			
+			executeMarketBuy(buy, offers);
 		}
 	}
 }
