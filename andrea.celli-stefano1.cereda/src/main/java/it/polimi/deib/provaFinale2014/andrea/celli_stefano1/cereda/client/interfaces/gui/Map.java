@@ -32,6 +32,12 @@ public class Map extends JPanel {
 	private HashMap<Terrain, ArrayList<PiecesOnTheMap>> components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
 
 	/**
+	 * This class calculates and stores the dimension that each type pf label
+	 * has to have
+	 */
+	private DimensionCalculator dimensionCalculator;
+
+	/**
 	 * Initially the map is empty. All the "sub-panels" will be added after the
 	 * first board status is received by the player.
 	 */
