@@ -267,33 +267,38 @@ public class RuleChecker {
 			Terrain going = moveWolf.getNewPosition();
 
 			// Check condition 1
-			if (!coming.getAdjacentTerrains(boardStatus.getRoadMap()).contains(
+			boolean condition1 = false;
+			if (coming.getAdjacentTerrains(boardStatus.getRoadMap()).contains(
 					going)) {
-				return false;
+				condition1 = true;
 			}
 
 			// check condition 2
-			boolean ok = true;
+			boolean condition2 = false;
+
+			boolean isFree = true;
 			Road used = coming.getLinkWith(going, boardStatus.getRoadMap());
 			if (!boardStatus.isFreeFromGates(used)) {
-				ok = false;
+				isFree = false;
 			}
-			if (!ok && !boardStatus.isClosedByGates(coming)) {
-				return false;
+
+			if (isFree || boardStatus.isClosedByGates(coming)) {
+				condition2 = true;
 			}
 
 			// check condition 3
+			boolean condition3 = false;
 			if (moveWolf.getKilledSheep() == null) {
-				return true;
+				condition3 = true;
 			}
 
 			if (moveWolf.getKilledSheep() != null
 					&& !BlackSheep.class.isInstance(moveWolf.getKilledSheep())
 					&& moveWolf.getKilledSheep().getPosition().equals(going)) {
-				return true;
+				condition3 = true;
 			}
 
-			return false;
+			return condition1 && condition2 && condition3;
 		} catch (NullPointerException e) {
 			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
