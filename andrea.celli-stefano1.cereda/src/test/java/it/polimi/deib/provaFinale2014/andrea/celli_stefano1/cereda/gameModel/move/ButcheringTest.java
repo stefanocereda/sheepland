@@ -37,6 +37,7 @@ public class ButcheringTest {
 		p.setMoney(GameConstants.INITIAL_MONEY);
 		p.setID();
 		bs.addPlayerToBoardStatus(p);
+		bs.setCurrentPlayer(p);
 
 		Sheep s = new Sheep(null);
 		s.setID();

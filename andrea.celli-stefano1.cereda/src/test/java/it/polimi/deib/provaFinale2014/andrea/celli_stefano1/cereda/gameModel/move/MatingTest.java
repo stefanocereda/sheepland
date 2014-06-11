@@ -37,6 +37,7 @@ public class MatingTest {
 		Player p = new Player();
 		p.setID();
 		bs.addPlayerToBoardStatus(p);
+		bs.setCurrentPlayer(p);
 
 		Sheep maleSheep = new Sheep(3, TypeOfSheep.MALESHEEP, Terrain.C1);
 		Sheep femaleSheep = new Sheep(4, TypeOfSheep.FEMALESHEEP, Terrain.C2);
