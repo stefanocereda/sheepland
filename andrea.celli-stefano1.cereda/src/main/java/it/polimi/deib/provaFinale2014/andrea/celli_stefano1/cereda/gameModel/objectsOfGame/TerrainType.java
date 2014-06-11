@@ -16,29 +16,7 @@ public enum TerrainType implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		if (this == PLAIN) {
-			return "plain";
-		}
-		if (this == COUNTRYSIDE) {
-			return "countryside";
-		}
-		if (this == MOUNTAIN) {
-			return "mountain";
-		}
-		if (this == DESERT) {
-			return "desert";
-		}
-		if (this == WOOD) {
-			return "wood";
-		}
-		if (this == LAKE) {
-			return "lake";
-		}
-		if (this == SHEEPSBURG) {
-			return "sheepsburg";
-		}
-
-		return null;
+		return this.name().toLowerCase();
 	}
 
 }
