@@ -327,7 +327,7 @@ public class RuleChecker {
 
 			// check condition 2
 			boolean female = false;
-			boolean male = true;
+			boolean male = false;
 			for (Sheep s : boardStatus.getSheeps()) {
 				if (s.getPosition().equals(terrain)) {
 					if (s.getTypeOfSheep().equals(TypeOfSheep.MALESHEEP)) {
