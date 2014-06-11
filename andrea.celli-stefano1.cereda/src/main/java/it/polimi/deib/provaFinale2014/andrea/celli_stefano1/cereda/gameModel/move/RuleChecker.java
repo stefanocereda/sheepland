@@ -307,7 +307,8 @@ public class RuleChecker {
 
 	/**
 	 * A mate is valid if: 1) the terrain is adjacent to the shepherd 2) In the
-	 * terrain there is at least a maleSheep and a femaleSheep
+	 * terrain there is at least a maleSheep and a femaleSheep. Being a player
+	 * action a mating must also be a valid player action
 	 */
 	public static boolean isValidMating(Mating move, BoardStatus boardStatus) {
 		try {
@@ -339,7 +340,8 @@ public class RuleChecker {
 				}
 			}
 
-			return male && female && okTerrain;
+			return male && female && okTerrain
+					&& isValidPlayerAction(move, boardStatus);
 		} catch (NullPointerException e) {
 			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
@@ -348,7 +350,8 @@ public class RuleChecker {
 
 	/**
 	 * a butchering is valid if the designated sheep is in a terrain adjacent to
-	 * the player's road and if the sheep is not a black sheep
+	 * the player's road and if the sheep is not a black sheep. Being a player
+	 * action a butchering must also be a valid player action
 	 */
 	public static boolean isValidButchering(Butchering move,
 			BoardStatusExtended boardStatus) {
@@ -370,7 +373,7 @@ public class RuleChecker {
 				}
 			}
 
-			return ok;
+			return ok && isValidPlayerAction(move, boardStatus);
 		} catch (NullPointerException e) {
 			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
