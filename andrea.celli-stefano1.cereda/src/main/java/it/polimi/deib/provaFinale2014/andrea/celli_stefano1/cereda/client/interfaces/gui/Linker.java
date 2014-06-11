@@ -108,7 +108,8 @@ public class Linker {
 		initColorsAndRoad(boardStatus.getRoadMap());
 
 		// creates hashMap of origins
-		calculateOrigins(mapDimension);
+		calculateOrigins(mapDimension, (HashMap) boardStatus.getRoadMap()
+				.getHashMapOfRoads());
 	}
 
 	/**
@@ -116,8 +117,11 @@ public class Linker {
 	 * calculates the points considering the size of the map.
 	 * 
 	 * @param mapDimension
+	 * @param the
+	 *            hashmap of roads contained in the board status
 	 */
-	private void calculateOrigins(Dimension mapDimension) {
+	private void calculateOrigins(Dimension mapDimension,
+			HashMap<Integer, Road> roads) {
 		// the class containing the methods to create the hashmaps with the
 		// right points
 		CoordinatesConverter converter = new CoordinatesConverter(mapDimension);
@@ -132,7 +136,7 @@ public class Linker {
 
 		blackSheepOrigins = converter.calculateBlackSheepOrigins();
 
-		pawnOrigins = converter.calculatePawnOrigins();
+		pawnOrigins = converter.calculatePawnOrigins(roads);
 
 	}
 

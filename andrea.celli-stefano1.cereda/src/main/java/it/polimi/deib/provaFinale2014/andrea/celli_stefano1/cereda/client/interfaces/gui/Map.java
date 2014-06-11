@@ -32,11 +32,25 @@ public class Map extends JPanel {
 	private HashMap<Terrain, ArrayList<PiecesOnTheMap>> components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
 
 	/**
+	 * This class calculates and stores the dimension that each type pf label
+	 * has to have
+	 */
+	private DimensionCalculator dimensionCalculator;
+
+	/**
+	 * This is a flag that determines wheter mouse events have to be considered
+	 * or not (if the flag it's set to false it's like telling to the listener
+	 * not to care about what the user does, everything has to remain the same)
+	 */
+	private boolean activateListeners;
+
+	/**
 	 * Initially the map is empty. All the "sub-panels" will be added after the
 	 * first board status is received by the player.
 	 */
 	public Map() {
 		super();
+		activateListeners = false;
 		// create first an image icon (the source is places in a source folder)
 		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(
 				"/Game_Board.png"));

@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.MapCoordinates.BlackSheepPositions;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.MapCoordinates.LambPositions;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.MapCoordinates.PawnPositions;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.MapCoordinates.RamPositions;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.MapCoordinates.SheepPositions;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.MapCoordinates.WolfPositions;
@@ -132,10 +133,23 @@ public class CoordinatesConverter {
 		return hashMap;
 	}
 
-	// @TODO
-	public Map<Road, Point> calculatePawnOrigins() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/**
+	 * This method creates an hashMap containing the origin of pawn's label for
+	 * each road
+	 * 
+	 * @param roads
+	 *            (the hash map of roads contained in the board status)
+	 * @return the hashMap containing roads and the origin of the pawns that
+	 *         thay may display
+	 */
+	public Map<Road, Point> calculatePawnOrigins(HashMap<Integer, Road> roads) {
 
+		HashMap<Road, Point> hashMap = new HashMap<Road, Point>();
+
+		for (PawnPositions i : PawnPositions.values()) {
+			hashMap.put(roads.get(i.getRoadNumber()), new Point(
+					(int) (i.getX() * kx), (int) (i.getY() * ky)));
+		}
+		return hashMap;
+	}
 }
