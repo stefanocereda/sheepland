@@ -150,6 +150,8 @@ public class ExecuteAction {
 	 */
 	public static void executeMating(Mating move,
 			BoardStatusExtended boardStatus) {
+		addMoveToLastMoves(move, boardStatus);
+
 		Dice dice = Dice.create();
 		int rolled = dice.roll(GameConstants.NUMBER_OF_DICE_SIDES);
 		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
@@ -169,10 +171,13 @@ public class ExecuteAction {
 	 * dice for every player near to the acting player, every player that scores
 	 * a number greater than five receives two coins from the player, if the
 	 * player has insufficient founds the move is aborted. Otherwise the sheep
-	 * is killed
+	 * is killed. We add the move to the list of last moves because otherwise a
+	 * player could keep trying to kill a sheep until he rolls the right numbers
 	 */
 	public static void executeButchering(Butchering move,
 			BoardStatusExtended boardStatus) {
+		addMoveToLastMoves(move, boardStatus);
+
 		Player player = boardStatus.getEquivalentPlayer(move.getPlayer());
 		Sheep sheep = boardStatus.getEquivalentSheep(move.getKilledSheep());
 
@@ -222,6 +227,7 @@ public class ExecuteAction {
 
 		// kill the sheep
 		boardStatus.getSheeps().remove(sheep);
+
 	}
 
 	/**
