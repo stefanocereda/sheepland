@@ -215,7 +215,7 @@ public class GameControllerExtended extends GameController {
 			super.executeMove(moveToExecute);
 		} else {
 			moveToExecute.execute(boardStatus);
-			sendNewCurrentPlayerToAllPlayers();
+			sendStatusToAllPlayers();
 		}
 	}
 
