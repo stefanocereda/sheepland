@@ -32,6 +32,11 @@ public class Map extends JPanel {
 	private HashMap<Terrain, ArrayList<PiecesOnTheMap>> components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
 
 	/**
+	 * The class containing the hidden painted image.
+	 */
+	private PaintedMap paintedMap;
+
+	/**
 	 * This class calculates and stores the dimension that each type pf label
 	 * has to have
 	 */
@@ -44,6 +49,15 @@ public class Map extends JPanel {
 	 */
 	private boolean activateListeners;
 
+	//
+	//
+	//
+	//
+	// METHODS
+	//
+	//
+	//
+	//
 	/**
 	 * Initially the map is empty. All the "sub-panels" will be added after the
 	 * first board status is received by the player.

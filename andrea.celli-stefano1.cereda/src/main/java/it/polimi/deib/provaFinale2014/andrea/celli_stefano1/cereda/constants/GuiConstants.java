@@ -40,4 +40,9 @@ public class GuiConstants {
 	 */
 	public static final int MAP_WIDTH = 900;
 	public static final int MAP_HEIGHT = 1292;
+
+	/**
+	 * The path of the painted map
+	 */
+	public static final String PAINTED_MAP = "Painted_Map.png";
 }
