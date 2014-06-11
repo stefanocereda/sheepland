@@ -231,7 +231,7 @@ public class GameControllerExtended extends GameController {
 	 * then chooses a random player and starting from him asks all the players
 	 * which cards they want to buy
 	 */
-	private String manageMarket() {
+	public String manageMarket() {
 		List<MarketOffer> offers = askMarketOffersToAllClients();
 
 		letThePlayersBuy(offers);
@@ -253,7 +253,10 @@ public class GameControllerExtended extends GameController {
 		while (it.hasNext()) {
 			Player current = it.next();
 			ClientHandler ch = searchClientHandler(current);
-			offered.addAll(askMarketOffersToClient(ch));
+			List<MarketOffer> clientoffers = askMarketOffersToClient(ch);
+			if (clientoffers != null) {
+				offered.addAll(clientoffers);
+			}
 		}
 		return offered;
 	}
@@ -290,6 +293,9 @@ public class GameControllerExtended extends GameController {
 	 * validity
 	 */
 	private boolean areValidOffers(List<MarketOffer> toCheck, Player offerer) {
+		if (toCheck == null) {
+			return true;
+		}
 		for (MarketOffer mo : toCheck) {
 			if (!mo.isValidOffer(offerer)) {
 				return false;
@@ -336,6 +342,9 @@ public class GameControllerExtended extends GameController {
 	 */
 	private boolean areValidBuy(List<MarketBuy> buy, List<MarketOffer> offers,
 			Player buyer) {
+		if (buy == null) {
+			return true;
+		}
 		for (MarketBuy mb : buy) {
 			if (!mb.isValidBuy(offers, buyer)) {
 				return false;
@@ -347,8 +356,10 @@ public class GameControllerExtended extends GameController {
 	/** For every buy we delete the correspondent offer and trades the card */
 	private void executeAllMarketBuy(List<MarketBuy> buy,
 			List<MarketOffer> offers) {
-		for (MarketBuy mb : buy) {
-			mb.execute(offers, (BoardStatusExtended) boardStatus);
+		if (buy != null) {
+			for (MarketBuy mb : buy) {
+				mb.execute(offers, (BoardStatusExtended) boardStatus);
+			}
 		}
 	}
 }
