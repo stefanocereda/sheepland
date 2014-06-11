@@ -7,6 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceCreator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.TypeOfInterface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.commandLineInterface.Printer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerRMI;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.networkHandler.NetworkHandlerSocket;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.NetworkConstants;
@@ -28,9 +29,14 @@ import java.util.logging.Logger;
  */
 public class ClientMainClass {
 	/** A logger */
-	static Logger logger = Logger.getLogger("client.ClientMainClass");
+	private static final Logger LOGGER = Logger
+			.getLogger("client.ClientMainClass");
 	/** The console scanner */
 	static Scanner in = new Scanner(System.in);
+
+	/** Hide the default constructor */
+	private ClientMainClass() {
+	}
 
 	/**
 	 * The main method of a client
@@ -47,20 +53,21 @@ public class ClientMainClass {
 		int token = -1;
 
 		for (String arg : args) {
-			if (arg.equals("socket")) {
+			if ("socket".equals(arg)) {
 				network = 1;
-			} else if (arg.equals("rmi")) {
+			} else if ("rmi".equals(arg)) {
 				network = 2;
-			} else if (arg.equals("console")) {
+			} else if ("console".equals(arg)) {
 				userInterface = TypeOfInterface.CONSOLE;
-			} else if (arg.equals("gui")) {
+			} else if ("gui".equals(arg)) {
 				userInterface = TypeOfInterface.GUI;
-			} else if (arg.equals("fake")) {
+			} else if ("fake".equals(arg)) {
 				userInterface = TypeOfInterface.FAKE;
 			} else {
 				try {
 					token = Integer.parseInt(arg);
 				} catch (NumberFormatException e) {
+					LOGGER.log(Level.INFO, "The input given is not a number", e);
 				}
 			}
 		}
@@ -72,8 +79,7 @@ public class ClientMainClass {
 			network = askNetwork();
 		}
 		if (token == -1) {
-			System.out
-					.println("Insert a previous token if you have one, 0 otherwise: ");
+			Printer.println("Insert a previous token if you have one, 0 otherwise: ");
 			token = Integer.parseInt(in.nextLine());
 		}
 		if (token == -1) {
@@ -92,7 +98,7 @@ public class ClientMainClass {
 				launchSocket(gameController, token);
 			} catch (IOException e) {
 				String message = "Unable to start Socket connection";
-				logger.log(Level.SEVERE, message, e);
+				LOGGER.log(Level.SEVERE, message, e);
 			}
 		}
 
@@ -102,10 +108,10 @@ public class ClientMainClass {
 				launchRMI(gameController, token);
 			} catch (RemoteException e) {
 				String message = "Unable to start rmi connection";
-				logger.log(Level.SEVERE, message, e);
+				LOGGER.log(Level.SEVERE, message, e);
 			} catch (NotBoundException e) {
 				String message = "Unable to start rmi connection";
-				logger.log(Level.SEVERE, message, e);
+				LOGGER.log(Level.SEVERE, message, e);
 			}
 		}
 	}
@@ -119,10 +125,10 @@ public class ClientMainClass {
 		String answer;
 
 		do {
-			System.out.println("Choose the interface type:");
-			System.out.println("1 - Console");
-			System.out.println("2 - Gui");
-			System.out.println("Insert answer:");
+			Printer.println("Choose the interface type:");
+			Printer.println("1 - Console");
+			Printer.println("2 - Gui");
+			Printer.println("Insert answer:");
 			answer = in.nextLine();
 		} while (!answer.equals("1") && !answer.equals("2"));
 
@@ -142,10 +148,10 @@ public class ClientMainClass {
 		String answer;
 
 		do {
-			System.out.println("Choose the network type:");
-			System.out.println("1 - Socket");
-			System.out.println("2 - RMI");
-			System.out.println("Insert answer:");
+			Printer.println("Choose the network type:");
+			Printer.println("1 - Socket");
+			Printer.println("2 - RMI");
+			Printer.println("Insert answer:");
 			answer = in.nextLine();
 		} while (!answer.equals("1") && !answer.equals("2"));
 
