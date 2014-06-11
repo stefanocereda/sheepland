@@ -3,7 +3,9 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Mating;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
@@ -88,7 +90,7 @@ public class InterfaceFake implements Interface {
 	}
 
 	private Move newReallyRandomMove() {
-		int type = rnd.nextInt(3);
+		int type = rnd.nextInt(5);
 
 		if (type == 0) {
 			return newReallyRandomBuyCard();
@@ -99,7 +101,21 @@ public class InterfaceFake implements Interface {
 		if (type == 2) {
 			return newReallyRandomMovePlayer();
 		}
+		if (type == 3) {
+			return newReallyRandomMating();
+		}
+		if (type == 4) {
+			return newReallyRandomButchering();
+		}
 		return null;
+	}
+
+	private Move newReallyRandomButchering() {
+		return new Butchering(sortPlayer(), sortSheep());
+	}
+
+	private Move newReallyRandomMating() {
+		return new Mating(sortPlayer(), sortTerrain());
 	}
 
 	private Move newReallyRandomBuyCard() {
@@ -321,12 +337,36 @@ public class InterfaceFake implements Interface {
 	//
 	//
 	public List<MarketOffer> askMarketOffers() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MarketOffer> toReturn = new ArrayList<MarketOffer>();
+		Player me = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
+		List<Card> myCards = me.getCards();
+		Dice dice = Dice.create();
+
+		for (Card c : myCards) {
+			if (dice.roll(2) == 1) {
+				int price = dice.roll(10);
+				MarketOffer offer = new MarketOffer(me, c, price);
+				toReturn.add(offer);
+			}
+		}
+
+		return toReturn;
 	}
 
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
-		// TODO Auto-generated method stub
-		return null;
+		List<MarketBuy> toReturn = new ArrayList<MarketBuy>();
+		Player me = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
+		Dice dice = Dice.create();
+
+		for (MarketOffer offer : offers) {
+			if (dice.roll(2) == 1) {
+				MarketBuy buy = new MarketBuy(me, offer.getCardOffered());
+				toReturn.add(buy);
+			}
+		}
+
+		return toReturn;
 	}
 }
