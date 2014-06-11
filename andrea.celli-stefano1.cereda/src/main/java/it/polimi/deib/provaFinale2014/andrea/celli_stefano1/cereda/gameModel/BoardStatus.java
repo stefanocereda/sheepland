@@ -424,11 +424,11 @@ public class BoardStatus implements Serializable {
 	 */
 	private class PlayerOrderedIterator implements Iterator<Player> {
 		private Player playerPointed;
-		private int firstPos;
+		private Integer firstPos;
 		private boolean firstCallToDo = true;
 
 		public PlayerOrderedIterator() {
-			firstPos = (getPositionOfAPlayer(firstPlayer) - 1)
+			firstPos = (getPositionOfAPlayer(firstPlayer) - 1 + getPlayers().length)
 					% getPlayers().length;
 			playerPointed = getPlayers()[firstPos];
 		}
@@ -466,7 +466,7 @@ public class BoardStatus implements Serializable {
 
 		public PlayerRandomIterator() {
 			Dice dice = Dice.create();
-			firstPos = (dice.roll(getPlayers().length) - 2)
+			firstPos = (dice.roll(getPlayers().length) - 2 + getPlayers().length)
 					% getPlayers().length;
 			playerPointed = getPlayers()[firstPos];
 		}

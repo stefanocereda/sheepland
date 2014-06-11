@@ -65,7 +65,7 @@ public class CompleteSimulationTest {
 			} catch (InterruptedException e) {
 				System.out.println("interrupted");
 			}
-		} while (!finished(players) && counter < 2);
+		} while (!finished(players) && counter < 3);
 	}
 
 	/** Keep searching for the rmi server */

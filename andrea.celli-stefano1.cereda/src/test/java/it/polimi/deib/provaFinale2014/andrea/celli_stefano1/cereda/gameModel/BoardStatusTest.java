@@ -318,7 +318,7 @@ public class BoardStatusTest {
 	@Test
 	public void PlayersIteratorTest() {
 		int numplayers = 4;
-		int firstPlayer = 2;
+		int firstPlayer = 0;
 		BoardStatus bs = new BoardStatus(numplayers);
 		Player[] players = new Player[numplayers];
 
@@ -333,16 +333,16 @@ public class BoardStatusTest {
 		Iterator<Player> it = bs.getPlayersIterator();
 
 		assertTrue(it.hasNext());
-		assertEquals(players[2], it.next());
-
-		assertTrue(it.hasNext());
-		assertEquals(players[3], it.next());
-
-		assertTrue(it.hasNext());
 		assertEquals(players[0], it.next());
 
 		assertTrue(it.hasNext());
 		assertEquals(players[1], it.next());
+
+		assertTrue(it.hasNext());
+		assertEquals(players[2], it.next());
+
+		assertTrue(it.hasNext());
+		assertEquals(players[3], it.next());
 
 		assertFalse(it.hasNext());
 	}

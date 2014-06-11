@@ -83,8 +83,9 @@ public class NetworkHandlerSocket extends NetworkHandler {
 
 			try {
 				command = in.readUTF();
-
-				if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
+				if (command.equals(SocketMessages.PING)) {
+					;
+				} else if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
 					askAndSendNewMove();
 				} else if (command.equals(SocketMessages.EXECUTE_MOVE)) {
 					getAndExecuteNewMove();
@@ -114,6 +115,9 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					askMarketOffers();
 				} else if (command.equals(SocketMessages.ASK_MARKET_BUY)) {
 					askMarketBuy();
+				} else {
+					logger.log(Level.SEVERE,
+							"Received an unrecognized message: " + command);
 				}
 			} catch (IOException e) {
 				// we are disconnected
