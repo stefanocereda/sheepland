@@ -564,7 +564,8 @@ public class InterfaceConsole implements Interface {
 
 	/** Print the names of the terrains adjacent the controlled player */
 	private void printAdjacentTerrains() {
-		Player p = gameController.getBoardStatus().getCurrentPlayer();
+		Player p = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
 
 		Printer.println("The terrains around you are: ");
 		show(p.getPosition().getAdjacentTerrains());
@@ -580,7 +581,8 @@ public class InterfaceConsole implements Interface {
 
 	/** Print the terrain types around the player */
 	private void printAdjacentTerrainTypes() {
-		Player p = gameController.getBoardStatus().getCurrentPlayer();
+		Player p = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
 
 		Printer.println("Around you there are these kind of terrain:");
 
