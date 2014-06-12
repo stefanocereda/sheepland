@@ -102,6 +102,7 @@ public class ClientHandlerSocket extends ClientHandler {
 			throws ClientDisconnectedException {
 
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.SEND_NEW_STATUS);
 			out.writeObject(newStatus);
 			out.flush();
