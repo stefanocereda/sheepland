@@ -2,13 +2,13 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole.GameConsole;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
+import java.awt.Dimension;
 import java.util.List;
 
 /**
@@ -27,23 +27,8 @@ public class InterfaceGui implements Interface {
 	/** The frame that contains all the elements of the GUI */
 	private MainFrame frame;
 
-	/**
-	 * The map displayed in the gui. Given its frequent use it's better not to
-	 * access it every time through the Frame. (Even though it could be done)
-	 */
-	private Map map;
-
-	/**
-	 * The game console displayed in the gui, same reason for having an
-	 * attribute ad before
-	 */
-	private GameConsole console;
-
-	/**
-	 * The object that contains all the links between colors and terrains,
-	 * colors and roads etc..
-	 */
-	private Linker linker;
+	/** The verifier used to get new move from player actions */
+	private Verifier verifier;
 
 	/**
 	 * The constructor create the needed GUI-related objects. Initially the
@@ -58,17 +43,39 @@ public class InterfaceGui implements Interface {
 
 		this.frame = new MainFrame();
 
-		this.console = frame.getConsole();
-		this.map = frame.getMap();
-
-		this.linker = new Linker();
-
 	}
 
-	/** Set the reference to the gameController used in this game */
+	/**
+	 * Set the reference to the gameController used in this game and creates the
+	 * verifier (this has to be done after setting the gameController in this
+	 * class)
+	 */
 	public void setReferenceToGameController(
 			GameControllerClient gameControllerClient) {
 		this.gameController = gameControllerClient;
+
+		createAndInitVerifier(this);
+
+		// in order to be created the DragAndDrop class needs a reference to the
+		// verifier
+		frame.getMap().createDragAndDrop(verifier);
+	}
+
+	/**
+	 * Creates the verifier
+	 * 
+	 * @param interfaceGui
+	 */
+	private void createAndInitVerifier(InterfaceGui interfaceGui) {
+
+		Dimension mapDisplayedDimension = frame.getMap().getMapDimension();
+
+		verifier = new Verifier(this, mapDisplayedDimension);
+
+	}
+
+	public GameControllerClient getGameController() {
+		return gameController;
 	}
 
 	public void showInitialInformation() {

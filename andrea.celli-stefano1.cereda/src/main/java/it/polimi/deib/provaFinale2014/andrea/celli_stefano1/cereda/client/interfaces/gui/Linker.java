@@ -17,13 +17,19 @@ import java.util.Map;
  * roads 3)pawns and players 4)fixed points in the map where to locate panels
  * (terrain-type of animal-point)
  * 
- * A singleton here should be nice!
+ * This class implements the singleton pattern.
  * 
  * @author Andrea
  * 
  */
 
 public class Linker {
+
+	/**
+	 * This is the only instance of the Linker class which is allowed
+	 * (singleton!)
+	 */
+	private static Linker linker;
 
 	/**
 	 * This hashmap contains the links between the player and the pawns. (In
@@ -84,12 +90,25 @@ public class Linker {
 	/**
 	 * The constructor just creates an empty instance of the Linker class
 	 */
-	public Linker() {
+	private Linker() {
 
 	}
 
 	/**
-	 * Initialize all the Linker's attribute
+	 * Returns or creates (if it doesen't already exist) the unique instance of
+	 * Linker
+	 * 
+	 * @return linker
+	 */
+	public static Linker getLinkerInsance() {
+		if (linker == null) {
+			linker = new Linker();
+		}
+		return linker;
+	}
+
+	/**
+	 * Initialize all the Linker's attribute (it's called in the Verifier)
 	 * 
 	 * @param BoardStatus
 	 *            (the initial status of the game)
