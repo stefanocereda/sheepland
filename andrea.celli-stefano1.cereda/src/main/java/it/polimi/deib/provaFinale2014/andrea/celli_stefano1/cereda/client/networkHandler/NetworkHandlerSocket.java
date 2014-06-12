@@ -207,6 +207,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 */
 	private void askAndSendNewMove() throws IOException {
 		Move newMove = controller.getNewMove();
+		out.reset();
 		out.writeObject(newMove);
 		out.flush();
 	}
@@ -257,6 +258,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 
 	/** Ask the user to choose some cards to sell */
 	private void askMarketOffers() throws IOException {
+		out.reset();
 		out.writeObject(controller.askMarketOffers());
 		out.flush();
 	}
@@ -269,6 +271,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 */
 	private void askMarketBuy() throws ClassNotFoundException, IOException {
 		List<MarketOffer> offers = (List<MarketOffer>) in.readObject();
+		out.reset();
 		out.writeObject(controller.askMarketBuy(offers));
 		out.flush();
 	}
