@@ -10,12 +10,18 @@ public class TimeConstants {
 
 	/** The time in milliseconds waiting for the reconnection of a client */
 	public static final long WAITING_FOR_CLIENT_RECONNECT = 5 * 1000;//
-	
+
 	/** The time in milliseconds between each reconnection test */
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
 
 	/** the time in milliseconds waiting for the max number of players */
 	public static final int WAITING_FOR_MAX_PLAYERS = 20 * 1000;
+
+	/** The duration in milliseconds of each movement in the gui */
+	public static final long LENGTH_OF_ANIMATION = 2 * 1000;
+
+	/**The number of repaint to do in each animation*/
+	public static final long NUMBER_OF_ANIMATION_REPAINTS = 50;
 
 	/** Hide the default constructor */
 	private TimeConstants() {

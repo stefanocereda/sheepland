@@ -32,5 +32,12 @@ public class InterfaceCreatorTest {
 			assertFalse(interfaces.contains(created));
 			interfaces.add(created);
 		}
+		
+		try {
+			Thread.sleep(Long.MAX_VALUE);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
