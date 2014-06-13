@@ -232,6 +232,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	/** This method ask the user to choose the initial position and returns it */
 	private void chooseInitialPosition() throws IOException {
 		Road toReturn = controller.chooseInitialPosition();
+		out.reset();
 		out.writeObject(toReturn);
 		out.flush();
 	}
@@ -242,6 +243,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 */
 	private void chooseSecondInitialPosition() throws IOException {
 		Road toReturn = controller.chooseSecondInitialPosition();
+		out.reset();
 		out.writeObject(toReturn);
 		out.flush();
 	}
@@ -252,6 +254,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * @throws IOException
 	 */
 	private void chooseShepherd() throws IOException {
+		out.reset();
 		out.writeBoolean(controller.getShepherd());
 		out.flush();
 	}

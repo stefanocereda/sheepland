@@ -244,6 +244,8 @@ public class ExecuteAction {
 			}
 		}
 
+		assert (rightOffer != null);
+
 		Player seller = boardStatus
 				.getEquivalentPlayer(rightOffer.getOfferer());
 		Player buyer = boardStatus.getEquivalentPlayer(buy.getBuyer());

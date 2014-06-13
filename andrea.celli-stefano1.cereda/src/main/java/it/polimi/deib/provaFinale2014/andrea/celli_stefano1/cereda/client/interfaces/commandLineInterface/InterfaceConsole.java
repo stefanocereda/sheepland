@@ -507,7 +507,9 @@ public class InterfaceConsole implements Interface {
 
 		Printer.println();
 		Printer.println("Those are your cards:");
-		for (Card c : gameController.getControlledPlayer().getCards()) {
+		Player me = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
+		for (Card c : me.getCards()) {
 			Printer.println(c.toString());
 		}
 	}
@@ -770,9 +772,18 @@ public class InterfaceConsole implements Interface {
 	/** Asks the user to insert a market price for the given card */
 	private int askPriceForMarket(Card c) {
 		String answer;
-		Printer.println("Insert a price for the card " + c.toString());
-		answer = in.nextLine();
-		return Integer.parseInt(answer);
+		int toReturn = 0;
+		boolean reAsk = false;
+		do {
+			Printer.println("Insert a price for the card " + c.toString());
+			answer = in.nextLine();
+			try {
+				toReturn = Integer.parseInt(answer);
+			} catch (NumberFormatException e) {
+				reAsk = true;
+			}
+		} while (reAsk);
+		return toReturn;
 	}
 
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
@@ -789,8 +800,19 @@ public class InterfaceConsole implements Interface {
 		return toReturn;
 	}
 
-	/** Ask the user if he wants to buy the given offer */
+	/**
+	 * Ask the user if he wants to buy the given offer, only if we are not the
+	 * offerer
+	 */
 	private boolean wantsToBuy(MarketOffer offer) {
+		Player offerer = gameController.getBoardStatus().getEquivalentPlayer(
+				offer.getOfferer());
+		Player me = gameController.getBoardStatus().getEquivalentPlayer(
+				gameController.getControlledPlayer());
+		if (offerer.equals(me)) {
+			return false;
+		}
+
 		int playerNum = gameController.getBoardStatus().getPlayerNumber(
 				offer.getOfferer());
 

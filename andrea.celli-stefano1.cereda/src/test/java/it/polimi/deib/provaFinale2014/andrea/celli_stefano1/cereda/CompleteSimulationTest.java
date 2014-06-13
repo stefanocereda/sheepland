@@ -13,6 +13,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -25,6 +26,7 @@ import org.junit.Test;
 public class CompleteSimulationTest {
 
 	@Test
+	@Ignore
 	public void test() {
 		// starts the server
 		ServerMainClass.main(null);
@@ -33,29 +35,36 @@ public class CompleteSimulationTest {
 
 		List<Thread> players = new ArrayList<Thread>();
 		// launch two socket client
-		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
+		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i++) {
 			Client c = new Client(new String[] { "fake", "socket", "0" });
 			Thread t = new Thread(c);
 			players.add(t);
 			t.start();
 		}
-		/**
-		 * System.out.println("two fake socket created");
-		 * 
-		 * // launch two rmi client for (int i =
-		 * GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i <
-		 * GameConstants.MAX_PLAYERS_IN_A_GAME; i++) { Client c = new Client(new
-		 * String[] { "fake", "rmi" }); Thread t = new Thread(c);
-		 * players.add(t); t.start(); }
-		 * System.out.println("two fake rmi created");
-		 * 
-		 * // launch a socket client Client c1 = new Client(new String[] {
-		 * "fake", "socket" }); Thread t1 = new Thread(c1); players.add(t1);
-		 * t1.start(); // and an rmi Client c2 = new Client(new String[] {
-		 * "fake", "rmi" }); Thread t2 = new Thread(c2); players.add(t2);
-		 * t2.start(); System.out.println("created one socket and one rmi");
-		 */
-		
+
+		System.out.println("two fake socket created");
+
+		// launch two rmi client
+		for (int i = GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
+			Client c = new Client(new String[] { "fake", "rmi", "0" });
+			Thread t = new Thread(c);
+			players.add(t);
+			t.start();
+		}
+		System.out.println("two fake rmi created");
+
+//		// launch a socket client
+//		Client c1 = new Client(new String[] { "fake", "socket" });
+//		Thread t1 = new Thread(c1);
+//		players.add(t1);
+//		t1.start();
+//		// and an rmi Client
+//		c2 = new Client(new String[] { "fake", "rmi" });
+//		Thread t2 = new Thread(c2);
+//		players.add(t2);
+//		t2.start();
+//		System.out.println("created one socket and one rmi");
+
 		// let them play for at most one minute
 		int counter = 0;
 		do {

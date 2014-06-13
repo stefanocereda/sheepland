@@ -62,6 +62,7 @@ public class ClientHandlerSocket extends ClientHandler {
 			ClassNotFoundException {
 		try {
 			// Send the message
+			out.reset();
 			out.writeUTF(SocketMessages.ASK_NEW_MOVE);
 			out.flush();
 
@@ -77,6 +78,7 @@ public class ClientHandlerSocket extends ClientHandler {
 			throws ClientDisconnectedException {
 
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.EXECUTE_MOVE);
 			out.writeObject(moveToExecute);
 			out.flush();
@@ -89,6 +91,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.NOT_VALID_MOVE);
 			out.flush();
 			return (Move) in.readObject();
@@ -115,6 +118,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public Road askInitialPosition() throws ClientDisconnectedException,
 			ClassNotFoundException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.ASK_INITIAL_POSITION);
 			out.flush();
 
@@ -128,6 +132,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public Road askSecondInitialPosition() throws ClientDisconnectedException,
 			ClassNotFoundException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.ASK_SECOND_INITIAL_POSITION);
 			out.flush();
 
@@ -140,6 +145,7 @@ public class ClientHandlerSocket extends ClientHandler {
 
 	public void pingTheClient() throws ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.PING);
 			out.flush();
 		} catch (IOException e) {
@@ -151,6 +157,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.SET_CURRENT_PLAYER);
 			out.writeObject(newCurrentPlayer);
 			out.flush();
@@ -163,6 +170,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public void sendWinners(List<Player> winners)
 			throws ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.SEND_WINNERS);
 			out.writeObject(winners);
 			out.flush();
@@ -178,6 +186,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public void notifyControlledPlayer(Player controlled)
 			throws ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.NOTIFY_CONTROLLED_PLAYER);
 			out.writeObject(controlled);
 			out.flush();
@@ -189,6 +198,7 @@ public class ClientHandlerSocket extends ClientHandler {
 
 	public boolean chooseShepherd() throws ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.CHOOSE_SHEPHERD);
 			out.flush();
 			return in.readBoolean();
@@ -201,6 +211,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public void sendShepherd(boolean usingSecond)
 			throws ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.NOTIFY_SHEPHERD);
 			out.writeBoolean(usingSecond);
 			out.flush();
@@ -213,6 +224,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public List<MarketOffer> askMarketOffers() throws ClassNotFoundException,
 			ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.ASK_MARKET_OFFERS);
 			out.flush();
 			return (List<MarketOffer>) in.readObject();
@@ -225,6 +237,7 @@ public class ClientHandlerSocket extends ClientHandler {
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
 			throws ClassNotFoundException, ClientDisconnectedException {
 		try {
+			out.reset();
 			out.writeUTF(SocketMessages.ASK_MARKET_BUY);
 			out.writeObject(offers);
 			out.flush();

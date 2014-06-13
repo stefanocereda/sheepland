@@ -1,7 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameController.server;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -255,10 +254,18 @@ public class GameControllerExtended extends GameController {
 			ClientHandler ch = searchClientHandler(current);
 			List<MarketOffer> clientoffers = askMarketOffersToClient(ch);
 			if (clientoffers != null) {
+				setIdToAllOffers(clientoffers);
 				offered.addAll(clientoffers);
 			}
 		}
 		return offered;
+	}
+
+	/** This method sets the id for all the market offers in the given list */
+	private void setIdToAllOffers(List<MarketOffer> clientoffers) {
+		for (MarketOffer mo : clientoffers) {
+			mo.setID();
+		}
 	}
 
 	/**
@@ -321,6 +328,7 @@ public class GameControllerExtended extends GameController {
 						buy = ch.askMarketBuy(offers);
 					} while (!areValidBuy(buy, offers, ch.getPlayer()));
 
+					setIdToAllBuy(buy);
 					executeAllMarketBuy(buy, offers);
 				} catch (ClientDisconnectedException e) {
 					String message = "A client disconnected";
@@ -333,6 +341,13 @@ public class GameControllerExtended extends GameController {
 					ch.getPlayer().setNotConnected();
 				}
 			}
+		}
+	}
+
+	/** Set the id to all given market buy */
+	private void setIdToAllBuy(List<MarketBuy> buy) {
+		for (MarketBuy mb : buy) {
+			mb.setID();
 		}
 	}
 
