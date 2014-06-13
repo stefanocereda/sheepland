@@ -25,6 +25,7 @@ import java.util.logging.Logger;
  * 
  */
 public class GameControllerTwoPlayers extends GameController {
+	/** A logger */
 	private static final Logger LOGGER = Logger
 			.getLogger(GameControllerTwoPlayers.class.getName());
 
@@ -34,9 +35,8 @@ public class GameControllerTwoPlayers extends GameController {
 	}
 
 	/**
-	 * Create all the players and add them to the board, notify to the client
-	 * handlers the reference to the game and to their player. This method is
-	 * overriden because the initial money are different
+	 * {@inheritDoc}. This method is overridden because the initial money are
+	 * different
 	 */
 	@Override
 	protected void addPlayersToGame() {
@@ -144,10 +144,15 @@ public class GameControllerTwoPlayers extends GameController {
 		}
 	}
 
+	//
+	//
+	// HERE STARTS GAME MANAGING
+	//
+	//
+
 	/**
-	 * The second action of a game is asking all the clients to choose an
-	 * initial position. After that we delete the list of moves for all the
-	 * clients. This method is overridden because we have to ask two positions.
+	 * {@inheritDoc}. This method is overridden because we have to ask two
+	 * positions.
 	 * 
 	 * @return moveTheBlackSheep
 	 */

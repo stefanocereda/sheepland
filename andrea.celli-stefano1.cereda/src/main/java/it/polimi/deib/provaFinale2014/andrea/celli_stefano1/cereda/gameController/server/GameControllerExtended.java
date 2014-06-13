@@ -30,6 +30,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.client
  * 
  */
 public class GameControllerExtended extends GameController {
+	/** A logger */
 	private static final Logger LOGGER = Logger
 			.getLogger(GameControllerExtended.class.getName());
 
@@ -92,6 +93,12 @@ public class GameControllerExtended extends GameController {
 		wolf.setID();
 		((BoardStatusExtended) boardStatus).addWolfToBoardStatus(wolf);
 	}
+
+	//
+	//
+	// HERE STARTS GAME MANAGING
+	//
+	//
 
 	/**
 	 * This method notifies the current player to all the clients, then goes on

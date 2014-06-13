@@ -55,8 +55,7 @@ public class GameControllerCreator {
 		if (gameType.equals(GameType.ORIGINAL)) {
 			return new GameControllerTwoPlayers(playerClients);
 		} else {
-			// TODO return new GameControllerAdvancedTwoPlayers(playerClients);
+			return new GameControllerExtendedTwoPlayers(playerClients);
 		}
-		return null;
 	}
 }

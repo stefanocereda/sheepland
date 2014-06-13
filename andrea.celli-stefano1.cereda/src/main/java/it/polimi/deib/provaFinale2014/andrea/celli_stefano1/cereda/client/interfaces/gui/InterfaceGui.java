@@ -52,7 +52,7 @@ public class InterfaceGui implements Interface {
 
 		// creates instances of all the utility components of the map (ex. D&D
 		// class,dimension calculator)
-		frame.getMap().initMapComponents(this);
+
 	}
 
 	public GameControllerClient getGameController() {
@@ -60,7 +60,7 @@ public class InterfaceGui implements Interface {
 	}
 
 	public void showInitialInformation() {
-		// TODO Auto-generated method stub
+		frame.getMap().initMapComponents(this);
 
 	}
 

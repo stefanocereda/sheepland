@@ -59,7 +59,9 @@ public class InterfaceConsole implements Interface {
 		Printer.println("Brace yourself, sheeps are coming!!");
 		Printer.println(" ");
 		Printer.println(" ");
-		Printer.println("You're player " + gameController.getControlledPlayer());
+		Printer.println("You're player "
+				+ gameController.getBoardStatus().getPlayerNumber(
+						gameController.getControlledPlayer()));
 		Printer.println(" ");
 		Printer.println("Good luck!");
 		Printer.println(" ");
