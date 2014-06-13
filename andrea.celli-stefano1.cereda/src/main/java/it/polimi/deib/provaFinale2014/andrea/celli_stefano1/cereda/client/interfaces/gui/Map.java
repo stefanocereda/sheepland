@@ -125,9 +125,10 @@ public class Map extends JPanel {
 
 		// the map doesn't hold a reference to the verifier. It just gives it as
 		// a parameter to the drag&drop listener
-		Verifier verifier = new Verifier(interfaceGui);
+		DragAndDropManager dragAndDropManager = new DragAndDropManager(
+				interfaceGui, this);
 
-		listener = new DragAndDrop(this, verifier);
+		listener = new DragAndDrop(this, dragAndDropManager);
 
 		// add the listeners
 		this.addMouseListener(listener);

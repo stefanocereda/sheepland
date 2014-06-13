@@ -32,13 +32,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	/**
 	 * The class that has to verify the conditions to start and end a d&d action
 	 */
-	private Verifier verifier;
-
-	/**
-	 * The class that allows to determine a point position in the game through
-	 * its color.
-	 */
-	private PaintedMap paintedMap;
+	private DragAndDropManager dragAndDropManager;
 
 	//
 	//
@@ -48,12 +42,11 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 * @param map
 	 * @param verifier
 	 */
-	public DragAndDrop(Map map, Verifier verifier) {
+	public DragAndDrop(Map map, DragAndDropManager dragAndDropManager) {
 		this.map = map;
-		this.verifier = verifier;
+		this.dragAndDropManager = dragAndDropManager;
 		draggedPanel = null;
 		status = GameStatus.NOT_YOUR_TURN;
-		paintedMap = new PaintedMap(map.getSize());
 	}
 
 	/**
@@ -93,6 +86,10 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 * current situation it sets the Label as the draggedLabel.
 	 */
 	public void mousePressed(MouseEvent e) {
+		if (status != GameStatus.BUY_CARD && status != GameStatus.MARKET
+				&& status != GameStatus.NOT_YOUR_TURN) {
+			draggedPanel = dragAndDropManager.getPanelToMove(e, status);
+		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
