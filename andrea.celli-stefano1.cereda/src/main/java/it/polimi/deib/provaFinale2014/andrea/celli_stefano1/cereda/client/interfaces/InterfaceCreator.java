@@ -10,6 +10,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
  * 
  */
 public class InterfaceCreator {
+	/** Hide the default constructor */
+	private InterfaceCreator() {
+	}
 
 	/**
 	 * Creates an interface of the given type
@@ -26,7 +29,8 @@ public class InterfaceCreator {
 			return new InterfaceGui();
 		case FAKE:
 			return new InterfaceFake();
+		default:
+			return new InterfaceConsole();
 		}
-		return null;
 	}
 }
