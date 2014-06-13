@@ -1,6 +1,3 @@
-/**
- * 
- */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
@@ -26,8 +23,8 @@ public interface Interface {
 	 * passage couldn't be done in the initialization because they are created
 	 * at the same time.
 	 * 
-	 * @param the
-	 *            game controller that has to be linked
+	 * @param gameControllerClient
+	 *            the game controller that has to be linked
 	 */
 	void setReferenceToGameController(GameControllerClient gameControllerClient);
 
@@ -101,9 +98,17 @@ public interface Interface {
 	/**
 	 * Ask the user to choose some cards that he wants to sell and the price
 	 * required
+	 * 
+	 * @return The list of user's offers
 	 */
 	List<MarketOffer> askMarketOffers();
 
-	/** Asks the user to choose some cards to buy among the proposed offers */
+	/**
+	 * Asks the user to choose some cards to buy among the proposed offers
+	 * 
+	 * @param offers
+	 *            A list of available MarketOffers
+	 * @return The list of MarketBuy created by the user
+	 */
 	List<MarketBuy> askMarketBuy(List<MarketOffer> offers);
 }
