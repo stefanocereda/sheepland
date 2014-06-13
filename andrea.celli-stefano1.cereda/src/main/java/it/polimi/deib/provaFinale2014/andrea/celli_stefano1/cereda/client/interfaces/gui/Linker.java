@@ -80,6 +80,21 @@ public class Linker {
 	 **/
 	private Map<Road, Point> pawnOrigins = new HashMap<Road, Point>();
 
+	/**
+	 * Sheep on each terrain
+	 */
+	private Map<Terrain, Integer> sheepForEachTerrain = new HashMap<Terrain, Integer>();
+
+	/**
+	 * Lambs for each terrain
+	 */
+	private Map<Terrain, Integer> lambForEachTerrain = new HashMap<Terrain, Integer>();
+
+	/**
+	 * Rams for each terrain
+	 */
+	private Map<Terrain, Integer> ramForEachTerrain = new HashMap<Terrain, Integer>();
+
 	//
 	//
 	//
@@ -129,10 +144,16 @@ public class Linker {
 		// creates hashMap of origins
 		calculateOrigins(mapDimension, (HashMap) boardStatus.getRoadMap()
 				.getHashMapOfRoads());
+
+		initNumberOfSheepForEachTerrain();
+
+		initNumberOfLambForEachTerrain();
+
+		initNumberOfRamForEachTerrain();
 	}
 
 	/**
-	 * This method creates an istance of the class "originCreator" and
+	 * This method creates an istance of the class "Coordinates converter" and
 	 * calculates the points considering the size of the map.
 	 * 
 	 * @param mapDimension
@@ -260,4 +281,32 @@ public class Linker {
 		colorsAndRoad.put(new Color(124, 4, 161), roads.get(41));
 		colorsAndRoad.put(new Color(132, 24, 169), roads.get(42));
 	}
+
+	/** Set the initial number of ram for each terrain to 0 */
+	private void initNumberOfRamForEachTerrain() {
+
+		for (Terrain terrain : Terrain.values()) {
+			ramForEachTerrain.put(terrain, 0);
+		}
+
+	}
+
+	/** Set the initial number of lamb for each terrain to 0 */
+	private void initNumberOfLambForEachTerrain() {
+
+		for (Terrain terrain : Terrain.values()) {
+			lambForEachTerrain.put(terrain, 0);
+		}
+
+	}
+
+	/** Set the initial number of sheep for each terrain to 0 */
+	private void initNumberOfSheepForEachTerrain() {
+
+		for (Terrain terrain : Terrain.values()) {
+			sheepForEachTerrain.put(terrain, 0);
+		}
+
+	}
+
 }
