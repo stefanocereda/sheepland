@@ -71,6 +71,8 @@ public class GameControllerClient {
 	 * This method is called by the server at the beginning of the game. We ask
 	 * the user for a road and give it back, the server will keep asking until
 	 * we choose a free road
+	 * 
+	 * @return the road chosen by the interface
 	 */
 	public Road chooseInitialPosition() {
 		return userInterface.chooseInitialPosition();
@@ -91,6 +93,8 @@ public class GameControllerClient {
 	/**
 	 * This method is called by the server to retrieve a new move, we ask it to
 	 * the user and return
+	 * 
+	 * @return The move chosen in the interface
 	 */
 	public Move getNewMove() {
 		return userInterface.getNewMove();
@@ -107,6 +111,9 @@ public class GameControllerClient {
 	/**
 	 * This method is called after a player change, we notify the user and set
 	 * the current player
+	 * 
+	 * @param newCurrentPlayer
+	 *            The player that has to become the new current player
 	 */
 	public void setCurrentPlayer(Player newCurrentPlayer) {
 		userInterface.notifyCurrentPlayer(newCurrentPlayer);
@@ -115,7 +122,8 @@ public class GameControllerClient {
 	}
 
 	/**
-	 * This method is called by the server at the end of a game
+	 * This method is called by the server at the end of a game to notify the
+	 * list of winners
 	 * 
 	 * @param winners
 	 *            A list of all the winners
@@ -136,19 +144,28 @@ public class GameControllerClient {
 	 * This method is the first that is called by the server, it sets the
 	 * reference to the controlled player. We don't notify nothing to the client
 	 * as we still don't have a boardStatus
+	 * 
+	 * @param controlled
+	 *            The player controlled by this client.
 	 */
 	public void setControlledPlayer(Player controlled) {
 		this.controlledPlayer = controlled;
 	}
 
-	/** @return the player controlled by this client */
+	/**
+	 * @return the player controlled by this client, we ask the boardStatus for
+	 *         the equivalent player (id-based) therefore it is safe to use this
+	 *         method in the interface
+	 */
 	public Player getControlledPlayer() {
-		return controlledPlayer;
+		return boardStatus.getEquivalentPlayer(controlledPlayer);
 	}
 
 	/**
 	 * This method asks the client to choose a controlled shepherd and sets it
 	 * in the model
+	 * 
+	 * @return If the player wants to use his second shepherd
 	 */
 	public boolean getShepherd() {
 		boolean second = userInterface.chooseShepherd();
@@ -159,7 +176,9 @@ public class GameControllerClient {
 	/**
 	 * This method ask the client to choose a position for his second shepherd.
 	 * We also set our player as controlling the second shepherd, in this way we
-	 * will recognize the next moved as done by the right shepherd
+	 * will recognize the initial move as done by the right shepherd.
+	 * 
+	 * @return The road chosen as first position for the second shepherd
 	 */
 	public Road chooseSecondInitialPosition() {
 		((PlayerDouble) boardStatus.getCurrentPlayer()).setShepherd(true);
@@ -169,7 +188,10 @@ public class GameControllerClient {
 
 	/**
 	 * This method is used to let the client know which shepherd is using the
-	 * current player. We notify the user and sets it in the controller
+	 * current player. We notify the user and sets it in the controller.
+	 * 
+	 * @param usingSecond
+	 *            Set to true if the current player is using his second shepherd
 	 */
 	public void notifyShepherd(boolean usingSecond) {
 		userInterface.notifyShepherd(usingSecond);
@@ -177,11 +199,23 @@ public class GameControllerClient {
 				.setShepherd(usingSecond);
 	}
 
-	/** This method asks the user to choose some cards to sell */
+	/**
+	 * This method asks the user to choose some cards to sell
+	 * 
+	 * @return A list of market offers
+	 */
 	public List<MarketOffer> askMarketOffers() {
 		return userInterface.askMarketOffers();
 	}
 
+	/**
+	 * This method asks the user too choose wich offers he wants to buy
+	 * 
+	 * @param offers
+	 *            A list of marketOffers to choose from (can contain offers done
+	 *            by this player)
+	 * @return the list of MarketBuy chosen by the user among the offers
+	 */
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
 		return userInterface.askMarketBuy(offers);
 	}
