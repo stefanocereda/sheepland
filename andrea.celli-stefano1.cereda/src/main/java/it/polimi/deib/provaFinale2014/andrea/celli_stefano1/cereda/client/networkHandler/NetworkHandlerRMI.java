@@ -55,7 +55,10 @@ public class NetworkHandlerRMI extends NetworkHandler {
 	 * the constructor of an rmi network handler needs to receive a reference to
 	 * the client's game controller
 	 * 
+	 * @param gameController
+	 *            a reference to the game controller using this network handler
 	 * @param token
+	 *            An identifier used to perform reconnection
 	 */
 	public NetworkHandlerRMI(GameControllerClient gameController, int token)
 			throws RemoteException, NotBoundException {

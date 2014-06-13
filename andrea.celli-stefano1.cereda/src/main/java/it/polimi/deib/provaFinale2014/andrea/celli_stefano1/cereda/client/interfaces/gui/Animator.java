@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 /**
- * An animator is an object that takes care of moving around objects. Rigth now
+ * An animator is an object that takes care of moving around objects. Right now
  * the animation is linear, it can be changed to quadratic
  * 
  * @author stefano
@@ -39,7 +39,6 @@ public class Animator implements Runnable {
 	 *            The point where this animator will stop
 	 */
 	public Animator(JComponent objectToMove, Point endPoint) {
-		super();
 		this.objectToMove = objectToMove;
 		this.endPoint = endPoint;
 		this.startPoint = new Point(objectToMove.getX(), objectToMove.getY());

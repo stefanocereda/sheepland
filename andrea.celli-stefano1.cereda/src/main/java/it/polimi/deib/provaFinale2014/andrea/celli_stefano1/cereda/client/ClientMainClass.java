@@ -67,7 +67,7 @@ public class ClientMainClass {
 				try {
 					token = Integer.parseInt(arg);
 				} catch (NumberFormatException e) {
-					LOGGER.log(Level.INFO, "The input given is not a number", e);
+					LOGGER.log(Level.INFO, "The input given is not valid", e);
 				}
 			}
 		}
@@ -100,10 +100,7 @@ public class ClientMainClass {
 				String message = "Unable to start Socket connection";
 				LOGGER.log(Level.SEVERE, message, e);
 			}
-		}
-
-		// launch rmi
-		else {
+		} else {
 			try {
 				launchRMI(gameController, token);
 			} catch (RemoteException e) {

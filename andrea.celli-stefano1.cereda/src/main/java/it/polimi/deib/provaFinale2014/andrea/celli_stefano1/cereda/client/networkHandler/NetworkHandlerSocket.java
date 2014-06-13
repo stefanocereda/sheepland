@@ -37,7 +37,13 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 * the constructor of a socket network handler takes as parameter the
 	 * address of the server and a reference to the client's game controller
 	 * 
+	 * @param serverAddress
+	 *            The address of the server
+	 * @param controller
+	 *            A reference to the controller that is using this network
+	 *            handler
 	 * @param token
+	 *            An identifier used to perform reconnection
 	 * 
 	 * @throws IOException
 	 *             if is not possible to open the socket
@@ -78,13 +84,14 @@ public class NetworkHandlerSocket extends NetworkHandler {
 	 */
 	public void start() {
 		// we loop waiting for server commands
-		while (true) {
+		boolean keepGoing = true;
+		while (keepGoing) {
 			String command;
 
 			try {
 				command = in.readUTF();
 				if (command.equals(SocketMessages.PING)) {
-					;
+
 				} else if (command.equals(SocketMessages.ASK_NEW_MOVE)) {
 					askAndSendNewMove();
 				} else if (command.equals(SocketMessages.EXECUTE_MOVE)) {
@@ -98,7 +105,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 					getAndSetNewCurrentPlayer();
 				} else if (command.equals(SocketMessages.SEND_WINNERS)) {
 					getWinners();
-					break;
+					keepGoing = false;
 				} else if (command.equals(SocketMessages.ASK_INITIAL_POSITION)) {
 					chooseInitialPosition();
 				} else if (command
@@ -131,7 +138,7 @@ public class NetworkHandlerSocket extends NetworkHandler {
 				String message = "There's been a communication problem, we're not aligned with the server. Shutting down";
 				logger.log(Level.SEVERE, message, e);
 				notifyDisconnection();
-				break;
+				keepGoing = false;
 			}
 
 		}

@@ -27,6 +27,13 @@ public abstract class NetworkHandler {
 	/**
 	 * The constructor of a network handler is used to set the reference to the
 	 * client's game controller and to set a token used for reconnection
+	 * 
+	 * @param gameController
+	 *            a reference to the gameController that is using this network
+	 *            handler
+	 * @param token
+	 *            An identificator used to perform reconnection (set to 0 the
+	 *            first time)
 	 */
 	public NetworkHandler(GameControllerClient gameController, int token) {
 		controller = gameController;

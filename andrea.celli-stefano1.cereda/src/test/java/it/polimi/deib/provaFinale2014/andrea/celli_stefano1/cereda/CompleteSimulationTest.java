@@ -26,7 +26,6 @@ import org.junit.Test;
 public class CompleteSimulationTest {
 
 	@Test
-	@Ignore
 	public void test() {
 		// starts the server
 		ServerMainClass.main(null);
