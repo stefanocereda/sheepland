@@ -48,23 +48,24 @@ public class InterfaceConsole implements Interface {
 	/** Specifies if we are controlling the second shepherd */
 	boolean usingSecondShepherd = false;
 
+	/** {@inheritDoc} */
 	public void setReferenceToGameController(GameControllerClient gameController) {
 		this.gameController = gameController;
 	}
 
+	/** {@inheritDoc} */
 	public void showInitialInformation() {
 		Printer.println("Welcome to sheepland");
 		Printer.println("Brace yourself, sheeps are coming!!");
 		Printer.println(" ");
 		Printer.println(" ");
-		Printer.println("You're player "
-				+ gameController.getBoardStatus().getPlayerNumber(
-						gameController.getControlledPlayer()));
+		Printer.println("You're player " + gameController.getControlledPlayer());
 		Printer.println(" ");
 		Printer.println("Good luck!");
 		Printer.println(" ");
 	}
 
+	/** {@inheritDoc} */
 	public void notifyNewStatus() {
 		Printer.println("THIS IS THE CURRENT STATUS OF THE GAME");
 
@@ -87,6 +88,7 @@ public class InterfaceConsole implements Interface {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public Road chooseInitialPosition() {
 		String answer;
 		List<Integer> freeRoads;
@@ -105,33 +107,31 @@ public class InterfaceConsole implements Interface {
 			answer = in.nextLine();
 		} while (!isCorrectAnswer(freeRoads.toArray(), answer));
 
-		// find the number of the chosen road
+		// find the number of the chosen road (we're passed through
+		// isCorrectAnswer so answer is surely a number)
 		Integer road = Integer.parseInt(answer);
-		// returns the road
+
 		return roadMap.get(road);
 	}
 
+	/** {@inheritDoc} */
 	public Road chooseSecondInitialPosition() {
 		Printer.println("This is a game with two players and four shepherd, choose the position of your second shepherd:");
 		return chooseInitialPosition();
 	}
 
 	/**
-	 * This methods shows to the player moves that are performed by others.
-	 * Every player also receives moves that he's made. notifyMove() shows only
-	 * moves made by other player (A player should know what he has just done).
-	 * In order to do that it checks if the player that made the move isn't
-	 * equal to the controlledPlayer.
+	 * {@inheritDoc}. The console version of this method shows to the player
+	 * moves that are performed by others. Every player also receives moves that
+	 * he's made but notifyMove() shows only moves made by other player (A
+	 * player should know what he has just done). In order to do that it checks
+	 * if the player that made the move isn't equal to the controlledPlayer.
 	 * 
-	 * Moves that aren't performed by players are always displayed.
-	 * 
-	 * @param move
+	 * Moves that aren't performed by players are always displayed, so they MUST
+	 * have a toString()
 	 */
 	public void notifyMove(Move move) {
 		if (!(move instanceof PlayerAction)) {
-			// the move is not performed by a player, therefore it's always
-			// displayed
-			// moves performed by the system HAVE TO override toString()
 			Printer.println(move.toString());
 
 		} else {
@@ -153,23 +153,21 @@ public class InterfaceConsole implements Interface {
 	}
 
 	/**
-	 * This method asks the player for a new move and wait for it. The method
-	 * checks if the player input is valid. The method "guides" the player
-	 * during the creation of the new move, asking for the correct information
-	 * for the specific type of move. For example, if the player has to move a
-	 * sheep, the system will display the sheep in their current location and
-	 * ask to choose one of them.
-	 * 
-	 * @return move the move to send to the server
+	 * {@inheritDoc}. The console version of this method asks the player for a
+	 * new move and wait for it. The method checks if the player input is valid.
+	 * The method "guides" the player during the creation of the new move,
+	 * asking for the correct information for the specific type of move. For
+	 * example, if the player has to move a sheep, the system will display the
+	 * sheep in their current location and ask to choose one of them.
 	 */
 	public Move getNewMove() {
 		final String printStatus = "print status";
 		String answer;
 		Printer.println("Make your move!");
-		Printer.println("Types of move:");
 
 		// choose the type of move
 		// show options
+		Printer.println("Types of move:");
 		List<String> availableMoves = getAvailableMoves();
 		show(availableMoves.toArray());
 
@@ -181,27 +179,24 @@ public class InterfaceConsole implements Interface {
 
 		// depending on the type of move the method goes on asking for
 		// information to the player
+		Move toReturn = null;
 		if (answer.equals(TypeOfPlayerMoves.BUYCARD.toString())) {
-			return askForBuyCardMove();
-		}
-		if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.toString())) {
-			return askForMovePlayer();
-		}
-		if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString())) {
-			return askForMoveSheep();
-		}
-		if (answer.equals(printStatus)) {
+			toReturn = askForBuyCardMove();
+		} else if (answer.equals(TypeOfPlayerMoves.MOVEPLAYER.toString())) {
+			toReturn = askForMovePlayer();
+		} else if (answer.equals(TypeOfPlayerMoves.MOVESHEEP.toString())) {
+			toReturn = askForMoveSheep();
+		} else if (answer.equals(printStatus)) {
 			notifyNewStatus();
-			return getNewMove();
-		}
-		if (answer.equals(TypeOfAdvancedPlayerMoves.BUTCHERING.toString())) {
-			return askForButchering();
-		}
-		if (answer.equals(TypeOfAdvancedPlayerMoves.MATING.toString())) {
-			return askForMating();
+			toReturn = getNewMove();
+		} else if (answer.equals(TypeOfAdvancedPlayerMoves.BUTCHERING
+				.toString())) {
+			toReturn = askForButchering();
+		} else if (answer.equals(TypeOfAdvancedPlayerMoves.MATING.toString())) {
+			toReturn = askForMating();
 		}
 
-		return null;
+		return toReturn;
 	}
 
 	/**
@@ -227,10 +222,12 @@ public class InterfaceConsole implements Interface {
 		return available;
 	}
 
+	/** {@inheritDoc} */
 	public void notifyNotValidMove() {
 		Printer.println("The move goes against Sheepland's rule! Be more careful");
 	}
 
+	/** {@inheritDoc} */
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
 		if (newCurrentPlayer.equals(gameController.getControlledPlayer())) {
 			Printer.println("It's your turn, be ready!");
@@ -241,9 +238,9 @@ public class InterfaceConsole implements Interface {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void notifyShepherd(boolean usingSecond) {
-		Player ourPlayer = gameController.getBoardStatus().getEquivalentPlayer(
-				gameController.getControlledPlayer());
+		Player ourPlayer = gameController.getControlledPlayer();
 
 		// if we are the current player we know what we are using
 		if (!ourPlayer.equals(gameController.getBoardStatus()
@@ -260,6 +257,7 @@ public class InterfaceConsole implements Interface {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void notifyWinners(List<Player> winners) {
 		Printer.println("GAME OVER");
 		if (winners.size() == 1) {
@@ -269,18 +267,19 @@ public class InterfaceConsole implements Interface {
 		} else {
 			Printer.println("The winners are:");
 			show(winners.toArray());
-			if (winners.contains(gameController.getBoardStatus()
-					.getEquivalentPlayer(gameController.getControlledPlayer()))) {
+			if (winners.contains(gameController.getControlledPlayer())) {
 				Printer.println("IT'S TIME TO BAA, make some noiseee");
 			}
 		}
 		Printer.println("See you soon, mighty sheperd!");
 	}
 
+	/** {@inheritDoc} */
 	public void notifyDisconnection() {
 		Printer.println("We're disconnected from the server, but our shepherd dog is working hard to solve this");
 	}
 
+	/** {@inheritDoc} */
 	public boolean chooseShepherd() {
 		int answer;
 
@@ -301,7 +300,7 @@ public class InterfaceConsole implements Interface {
 	/**
 	 * This method is used to ask and create a new buyCardMove
 	 * 
-	 * @return move the new buyCard move
+	 * @return the new buyCard move
 	 */
 	private BuyCardMove askForBuyCardMove() {
 		String answer;
@@ -318,21 +317,22 @@ public class InterfaceConsole implements Interface {
 				.getBuyableCards().toArray(), answer));
 
 		// looks for the card
+		BuyCardMove toReturn = null;
 		for (Card card : gameController.getBoardStatus().getDeck()) {
 			if (answer.equals(card.toString())) {
 				// creates the move
-				return new BuyCardMove(gameController.getBoardStatus()
+				toReturn = new BuyCardMove(gameController.getBoardStatus()
 						.getCurrentPlayer(), card);
 			}
 		}
 
-		return null;
+		return toReturn;
 	}
 
 	/**
 	 * This method is used to ask and create a move player move
 	 * 
-	 * @return move
+	 * @return the created MovePlayer
 	 */
 	private MovePlayer askForMovePlayer() {
 		String answer;
@@ -364,7 +364,7 @@ public class InterfaceConsole implements Interface {
 	 * to help the player to choose a sheep the method will display the number
 	 * of sheep in each terrain of the map.
 	 * 
-	 * @return move
+	 * @return the created MoveSheep
 	 */
 	private MoveSheep askForMoveSheep() {
 
@@ -446,9 +446,10 @@ public class InterfaceConsole implements Interface {
 	 * client has a string equivalent in the array.
 	 * 
 	 * @param array
+	 *            the array of object where search for the user's answer
 	 * @param answer
 	 *            the answer of the client
-	 * @return boolean
+	 * @return If the given array contains the given answer (as string)
 	 */
 
 	private boolean isCorrectAnswer(Object[] array, String answer) {
@@ -464,6 +465,7 @@ public class InterfaceConsole implements Interface {
 	 * This method prints the string values of a generic array of objects.
 	 * 
 	 * @param toShow
+	 *            the array of object to print
 	 */
 	private void show(Object[] toShow) {
 		for (Object element : toShow) {
@@ -506,9 +508,8 @@ public class InterfaceConsole implements Interface {
 		}
 
 		Printer.println();
-		Printer.println("Those are your cards:");
-		Player me = gameController.getBoardStatus().getEquivalentPlayer(
-				gameController.getControlledPlayer());
+		Printer.println("These are your cards:");
+		Player me = gameController.getControlledPlayer();
 		for (Card c : me.getCards()) {
 			Printer.println(c.toString());
 		}
@@ -554,7 +555,7 @@ public class InterfaceConsole implements Interface {
 				.getBoardStatus())
 				.calculateNumberOfSheepForEachTerrain(TypeOfSheep.FEMALESHEEP);
 
-		Printer.println("these are the of sheep for each terrain (lambs / rams / sheep)");
+		Printer.println("these are the numbers of sheep for each terrain (lambs / rams / sheep)");
 
 		for (Terrain t : Terrain.values()) {
 			Printer.println("Terrain " + t + " number of lambs: "
@@ -566,17 +567,16 @@ public class InterfaceConsole implements Interface {
 
 	/** Print the names of the terrains adjacent the controlled player */
 	private void printAdjacentTerrains() {
-		Player p = gameController.getBoardStatus().getEquivalentPlayer(
-				gameController.getControlledPlayer());
+		Player p = gameController.getControlledPlayer();
 
 		Printer.println("The terrains around you are: ");
 		show(p.getPosition().getAdjacentTerrains());
 
 	}
 
-	/** Print the remaining cards in the deck */
+	/** Print the cards in the deck that can be bought */
 	private void printRemainingCards() {
-		Printer.println("The cards still in the deck are: ");
+		Printer.println("The buyable cards in the deck are: ");
 		show(gameController.getBoardStatus().getDeck().getBuyableCards()
 				.toArray());
 	}
@@ -669,7 +669,7 @@ public class InterfaceConsole implements Interface {
 	 * @return the created Mating move
 	 */
 	private Mating askForMating() {
-		Player player = gameController.getBoardStatus().getCurrentPlayer();
+		Player player = gameController.getControlledPlayer();
 		Terrain terrain = askForAdjacentTerrain();
 
 		return new Mating(player, terrain);
@@ -680,7 +680,7 @@ public class InterfaceConsole implements Interface {
 	 * creation of a Butchering move (the terrain and the type of sheep)
 	 */
 	private Butchering askForButchering() {
-		Player player = gameController.getBoardStatus().getCurrentPlayer();
+		Player player = gameController.getControlledPlayer();
 		Terrain terrain = askForAdjacentTerrain();
 
 		TypeOfSheep type = askForTypeOfSheep(terrain);
@@ -691,6 +691,11 @@ public class InterfaceConsole implements Interface {
 		return new Butchering(player, sheep);
 	}
 
+	/**
+	 * This method asks the user to choose a terrain from the surronding ones
+	 * 
+	 * @return The chosen terrain
+	 */
 	private Terrain askForAdjacentTerrain() {
 		printAdjacentTerrains();
 		String answer;
@@ -698,8 +703,8 @@ public class InterfaceConsole implements Interface {
 		do {
 			Printer.println("Choose a terrain: ");
 			answer = in.nextLine();
-		} while (!isCorrectAnswer(gameController.getBoardStatus()
-				.getCurrentPlayer().getPosition().getAdjacentTerrains(), answer));
+		} while (!isCorrectAnswer(gameController.getControlledPlayer()
+				.getPosition().getAdjacentTerrains(), answer));
 
 		for (Terrain t : Terrain.values()) {
 			if (t.toString().equals(answer)) {
@@ -742,10 +747,10 @@ public class InterfaceConsole implements Interface {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	public List<MarketOffer> askMarketOffers() {
 		List<MarketOffer> toReturn = new ArrayList<MarketOffer>();
-		Player me = gameController.getBoardStatus().getEquivalentPlayer(
-				gameController.getControlledPlayer());
+		Player me = gameController.getControlledPlayer();
 
 		List<Card> myCards = me.getCards();
 
@@ -758,7 +763,13 @@ public class InterfaceConsole implements Interface {
 		return toReturn;
 	}
 
-	/** Asks the user if he wants to sell the given card */
+	/**
+	 * Asks the user if he wants to sell the given card
+	 * 
+	 * @param c
+	 *            The card to ask for
+	 * @return if the wants to sell it
+	 */
 	private boolean wantToSell(Card c) {
 		String answer;
 		do {
@@ -766,10 +777,16 @@ public class InterfaceConsole implements Interface {
 					+ " ? [yes/no]");
 			answer = in.nextLine();
 		} while (!"yes".equals(answer) && !"no".equals(answer));
-		return ("yes".equals(answer));
+		return "yes".equals(answer);
 	}
 
-	/** Asks the user to insert a market price for the given card */
+	/**
+	 * Asks the user to insert a market price for the given card
+	 * 
+	 * @param c
+	 *            The card for which we ask the price
+	 * @return The requested price
+	 */
 	private int askPriceForMarket(Card c) {
 		String answer;
 		int toReturn = 0;
@@ -786,10 +803,10 @@ public class InterfaceConsole implements Interface {
 		return toReturn;
 	}
 
+	/** {@inheritDoc} */
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
 		List<MarketBuy> toReturn = new ArrayList<MarketBuy>();
-		Player me = gameController.getBoardStatus().getEquivalentPlayer(
-				gameController.getControlledPlayer());
+		Player me = gameController.getControlledPlayer();
 
 		for (MarketOffer offer : offers) {
 			if (wantsToBuy(offer)) {
@@ -803,12 +820,15 @@ public class InterfaceConsole implements Interface {
 	/**
 	 * Ask the user if he wants to buy the given offer, only if we are not the
 	 * offerer
+	 * 
+	 * @param offer
+	 *            The marketOffer to ask for
+	 * @return if the player wants to buy it
 	 */
 	private boolean wantsToBuy(MarketOffer offer) {
 		Player offerer = gameController.getBoardStatus().getEquivalentPlayer(
 				offer.getOfferer());
-		Player me = gameController.getBoardStatus().getEquivalentPlayer(
-				gameController.getControlledPlayer());
+		Player me = gameController.getControlledPlayer();
 		if (offerer.equals(me)) {
 			return false;
 		}
@@ -825,6 +845,6 @@ public class InterfaceConsole implements Interface {
 			answer = in.nextLine();
 		} while (!"yes".equals(answer) && !"no".equals(answer));
 
-		return ("yes".equals(answer));
+		return "yes".equals(answer);
 	}
 }
