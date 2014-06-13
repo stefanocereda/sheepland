@@ -1,25 +1,30 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.commandLineInterface;
 
 /**
- * This class contains a static method taht calls System.out.println() It's only
- * used to avoid a lot of sonar issues in the console interface
+ * This class contains a static method that calls System.out.println(). It's
+ * only used to avoid a lot of sonar issues in the console interface, their
+ * preventing me to focus on the real issues
  * 
  * @author stefano
  * 
  */
 public class Printer {
+	/** Hide the default constructor */
+	private Printer() {
+	}
+
 	/**
-	 * Print on the console the given message
+	 * Call System.out.println(msg)
 	 * 
 	 * @param msg
-	 *            The object to print (.toString will be called)
+	 *            the object to print
 	 */
 	public static void println(Object msg) {
 		System.out.println(msg);
 	}
-	
-	/**Print an empty line*/
-	public static void println(){
+
+	/** Print an empty line */
+	public static void println() {
 		println("");
 	}
 }
