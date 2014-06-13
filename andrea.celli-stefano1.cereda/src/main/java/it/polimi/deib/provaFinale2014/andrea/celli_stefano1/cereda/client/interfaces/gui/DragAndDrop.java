@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -26,7 +27,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	/**
 	 * A reference to the JPanel which is being dragged
 	 */
-	private PiecesOnTheMap draggedLabel;
+	private PiecesOnTheMap draggedPanel;
 
 	/**
 	 * The class that has to verify the conditions to start and end a d&d action
@@ -50,7 +51,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	public DragAndDrop(Map map, Verifier verifier) {
 		this.map = map;
 		this.verifier = verifier;
-		draggedLabel = null;
+		draggedPanel = null;
 		status = GameStatus.NOT_YOUR_TURN;
 		paintedMap = new PaintedMap(map.getSize());
 	}
@@ -61,10 +62,19 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 */
 	public void mouseDragged(MouseEvent e) {
 		// chech if the player is dragging something
-		if (draggedLabel != null) {
-			draggedLabel.setLocation(e.getX(), e.getY());
-			map.repaint();
+		if (draggedPanel != null && isInsideTheMapPanel(e.getPoint())) {
+			draggedPanel.setLocation(e.getX(), e.getY());
+			draggedPanel.repaint();
 		}
+	}
+
+	/** Check if the dragged panel is entirely inside the map panel */
+	private boolean isInsideTheMapPanel(Point point) {
+		if (point.x > 0 && (point.x + draggedPanel.getWidth() < map.getWidth())
+				&& point.y > 0
+				&& (point.y + draggedPanel.getHeight() < map.getHeight()))
+			return true;
+		return false;
 	}
 
 	public void mouseMoved(MouseEvent e) {
