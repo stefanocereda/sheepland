@@ -132,7 +132,7 @@ public class Linker {
 	}
 
 	/**
-	 * This method creates an istance of the class "originCreator" and
+	 * This method creates an istance of the class "Coordinates converter" and
 	 * calculates the points considering the size of the map.
 	 * 
 	 * @param mapDimension

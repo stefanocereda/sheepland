@@ -29,11 +29,6 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	private PiecesOnTheMap draggedLabel;
 
 	/**
-	 * The linker class
-	 */
-	private Linker linker;
-
-	/**
 	 * The class that has to verify the conditions to start and end a d&d action
 	 */
 	private Verifier verifier;

@@ -47,7 +47,12 @@ public class Map extends JPanel {
 	/**
 	 * The map dimension
 	 */
-	Dimension mapDimension;
+	private Dimension mapDimension;
+
+	/**
+	 * The linker. Used to understand where to diplay new JPanels
+	 */
+	private Linker linker;
 
 	//
 	//
@@ -65,15 +70,6 @@ public class Map extends JPanel {
 	 */
 	public Map() {
 		super();
-
-		// calculates the map dimension
-		mapDimension = new Dimension(
-				(GuiConstants.MAP_WIDTH * this.getHeight())
-						/ GuiConstants.MAP_HEIGHT, this.getHeight());
-
-		// create an instance of dimensionCalculator giving the displayed map
-		// dimension
-		dimensionCalculator = new DimensionCalculator(mapDimension);
 
 		// create first an image icon (the source is places in a source folder)
 		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(
@@ -104,17 +100,42 @@ public class Map extends JPanel {
 	}
 
 	/**
-	 * Creates the DragAndDrop class and adds the listeners
+	 * Set the reference to the linker and initialize it.
 	 * 
-	 * @param verifier
+	 * Creates the Verifier.
+	 * 
+	 * Creates the DragAndDrop class and adds the listeners.
+	 * 
+	 * Creates an instance of Dimension Calculator (it can't be initialized in
+	 * the constructor beacuse it needs the dimension of the panels that the
+	 * constructor "is building")
+	 * 
+	 * @param interfaceGUI
 	 */
-	public void createDragAndDrop(Verifier verifier) {
+	public void initMapComponents(InterfaceGui interfaceGui) {
+
+		// calculates the map dimension
+		mapDimension = new Dimension(
+				(GuiConstants.MAP_WIDTH * this.getHeight())
+						/ GuiConstants.MAP_HEIGHT, this.getHeight());
+
+		linker = Linker.getLinkerInsance();
+		linker.initLinker(interfaceGui.getGameController().getBoardStatus(),
+				mapDimension);
+
+		// the map doesn't hold a reference to the verifier. It just gives it as
+		// a parameter to the drag&drop listener
+		Verifier verifier = new Verifier(interfaceGui);
 
 		listener = new DragAndDrop(this, verifier);
 
 		// add the listeners
 		this.addMouseListener(listener);
 		this.addMouseMotionListener(listener);
+
+		// create an instance of dimensionCalculator giving the displayed map
+		// dimension
+		dimensionCalculator = new DimensionCalculator(mapDimension);
 	}
 
 }

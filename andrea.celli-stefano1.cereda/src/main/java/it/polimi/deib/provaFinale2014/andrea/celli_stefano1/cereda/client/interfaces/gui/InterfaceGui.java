@@ -8,7 +8,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
-import java.awt.Dimension;
 import java.util.List;
 
 /**
@@ -26,9 +25,6 @@ public class InterfaceGui implements Interface {
 
 	/** The frame that contains all the elements of the GUI */
 	private MainFrame frame;
-
-	/** The verifier used to get new move from player actions */
-	private Verifier verifier;
 
 	/**
 	 * The constructor create the needed GUI-related objects. Initially the
@@ -54,24 +50,9 @@ public class InterfaceGui implements Interface {
 			GameControllerClient gameControllerClient) {
 		this.gameController = gameControllerClient;
 
-		createAndInitVerifier(this);
-
-		// in order to be created the DragAndDrop class needs a reference to the
-		// verifier
-		frame.getMap().createDragAndDrop(verifier);
-	}
-
-	/**
-	 * Creates the verifier
-	 * 
-	 * @param interfaceGui
-	 */
-	private void createAndInitVerifier(InterfaceGui interfaceGui) {
-
-		Dimension mapDisplayedDimension = frame.getMap().getMapDimension();
-
-		verifier = new Verifier(this, mapDisplayedDimension);
-
+		// creates instances of all the utility components of the map (ex. D&D
+		// class,dimension calculator)
+		frame.getMap().initMapComponents(this);
 	}
 
 	public GameControllerClient getGameController() {
