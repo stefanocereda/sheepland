@@ -4,17 +4,17 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * This class rapresents a generic object that has to be displayed over the map
- * (the specific classes will inherit from this one). They will all be JLabels
+ * (the specific classes will inherit from this one). They will all be JPanels
  * and each one of them will display an image.
  * 
  * @author Andrea
  * 
  */
-public class PiecesOnTheMap extends JLabel {
+public class PiecesOnTheMap extends JPanel {
 
 	// the image contained in the JLabel
 	Image img;

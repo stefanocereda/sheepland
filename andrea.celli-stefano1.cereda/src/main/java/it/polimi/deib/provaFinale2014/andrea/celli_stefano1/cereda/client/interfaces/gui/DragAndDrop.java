@@ -24,7 +24,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	private GameStatus status;
 
 	/**
-	 * A reference to the JLabel which is being dragged
+	 * A reference to the JPanel which is being dragged
 	 */
 	private PiecesOnTheMap draggedLabel;
 
@@ -32,6 +32,12 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 * The class that has to verify the conditions to start and end a d&d action
 	 */
 	private Verifier verifier;
+
+	/**
+	 * The class that allows to determine a point position in the game through
+	 * its color.
+	 */
+	private PaintedMap paintedMap;
 
 	//
 	//
@@ -46,6 +52,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 		this.verifier = verifier;
 		draggedLabel = null;
 		status = GameStatus.NOT_YOUR_TURN;
+		paintedMap = new PaintedMap(map.getSize());
 	}
 
 	/**
