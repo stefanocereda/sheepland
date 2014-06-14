@@ -42,6 +42,12 @@ public class Map extends JPanel {
 	private HashMap<Terrain, ArrayList<PiecesOnTheMap>> components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
 
 	/**
+	 * This hashmap contains, for each road, the PawnPanel that they currently
+	 * host
+	 */
+	private HashMap<Road, PawnPanel> pawnsLocation = new HashMap<Road, PawnPanel>();
+
+	/**
 	 * This class calculates and stores the dimension that each type pf label
 	 * has to have
 	 */
@@ -315,6 +321,8 @@ public class Map extends JPanel {
 		pawnPanel.setLocation(linker.getPawnOrigins().get(road));
 		pawnPanel.setVisible(true);
 
+		pawnsLocation.put(road, pawnPanel);
+
 	}
 
 	/**
@@ -412,6 +420,10 @@ public class Map extends JPanel {
 
 	public DimensionCalculator getDimensionCalculator() {
 		return dimensionCalculator;
+	}
+
+	public HashMap<Road, PawnPanel> getPawnsLocation() {
+		return pawnsLocation;
 	}
 
 }

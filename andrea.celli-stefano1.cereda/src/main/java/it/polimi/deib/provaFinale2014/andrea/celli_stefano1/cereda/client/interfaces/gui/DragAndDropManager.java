@@ -6,8 +6,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
@@ -94,17 +96,24 @@ public class DragAndDropManager {
 	 * without any number. (This panel is used only during the dragging process.
 	 * When the mouse is released it will be deleted.)
 	 * 
-	 * The method checks: 1) if the terrain is adjacent to the current player
-	 * position 2) if the click was inside one of the three possible panel
+	 * The method checks: 0) if the mouse was pressed on a terrain 1) if the
+	 * terrain is adjacent to the current player position 2) if the click was
+	 * inside one of the three possible panel
 	 * 
 	 * @param point
 	 * @return SheepPanel (the panel that will be dragged)
 	 */
 	private PiecesOnTheMap getSheepToMove(Point point) {
 
-		Terrain pressedTerrain = linker.getColorsAndTerrain().get(
-				paintedMap.findColor(point));
+		Color colorPressed = paintedMap.findColor(point);
+		Terrain pressedTerrain;
 
+		// check 0
+		if (linker.getColorsAndTerrain().containsKey(colorPressed)) {
+			pressedTerrain = linker.getColorsAndTerrain().get(colorPressed);
+		} else {
+			return null;
+		}
 		Terrain[] adjacentTerrains = interfaceGui.getGameController()
 				.getControlledPlayer().getPosition().getAdjacentTerrains();
 
@@ -172,9 +181,35 @@ public class DragAndDropManager {
 		return null;
 	}
 
+	/**
+	 * This method checks if the player has pressed the mouse on the road in
+	 * which currently lies his pawn. If the selected road is right the method
+	 * returns the pawn coresponding to the player. Otherwise returns null.
+	 * 
+	 * Condition that have to be checked: 1) the player pressed the mouse on a
+	 * road 2) the player's pawn is on the selected road
+	 * 
+	 * @param point
+	 * @return pawn
+	 */
 	private PiecesOnTheMap getPawnToMove(Point point) {
-		// TODO Auto-generated method stub
+
+		Color pressedColor = paintedMap.findColor(point);
+		Road pressedRoad;
+
+		// check 1
+		if (linker.getColorsAndRoad().containsKey(pressedColor)) {
+			pressedRoad = linker.getColorsAndRoad().get(pressedColor);
+		} else {
+			return null;
+		}
+
+		// check 2
+		if (interfaceGui.getGameController().getControlledPlayer()
+				.getPosition().equals(pressedRoad)) {
+			return map.getPawnsLocation().get(pressedRoad);
+		}
+
 		return null;
 	}
-
 }
