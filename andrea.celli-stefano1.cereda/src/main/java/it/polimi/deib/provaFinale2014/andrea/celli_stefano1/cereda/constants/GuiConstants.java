@@ -73,4 +73,10 @@ public class GuiConstants {
 	 * The path to the ram image without any number
 	 */
 	public static final String EMPTY_RAM = "/ramNoNumber.png";
+
+	/** The number of frames per second to draw during the animations */
+	public static final long ANIMATION_FPS = 20;
+
+	/** The duration of the animations in milliseconds */
+	public static final long ANIMATION_LENGTH = 2000;
 }
