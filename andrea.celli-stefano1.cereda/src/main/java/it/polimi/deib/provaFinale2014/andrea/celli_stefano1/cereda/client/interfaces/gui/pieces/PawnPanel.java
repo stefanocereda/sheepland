@@ -3,16 +3,15 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import java.awt.Dimension;
 
 /**
- * This JPanels display sheeps
+ * This panel displays the pawn of a player
  * 
  * @author Andrea
  * 
  */
-public class SheepPanel extends PiecesOnTheMap {
+public class PawnPanel extends PiecesOnTheMap {
 
-	public SheepPanel(String path, Dimension dimension) {
+	public PawnPanel(String path, Dimension dimension) {
 		super(path, dimension);
-
 	}
 
 }

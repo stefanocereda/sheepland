@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -33,13 +34,22 @@ public class PiecesOnTheMap extends JPanel {
 		img = imgIcon.getImage();
 		setSize(dimension);
 		setOpaque(false);
+		repaint();
 	}
 
 	/**
-	 * This method is empty.It will be overridden in all the subclasses beacuse
-	 * the image has to be displayed considering the dimension of the label (it
-	 * differs for different types of labels)
+	 * This method adds the image intp the panel fitting it with the actual
+	 * panel dimension
 	 */
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		Graphics2D g2d = (Graphics2D) g;
+		// paint the image so that it's entirely displayed in the panel
+		g2d.drawImage(img,
+				(this.getWidth() - (img.getWidth(null) * this.getHeight())
+						/ img.getHeight(null)) / 2, 0,
+				(img.getWidth(null) * this.getHeight()) / img.getHeight(null),
+				getHeight(), null);
 	}
 }
