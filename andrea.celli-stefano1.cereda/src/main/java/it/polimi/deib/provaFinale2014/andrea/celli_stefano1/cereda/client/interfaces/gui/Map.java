@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
@@ -223,6 +224,41 @@ public class Map extends JPanel {
 					// update the sheep counter
 					linker.getSheepForEachTerrain().put(terrain,
 							currentNumberOfRam + 1);
+				}
+			}
+		}
+	}
+
+	/**
+	 * adds a lamb to a certain terrain
+	 * 
+	 * if a lamb panel is already in the terrain it updates it. Otherwise it
+	 * creates a new one.
+	 * 
+	 * @param terrain
+	 */
+	public void addLamb(Terrain terrain) {
+		int currentNumberOfLamb = linker.getLambForEachTerrain().get(terrain);
+
+		if (currentNumberOfLamb == 0) {
+			LambPanel newLamb = new LambPanel(ImagePathCreator.findLambPath(1),
+					dimensionCalculator.getLambDimension());
+			this.add(newLamb);
+			newLamb.setLocation(linker.getLambOrigins().get(terrain));
+			setVisible(true);
+
+			components.get(terrain).add(newLamb);
+		} else {
+			for (PiecesOnTheMap panel : components.get(terrain)) {
+				if (panel instanceof LambPanel) {
+					// set the new image
+					panel.setImg(ImagePathCreator
+							.findLambPath(currentNumberOfLamb + 1));
+					panel.repaint();
+
+					// update the sheep counter
+					linker.getSheepForEachTerrain().put(terrain,
+							currentNumberOfLamb + 1);
 				}
 			}
 		}
