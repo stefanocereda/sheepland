@@ -60,7 +60,8 @@ public class Animator implements Runnable {
 		if (distanceX < 0) {
 			kX = -kX;
 		}
-		if (distanceY < 0) {
+
+		if (kX < 0) {
 			kY = -kY;
 		}
 
