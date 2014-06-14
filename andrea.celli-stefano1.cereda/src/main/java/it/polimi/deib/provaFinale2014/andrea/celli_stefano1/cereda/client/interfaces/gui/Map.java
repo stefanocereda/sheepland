@@ -316,4 +316,35 @@ public class Map extends JPanel {
 		pawnPanel.setVisible(true);
 
 	}
+
+	/**
+	 * This method removes a sheep from a certain terrain. It decrease the
+	 * number of sheep displayed in the panel.
+	 * 
+	 * @param terrain
+	 */
+	public void removeSheep(Terrain terrain) {
+		int currentNumberOfSheep = linker.getSheepForEachTerrain().get(terrain);
+
+		if (currentNumberOfSheep > 0) {
+			// look for the sheep panel in the specified terrain
+			for (PiecesOnTheMap panel : components.get(terrain)) {
+				if (panel instanceof SheepPanel) {
+					// if there's only one sheep the sheep panel is removed
+					if (currentNumberOfSheep == 1) {
+						components.get(terrain).remove(panel);
+						this.remove(panel);
+						this.repaint();
+					} else {
+						// if there are more than one sheep
+						panel.setImg(ImagePathCreator
+								.findSheepPath(currentNumberOfSheep - 1));
+						panel.repaint();
+						linker.getSheepForEachTerrain().put(terrain,
+								currentNumberOfSheep - 1);
+					}
+				}
+			}
+		}
+	}
 }
