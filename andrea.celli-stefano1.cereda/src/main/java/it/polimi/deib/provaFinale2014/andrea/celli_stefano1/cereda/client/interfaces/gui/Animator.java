@@ -105,6 +105,17 @@ public class Animator implements Runnable {
 	private double calculateLinearMovement() {
 		long numberOfRepaints = GuiConstants.ANIMATION_FPS
 				* (GuiConstants.ANIMATION_LENGTH / 1000);
-		return startPoint.distance(endPoint) / numberOfRepaints;
+
+		// we want to get a speed like v(t) = v(0) - v(0)/dist * t
+
+		// v(0) = 2*Vc where Vc is the constant speed that we should keep in
+		// order to cover the same distance in the same time
+		double v0 = (2 * startPoint.distance(endPoint) / numberOfRepaints);
+
+		double distance = startPoint.distance(endPoint);
+
+		double t = startPoint.distance(objectToMove.getLocation());
+
+		return v0 - v0 / distance * t;
 	}
 }
