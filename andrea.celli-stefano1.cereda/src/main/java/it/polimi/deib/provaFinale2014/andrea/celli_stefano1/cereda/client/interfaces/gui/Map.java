@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
@@ -148,4 +149,46 @@ public class Map extends JPanel {
 		return linker;
 	}
 
+	/**
+	 * adds a sheep panel to a specific terrain
+	 * 
+	 * if a panel displaying sheeps is already in the specified terrain it
+	 * updates the number of sheeps
+	 * 
+	 * if there wasn't any sheep panel on the terrain it creates a new one
+	 * 
+	 * @param terrain
+	 */
+	public void addSheep(Terrain terrain) {
+
+		int currentNumberOfSheep = linker.getSheepForEachTerrain().get(terrain);
+		// if there are no sheep in the tarrain
+		if (currentNumberOfSheep == 0) {
+
+			SheepPanel newSheep = new SheepPanel(
+					ImagePathCreator.findSheepPath(1),
+					dimensionCalculator.getSheepDimension());
+			this.add(newSheep);
+			newSheep.setLocation(linker.getSheepOrigins().get(terrain));
+			setVisible(true);
+
+			// add this JPanel in the array list of panels displayed in the
+			// terrain
+			components.get(terrain).add(newSheep);
+		} else {
+			// set the new image in the sheep panel
+			for (PiecesOnTheMap panel : components.get(terrain)) {
+				if (panel instanceof SheepPanel) {
+					// set the new image
+					panel.setImg(ImagePathCreator
+							.findSheepPath(currentNumberOfSheep + 1));
+					panel.repaint();
+
+					// update the sheep counter
+					linker.getSheepForEachTerrain().put(terrain,
+							currentNumberOfSheep + 1);
+				}
+			}
+		}
+	}
 }

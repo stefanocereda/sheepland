@@ -52,4 +52,9 @@ public class PiecesOnTheMap extends JPanel {
 				getHeight(), null);
 	}
 
+	public void setImg(String path) {
+		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(path));
+		img = imgIcon.getImage();
+	}
+
 }
