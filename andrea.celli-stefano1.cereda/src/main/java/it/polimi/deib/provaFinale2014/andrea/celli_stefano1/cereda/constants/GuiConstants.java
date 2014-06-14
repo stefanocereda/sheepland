@@ -57,4 +57,8 @@ public class GuiConstants {
 	 * The path of a final gate image
 	 */
 	public static final String FINAL_GATE = "/recinto_finale";
+	/**
+	 * The path to the wolf image
+	 */
+	public static final String WOLF = "";
 }

@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
@@ -262,5 +263,21 @@ public class Map extends JPanel {
 				}
 			}
 		}
+	}
+
+	/**
+	 * This method adds a wolf to the specified terrain (it creates a new
+	 * instace of WolfPanel)
+	 * 
+	 * @param terrain
+	 */
+	public void addWolf(Terrain terrain) {
+		WolfPanel wolf = new WolfPanel(GuiConstants.WOLF,
+				dimensionCalculator.getWolfDimension());
+		this.add(wolf);
+		wolf.setLocation(linker.getWolfOrigins().get(terrain));
+		wolf.setVisible(true);
+
+		components.get(terrain).add(wolf);
 	}
 }
