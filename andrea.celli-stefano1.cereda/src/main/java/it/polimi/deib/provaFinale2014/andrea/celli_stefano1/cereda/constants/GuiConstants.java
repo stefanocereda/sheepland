@@ -78,5 +78,5 @@ public class GuiConstants {
 	public static final long ANIMATION_FPS = 20;
 
 	/** The duration of the animations in milliseconds */
-	public static final long ANIMATION_LENGTH = 2000;
+	public static final long ANIMATION_LENGTH = 1000;
 }

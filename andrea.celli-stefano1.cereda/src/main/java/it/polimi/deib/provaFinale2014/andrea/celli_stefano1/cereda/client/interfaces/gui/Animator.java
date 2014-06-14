@@ -117,6 +117,7 @@ public class Animator implements Runnable {
 
 		double t = startPoint.distance(objectToMove.getLocation());
 
-		return v0 - v0 / distance * t;
+		// add 1 to achieve a smoother end
+		return (v0 - v0 / distance * t) + 1;
 	}
 }
