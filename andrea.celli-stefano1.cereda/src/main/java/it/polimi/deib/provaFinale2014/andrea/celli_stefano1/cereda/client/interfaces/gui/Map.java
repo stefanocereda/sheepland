@@ -347,4 +347,66 @@ public class Map extends JPanel {
 			}
 		}
 	}
+
+	/**
+	 * This method removes a lamb from a certain terrain. It decrease the number
+	 * of lamb displayed in the lamb panel.
+	 * 
+	 * @param terrain
+	 */
+	public void removeLamb(Terrain terrain) {
+		int currentNumberOfLamb = linker.getLambForEachTerrain().get(terrain);
+
+		if (currentNumberOfLamb > 0) {
+			// look for the sheep panel in the specified terrain
+			for (PiecesOnTheMap panel : components.get(terrain)) {
+				if (panel instanceof LambPanel) {
+					// if there's only one sheep the sheep panel is removed
+					if (currentNumberOfLamb == 1) {
+						components.get(terrain).remove(panel);
+						this.remove(panel);
+						this.repaint();
+					} else {
+						// if there are more than one sheep
+						panel.setImg(ImagePathCreator
+								.findLambPath(currentNumberOfLamb - 1));
+						panel.repaint();
+						linker.getLambForEachTerrain().put(terrain,
+								currentNumberOfLamb - 1);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * This method removes a ram from a certain location. It decrease the number
+	 * displayed in the image or delete the ram panel.
+	 * 
+	 * @param terrain
+	 */
+	public void removeRam(Terrain terrain) {
+		int currentNumberOfRam = linker.getRamForEachTerrain().get(terrain);
+
+		if (currentNumberOfRam > 0) {
+			// look for the sheep panel in the specified terrain
+			for (PiecesOnTheMap panel : components.get(terrain)) {
+				if (panel instanceof RamPanel) {
+					// if there's only one sheep the sheep panel is removed
+					if (currentNumberOfRam == 1) {
+						components.get(terrain).remove(panel);
+						this.remove(panel);
+						this.repaint();
+					} else {
+						// if there are more than one sheep
+						panel.setImg(ImagePathCreator
+								.findRamPath(currentNumberOfRam - 1));
+						panel.repaint();
+						linker.getRamForEachTerrain().put(terrain,
+								currentNumberOfRam - 1);
+					}
+				}
+			}
+		}
+	}
 }
