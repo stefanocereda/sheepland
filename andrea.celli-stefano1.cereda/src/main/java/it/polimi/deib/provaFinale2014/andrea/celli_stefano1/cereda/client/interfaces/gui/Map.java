@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
@@ -187,6 +188,41 @@ public class Map extends JPanel {
 					// update the sheep counter
 					linker.getSheepForEachTerrain().put(terrain,
 							currentNumberOfSheep + 1);
+				}
+			}
+		}
+	}
+
+	/**
+	 * adds a ram to a certain terrain
+	 * 
+	 * if a ram panel is already in the terrain it updates it. Otherwise it
+	 * creates a new one.
+	 * 
+	 * @param terrain
+	 */
+	public void addRam(Terrain terrain) {
+		int currentNumberOfRam = linker.getRamForEachTerrain().get(terrain);
+
+		if (currentNumberOfRam == 0) {
+			RamPanel newRam = new RamPanel(ImagePathCreator.findRamPath(1),
+					dimensionCalculator.getRamDimension());
+			this.add(newRam);
+			newRam.setLocation(linker.getRamOrigins().get(terrain));
+			setVisible(true);
+
+			components.get(terrain).add(newRam);
+		} else {
+			for (PiecesOnTheMap panel : components.get(terrain)) {
+				if (panel instanceof RamPanel) {
+					// set the new image
+					panel.setImg(ImagePathCreator
+							.findRamPath(currentNumberOfRam + 1));
+					panel.repaint();
+
+					// update the sheep counter
+					linker.getSheepForEachTerrain().put(terrain,
+							currentNumberOfRam + 1);
 				}
 			}
 		}
