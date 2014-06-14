@@ -85,10 +85,12 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	/**
 	 * This method checks, depending on the status flag, wheter the player is
 	 * trying to move the right label or not. If the piece is draggable in the
-	 * current situation it sets the Label as the draggedLabel.
+	 * current situation it sets the Panel as the draggedPanel.
 	 */
 	public void mousePressed(MouseEvent e) {
 		if (status != GameStatus.BUY_CARD && status != GameStatus.MARKET
+				&& status != GameStatus.BUTCHERING
+				&& status != GameStatus.MATING
 				&& status != GameStatus.NOT_YOUR_TURN) {
 			draggedPanel = dragAndDropManager.getPanelToMove(e, status);
 		}

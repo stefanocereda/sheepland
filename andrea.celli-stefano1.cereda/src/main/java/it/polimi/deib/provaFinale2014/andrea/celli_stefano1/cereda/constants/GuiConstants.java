@@ -61,4 +61,16 @@ public class GuiConstants {
 	 * The path to the wolf image
 	 */
 	public static final String WOLF = "";
+	/**
+	 * The path to the sheep image without any number
+	 */
+	public static final String EMPTY_SHEEP = "/sheepNoNumber.png";
+	/**
+	 * The path to the lamb image without any number
+	 */
+	public static final String EMPTY_LAMB = "/lambNoNumber.png";
+	/**
+	 * The path to the ram image without any number
+	 */
+	public static final String EMPTY_RAM = "/ramNoNumber.png";
 }

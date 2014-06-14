@@ -1,7 +1,14 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 /**
@@ -69,17 +76,104 @@ public class DragAndDropManager {
 	 */
 	public PiecesOnTheMap getPanelToMove(MouseEvent e, GameStatus status) {
 
-		switch (status) {
-		case MOVE_PLAYER:
-			break;
-		case MOVE_SHEEP:
-			break;
-		case BUTCHERING:
-			break;
-		case MATING:
-			break;
+		if (status.equals(GameStatus.MOVE_PLAYER)) {
+			return getPawnToMove(e.getPoint());
+		} else {
+			if (status.equals(GameStatus.MOVE_SHEEP)) {
+				return getSheepToMove(e.getPoint());
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Check if the mouse was pressed on the right point and, if so, returns the
+	 * "animal panel" that has to be dragged. The moveSheepMove can take place
+	 * on sheeps,lambs,rams and on the black sheep. If the mouse is pressed on
+	 * one of the first three type of panels the system creates an new panel
+	 * without any number. (This panel is used only during the dragging process.
+	 * When the mouse is released it will be deleted.)
+	 * 
+	 * The method checks: 1) if the terrain is adjacent to the current player
+	 * position 2) if the click was inside one of the three possible panel
+	 * 
+	 * @param point
+	 * @return SheepPanel (the panel that will be dragged)
+	 */
+	private PiecesOnTheMap getSheepToMove(Point point) {
+
+		Terrain pressedTerrain = linker.getColorsAndTerrain().get(
+				paintedMap.findColor(point));
+
+		Terrain[] adjacentTerrains = interfaceGui.getGameController()
+				.getControlledPlayer().getPosition().getAdjacentTerrains();
+
+		// check condition 1
+		if (pressedTerrain.equals(adjacentTerrains[0])
+				|| pressedTerrain.equals(adjacentTerrains[1])) {
+
+			// get the sheep panel, if it doesn't exists returns null
+			for (PiecesOnTheMap panel : map.getComponentsInTerrains().get(
+					pressedTerrain)) {
+
+				// check condition 2 for each possible type of panel
+
+				if (panel instanceof SheepPanel) {
+					// check if the panel contains the pressed terrain
+					if (panel.contains(point)) {
+						// creates the new panel with the sheep without number
+						SheepPanel sheepToBeDragged = new SheepPanel(
+								GuiConstants.EMPTY_SHEEP, map
+										.getDimensionCalculator()
+										.getSheepDimension());
+						map.add(sheepToBeDragged);
+						// the location is the position where the mouse was
+						// pressed
+						sheepToBeDragged.setLocation(point);
+						sheepToBeDragged.setVisible(true);
+						return sheepToBeDragged;
+					}
+				} else {
+					if (panel instanceof LambPanel) {
+						// creates the new panel with the lamb without number
+						LambPanel lambToBeDragged = new LambPanel(
+								GuiConstants.EMPTY_LAMB, map
+										.getDimensionCalculator()
+										.getLambDimension());
+						map.add(lambToBeDragged);
+						// the location is the position where the mouse was
+						// pressed
+						lambToBeDragged.setLocation(point);
+						lambToBeDragged.setVisible(true);
+						return lambToBeDragged;
+					} else {
+						if (panel instanceof RamPanel) {
+							// creates the new panel with the ram without number
+							RamPanel ramToBeDragged = new RamPanel(
+									GuiConstants.EMPTY_RAM, map
+											.getDimensionCalculator()
+											.getRamDimension());
+							map.add(ramToBeDragged);
+							// the location is the position where the mouse was
+							// pressed
+							ramToBeDragged.setLocation(point);
+							ramToBeDragged.setVisible(true);
+							return ramToBeDragged;
+						} else {
+							if (panel instanceof BlackSheepPanel) {
+								return panel;
+							}
+						}
+					}
+				}
+			}
 		}
 
+		return null;
+	}
+
+	private PiecesOnTheMap getPawnToMove(Point point) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

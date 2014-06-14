@@ -409,4 +409,9 @@ public class Map extends JPanel {
 			}
 		}
 	}
+
+	public DimensionCalculator getDimensionCalculator() {
+		return dimensionCalculator;
+	}
+
 }

@@ -49,10 +49,6 @@ public class InterfaceGui implements Interface {
 	public void setReferenceToGameController(
 			GameControllerClient gameControllerClient) {
 		this.gameController = gameControllerClient;
-
-		// creates instances of all the utility components of the map (ex. D&D
-		// class,dimension calculator)
-
 	}
 
 	public GameControllerClient getGameController() {
@@ -61,7 +57,6 @@ public class InterfaceGui implements Interface {
 
 	public void showInitialInformation() {
 		frame.getMap().initMapComponents(this);
-
 	}
 
 	public void notifyNewStatus() {

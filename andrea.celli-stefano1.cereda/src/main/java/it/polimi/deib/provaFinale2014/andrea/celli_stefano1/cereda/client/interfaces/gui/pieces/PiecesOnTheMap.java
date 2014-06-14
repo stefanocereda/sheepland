@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -55,6 +56,25 @@ public class PiecesOnTheMap extends JPanel {
 	public void setImg(String path) {
 		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(path));
 		img = imgIcon.getImage();
+	}
+
+	/**
+	 * This method checks whether a point is inside a JPanel displaying a piece
+	 * of the game.
+	 * 
+	 * @param point
+	 *            (the point to ckeck)
+	 * @return true (if the point is contained in the panel), false otherwise
+	 */
+	public boolean contains(Point point) {
+		if (point.x > this.getLocation().x
+				&& point.x < (this.getLocation().x + this.getWidth())
+				&& point.y > this.getLocation().y
+				&& point.y < (this.getHeight() + this.getLocation().y)) {
+			return true;
+		}
+
+		return false;
 	}
 
 }
