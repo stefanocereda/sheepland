@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -22,15 +23,16 @@ public class PiecesOnTheMap extends JPanel {
 	/**
 	 * @param path
 	 *            of the image that has to be displayed in the JLabel
+	 * @param dimension
 	 */
-	public PiecesOnTheMap(String path) {
+	public PiecesOnTheMap(String path, Dimension dimension) {
 		super();
 		// create first an image icon
 		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(path));
 		// get the displayable image from the image icon
 		img = imgIcon.getImage();
+		setSize(dimension);
 		setOpaque(false);
-
 	}
 
 	/**

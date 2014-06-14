@@ -45,4 +45,16 @@ public class GuiConstants {
 	 * The path of the painted map
 	 */
 	public static final String PAINTED_MAP = "Painted_Map.png";
+	/**
+	 * The path of the black sheep image
+	 */
+	public static final String BLACK_SHEEP = "/pecoraNera.png";
+	/**
+	 * The path of a gate image
+	 */
+	public static final String GATE = "/recinto.png";
+	/**
+	 * The path of a final gate image
+	 */
+	public static final String FINAL_GATE = "/recinto_finale";
 }
