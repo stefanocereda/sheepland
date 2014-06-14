@@ -34,7 +34,6 @@ public class PiecesOnTheMap extends JPanel {
 		img = imgIcon.getImage();
 		setSize(dimension);
 		setOpaque(false);
-		repaint();
 	}
 
 	/**
@@ -52,4 +51,5 @@ public class PiecesOnTheMap extends JPanel {
 				(img.getWidth(null) * this.getHeight()) / img.getHeight(null),
 				getHeight(), null);
 	}
+
 }

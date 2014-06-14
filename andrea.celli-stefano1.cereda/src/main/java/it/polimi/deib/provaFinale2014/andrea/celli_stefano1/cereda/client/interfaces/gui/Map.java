@@ -140,4 +140,12 @@ public class Map extends JPanel {
 		dimensionCalculator = new DimensionCalculator(mapDimension);
 	}
 
+	public HashMap<Terrain, ArrayList<PiecesOnTheMap>> getComponentsInTerrains() {
+		return components;
+	}
+
+	public Linker getLinker() {
+		return linker;
+	}
+
 }

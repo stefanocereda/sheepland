@@ -309,4 +309,52 @@ public class Linker {
 
 	}
 
+	public Map<Player, Pawns> getPlayersAndPawns() {
+		return playersAndPawns;
+	}
+
+	public Map<Color, Terrain> getColorsAndTerrain() {
+		return colorsAndTerrain;
+	}
+
+	public Map<Color, Road> getColorsAndRoad() {
+		return colorsAndRoad;
+	}
+
+	public Map<Terrain, Point> getSheepOrigins() {
+		return sheepOrigins;
+	}
+
+	public Map<Terrain, Point> getWolfOrigins() {
+		return wolfOrigins;
+	}
+
+	public Map<Terrain, Point> getRamOrigins() {
+		return ramOrigins;
+	}
+
+	public Map<Terrain, Point> getLambOrigins() {
+		return lambOrigins;
+	}
+
+	public Map<Terrain, Point> getBlackSheepOrigins() {
+		return blackSheepOrigins;
+	}
+
+	public Map<Road, Point> getPawnOrigins() {
+		return pawnOrigins;
+	}
+
+	public Map<Terrain, Integer> getSheepForEachTerrain() {
+		return sheepForEachTerrain;
+	}
+
+	public Map<Terrain, Integer> getLambForEachTerrain() {
+		return lambForEachTerrain;
+	}
+
+	public Map<Terrain, Integer> getRamForEachTerrain() {
+		return ramForEachTerrain;
+	}
+
 }
