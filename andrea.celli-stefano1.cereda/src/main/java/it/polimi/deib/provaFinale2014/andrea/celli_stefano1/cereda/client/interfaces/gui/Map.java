@@ -1,11 +1,14 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PawnPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
 import java.awt.Dimension;
@@ -279,5 +282,38 @@ public class Map extends JPanel {
 		wolf.setVisible(true);
 
 		components.get(terrain).add(wolf);
+	}
+
+	/**
+	 * This method adds a blackSheep to a certain terrain creating a new
+	 * instance of blackSheep panel
+	 * 
+	 * @param terrain
+	 */
+	public void addBlackSheep(Terrain terrain) {
+		BlackSheepPanel blackSheep = new BlackSheepPanel(GuiConstants.WOLF,
+				dimensionCalculator.getWolfDimension());
+		this.add(blackSheep);
+		blackSheep.setLocation(linker.getBlackSheepOrigins().get(terrain));
+		blackSheep.setVisible(true);
+
+		components.get(terrain).add(blackSheep);
+	}
+
+	/**
+	 * This method adds a specific pawn to a specific road
+	 * 
+	 * @param pawn
+	 *            (the pawn that has to be added)
+	 * @param road
+	 */
+	public void addPawn(Pawns pawn, Road road) {
+
+		PawnPanel pawnPanel = new PawnPanel(pawn.getImagePath(),
+				dimensionCalculator.getPawnDimension());
+		this.add(pawnPanel);
+		pawnPanel.setLocation(linker.getPawnOrigins().get(road));
+		pawnPanel.setVisible(true);
+
 	}
 }
