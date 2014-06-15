@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
@@ -441,11 +442,39 @@ public class DragAndDropManager {
 				// animate the pawn to the exact road position
 				map.animatePawn(draggedPanel, dropTarget);
 
+				addGate(dropTarget);
+
+				sendPlayerMove(draggedPanel, dropTarget);
+
 			} else {
 				animateBack(draggedPanel);
 			}
 		} else {
 			animateBack(draggedPanel);
+		}
+
+	}
+
+	/** Comunicates the new player move to the interfaceGui */
+	private void sendPlayerMove(PiecesOnTheMap draggedPanel, Road dropTarget) {
+
+		MovePlayer move = new MovePlayer(interfaceGui.getGameController()
+				.getControlledPlayer(), dropTarget);
+
+		interfaceGui.returnMoveFromGui(move);
+	}
+
+	/** Calculates if the gate has to be final and call the map's method */
+	private void addGate(Road dropTarget) {
+
+		int numberOfStandardGates = interfaceGui.getGameController()
+				.getBoardStatus().countStandardGates();
+
+		if (numberOfStandardGates < 20) {
+			// the standard gates are not over
+			map.addGate(GuiConstants.GATE, dropTarget);
+		} else {
+			map.addGate(GuiConstants.FINAL_GATE, dropTarget);
 		}
 
 	}
