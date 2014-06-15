@@ -123,4 +123,12 @@ public class InterfaceGui implements Interface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/**
+	 * This method is used to return the move made by the player to the
+	 * interfaceGui
+	 */
+	public void returnMoveFromGui(Move move) {
+
+	}
 }

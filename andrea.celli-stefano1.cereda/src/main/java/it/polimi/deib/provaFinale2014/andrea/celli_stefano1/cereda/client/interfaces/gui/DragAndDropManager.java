@@ -6,6 +6,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
@@ -50,6 +53,16 @@ public class DragAndDropManager {
 	private PaintedMap paintedMap;
 
 	/**
+	 * Old player position (used during the drag of a pawn)
+	 */
+	private Road oldPawnPosition;
+
+	/**
+	 * Old animal position (used during the drag of an animal)
+	 */
+	private Terrain oldAnimalPosition;
+
+	/**
 	 * The constructor sets a reference to the interfaceGUI and to the linker.
 	 * 
 	 * It also creates an instance of the painted map.
@@ -66,6 +79,10 @@ public class DragAndDropManager {
 		linker = Linker.getLinkerInsance();
 
 		paintedMap = new PaintedMap(map.getSize());
+
+		oldAnimalPosition = null;
+
+		oldPawnPosition = null;
 	}
 
 	/**
@@ -142,6 +159,8 @@ public class DragAndDropManager {
 						sheepToBeDragged.setVisible(true);
 						// set to true the dragging flag in DragAndDrop
 						map.getListener().setDragging(true);
+						// store the old position of the animal
+						oldAnimalPosition = pressedTerrain;
 						return sheepToBeDragged;
 					}
 				} else {
@@ -158,6 +177,8 @@ public class DragAndDropManager {
 						lambToBeDragged.setVisible(true);
 						// set to true the dragging flag in DragAndDrop
 						map.getListener().setDragging(true);
+						// store the old position of the animal
+						oldAnimalPosition = pressedTerrain;
 						return lambToBeDragged;
 					} else {
 						if (panel instanceof RamPanel) {
@@ -173,11 +194,15 @@ public class DragAndDropManager {
 							ramToBeDragged.setVisible(true);
 							// set to true the dragging flag in DragAndDrop
 							map.getListener().setDragging(true);
+							// store the old position of the animal
+							oldAnimalPosition = pressedTerrain;
 							return ramToBeDragged;
 						} else {
 							if (panel instanceof BlackSheepPanel) {
 								// set to true the dragging flag in DragAndDrop
 								map.getListener().setDragging(true);
+								// store the old position of the animal
+								oldAnimalPosition = pressedTerrain;
 								return panel;
 							}
 						}
@@ -217,6 +242,8 @@ public class DragAndDropManager {
 				.getPosition().equals(pressedRoad)) {
 			// set to true the dragging flag in DragAndDrop
 			map.getListener().setDragging(true);
+			// store the old position of the road
+			oldPawnPosition = pressedRoad;
 			return map.getPawnsLocation().get(pressedRoad);
 		}
 
@@ -231,13 +258,14 @@ public class DragAndDropManager {
 	 * 
 	 * @param point
 	 */
-	public void manageDrop(MouseEvent e, GameStatus status) {
+	public void manageDrop(MouseEvent e, GameStatus status,
+			PiecesOnTheMap draggedPanel) {
 
 		if (status.equals(GameStatus.MOVE_PLAYER)) {
-			manageDropPlayer(e.getPoint());
+			manageDropPlayer(e.getPoint(), draggedPanel);
 		} else {
 			if (status.equals(GameStatus.MOVE_SHEEP)) {
-				manageDropSheep(e.getPoint());
+				manageDropSheep(e.getPoint(), draggedPanel);
 			}
 		}
 
@@ -250,8 +278,115 @@ public class DragAndDropManager {
 	 * 
 	 * @param point
 	 */
-	private void manageDropSheep(Point point) {
-		// TODO Auto-generated method stub
+	private void manageDropSheep(Point point, PiecesOnTheMap draggedPanel) {
+
+		// for the drop to be in the right position the point has to be in the
+		// terrain adjacent to the shepherd position
+
+		Color droppedColor = paintedMap.findColor(point);
+
+		Terrain dropTarget = linker.getColorsAndTerrain().get(droppedColor);
+
+		// find the terrains adjacent to the player
+		Terrain[] adjacentTerrains = interfaceGui.getGameController()
+				.getControlledPlayer().getPosition().getAdjacentTerrains();
+
+		// check 1)
+		for (Terrain terrain : adjacentTerrains) {
+			// if the drop position is right
+			if (!(dropTarget.equals(oldAnimalPosition))
+					&& dropTarget.equals(terrain)) {
+
+				// Update the view
+				// 1)animate the dragged panel to the fixed panel
+				// 2)create a move and send it back to the interfaceGui
+				// 3)update the fixed panel (not for blackSheep)
+				// 4)remove the dragged panel (not for blackSheep)
+
+				map.animateAnimal(draggedPanel, dropTarget);
+
+				// creates a move depending on the type of sheep moved
+				/** @TODO check blacksheep move */
+				BoardStatusExtended boardStatus = (BoardStatusExtended) interfaceGui
+						.getGameController().getBoardStatus();
+
+				if (draggedPanel instanceof SheepPanel) {
+					interfaceGui.returnMoveFromGui(new MoveSheep(boardStatus
+							.getCurrentPlayer(), boardStatus.findASheep(
+							oldAnimalPosition, TypeOfSheep.FEMALESHEEP),
+							dropTarget));
+				} else {
+					if (draggedPanel instanceof RamPanel) {
+						interfaceGui.returnMoveFromGui(new MoveSheep(
+								boardStatus.getCurrentPlayer(), boardStatus
+										.findASheep(oldAnimalPosition,
+												TypeOfSheep.MALESHEEP),
+								dropTarget));
+					} else {
+						if (draggedPanel instanceof LambPanel) {
+							interfaceGui.returnMoveFromGui(new MoveSheep(
+									boardStatus.getCurrentPlayer(), boardStatus
+											.findASheep(oldAnimalPosition,
+													TypeOfSheep.NORMALSHEEP),
+									dropTarget));
+						} else {
+							// black sheep
+							if (draggedPanel instanceof BlackSheepPanel) {
+								interfaceGui
+										.returnMoveFromGui(new MoveSheep(
+												boardStatus.getCurrentPlayer(),
+												boardStatus.getBlackSheep(),
+												dropTarget));
+							}
+						}
+					}
+				}
+
+				if (!(draggedPanel instanceof BlackSheepPanel)) {
+
+					updateFixedAnimalPanel(dropTarget, draggedPanel);
+
+					map.remove(draggedPanel);
+					map.repaint();
+
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * This method update the image containing the number of ram/lamb/sheep in a
+	 * specific terrain.
+	 * 
+	 * It updates both the starting point and the end point of the move.
+	 * 
+	 * @param terrain
+	 * @param draggedPanel
+	 */
+	private void updateFixedAnimalPanel(Terrain newTerrain,
+			PiecesOnTheMap draggedPanel) {
+
+		if (draggedPanel instanceof SheepPanel) {
+			// starting terrain
+			map.removeSheep(oldAnimalPosition);
+			// end terrain
+			map.addSheep(newTerrain);
+		} else {
+			if (draggedPanel instanceof RamPanel) {
+				// starting terrain
+				map.removeRam(oldAnimalPosition);
+				// end terrain
+				map.addRam(newTerrain);
+			} else {
+				if (draggedPanel instanceof LambPanel) {
+					// starting terrain
+					map.removeLamb(oldAnimalPosition);
+					// end terrain
+					map.addLamb(newTerrain);
+				}
+			}
+		}
 
 	}
 
@@ -261,7 +396,7 @@ public class DragAndDropManager {
 	 * 
 	 * @param point
 	 */
-	private void manageDropPlayer(Point point) {
+	private void manageDropPlayer(Point point, PiecesOnTheMap draggedPanel) {
 		// TODO Auto-generated method stub
 
 	}

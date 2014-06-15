@@ -109,7 +109,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		if (dragging) {
 			dragging = false;
-			dragAndDropManager.manageDrop(e, status);
+			dragAndDropManager.manageDrop(e, status, draggedPanel);
 		}
 
 	}

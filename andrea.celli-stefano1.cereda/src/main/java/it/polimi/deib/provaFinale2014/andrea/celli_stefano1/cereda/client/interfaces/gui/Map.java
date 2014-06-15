@@ -430,4 +430,18 @@ public class Map extends JPanel {
 		return listener;
 	}
 
+	/**
+	 * @TODO
+	 * 
+	 *       This method animate a specified piece on the map to the origin of
+	 *       its type in the specified terrain.
+	 * 
+	 * @param draggedPanel
+	 * @param dropTarget
+	 */
+	public void animateAnimal(PiecesOnTheMap draggedPanel, Terrain dropTarget) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
