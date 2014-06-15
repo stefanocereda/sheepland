@@ -386,7 +386,7 @@ public class BoardStatus implements Serializable {
 	}
 
 	/**
-	 * This method check if the given road has all its road occupied by gates
+	 * This method check if the given terrain has all its road occupied by gates
 	 * 
 	 * @param toCheck
 	 *            the terrain to check

@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.GatePanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PawnPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
@@ -323,6 +324,24 @@ public class Map extends JPanel {
 
 		pawnsLocation.put(road, pawnPanel);
 
+	}
+
+	/**
+	 * This method adds a gate to a road.
+	 * 
+	 * @param path
+	 *            (depends on whether the gate is standard or final)
+	 * @param road
+	 */
+	public void addGate(String path, Road road) {
+
+		GatePanel gate = new GatePanel(path,
+				dimensionCalculator.getPawnDimension());
+
+		this.add(gate);
+
+		gate.setLocation(linker.getPawnOrigins().get(road));
+		gate.setVisible(true);
 	}
 
 	/**

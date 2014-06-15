@@ -440,7 +440,7 @@ public class DragAndDropManager {
 			if (!(dropTarget.equals(oldPawnPosition))) {
 				// animate the pawn to the exact road position
 				map.animatePawn(draggedPanel, dropTarget);
-				// ...
+
 			} else {
 				animateBack(draggedPanel);
 			}
