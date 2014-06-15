@@ -444,4 +444,9 @@ public class Map extends JPanel {
 
 	}
 
+	public void animatePawn(PiecesOnTheMap draggedPanel, Road dropTarget) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

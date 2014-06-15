@@ -276,6 +276,11 @@ public class DragAndDropManager {
 	 * the different type of sheep that may be involved) 3) call a method of the
 	 * interfaceGUI and send to it a new moveSheep move.
 	 * 
+	 * if the drop doesn't take place on an admitted point the dragged panel is
+	 * taken back to its old position
+	 * 
+	 * @TODO wait for the end of the animation
+	 * 
 	 * @param point
 	 */
 	private void manageDropSheep(Point point, PiecesOnTheMap draggedPanel) {
@@ -285,17 +290,19 @@ public class DragAndDropManager {
 
 		Color droppedColor = paintedMap.findColor(point);
 
-		Terrain dropTarget = linker.getColorsAndTerrain().get(droppedColor);
+		// check if the color links to a terrain
+		if (linker.getColorsAndTerrain().containsKey(droppedColor)) {
 
-		// find the terrains adjacent to the player
-		Terrain[] adjacentTerrains = interfaceGui.getGameController()
-				.getControlledPlayer().getPosition().getAdjacentTerrains();
+			Terrain dropTarget = linker.getColorsAndTerrain().get(droppedColor);
 
-		// check 1)
-		for (Terrain terrain : adjacentTerrains) {
+			// find the terrains adjacent to the player
+			Terrain[] adjacentTerrains = interfaceGui.getGameController()
+					.getControlledPlayer().getPosition().getAdjacentTerrains();
+
 			// if the drop position is right
 			if (!(dropTarget.equals(oldAnimalPosition))
-					&& dropTarget.equals(terrain)) {
+					&& (dropTarget.equals(adjacentTerrains[0]) || dropTarget
+							.equals(adjacentTerrains[1]))) {
 
 				// Update the view
 				// 1)animate the dragged panel to the fixed panel
@@ -350,8 +357,27 @@ public class DragAndDropManager {
 					map.repaint();
 
 				}
+			} else {
+				animateBack(draggedPanel);
 			}
+		} else {
+			animateBack(draggedPanel);
 		}
+	}
+
+	/**
+	 * This method takes the dragged panel back to its old position and removes
+	 * it.
+	 * 
+	 * used both for animals and pawns
+	 * 
+	 * @TODO wait for the end of the animation before remving the panel,complete
+	 * 
+	 * @param draggedPanel
+	 */
+	private void animateBack(PiecesOnTheMap draggedPanel) {
+
+		map.animateAnimal(draggedPanel, oldAnimalPosition);
 
 	}
 
@@ -391,13 +417,36 @@ public class DragAndDropManager {
 	}
 
 	/**
-	 * 1)Check if the drop position is correct 2)update the view 3) call a
-	 * method of the interfaceGUI and send to it a new movePlayer move.
+	 * 1)Check if the drop position is correct 2)update the view (also add the
+	 * gate) 3) call a method of the interfaceGUI and send to it a new
+	 * movePlayer move.
+	 * 
+	 * NB this method doesn't check if the player has enough money to perform
+	 * the move
 	 * 
 	 * @param point
+	 * @param draggedPanel
 	 */
 	private void manageDropPlayer(Point point, PiecesOnTheMap draggedPanel) {
-		// TODO Auto-generated method stub
+
+		Color dropColor = paintedMap.findColor(point);
+
+		// check if the color links to a road
+		if (linker.getColorsAndRoad().containsKey(dropColor)) {
+
+			Road dropTarget = linker.getColorsAndRoad().get(dropColor);
+			// check if the road is different from the old position of the
+			// player
+			if (!(dropTarget.equals(oldPawnPosition))) {
+				// animate the pawn to the exact road position
+				map.animatePawn(draggedPanel, dropTarget);
+				// ...
+			} else {
+				animateBack(draggedPanel);
+			}
+		} else {
+			animateBack(draggedPanel);
+		}
 
 	}
 }
