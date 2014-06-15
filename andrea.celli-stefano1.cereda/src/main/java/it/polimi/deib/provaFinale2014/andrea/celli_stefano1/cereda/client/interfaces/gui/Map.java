@@ -92,6 +92,9 @@ public class Map extends JPanel {
 		// get the displayable image from the image icon
 		img = imgIcon.getImage();
 		setOpaque(true);
+
+		// OK?
+		setDoubleBuffered(true);
 	}
 
 	/**
