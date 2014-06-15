@@ -140,6 +140,8 @@ public class DragAndDropManager {
 						// pressed
 						sheepToBeDragged.setLocation(point);
 						sheepToBeDragged.setVisible(true);
+						// set to true the dragging flag in DragAndDrop
+						map.getListener().setDragging(true);
 						return sheepToBeDragged;
 					}
 				} else {
@@ -154,6 +156,8 @@ public class DragAndDropManager {
 						// pressed
 						lambToBeDragged.setLocation(point);
 						lambToBeDragged.setVisible(true);
+						// set to true the dragging flag in DragAndDrop
+						map.getListener().setDragging(true);
 						return lambToBeDragged;
 					} else {
 						if (panel instanceof RamPanel) {
@@ -167,9 +171,13 @@ public class DragAndDropManager {
 							// pressed
 							ramToBeDragged.setLocation(point);
 							ramToBeDragged.setVisible(true);
+							// set to true the dragging flag in DragAndDrop
+							map.getListener().setDragging(true);
 							return ramToBeDragged;
 						} else {
 							if (panel instanceof BlackSheepPanel) {
+								// set to true the dragging flag in DragAndDrop
+								map.getListener().setDragging(true);
 								return panel;
 							}
 						}
@@ -207,9 +215,54 @@ public class DragAndDropManager {
 		// check 2
 		if (interfaceGui.getGameController().getControlledPlayer()
 				.getPosition().equals(pressedRoad)) {
+			// set to true the dragging flag in DragAndDrop
+			map.getListener().setDragging(true);
 			return map.getPawnsLocation().get(pressedRoad);
 		}
 
 		return null;
+	}
+
+	/**
+	 * This method checks if the dragged panel has been dropped into a correct
+	 * area. If so it updates the related images and creates a move that is
+	 * "sent" to the interfaceGUI. The d&d creates only moves of type move sheep
+	 * and move player.
+	 * 
+	 * @param point
+	 */
+	public void manageDrop(MouseEvent e, GameStatus status) {
+
+		if (status.equals(GameStatus.MOVE_PLAYER)) {
+			manageDropPlayer(e.getPoint());
+		} else {
+			if (status.equals(GameStatus.MOVE_SHEEP)) {
+				manageDropSheep(e.getPoint());
+			}
+		}
+
+	}
+
+	/**
+	 * 1)Check if the drop position is correct 2)update the view (taking care of
+	 * the different type of sheep that may be involved) 3) call a method of the
+	 * interfaceGUI and send to it a new moveSheep move.
+	 * 
+	 * @param point
+	 */
+	private void manageDropSheep(Point point) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 1)Check if the drop position is correct 2)update the view 3) call a
+	 * method of the interfaceGUI and send to it a new movePlayer move.
+	 * 
+	 * @param point
+	 */
+	private void manageDropPlayer(Point point) {
+		// TODO Auto-generated method stub
+
 	}
 }

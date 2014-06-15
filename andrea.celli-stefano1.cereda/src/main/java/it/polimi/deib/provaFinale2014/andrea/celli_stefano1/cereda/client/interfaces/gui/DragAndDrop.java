@@ -36,6 +36,11 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 */
 	private DragAndDropManager dragAndDropManager;
 
+	/**
+	 * A boolean flag used to check if the user is dragging something
+	 */
+	private boolean dragging;
+
 	//
 	//
 	//
@@ -49,6 +54,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 		this.dragAndDropManager = dragAndDropManager;
 		draggedPanel = null;
 		status = GameStatus.NOT_YOUR_TURN;
+		dragging = false;
 	}
 
 	/**
@@ -96,8 +102,15 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 		}
 	}
 
+	/**
+	 * Calls methods of the DragAndDropManager to check whether the release
+	 * point was "legal" or not and, eventually, to udate the view.
+	 */
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (dragging) {
+			dragging = false;
+			dragAndDropManager.manageDrop(e, status);
+		}
 
 	}
 
@@ -109,6 +122,14 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean isDragging() {
+		return dragging;
+	}
+
+	public void setDragging(boolean dragging) {
+		this.dragging = dragging;
 	}
 
 }

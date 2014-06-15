@@ -426,4 +426,8 @@ public class Map extends JPanel {
 		return pawnsLocation;
 	}
 
+	public DragAndDrop getListener() {
+		return listener;
+	}
+
 }
