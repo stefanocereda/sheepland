@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Deck;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Dice;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
@@ -491,5 +492,29 @@ public class BoardStatus implements Serializable {
 		public void remove() {
 			return;
 		}
+	}
+
+	/**
+	 * This method returns the cards that a specifi player can buy
+	 * 
+	 * @param player
+	 */
+	public List<Card> getCardsPlayerCanBuy(Player player) {
+
+		List<Card> buyableByAPlayer = new ArrayList<Card>();
+
+		ArrayList<Card> allBuyableCards = cardsDeck.getBuyableCards();
+
+		Terrain[] adjacentTerrains = player.getPosition().getAdjacentTerrains();
+
+		for (Card buyable : allBuyableCards) {
+			if (buyable.getTerrainType().equals(
+					adjacentTerrains[0].getTerrainType())
+					|| buyable.getTerrainType().equals(
+							adjacentTerrains[1].getTerrainType())) {
+				buyableByAPlayer.add(buyable);
+			}
+		}
+		return buyableByAPlayer;
 	}
 }

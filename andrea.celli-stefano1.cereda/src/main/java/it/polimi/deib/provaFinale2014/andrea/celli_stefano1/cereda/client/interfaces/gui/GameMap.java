@@ -77,6 +77,11 @@ public class GameMap extends JPanel {
 	 */
 	private MessageManager messageManager;
 
+	/**
+	 * This class handles buycard moves
+	 */
+	private BuyCardManager buyCardManager;
+
 	//
 	//
 	//
@@ -165,6 +170,9 @@ public class GameMap extends JPanel {
 		// create an instance of dimensionCalculator giving the displayed map
 		// dimension
 		dimensionCalculator = new DimensionCalculator(mapDimension);
+
+		// creates an instance of the buy card manager
+		buyCardManager = new BuyCardManager(this, interfaceGui);
 	}
 
 	public HashMap<Terrain, ArrayList<PiecesOnTheMap>> getComponentsInTerrains() {
@@ -532,6 +540,13 @@ public class GameMap extends JPanel {
 
 	public MessageManager getMessageManager() {
 		return messageManager;
+	}
+
+	/**
+	 * This methods is called when the player wants to buy a new card
+	 */
+	public void buyNewCard() {
+		buyCardManager.getNewCard();
 	}
 
 }

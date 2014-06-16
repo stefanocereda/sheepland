@@ -37,13 +37,13 @@ public class BuyCardPanel extends JPanel {
 	 * @param card
 	 *            (the array of buyable cards)
 	 */
-	public BuyCardPanel(Card[] buyableCards, BuyCardManager listener) {
+	public BuyCardPanel(ArrayList<Card> buyableCards, BuyCardManager listener) {
 
 		this.listener = listener;
 
 		// one slot for the "intro" and then one for each card and one for each
 		// coresponding button
-		layout = new GridLayout(buyableCards.length * 2 + 1, 1);
+		layout = new GridLayout(buyableCards.size() * 2 + 1, 1);
 
 		setLayout(layout);
 		setBackground(Color.BLUE);
@@ -54,16 +54,16 @@ public class BuyCardPanel extends JPanel {
 		intro.setVisible(true);
 
 		// JTextFields rapresenting the cards
-		for (int i = 0; i < buyableCards.length; i++) {
+		for (int i = 0; i < buyableCards.size(); i++) {
 			cards.add(new JTextField("Card " + i + ": "
-					+ buyableCards[i].toString()));
+					+ buyableCards.get(i).toString()));
 			setJTextField(cards.get(i));
 			this.add(cards.get(i));
 			cards.get(i).setVisible(true);
 		}
 
 		// Buttons
-		for (int i = 0; i < buyableCards.length; i++) {
+		for (int i = 0; i < buyableCards.size(); i++) {
 			buttons.add(new JButton("Card " + i));
 			this.add(buttons.get(i));
 			buttons.get(i).addActionListener(listener);
