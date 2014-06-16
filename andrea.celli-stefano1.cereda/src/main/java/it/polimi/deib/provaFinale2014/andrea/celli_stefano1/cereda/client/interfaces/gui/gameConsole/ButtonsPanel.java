@@ -1,8 +1,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.GameStatus;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.Map;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,9 +26,16 @@ import javax.swing.JPanel;
 
 public class ButtonsPanel extends JPanel {
 
+	/** The map */
+	private Map map;
+
 	/** the flag is true when the player is in his turn */
-	private boolean yourTurn = false;
-	private GridLayout layout = new GridLayout(2, 3);
+	private boolean activateListener = false;
+
+	private GridLayout layout = new GridLayout(5, 1);
+
+	/** The button listener */
+	private buttonListener listener = new buttonListener();
 
 	public ButtonsPanel() {
 
@@ -34,10 +45,99 @@ public class ButtonsPanel extends JPanel {
 		JButton movePlayerButton = new JButton("move player");
 		JButton moveSheepButton = new JButton("move sheep");
 		JButton buyCardButton = new JButton("buy card");
+		JButton butcheryButton = new JButton("butchery");
+		JButton matingButton = new JButton("mating");
 
 		this.add(movePlayerButton);
 		this.add(moveSheepButton);
 		this.add(buyCardButton);
+		this.add(butcheryButton);
+		this.add(matingButton);
+
+		movePlayerButton.addActionListener(listener);
+		moveSheepButton.addActionListener(listener);
+		buyCardButton.addActionListener(listener);
+		butcheryButton.addActionListener(listener);
+		matingButton.addActionListener(listener);
+
+	}
+
+	/**
+	 * This method is used to set a reference to the map. It's needed to change
+	 * the status of the drag&drop listener.
+	 * 
+	 * @param map
+	 */
+	public void setReferenceToTheMap(Map map) {
+		this.map = map;
+	}
+
+	/** Set to true the flag used to enable the listener on the buttons */
+	public void setActive(boolean booleanValue) {
+
+		this.activateListener = booleanValue;
+
+	}
+
+	/**
+	 * The listener of the buttons. It's active when the activateListener flag
+	 * is true. Its purpose is to let the user choose the type of move he wants
+	 * to perform.
+	 * 
+	 * When a button is clicked the listener change the drag&drop status flag or
+	 * activate a buy_card panel
+	 */
+	private class buttonListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+
+			// check if the flag is true
+			if (activateListener) {
+
+				activateListener = false;
+
+				// find the pressed button
+				JButton pressed = (JButton) e.getSource();
+				String selectedTypeOfMove = pressed.getText();
+
+				if (selectedTypeOfMove.equals("move player")) {
+
+					map.getMessageManager().showMessage("Move your pawn");
+					map.getListener().setStatus(GameStatus.MOVE_PLAYER);
+
+				} else {
+					if (selectedTypeOfMove.equals("move sheep")) {
+
+						map.getMessageManager().showMessage("Move a sheep");
+						map.getListener().setStatus(GameStatus.MOVE_SHEEP);
+
+					} else {
+						if (selectedTypeOfMove.equals("buy card")) {
+
+						} else {
+							if (selectedTypeOfMove.equals("butchery")) {
+
+								map.getMessageManager().showMessage(
+										"Choose which sheep you want to kill");
+								map.getListener().setStatus(
+										GameStatus.BUTCHERING);
+
+							} else {
+								if (selectedTypeOfMove.equals("mating")) {
+
+									map.getMessageManager().showMessage(
+											"Choose where to mate two sheeps");
+									map.getListener().setStatus(
+											GameStatus.MATING);
+
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
 	}
 
 }

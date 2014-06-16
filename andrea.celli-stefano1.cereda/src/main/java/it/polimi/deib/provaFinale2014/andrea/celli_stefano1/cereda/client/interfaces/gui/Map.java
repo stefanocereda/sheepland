@@ -101,7 +101,6 @@ public class Map extends JPanel {
 		img = imgIcon.getImage();
 		setOpaque(true);
 
-		// OK?
 		setDoubleBuffered(true);
 	}
 
@@ -530,4 +529,9 @@ public class Map extends JPanel {
 
 		return toReturn;
 	}
+
+	public MessageManager getMessageManager() {
+		return messageManager;
+	}
+
 }

@@ -37,6 +37,8 @@ public class MainFrame extends JFrame {
 
 		map = new Map();
 		console = new GameConsole();
+		// set the reference to the map in the buttonspanel
+		console.getButtonPanel().setReferenceToTheMap(map);
 
 		// get the size of the screen
 		screenDimension = toolKit.getScreenSize();

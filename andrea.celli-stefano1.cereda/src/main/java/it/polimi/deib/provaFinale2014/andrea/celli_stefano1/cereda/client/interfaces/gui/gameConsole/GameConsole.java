@@ -54,4 +54,8 @@ public class GameConsole extends JPanel {
 		return cardsPanel;
 	}
 
+	public ButtonsPanel getButtonPanel() {
+		return buttonsPanel;
+	}
+
 }
