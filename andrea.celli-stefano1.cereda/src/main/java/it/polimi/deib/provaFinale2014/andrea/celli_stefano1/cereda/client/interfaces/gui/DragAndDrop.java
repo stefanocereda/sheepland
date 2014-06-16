@@ -132,4 +132,14 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 		this.dragging = dragging;
 	}
 
+	/**
+	 * Set the status to the given status
+	 * 
+	 * @param newStatus
+	 *            The new status
+	 */
+	public void setStatus(GameStatus newStatus) {
+		this.status = newStatus;
+	}
+
 }

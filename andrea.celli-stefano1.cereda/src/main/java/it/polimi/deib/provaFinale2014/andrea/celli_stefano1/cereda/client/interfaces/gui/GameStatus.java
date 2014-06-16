@@ -8,5 +8,5 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
  * 
  */
 public enum GameStatus {
-	NOT_YOUR_TURN, MOVE_PLAYER, MOVE_SHEEP, BUY_CARD, BUTCHERING, MATING, MARKET;
+	NOT_YOUR_TURN, MOVE_PLAYER, MOVE_SHEEP, BUY_CARD, BUTCHERING, MATING, MARKET, CHOOSE_INITIAL_POSITION;
 }

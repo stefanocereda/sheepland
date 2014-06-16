@@ -2,13 +2,17 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class manages the gui. If contains the methods called by the
@@ -26,26 +30,26 @@ public class InterfaceGui implements Interface {
 	/** The frame that contains all the elements of the GUI */
 	private MainFrame frame;
 
+	/** The initial position chosen by the player */
+	private Road initialPosition = null;
+	/** The move passed by the user */
+	private Move returnedMove = null;
+
+	/** A logger */
+	private static final Logger LOG = Logger.getLogger(InterfaceGui.class
+			.getName());
+
 	/**
 	 * The constructor create the needed GUI-related objects. Initially the
 	 * GUI's map and "information panels" are empty. They're "populated" when
 	 * the first board status is received.
-	 * 
-	 * @TODO eventually change the linker init to implement the singleton
-	 *       pattern
 	 */
 
 	public InterfaceGui() {
-
 		this.frame = new MainFrame();
-
 	}
 
-	/**
-	 * Set the reference to the gameController used in this game and creates the
-	 * verifier (this has to be done after setting the gameController in this
-	 * class)
-	 */
+	/** {@inheritDoc} */
 	public void setReferenceToGameController(
 			GameControllerClient gameControllerClient) {
 		this.gameController = gameControllerClient;
@@ -57,60 +61,88 @@ public class InterfaceGui implements Interface {
 
 	public void showInitialInformation() {
 		frame.getMap().initMapComponents(this);
+		paintAllStatus();
 	}
 
 	public void notifyNewStatus() {
-		// TODO Auto-generated method stub
-
+		paintAllStatus();
 	}
 
 	public Road chooseInitialPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		frame.getMap().getListener()
+				.setStatus(GameStatus.CHOOSE_INITIAL_POSITION);
+
+		while (initialPosition == null) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				LOG.log(Level.SEVERE,
+						"Interrupted while retrieving the initial position", e);
+			}
+		}
+
+		Road toReturn = initialPosition;
+		initialPosition = null;
+		return toReturn;
 	}
 
 	public void notifyMove(Move move) {
-		// TODO Auto-generated method stub
-
+		// TODO mostrare le mosse con questi metodi
+		frame.getMap().animatePawn(draggedPanel, dropTarget);
+		frame.getMap().animateAnimal(draggedPanel, dropTarget);
 	}
 
 	public Move getNewMove() {
-		// TODO Auto-generated method stub
-		return null;
+		frame.getConsole().getButtonPanel().setActive(true);
+
+		while (returnedMove == null) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		Move toReturn = returnedMove;
+		returnedMove = null;
+		return toReturn;
 	}
 
 	public void notifyNotValidMove() {
-		// TODO Auto-generated method stub
-
+		// TODO scrivere che la mossa non è valida e ridisegnare tutto lo stato
 	}
 
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
-		// TODO Auto-generated method stub
-
+		String name = Linker.getLinkerInsance().getPawn(newCurrentPlayer)
+				.get(0).getPlayerName();
+		frame.getConsole().getPlayersPanel().markAsCurrentPlayer(name);
 	}
 
 	public void notifyWinners(List<Player> winners) {
-		// TODO Auto-generated method stub
+		// TODO scrivere la lista dei vincitori
 
 	}
 
 	public void notifyDisconnection() {
-		// TODO Auto-generated method stub
+		// TODO scrivere che si è disconnessi
 
 	}
 
 	public boolean chooseShepherd() {
-		// TODO Auto-generated method stub
+		// TODO chiedere se usare secondo shepherd: mostrare finestra in cui
+		// mette si/no
 		return false;
 	}
 
 	public Road chooseSecondInitialPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO scrivere che stiamo chiedendo la posizione del secondo pastore
+		return chooseInitialPosition();
 	}
 
 	public void notifyShepherd(boolean usingSecond) {
-		// TODO Auto-generated method stub
+		// TODO mostrare che il current player sta usando il secondo, si può
+		// anche non fare nulla
 
 	}
 
@@ -129,6 +161,18 @@ public class InterfaceGui implements Interface {
 	 * interfaceGui
 	 */
 	public void returnMoveFromGui(Move move) {
+		this.returnedMove = move;
+		notify();
+	}
 
+	/** This method has to be called when the user has chosen an initial road */
+	public void setInitialPosition(Road chosenRoad) {
+		initialPosition = chosenRoad;
+		notify();
+	}
+
+	/** This method has to reset all the map and paint a brand new status */
+	private void paintAllStatus() {
+		//TODO
 	}
 }

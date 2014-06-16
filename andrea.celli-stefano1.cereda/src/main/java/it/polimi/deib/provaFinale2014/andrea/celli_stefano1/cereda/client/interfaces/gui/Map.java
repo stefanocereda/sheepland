@@ -9,6 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
@@ -16,11 +17,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 /**
  * 
@@ -462,13 +466,48 @@ public class Map extends JPanel {
 	 * @param dropTarget
 	 */
 	public void animateAnimal(PiecesOnTheMap draggedPanel, Terrain dropTarget) {
-		// TODO Auto-generated method stub
+		Point endPoint = getPointOfAPanelOnTerrain(draggedPanel, dropTarget);
 
+		Animator ani = new Animator(draggedPanel, endPoint);
+		SwingUtilities.invokeLater(ani);
 	}
 
 	public void animatePawn(PiecesOnTheMap draggedPanel, Road dropTarget) {
 		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * Search the precise position of the given panel on the given terrain,
+	 * depending on the type of the panel
+	 * 
+	 * @param panel
+	 *            The panel to search
+	 * @param terrain
+	 *            The terrain where search
+	 * @return The position of the panel on the terrain
+	 */
+	public Point getPointOfAPanelOnTerrain(PiecesOnTheMap panel, Terrain terrain) {
+		Point toReturn = null;
+		if (panel instanceof SheepPanel) {
+			toReturn = linker.getSheepOrigins().get(terrain);
+		}
+
+		else if (panel instanceof RamPanel) {
+			toReturn = linker.getRamOrigins().get(terrain);
+		}
+
+		else if (panel instanceof LambPanel) {
+			toReturn = linker.getLambOrigins().get(terrain);
+		}
+
+		else if (panel instanceof BlackSheepPanel) {
+			toReturn = linker.getBlackSheepOrigins().get(terrain);
+		}
+
+		else if (panel instanceof WolfPanel) {
+			toReturn = linker.getWolfOrigins().get(terrain);
+		}
+
+		return toReturn;
+	}
 }

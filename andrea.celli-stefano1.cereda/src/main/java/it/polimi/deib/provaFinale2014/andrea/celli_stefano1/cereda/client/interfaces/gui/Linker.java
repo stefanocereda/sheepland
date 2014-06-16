@@ -5,11 +5,14 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.RoadMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,7 +39,7 @@ public class Linker {
 	 * this way they're linked also with their "game name" and their
 	 * "game color".
 	 */
-	private Map<Player, Pawns> playersAndPawns = new HashMap<Player, Pawns>();
+	private Map<Player, ArrayList<Pawns>> playersAndPawns = new HashMap<Player, ArrayList<Pawns>>();
 
 	/**
 	 * This hashmap links colors to terrains.
@@ -188,7 +191,12 @@ public class Linker {
 	 */
 	private void givePawns(Player[] players) {
 		for (int i = 0; i < players.length; i++) {
-			playersAndPawns.put(players[i], Pawns.values()[i]);
+			playersAndPawns.put(players[i], null);
+			playersAndPawns.get(players[i]).add(Pawns.values()[i]);
+
+			if (players[i] instanceof PlayerDouble) {
+				playersAndPawns.get(players[i]).add(Pawns.values()[i]);
+			}
 		}
 	}
 
@@ -197,7 +205,7 @@ public class Linker {
 	 * 
 	 * @param player
 	 */
-	public Pawns getPawn(Player player) {
+	public List<Pawns> getPawn(Player player) {
 		return playersAndPawns.get(player);
 	}
 
@@ -309,7 +317,7 @@ public class Linker {
 
 	}
 
-	public Map<Player, Pawns> getPlayersAndPawns() {
+	public Map<Player, ArrayList<Pawns>> getPlayersAndPawns() {
 		return playersAndPawns;
 	}
 
