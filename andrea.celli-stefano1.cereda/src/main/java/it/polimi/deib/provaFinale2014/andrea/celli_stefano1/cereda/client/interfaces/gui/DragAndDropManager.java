@@ -349,8 +349,14 @@ public class DragAndDropManager {
 						}
 					}
 				}
-
 				if (!(draggedPanel instanceof BlackSheepPanel)) {
+
+					// wait for the animation to be completed
+					try {
+						Thread.sleep(GuiConstants.ANIMATION_LENGTH);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
 					updateFixedAnimalPanel(dropTarget, draggedPanel);
 
@@ -380,6 +386,15 @@ public class DragAndDropManager {
 
 		map.animateAnimal(draggedPanel, oldAnimalPosition);
 
+		// wait for the animation to be completed
+		try {
+			Thread.sleep(GuiConstants.ANIMATION_LENGTH);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		map.remove(draggedPanel);
+		map.repaint();
 	}
 
 	/**
