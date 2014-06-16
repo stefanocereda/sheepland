@@ -72,6 +72,11 @@ public class Map extends JPanel {
 	 */
 	private Linker linker;
 
+	/**
+	 * The message menager used to display messages to the user
+	 */
+	private MessageManager messageManager;
+
 	//
 	//
 	//
@@ -114,6 +119,9 @@ public class Map extends JPanel {
 						/ img.getHeight(null)) / 2, 0,
 				(img.getWidth(null) * this.getHeight()) / img.getHeight(null),
 				getHeight(), null);
+
+		// init the message manager
+		messageManager = new MessageManager(this);
 	}
 
 	public Dimension getMapDimension() {
