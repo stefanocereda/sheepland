@@ -1,8 +1,13 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
 
 /**
  * This class manages the selection of a new card. It handles the action events
@@ -25,6 +30,9 @@ public class BuyCardManager implements ActionListener {
 	/** The displayed panel */
 	BuyCardPanel buyCardPanel;
 
+	/** The buyable cards */
+	ArrayList<Card> buyable;
+
 	public BuyCardManager(GameMap map, InterfaceGui interfaceGui) {
 		gameMap = map;
 		this.interfaceGui = interfaceGui;
@@ -35,28 +43,68 @@ public class BuyCardManager implements ActionListener {
 	 */
 	public void getNewCard() {
 
-		ArrayList buyable = (ArrayList) interfaceGui
+		buyable = (ArrayList) interfaceGui
 				.getGameController()
 				.getBoardStatus()
 				.getCardsPlayerCanBuy(
 						interfaceGui.getGameController().getControlledPlayer());
-
-		buyCardPanel = new BuyCardPanel(buyable, this);
-		gameMap.add(buyCardPanel);
-		buyCardPanel.setSize(gameMap.getWidth() / 3, gameMap.getHeight() / 3);
-		buyCardPanel.setLocation(gameMap.getWidth() / 3,
-				gameMap.getHeight() / 3);
-		buyCardPanel.setVisible(true);
-
+		// ask for the card only if there's at least a buyable card
+		if (buyable.size() > 0) {
+			buyCardPanel = new BuyCardPanel(buyable, this);
+			gameMap.add(buyCardPanel);
+			buyCardPanel.setSize(gameMap.getWidth() / 3,
+					gameMap.getHeight() / 3);
+			buyCardPanel.setLocation(gameMap.getWidth() / 3,
+					gameMap.getHeight() / 3);
+			buyCardPanel.setVisible(true);
+		} else {
+			// if there're no cards available it goes back to move selection
+			interfaceGui.getNewMove();
+		}
 	}
 
 	/** This method removes the buy card panel */
 	public void removeBuyCardPanel() {
 
+		gameMap.remove(buyCardPanel);
+		gameMap.repaint();
+
 	}
 
 	/** This is the listener which is called when a button is pressed */
 	public void actionPerformed(ActionEvent e) {
+
+		JButton pressed = (JButton) e.getSource();
+		String text = pressed.getText();
+
+		if (text.equals("Card 1")) {
+			update(buyable.get(0));
+		} else {
+			if (text.equals("Card 2")) {
+				update(buyable.get(1));
+			}
+		}
 	}
 
+	/**
+	 * 1)return buy card move to the interfaceGui 2)update player money in the
+	 * console 3) update displayed cards
+	 * 
+	 * @param card
+	 */
+
+	private void update(Card card) {
+
+		// 1)
+		interfaceGui.returnMoveFromGui(new BuyCardMove(interfaceGui
+				.getGameController().getControlledPlayer(), card));
+
+		/**
+		 * 
+		 * 
+		 * @TODO
+		 * 
+		 * 
+		 */
+	}
 }

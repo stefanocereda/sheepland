@@ -64,4 +64,5 @@ public class PlayerData extends JPanel {
 	public CardsPlayer getCardsPlayer() {
 		return cards;
 	}
+
 }

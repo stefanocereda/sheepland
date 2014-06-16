@@ -32,5 +32,4 @@ public class MoneyPlayer extends JLabel {
 		this.setText(money.toString() + " $");
 		repaint();
 	}
-
 }

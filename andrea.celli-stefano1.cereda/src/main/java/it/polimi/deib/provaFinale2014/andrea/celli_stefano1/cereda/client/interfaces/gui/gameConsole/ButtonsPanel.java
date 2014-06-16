@@ -113,7 +113,7 @@ public class ButtonsPanel extends JPanel {
 
 					} else {
 						if (selectedTypeOfMove.equals("buy card")) {
-
+							map.buyNewCard();
 						} else {
 							if (selectedTypeOfMove.equals("butchery")) {
 
