@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PawnPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
@@ -522,12 +523,42 @@ public class DragAndDropManager {
 
 	/**
 	 * This method checks if the click was performed on a free road and adds the
-	 * pawn in that position.
+	 * player's pawn in that position.
 	 * 
 	 * @param point
 	 */
 	public void manageInitialPosition(Point point) {
 
+		if (isInsideTheMapImage(point)) {
+			Color clickedColor = paintedMap.findColor(point);
+
+			// if the color is in a road
+			if (linker.getColorsAndRoad().containsKey(clickedColor)) {
+				Road selectedRoad = linker.getColorsAndRoad().get(clickedColor);
+
+				// check if the road is free
+				if (map.getPawnsLocation().get(selectedRoad).equals(null)) {
+					String pawnPath = linker
+							.getPawn(
+									interfaceGui.getGameController()
+											.getControlledPlayer()).get(0)
+							.getImagePath();
+					PawnPanel pawnPanel = new PawnPanel(pawnPath, map
+							.getDimensionCalculator().getPawnDimension());
+
+					Point position = linker.getPawnOrigins().get(selectedRoad);
+
+					map.add(pawnPanel);
+					pawnPanel.setLocation(position);
+					pawnPanel.setVisible(true);
+
+					// save the pawn in the map
+					map.getPawnsLocation().put(selectedRoad, pawnPanel);
+					// comunicates the initial position to the interfaceGui
+					interfaceGui.setInitialPosition(selectedRoad);
+				}
+			}
+		}
 	}
 
 	/**
