@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -17,6 +18,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -111,9 +113,6 @@ public class InterfaceGui implements Interface {
 		} else if (move instanceof MoveBlackSheep) {
 			notifyMoveBlackSheep((MoveBlackSheep) move);
 		}
-
-		frame.getMap().animatePawn(draggedPanel, dropTarget);
-		frame.getMap().animateAnimal(draggedPanel, dropTarget);
 	}
 
 	/**
@@ -130,6 +129,28 @@ public class InterfaceGui implements Interface {
 		} else if (move instanceof BuyCardMove) {
 			notifyMoveBuyCard((BuyCardMove) move);
 		}
+	}
+
+	/**
+	 * Animate the movement of the wolf
+	 * 
+	 * @param move
+	 *            The move to show
+	 */
+	private void notifyMoveWolf(MoveWolf move) {
+		WolfPanel panel = null;
+		Terrain oldTerrain = ((BoardStatusExtended) gameController
+				.getBoardStatus()).getWolf().getPosition();
+
+		// search the panel of the wolf
+		for (PiecesOnTheMap piece : frame.getMap().getComponentsInTerrains()
+				.get(oldTerrain)) {
+			if (piece instanceof WolfPanel) {
+				panel = (WolfPanel) piece;
+			}
+		}
+
+		frame.getMap().animateAnimal(panel, move.getNewPosition());
 	}
 
 	/**
