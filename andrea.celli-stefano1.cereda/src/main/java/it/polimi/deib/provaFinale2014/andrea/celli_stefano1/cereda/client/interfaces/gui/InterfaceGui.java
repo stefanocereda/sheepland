@@ -4,7 +4,9 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
@@ -20,6 +22,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 
+import java.awt.Panel;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -183,7 +186,9 @@ public class InterfaceGui implements Interface {
 	 *            The move to show
 	 */
 	private void notifyMoveSheep(MoveSheep move) {
-		// TODO
+		// TODO devo creare un panel senza numero, ridurre il numero di pecore
+		// dall'origine, spostare il panel, aumentare il numero di pecore alla
+		// fine e cancellare il panel
 	}
 
 	/**
@@ -193,7 +198,6 @@ public class InterfaceGui implements Interface {
 	 *            The move to execute
 	 */
 	private void notifyMovePlayer(MovePlayer move) {
-		// first of all we search the shepherd
 		// TODO dove li trovo gli shepherd???
 	}
 
