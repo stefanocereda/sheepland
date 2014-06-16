@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Mating;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
@@ -533,7 +534,7 @@ public class DragAndDropManager {
 	 * This method checks if the click happened on a terrain, if so, it creates
 	 * a new mating move and send it back to the interfaceGui.
 	 * 
-	 * No controls on the move.
+	 * No rulechecking on the move.
 	 * 
 	 * @param point
 	 */
@@ -554,8 +555,59 @@ public class DragAndDropManager {
 		}
 	}
 
+	/**
+	 * This methods checks if the click was performed on a panel displaying a
+	 * sheep/lamb/ram. Then it creates a new move and sent it back to the
+	 * interfaceGui.
+	 * 
+	 * No rulecheking on the move.
+	 * 
+	 * @param point
+	 */
 	public void manageButchering(Point point) {
-		// TODO Auto-generated method stub
+
+		if (isInsideTheMapImage(point)) {
+			Color clickedColor = paintedMap.findColor(point);
+
+			if (linker.getColorsAndTerrain().containsKey(clickedColor)) {
+				Terrain clickedTerrain = linker.getColorsAndTerrain().get(
+						clickedColor);
+
+				PiecesOnTheMap clickedPanel = null;
+
+				for (PiecesOnTheMap panel : map.getComponentsInTerrains().get(
+						clickedTerrain)) {
+					// if the click happened inside this panel
+					if (panel.contains(point)) {
+						// set this panel as the clicked panel
+						clickedPanel = panel;
+					}
+				}
+				TypeOfSheep type = null;
+
+				// get the type of sheep that the player decided to kill
+				if (clickedPanel instanceof SheepPanel) {
+					type = TypeOfSheep.FEMALESHEEP;
+				} else {
+					if (clickedPanel instanceof RamPanel) {
+						type = TypeOfSheep.MALESHEEP;
+					} else {
+						if (clickedPanel instanceof LambPanel) {
+							type = TypeOfSheep.NORMALSHEEP;
+						}
+					}
+				}
+
+				// send the move back to the interfaceGui
+				if (type != null) {
+					BoardStatusExtended bs = (BoardStatusExtended) interfaceGui
+							.getGameController().getBoardStatus();
+					interfaceGui.returnMoveFromGui((new Butchering(interfaceGui
+							.getGameController().getControlledPlayer(), bs
+							.findASheep(clickedTerrain, type))));
+				}
+			}
+		}
 
 	}
 }
