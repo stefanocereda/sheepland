@@ -517,4 +517,19 @@ public class DragAndDropManager {
 		}
 
 	}
+
+	public void manageInitialPosition(Point point) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void manageMating(Point point) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void manageButchering(Point point) {
+		// TODO Auto-generated method stub
+
+	}
 }

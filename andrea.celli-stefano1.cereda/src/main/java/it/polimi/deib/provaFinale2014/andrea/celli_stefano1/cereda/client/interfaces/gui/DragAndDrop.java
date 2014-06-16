@@ -83,8 +83,24 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 
 	}
 
+	/**
+	 * The clicks are considered only if the player has to choose the initial
+	 * potition, to kill a sheep or to "force a mating".
+	 * 
+	 */
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+
+		if (status.equals(GameStatus.CHOOSE_INITIAL_POSITION)) {
+			dragAndDropManager.manageInitialPosition(e.getPoint());
+		} else {
+			if (status.equals(GameStatus.MATING)) {
+				dragAndDropManager.manageMating(e.getPoint());
+			} else {
+				if (status.equals(GameStatus.BUTCHERING)) {
+					dragAndDropManager.manageButchering(e.getPoint());
+				}
+			}
+		}
 
 	}
 
@@ -94,10 +110,8 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 * current situation it sets the Panel as the draggedPanel.
 	 */
 	public void mousePressed(MouseEvent e) {
-		if (status != GameStatus.BUY_CARD && status != GameStatus.MARKET
-				&& status != GameStatus.BUTCHERING
-				&& status != GameStatus.MATING
-				&& status != GameStatus.NOT_YOUR_TURN) {
+		if (status.equals(GameStatus.MOVE_PLAYER)
+				|| status.equals(GameStatus.MOVE_SHEEP)) {
 			draggedPanel = dragAndDropManager.getPanelToMove(e, status);
 		}
 	}
