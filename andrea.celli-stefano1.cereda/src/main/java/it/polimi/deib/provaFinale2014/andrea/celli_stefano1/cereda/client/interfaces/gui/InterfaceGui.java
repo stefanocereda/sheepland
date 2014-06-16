@@ -29,6 +29,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.Boa
 import java.awt.Panel;
 import java.awt.Point;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -212,10 +213,52 @@ public class InterfaceGui implements Interface {
 
 		// wait for the animation to stop, delete the moving panel and increase
 		// the number of sheep
-		Thread.sleep(GuiConstants.ANIMATION_LENGTH);
-		frame.getMap().remove(panelToMove);
-		increaseNumberOfSheep(type, move.getNewPositionOfTheSheep());
-		frame.getMap().repaint();
+		try {
+			Thread.sleep(GuiConstants.ANIMATION_LENGTH);
+			frame.getMap().remove(panelToMove);
+			increaseNumberOfSheep(type, move.getNewPositionOfTheSheep());
+			frame.getMap().repaint();
+		} catch (InterruptedException e) {
+			LOG.log(Level.SEVERE, "Interrupted while moving a sheep", e);
+		}
+	}
+
+	/**
+	 * This method is similar to decreaseNumberOfSheep except that it increase
+	 * the number private void
+	 */
+	private void increaseNumberOfSheep(TypeOfSheep type, Terrain terrain) {
+		switch (type) {
+		case MALESHEEP:
+			frame.getMap().addRam(terrain);
+			break;
+		case FEMALESHEEP:
+			frame.getMap().addSheep(terrain);
+			break;
+		default:
+			frame.getMap().addLamb(terrain);
+		}
+	}
+
+	/**
+	 * This method tells to the GameMap to reduce the number of sheep
+	 * 
+	 * @param type
+	 *            The type of sheep to decrease
+	 * @param terrain
+	 *            The terrain where perform the decrease
+	 */
+	private void reduceNumberOfSheep(TypeOfSheep type, Terrain terrain) {
+		switch (type) {
+		case MALESHEEP:
+			frame.getMap().removeRam(terrain);
+			break;
+		case FEMALESHEEP:
+			frame.getMap().removeSheep(terrain);
+			break;
+		default:
+			frame.getMap().removeLamb(terrain);
+		}
 	}
 
 	/**
@@ -243,9 +286,8 @@ public class InterfaceGui implements Interface {
 		default:
 			map = linker.getLambOrigins();
 		}
-		
-		return map.
 
+		return map.get(terrain);
 	}
 
 	/**
