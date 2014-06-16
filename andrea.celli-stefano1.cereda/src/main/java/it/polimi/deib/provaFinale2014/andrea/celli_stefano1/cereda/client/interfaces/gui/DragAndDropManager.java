@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Mating;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -518,14 +519,39 @@ public class DragAndDropManager {
 
 	}
 
+	/**
+	 * This method checks if the click was performed on a free road and adds the
+	 * pawn in that position.
+	 * 
+	 * @param point
+	 */
 	public void manageInitialPosition(Point point) {
-		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * This method checks if the click happened on a terrain, if so, it creates
+	 * a new mating move and send it back to the interfaceGui.
+	 * 
+	 * No controls on the move.
+	 * 
+	 * @param point
+	 */
 	public void manageMating(Point point) {
-		// TODO Auto-generated method stub
 
+		if (isInsideTheMapImage(point)) {
+			Color clickedColor = paintedMap.findColor(point);
+
+			if (linker.getColorsAndTerrain().containsKey(clickedColor)) {
+
+				Terrain clickedTerrain = linker.getColorsAndTerrain().get(
+						clickedColor);
+
+				interfaceGui.returnMoveFromGui(new Mating(interfaceGui
+						.getGameController().getControlledPlayer(),
+						clickedTerrain));
+			}
+		}
 	}
 
 	public void manageButchering(Point point) {
