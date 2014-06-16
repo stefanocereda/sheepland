@@ -95,15 +95,36 @@ public class DragAndDropManager {
 	 * @return the piece to be dragged (null if the move is not allowed)
 	 */
 	public PiecesOnTheMap getPanelToMove(MouseEvent e, GameStatus status) {
-
-		if (status.equals(GameStatus.MOVE_PLAYER)) {
-			return getPawnToMove(e.getPoint());
-		} else {
-			if (status.equals(GameStatus.MOVE_SHEEP)) {
-				return getSheepToMove(e.getPoint());
+		// check if the mouse was pressed inside the map. Otherwise the
+		// paintedMap wouldn't be able to find a crespondent color
+		if (isInsideTheMapImage(e.getPoint())) {
+			if (status.equals(GameStatus.MOVE_PLAYER)) {
+				return getPawnToMove(e.getPoint());
+			} else {
+				if (status.equals(GameStatus.MOVE_SHEEP)) {
+					return getSheepToMove(e.getPoint());
+				}
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * This method checks if a point is inside the image of the map. This is
+	 * necessary to get the right answer in the painted map.
+	 * 
+	 * @param point
+	 * @return boolean (true if the point has a corespondent in the painted map)
+	 */
+	private boolean isInsideTheMapImage(Point point) {
+
+		// the border between the image and the end of the panel
+		int border = (map.getWidth() - map.getMapDimension().width) / 2;
+		int x = point.x;
+		if (x > border && x < (border + map.getMapDimension().width)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -261,15 +282,18 @@ public class DragAndDropManager {
 	 */
 	public void manageDrop(MouseEvent e, GameStatus status,
 			PiecesOnTheMap draggedPanel) {
-
-		if (status.equals(GameStatus.MOVE_PLAYER)) {
-			manageDropPlayer(e.getPoint(), draggedPanel);
-		} else {
-			if (status.equals(GameStatus.MOVE_SHEEP)) {
-				manageDropSheep(e.getPoint(), draggedPanel);
+		// check if the drop was inside the map image
+		if (isInsideTheMapImage(e.getPoint())) {
+			if (status.equals(GameStatus.MOVE_PLAYER)) {
+				manageDropPlayer(e.getPoint(), draggedPanel);
+			} else {
+				if (status.equals(GameStatus.MOVE_SHEEP)) {
+					manageDropSheep(e.getPoint(), draggedPanel);
+				}
 			}
+		} else {
+			animateBack(draggedPanel);
 		}
-
 	}
 
 	/**
