@@ -9,7 +9,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 
@@ -24,7 +23,6 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 /**
  * 
@@ -36,6 +34,7 @@ import javax.swing.SwingWorker;
  */
 
 public class Map extends JPanel {
+	private static final long serialVersionUID = -7837312549312431396L;
 
 	// the image to be displayed
 	Image img;
@@ -457,23 +456,36 @@ public class Map extends JPanel {
 	}
 
 	/**
-	 * @TODO
-	 * 
-	 *       This method animate a specified piece on the map to the origin of
-	 *       its type in the specified terrain.
+	 * This method animate a specified piece on the map to the origin of its
+	 * type in the specified terrain.
 	 * 
 	 * @param draggedPanel
+	 *            The panel to move
 	 * @param dropTarget
+	 *            The destination terrain
 	 */
-	public void animateAnimal(PiecesOnTheMap draggedPanel, Terrain dropTarget) {
-		Point endPoint = getPointOfAPanelOnTerrain(draggedPanel, dropTarget);
+	public void animateAnimal(PiecesOnTheMap draggedPanel,
+			Terrain dropTargetTerrain) {
+		Point endPoint = getPointOfAPanelOnTerrain(draggedPanel,
+				dropTargetTerrain);
 
 		Animator ani = new Animator(draggedPanel, endPoint);
 		SwingUtilities.invokeLater(ani);
 	}
 
-	public void animatePawn(PiecesOnTheMap draggedPanel, Road dropTarget) {
-		// TODO Auto-generated method stub
+	/**
+	 * This method moves the given draggedPanel to the target road.
+	 * 
+	 * @param draggedPanel
+	 *            The panel moved (we move on roads so this will probably be a
+	 *            pawn)
+	 * @param dropTargetRoad
+	 *            The target road
+	 */
+	public void animatePawn(PiecesOnTheMap draggedPanel, Road dropTargetRoad) {
+		Point endPoint = linker.getPawnOrigins().get(dropTargetRoad);
+		Animator ani = new Animator(draggedPanel, endPoint);
+		SwingUtilities.invokeLater(ani);
 	}
 
 	/**
