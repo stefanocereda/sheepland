@@ -8,6 +8,8 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Mating;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -95,15 +97,36 @@ public class DragAndDropManager {
 	 * @return the piece to be dragged (null if the move is not allowed)
 	 */
 	public PiecesOnTheMap getPanelToMove(MouseEvent e, GameStatus status) {
-
-		if (status.equals(GameStatus.MOVE_PLAYER)) {
-			return getPawnToMove(e.getPoint());
-		} else {
-			if (status.equals(GameStatus.MOVE_SHEEP)) {
-				return getSheepToMove(e.getPoint());
+		// check if the mouse was pressed inside the map. Otherwise the
+		// paintedMap wouldn't be able to find a crespondent color
+		if (isInsideTheMapImage(e.getPoint())) {
+			if (status.equals(GameStatus.MOVE_PLAYER)) {
+				return getPawnToMove(e.getPoint());
+			} else {
+				if (status.equals(GameStatus.MOVE_SHEEP)) {
+					return getSheepToMove(e.getPoint());
+				}
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * This method checks if a point is inside the image of the map. This is
+	 * necessary to get the right answer in the painted map.
+	 * 
+	 * @param point
+	 * @return boolean (true if the point has a corespondent in the painted map)
+	 */
+	private boolean isInsideTheMapImage(Point point) {
+
+		// the border between the image and the end of the panel
+		int border = (map.getWidth() - map.getMapDimension().width) / 2;
+		int x = point.x;
+		if (x > border && x < (border + map.getMapDimension().width)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -261,15 +284,18 @@ public class DragAndDropManager {
 	 */
 	public void manageDrop(MouseEvent e, GameStatus status,
 			PiecesOnTheMap draggedPanel) {
-
-		if (status.equals(GameStatus.MOVE_PLAYER)) {
-			manageDropPlayer(e.getPoint(), draggedPanel);
-		} else {
-			if (status.equals(GameStatus.MOVE_SHEEP)) {
-				manageDropSheep(e.getPoint(), draggedPanel);
+		// check if the drop was inside the map image
+		if (isInsideTheMapImage(e.getPoint())) {
+			if (status.equals(GameStatus.MOVE_PLAYER)) {
+				manageDropPlayer(e.getPoint(), draggedPanel);
+			} else {
+				if (status.equals(GameStatus.MOVE_SHEEP)) {
+					manageDropSheep(e.getPoint(), draggedPanel);
+				}
 			}
+		} else {
+			animateBack(draggedPanel);
 		}
-
 	}
 
 	/**
@@ -490,6 +516,97 @@ public class DragAndDropManager {
 			map.addGate(GuiConstants.GATE, dropTarget);
 		} else {
 			map.addGate(GuiConstants.FINAL_GATE, dropTarget);
+		}
+
+	}
+
+	/**
+	 * This method checks if the click was performed on a free road and adds the
+	 * pawn in that position.
+	 * 
+	 * @param point
+	 */
+	public void manageInitialPosition(Point point) {
+
+	}
+
+	/**
+	 * This method checks if the click happened on a terrain, if so, it creates
+	 * a new mating move and send it back to the interfaceGui.
+	 * 
+	 * No rulechecking on the move.
+	 * 
+	 * @param point
+	 */
+	public void manageMating(Point point) {
+
+		if (isInsideTheMapImage(point)) {
+			Color clickedColor = paintedMap.findColor(point);
+
+			if (linker.getColorsAndTerrain().containsKey(clickedColor)) {
+
+				Terrain clickedTerrain = linker.getColorsAndTerrain().get(
+						clickedColor);
+
+				interfaceGui.returnMoveFromGui(new Mating(interfaceGui
+						.getGameController().getControlledPlayer(),
+						clickedTerrain));
+			}
+		}
+	}
+
+	/**
+	 * This methods checks if the click was performed on a panel displaying a
+	 * sheep/lamb/ram. Then it creates a new move and sent it back to the
+	 * interfaceGui.
+	 * 
+	 * No rulecheking on the move.
+	 * 
+	 * @param point
+	 */
+	public void manageButchering(Point point) {
+
+		if (isInsideTheMapImage(point)) {
+			Color clickedColor = paintedMap.findColor(point);
+
+			if (linker.getColorsAndTerrain().containsKey(clickedColor)) {
+				Terrain clickedTerrain = linker.getColorsAndTerrain().get(
+						clickedColor);
+
+				PiecesOnTheMap clickedPanel = null;
+
+				for (PiecesOnTheMap panel : map.getComponentsInTerrains().get(
+						clickedTerrain)) {
+					// if the click happened inside this panel
+					if (panel.contains(point)) {
+						// set this panel as the clicked panel
+						clickedPanel = panel;
+					}
+				}
+				TypeOfSheep type = null;
+
+				// get the type of sheep that the player decided to kill
+				if (clickedPanel instanceof SheepPanel) {
+					type = TypeOfSheep.FEMALESHEEP;
+				} else {
+					if (clickedPanel instanceof RamPanel) {
+						type = TypeOfSheep.MALESHEEP;
+					} else {
+						if (clickedPanel instanceof LambPanel) {
+							type = TypeOfSheep.NORMALSHEEP;
+						}
+					}
+				}
+
+				// send the move back to the interfaceGui
+				if (type != null) {
+					BoardStatusExtended bs = (BoardStatusExtended) interfaceGui
+							.getGameController().getBoardStatus();
+					interfaceGui.returnMoveFromGui((new Butchering(interfaceGui
+							.getGameController().getControlledPlayer(), bs
+							.findASheep(clickedTerrain, type))));
+				}
+			}
 		}
 
 	}
