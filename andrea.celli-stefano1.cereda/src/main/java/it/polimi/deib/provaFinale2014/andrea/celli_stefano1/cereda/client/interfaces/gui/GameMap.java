@@ -33,7 +33,7 @@ import javax.swing.SwingUtilities;
  * 
  */
 
-public class Map extends JPanel {
+public class GameMap extends JPanel {
 	private static final long serialVersionUID = -7837312549312431396L;
 
 	// the image to be displayed
@@ -91,7 +91,7 @@ public class Map extends JPanel {
 	 * first board status is received by the player.
 	 * 
 	 */
-	public Map() {
+	public GameMap() {
 		super();
 
 		// create first an image icon (the source is places in a source folder)

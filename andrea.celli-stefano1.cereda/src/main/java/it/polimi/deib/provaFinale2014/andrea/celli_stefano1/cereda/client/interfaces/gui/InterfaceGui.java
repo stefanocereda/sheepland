@@ -3,9 +3,13 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Butchering;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -23,6 +27,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 
 import java.awt.Panel;
+import java.awt.Point;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -186,9 +191,83 @@ public class InterfaceGui implements Interface {
 	 *            The move to show
 	 */
 	private void notifyMoveSheep(MoveSheep move) {
-		// TODO devo creare un panel senza numero, ridurre il numero di pecore
-		// dall'origine, spostare il panel, aumentare il numero di pecore alla
-		// fine e cancellare il panel
+		Sheep movingSheep = gameController.getBoardStatus().getEquivalentSheep(
+				move.getMovedSheep());
+		TypeOfSheep type = movingSheep.getTypeOfSheep();
+		Terrain oldPosition = movingSheep.getPosition();
+
+		// add a panel of a moving sheep
+		PiecesOnTheMap panelToMove = createSheepPanel(type);
+		Point panelPosition = calculateSheepPanelOrigin(type, oldPosition);
+		panelToMove.setLocation(panelPosition);
+		frame.getMap().add(panelToMove);
+
+		// reduce the number of sheep
+		reduceNumberOfSheep(type, oldPosition);
+
+		// repaint and starts the animation
+		frame.getMap().repaint();
+		frame.getMap().animateAnimal(panelToMove,
+				move.getNewPositionOfTheSheep());
+
+		// wait for the animation to stop, delete the moving panel and increase
+		// the number of sheep
+		Thread.sleep(GuiConstants.ANIMATION_LENGTH);
+		frame.getMap().remove(panelToMove);
+		increaseNumberOfSheep(type, move.getNewPositionOfTheSheep());
+		frame.getMap().repaint();
+	}
+
+	/**
+	 * This method calculates the point where is locate the panel for the given
+	 * type of sheep in the given terrain
+	 * 
+	 * @param type
+	 *            The type of sheep to check for
+	 * @param terrain
+	 *            The interested terrain
+	 * @return A point representing the position of the panel representing type
+	 *         in terrain
+	 */
+	private Point calculateSheepPanelOrigin(TypeOfSheep type, Terrain terrain) {
+		Linker linker = Linker.getLinkerInsance();
+		Map<Terrain, Point> map = null;
+
+		switch (type) {
+		case MALESHEEP:
+			map = linker.getRamOrigins();
+			break;
+		case FEMALESHEEP:
+			map = linker.getSheepOrigins();
+			break;
+		default:
+			map = linker.getLambOrigins();
+		}
+		
+		return map.
+
+	}
+
+	/**
+	 * This method returns a panel representing a sheep with the same type of
+	 * the given one
+	 * 
+	 * @param type
+	 *            A type of sheep
+	 * @return A panel representing the given type of sheep
+	 */
+	private PiecesOnTheMap createSheepPanel(TypeOfSheep type) {
+		switch (type) {
+		case MALESHEEP:
+			return new RamPanel(ImagePathCreator.findRamPathNoNumber(), frame
+					.getMap().getDimensionCalculator().getRamDimension());
+		case FEMALESHEEP:
+			return new SheepPanel(ImagePathCreator.findSheepPathNoNumber(),
+					frame.getMap().getDimensionCalculator().getSheepDimension());
+		default:
+			return new LambPanel(ImagePathCreator.findLambPathNoNumber(), frame
+					.getMap().getDimensionCalculator().getLambDimension());
+		}
 	}
 
 	/**

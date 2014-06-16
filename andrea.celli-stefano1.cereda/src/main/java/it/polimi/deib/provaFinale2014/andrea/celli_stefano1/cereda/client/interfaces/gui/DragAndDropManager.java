@@ -48,7 +48,7 @@ public class DragAndDropManager {
 	/**
 	 * The map
 	 */
-	private Map map;
+	private GameMap map;
 
 	/**
 	 * The class that allows to determine a point position in the game through
@@ -75,7 +75,7 @@ public class DragAndDropManager {
 	 * @param mapDimension
 	 *            (effective dimension of the displayed map)
 	 */
-	public DragAndDropManager(InterfaceGui interfaceGui, Map map) {
+	public DragAndDropManager(InterfaceGui interfaceGui, GameMap map) {
 		this.interfaceGui = interfaceGui;
 
 		this.map = map;

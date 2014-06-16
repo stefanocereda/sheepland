@@ -18,7 +18,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	/**
 	 * The map panel
 	 */
-	private Map map;
+	private GameMap map;
 
 	/**
 	 * A flag that's used to determine the behaviour of the listeners according
@@ -49,7 +49,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 * @param map
 	 * @param verifier
 	 */
-	public DragAndDrop(Map map, DragAndDropManager dragAndDropManager) {
+	public DragAndDrop(GameMap map, DragAndDropManager dragAndDropManager) {
 		this.map = map;
 		this.dragAndDropManager = dragAndDropManager;
 		draggedPanel = null;

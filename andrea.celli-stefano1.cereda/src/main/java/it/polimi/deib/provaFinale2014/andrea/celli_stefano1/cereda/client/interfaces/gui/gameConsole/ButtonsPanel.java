@@ -1,7 +1,7 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.GameStatus;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.Map;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.GameMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 
 import java.awt.GridLayout;
@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 public class ButtonsPanel extends JPanel {
 
 	/** The map */
-	private Map map;
+	private GameMap map;
 
 	/** the flag is true when the player is in his turn */
 	private boolean activateListener = false;
@@ -68,7 +68,7 @@ public class ButtonsPanel extends JPanel {
 	 * 
 	 * @param map
 	 */
-	public void setReferenceToTheMap(Map map) {
+	public void setReferenceToTheMap(GameMap map) {
 		this.map = map;
 	}
 

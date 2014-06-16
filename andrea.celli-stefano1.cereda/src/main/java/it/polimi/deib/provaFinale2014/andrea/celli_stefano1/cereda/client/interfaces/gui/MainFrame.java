@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame {
 
 	/** The panel containing the map */
-	private Map map;
+	private GameMap map;
 
 	/** The panel containing the game console */
 	private GameConsole console;
@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
 		this.setLayout(null);
 		setTitle("SHEEPLAND");
 
-		map = new Map();
+		map = new GameMap();
 		console = new GameConsole();
 		// set the reference to the map in the buttonspanel
 		console.getButtonPanel().setReferenceToTheMap(map);
@@ -70,7 +70,7 @@ public class MainFrame extends JFrame {
 
 	}
 
-	public Map getMap() {
+	public GameMap getMap() {
 		return map;
 	}
 

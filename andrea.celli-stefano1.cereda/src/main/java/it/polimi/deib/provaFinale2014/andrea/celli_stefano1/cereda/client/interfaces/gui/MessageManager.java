@@ -19,14 +19,14 @@ import javax.swing.JTextField;
 public class MessageManager {
 
 	/** The map on which the messages are printed */
-	private Map map;
+	private GameMap map;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param map
 	 */
-	public MessageManager(Map map) {
+	public MessageManager(GameMap map) {
 		this.map = map;
 	}
 
