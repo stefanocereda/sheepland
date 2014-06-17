@@ -429,9 +429,12 @@ public class InterfaceGui implements Interface {
 		mm.showMessage(msg);
 	}
 
+	/** {@inheritDoc} */
 	public void notifyDisconnection() {
-		// TODO scrivere che si è disconnessi
-
+		frame.getMap()
+				.getMessageManager()
+				.showMessage(
+						"We're disconnected from the server, but our shepherd dog is working hard to solve this");
 	}
 
 	public boolean chooseShepherd() {
