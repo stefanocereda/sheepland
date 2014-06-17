@@ -48,7 +48,7 @@ public class GuiConstants {
 	/**
 	 * The path of the black sheep image
 	 */
-	public static final String BLACK_SHEEP = "/pecoraNera.png";
+	public static final String BLACK_SHEEP = "/blackSheep.png";
 	/**
 	 * The path of a gate image
 	 */
