@@ -159,7 +159,7 @@ public class InterfaceGui implements Interface {
 	}
 
 	private void notifyMoveBuyCard(BuyCardMove move) {
-
+		// TODO
 		// messaggio che lo dice
 		// togliere dalle carte quella comprata
 		// soldi giocatore
@@ -225,8 +225,9 @@ public class InterfaceGui implements Interface {
 		// add a panel of a moving sheep
 		PiecesOnTheMap panelToMove = createSheepPanel(type);
 		Point panelPosition = calculateSheepPanelOrigin(type, oldPosition);
-		panelToMove.setLocation(panelPosition);
 		frame.getMap().add(panelToMove);
+		panelToMove.setLocation(panelPosition);
+		panelToMove.setVisible(true);
 
 		// reduce the number of sheep
 		reduceNumberOfSheep(type, oldPosition);

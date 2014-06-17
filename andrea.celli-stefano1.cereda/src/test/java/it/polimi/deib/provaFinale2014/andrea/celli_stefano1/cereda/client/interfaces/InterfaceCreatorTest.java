@@ -27,10 +27,12 @@ public class InterfaceCreatorTest {
 		List<Interface> interfaces = new ArrayList<Interface>();
 
 		for (TypeOfInterface type : TypeOfInterface.values()) {
-			Interface created = InterfaceCreator.create(type);
-			assertNotNull(created);
-			assertFalse(interfaces.contains(created));
-			interfaces.add(created);
+			if (!type.equals(TypeOfInterface.GUI)) {
+				Interface created = InterfaceCreator.create(type);
+				assertNotNull(created);
+				assertFalse(interfaces.contains(created));
+				interfaces.add(created);
+			}
 		}
 	}
 }
