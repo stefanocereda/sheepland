@@ -499,7 +499,7 @@ public class DragAndDropManager {
 				map.animatePawn((PawnPanel) draggedPanel, dropTarget,
 						oldPawnPosition);
 
-				addGate(dropTarget);
+				addGate(oldPawnPosition);
 
 				sendPlayerMove(draggedPanel, dropTarget);
 
