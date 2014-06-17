@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class manages the command line interface. It has two main types of
@@ -283,11 +285,16 @@ public class InterfaceConsole implements Interface {
 
 	/** {@inheritDoc} */
 	public boolean chooseShepherd() {
-		int answer;
+		int answer = 0;
 
 		do {
-			Printer.println("For this turn you want to use the shepherd number 1 or 2?");
-			answer = Integer.parseInt(in.nextLine());
+			try {
+				Printer.println("For this turn you want to use the shepherd number 1 or 2?");
+				answer = Integer.parseInt(in.nextLine());
+			} catch (NumberFormatException e) {
+				Logger.getLogger(InterfaceConsole.class.getName()).log(
+						Level.WARNING, "You didn't insert a number", e);
+			}
 		} while (answer != 1 && answer != 2);
 
 		return answer == 2;
