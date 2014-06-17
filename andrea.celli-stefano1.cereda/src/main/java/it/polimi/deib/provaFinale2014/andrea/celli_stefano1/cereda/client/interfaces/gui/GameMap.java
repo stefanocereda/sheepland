@@ -19,6 +19,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -43,16 +44,16 @@ public class GameMap extends JPanel {
 	 * This hashMap contains, for each terrain, an array list containing all the
 	 * smaller JLabel that are displayed on the map.
 	 */
-	private HashMap<Terrain, ArrayList<PiecesOnTheMap>> components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
+	private Map<Terrain, ArrayList<PiecesOnTheMap>> components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
 
 	/**
 	 * This hashmap contains, for each road, the PawnPanel that they currently
 	 * host
 	 */
-	private HashMap<Road, PawnPanel> pawnsLocation = new HashMap<Road, PawnPanel>();
+	private Map<Road, PawnPanel> pawnsLocation = new HashMap<Road, PawnPanel>();
 
 	/**
-	 * This class calculates and stores the dimension that each type pf label
+	 * This class calculates and stores the dimension that each type of label
 	 * has to have
 	 */
 	private DimensionCalculator dimensionCalculator;
@@ -68,17 +69,17 @@ public class GameMap extends JPanel {
 	private Dimension mapDimension;
 
 	/**
-	 * The linker. Used to understand where to diplay new JPanels
+	 * The linker. Used to understand where to display new JPanels
 	 */
 	private Linker linker;
 
 	/**
-	 * The message menager used to display messages to the user
+	 * The message manager used to display messages to the user
 	 */
 	private MessageManager messageManager;
 
 	/**
-	 * This class handles buycard moves
+	 * This class handles buyCard moves
 	 */
 	private BuyCardManager buyCardManager;
 
@@ -175,7 +176,7 @@ public class GameMap extends JPanel {
 		buyCardManager = new BuyCardManager(this, interfaceGui);
 	}
 
-	public HashMap<Terrain, ArrayList<PiecesOnTheMap>> getComponentsInTerrains() {
+	public Map<Terrain, ArrayList<PiecesOnTheMap>> getComponentsInTerrains() {
 		return components;
 	}
 
@@ -186,8 +187,8 @@ public class GameMap extends JPanel {
 	/**
 	 * adds a sheep panel to a specific terrain
 	 * 
-	 * if a panel displaying sheeps is already in the specified terrain it
-	 * updates the number of sheeps
+	 * if a panel displaying sheep is already in the specified terrain it
+	 * updates the number of sheep
 	 * 
 	 * if there wasn't any sheep panel on the terrain it creates a new one
 	 * 
@@ -196,7 +197,7 @@ public class GameMap extends JPanel {
 	public void addSheep(Terrain terrain) {
 
 		int currentNumberOfSheep = linker.getSheepForEachTerrain().get(terrain);
-		// if there are no sheep in the tarrain
+		// if there are no sheep in the terrain
 		if (currentNumberOfSheep == 0) {
 
 			SheepPanel newSheep = new SheepPanel(
@@ -462,7 +463,7 @@ public class GameMap extends JPanel {
 		return dimensionCalculator;
 	}
 
-	public HashMap<Road, PawnPanel> getPawnsLocation() {
+	public Map<Road, PawnPanel> getPawnsLocation() {
 		return pawnsLocation;
 	}
 

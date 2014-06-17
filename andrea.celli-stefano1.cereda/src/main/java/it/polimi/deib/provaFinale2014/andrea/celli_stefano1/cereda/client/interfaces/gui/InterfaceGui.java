@@ -381,7 +381,6 @@ public class InterfaceGui implements Interface {
 
 	public void notifyWinners(List<Player> winners) {
 		// TODO scrivere la lista dei vincitori
-
 	}
 
 	public void notifyDisconnection() {
@@ -439,5 +438,4 @@ public class InterfaceGui implements Interface {
 	public MainFrame getFrame() {
 		return frame;
 	}
-
 }
