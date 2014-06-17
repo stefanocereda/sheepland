@@ -102,6 +102,8 @@ public class InterfaceGui implements Interface {
 	 * method
 	 */
 	public Road chooseInitialPosition() {
+		frame.getMap().getMessageManager()
+				.showMessage("Choose your initial position");
 		frame.getMap().getListener()
 				.setStatus(GameStatus.CHOOSE_INITIAL_POSITION);
 
@@ -579,10 +581,13 @@ public class InterfaceGui implements Interface {
 		GameMap map = frame.getMap();
 
 		for (Player p : gameController.getBoardStatus().getPlayers()) {
-			if (p instanceof PlayerDouble) {
-				// TODO
-			} else {
-				// TODO
+			Pawns pawn = Pawns.values()[gameController.getBoardStatus()
+					.getPositionOfAPlayer(p)];
+
+			Road position = p.getPosition();
+
+			if (position != null) {
+				map.addPawn(pawn, position);
 			}
 		}
 	}

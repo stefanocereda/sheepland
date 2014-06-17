@@ -29,8 +29,8 @@ public class DimensionCalculator {
 	 *            (The dimension of the displayed Map, not the whole JPanel)
 	 */
 	public DimensionCalculator(Dimension mapDimension) {
-		kX = mapDimension.width / GuiConstants.MAP_WIDTH;
-		kY = mapDimension.height / GuiConstants.MAP_HEIGHT;
+		kX = (double) mapDimension.width / GuiConstants.MAP_WIDTH;
+		kY = (double) mapDimension.height / GuiConstants.MAP_HEIGHT;
 
 		sheepDimension = new Dimension(
 				(int) (DefaultLabelDimension.SHEEP.getDefaultDimension().width * kX),
