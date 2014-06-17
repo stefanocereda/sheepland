@@ -36,12 +36,17 @@ public class CoordinatesConverter {
 	// the map dimension)
 	private double kx, ky;
 
-	public CoordinatesConverter(Dimension mapDimension) {
+	private int border;
+
+	public CoordinatesConverter(Dimension mapDimension,
+			Dimension panelMapDimension) {
 		this.width = mapDimension.width;
 		this.height = mapDimension.height;
 
-		kx = width / GuiConstants.MAP_WIDTH;
-		ky = height / GuiConstants.MAP_HEIGHT;
+		kx = (double) width / (double) GuiConstants.MAP_WIDTH;
+		ky = (double) height / (double) GuiConstants.MAP_HEIGHT;
+
+		border = (panelMapDimension.width - mapDimension.width) / 2;
 	}
 
 	/**
@@ -54,8 +59,9 @@ public class CoordinatesConverter {
 		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (SheepPositions position : SheepPositions.values()) {
-			hashMap.put(position.getTerrain(), new Point(
-					(int) (position.getX() * kx), (int) (position.getY() * ky)));
+			hashMap.put(position.getTerrain(),
+					new Point((int) (position.getX() * kx) + border,
+							(int) (position.getY() * ky)));
 		}
 
 		return hashMap;
@@ -72,8 +78,9 @@ public class CoordinatesConverter {
 		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (LambPositions position : LambPositions.values()) {
-			hashMap.put(position.getTerrain(), new Point(
-					(int) (position.getX() * kx), (int) (position.getY() * ky)));
+			hashMap.put(position.getTerrain(),
+					new Point((int) (position.getX() * kx) + border,
+							(int) (position.getY() * ky)));
 		}
 
 		return hashMap;
@@ -90,8 +97,9 @@ public class CoordinatesConverter {
 		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (RamPositions position : RamPositions.values()) {
-			hashMap.put(position.getTerrain(), new Point(
-					(int) (position.getX() * kx), (int) (position.getY() * ky)));
+			hashMap.put(position.getTerrain(),
+					new Point((int) (position.getX() * kx) + border,
+							(int) (position.getY() * ky)));
 		}
 
 		return hashMap;
@@ -108,8 +116,9 @@ public class CoordinatesConverter {
 		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (BlackSheepPositions position : BlackSheepPositions.values()) {
-			hashMap.put(position.getTerrain(), new Point(
-					(int) (position.getX() * kx), (int) (position.getY() * ky)));
+			hashMap.put(position.getTerrain(),
+					new Point((int) (position.getX() * kx) + border,
+							(int) (position.getY() * ky)));
 		}
 
 		return hashMap;
@@ -126,8 +135,9 @@ public class CoordinatesConverter {
 		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (WolfPositions position : WolfPositions.values()) {
-			hashMap.put(position.getTerrain(), new Point(
-					(int) (position.getX() * kx), (int) (position.getY() * ky)));
+			hashMap.put(position.getTerrain(),
+					new Point((int) (position.getX() * kx) + border,
+							(int) (position.getY() * ky)));
 		}
 
 		return hashMap;
@@ -148,7 +158,7 @@ public class CoordinatesConverter {
 
 		for (PawnPositions i : PawnPositions.values()) {
 			hashMap.put(roads.get(i.getRoadNumber()), new Point(
-					(int) (i.getX() * kx), (int) (i.getY() * ky)));
+					(int) (i.getX() * kx) + border, (int) (i.getY() * ky)));
 		}
 		return hashMap;
 	}

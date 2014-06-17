@@ -155,7 +155,7 @@ public class GameMap extends JPanel {
 
 		linker = Linker.getLinkerInsance();
 		linker.initLinker(interfaceGui.getGameController().getBoardStatus(),
-				mapDimension);
+				mapDimension, this.getSize());
 
 		// the map doesn't hold a reference to the verifier. It just gives it as
 		// a parameter to the drag&drop listener
