@@ -56,4 +56,8 @@ public class PlayerData extends JPanel {
 		return money;
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+
 }

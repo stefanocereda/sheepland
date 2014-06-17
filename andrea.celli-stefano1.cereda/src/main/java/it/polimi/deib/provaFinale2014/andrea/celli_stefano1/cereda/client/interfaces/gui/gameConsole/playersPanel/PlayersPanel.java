@@ -87,4 +87,13 @@ public class PlayersPanel extends JPanel {
 		return players;
 	}
 
+	/** Get the player data panel coresponding to a specific player */
+	public PlayerData getPlayerDisplayedData(Player player) {
+		for (PlayerData playerData : players) {
+			if (player.equals(playerData.getPlayer())) {
+				return playerData;
+			}
+		}
+		return null;
+	}
 }
