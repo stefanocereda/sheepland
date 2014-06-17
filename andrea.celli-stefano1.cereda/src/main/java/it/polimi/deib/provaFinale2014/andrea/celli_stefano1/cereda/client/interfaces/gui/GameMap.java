@@ -552,6 +552,7 @@ public class GameMap extends JPanel {
 	 * This methods is called when the player wants to buy a new card
 	 */
 	public void buyNewCard() {
+		listener.setStatus(GameStatus.BUY_CARD);
 		buyCardManager.getNewCard();
 	}
 

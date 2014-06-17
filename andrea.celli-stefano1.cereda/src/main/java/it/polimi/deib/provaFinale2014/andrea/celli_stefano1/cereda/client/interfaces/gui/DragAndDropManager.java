@@ -390,6 +390,8 @@ public class DragAndDropManager {
 					map.remove(draggedPanel);
 					map.repaint();
 
+					// set the status back to NOT_YOUR_TURN
+					map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
 				}
 			} else {
 				animateBack(draggedPanel);
@@ -488,6 +490,9 @@ public class DragAndDropManager {
 
 				sendPlayerMove(draggedPanel, dropTarget);
 
+				// set the status back to NOT_YOUR_TURN
+				map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
+
 			} else {
 				animateBack(draggedPanel);
 			}
@@ -556,6 +561,9 @@ public class DragAndDropManager {
 					map.getPawnsLocation().put(selectedRoad, pawnPanel);
 					// comunicates the initial position to the interfaceGui
 					interfaceGui.setInitialPosition(selectedRoad);
+
+					// set the status back to NOT_YOUR_TURN
+					map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
 				}
 			}
 		}
@@ -582,6 +590,9 @@ public class DragAndDropManager {
 				interfaceGui.returnMoveFromGui(new Mating(interfaceGui
 						.getGameController().getControlledPlayer(),
 						clickedTerrain));
+
+				// set the status back to NOT_YOUR_TURN
+				map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
 			}
 		}
 	}
@@ -636,6 +647,9 @@ public class DragAndDropManager {
 					interfaceGui.returnMoveFromGui((new Butchering(interfaceGui
 							.getGameController().getControlledPlayer(), bs
 							.findASheep(clickedTerrain, type))));
+
+					// set the status back to NOT_YOUR_TURN
+					map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
 				}
 			}
 		}

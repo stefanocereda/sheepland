@@ -99,6 +99,10 @@ public class BuyCardManager implements ActionListener {
 
 		Player currentPlayer = interfaceGui.getGameController()
 				.getControlledPlayer();
+
+		// set the status back to NOT_YOUR_TURN
+		gameMap.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
+
 		// 1)
 		interfaceGui.returnMoveFromGui(new BuyCardMove(currentPlayer, card));
 
