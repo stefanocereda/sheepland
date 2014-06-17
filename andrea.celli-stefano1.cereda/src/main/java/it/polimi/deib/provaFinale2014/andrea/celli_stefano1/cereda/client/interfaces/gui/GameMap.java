@@ -517,7 +517,7 @@ public class GameMap extends JPanel {
 
 		Point endPoint = linker.getPawnOrigins().get(dropTargetRoad);
 		Animator ani = new Animator(draggedPanel, endPoint);
-		SwingUtilities.invokeLater(ani);
+		(new Thread(ani)).run();
 
 		pawnsLocation.put(dropTargetRoad, draggedPanel);
 	}
