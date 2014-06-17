@@ -20,6 +20,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveWolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
@@ -106,7 +107,9 @@ public class InterfaceGui implements Interface {
 
 		while (initialPosition == null) {
 			try {
-				wait();
+				synchronized (this) {
+					wait();
+				}
 			} catch (InterruptedException e) {
 				LOG.log(Level.SEVERE,
 						"Interrupted while retrieving the initial position", e);
@@ -153,7 +156,10 @@ public class InterfaceGui implements Interface {
 	}
 
 	private void notifyMoveBuyCard(BuyCardMove move) {
-		// TODO Auto-generated method stub qui cosa si fa?
+
+		// messaggio che lo dice
+		// togliere dalle carte quella comprata
+		// soldi giocatore
 	}
 
 	/**
@@ -373,7 +379,9 @@ public class InterfaceGui implements Interface {
 
 		while (returnedMove == null) {
 			try {
-				wait();
+				synchronized (this) {
+					wait();
+				}
 			} catch (InterruptedException e) {
 				LOG.log(Level.SEVERE,
 						"Interrupted while retrieving a new move", e);
@@ -438,21 +446,33 @@ public class InterfaceGui implements Interface {
 						"We're disconnected from the server, but our shepherd dog is working hard to solve this");
 	}
 
+	/**
+	 * {@inheritDoc}. The gui version creates a panel with a question a waits
+	 * for the answer
+	 */
 	public boolean chooseShepherd() {
 		// TODO chiedere se usare secondo shepherd: mostrare finestra in cui
 		// mette si/no
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}. The gui version tells the user that he is choosing the
+	 * position for the second shepherd and then acts as it is the first
+	 * position
+	 */
 	public Road chooseSecondInitialPosition() {
-		// TODO scrivere che stiamo chiedendo la posizione del secondo pastore.
-		// controllare se per come viene scelta la posizione è lecito fare così
+		// TODO controllare se per come viene scelta la posizione è lecito fare
+		// così
+		frame.getMap()
+				.getMessageManager()
+				.showMessage(
+						"This is a game with two players and four shepherd, choose the position of your second shepherd");
 		return chooseInitialPosition();
 	}
 
+	/** {@inheritDoc}. The gui version does nothing, it doesn't have sense */
 	public void notifyShepherd(boolean usingSecond) {
-		// TODO mostrare che il current player sta usando il secondo, si può
-		// anche non fare nulla
 	}
 
 	public List<MarketOffer> askMarketOffers() {
@@ -495,8 +515,12 @@ public class InterfaceGui implements Interface {
 		}
 	}
 
+	/** This method prints on the game console the cards the remain in the deck */
 	private void paintCards() {
-		// TODO Auto-generated method stub
+		for (Card c : gameController.getBoardStatus().getDeck()
+				.getBuyableCards()) {
+			frame.getConsole().getCardsPanel().addCard(c);
+		}
 	}
 
 	/** Add the wolf to the game map */
@@ -519,9 +543,9 @@ public class InterfaceGui implements Interface {
 			String path = null;
 
 			if (g.isLast()) {
-				path = null;// TODO
+				path = GuiConstants.FINAL_GATE;
 			} else {
-				path = null;// TODO
+				path = GuiConstants.GATE;
 			}
 
 			frame.getMap().addGate(path, g.getPosition());

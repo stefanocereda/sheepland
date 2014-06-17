@@ -191,7 +191,7 @@ public class Linker {
 	 */
 	private void givePawns(Player[] players) {
 		for (int i = 0; i < players.length; i++) {
-			playersAndPawns.put(players[i], null);
+			playersAndPawns.put(players[i], new ArrayList<Pawns>());
 			playersAndPawns.get(players[i]).add(Pawns.values()[i]);
 
 			if (players[i] instanceof PlayerDouble) {

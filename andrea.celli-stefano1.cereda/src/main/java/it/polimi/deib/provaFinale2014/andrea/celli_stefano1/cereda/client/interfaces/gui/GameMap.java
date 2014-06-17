@@ -174,6 +174,11 @@ public class GameMap extends JPanel {
 
 		// creates an instance of the buy card manager
 		buyCardManager = new BuyCardManager(this, interfaceGui);
+
+		// initialize the components structure
+		for (Terrain t : Terrain.values()) {
+			components.put(t, new ArrayList<PiecesOnTheMap>());
+		}
 	}
 
 	public Map<Terrain, ArrayList<PiecesOnTheMap>> getComponentsInTerrains() {

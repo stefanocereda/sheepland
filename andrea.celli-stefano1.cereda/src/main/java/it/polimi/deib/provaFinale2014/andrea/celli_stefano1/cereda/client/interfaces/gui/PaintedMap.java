@@ -28,7 +28,7 @@ public class PaintedMap {
 	private double border;
 
 	// the dimension that the final painted map has to have
-	private Dimension paintedMapDimension;
+	private Dimension paintedMapDimension = new Dimension();
 
 	/**
 	 * The constructor
