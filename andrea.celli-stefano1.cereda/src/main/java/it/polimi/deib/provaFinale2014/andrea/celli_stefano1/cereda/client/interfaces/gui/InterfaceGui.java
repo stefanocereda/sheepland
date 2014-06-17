@@ -78,18 +78,27 @@ public class InterfaceGui implements Interface {
 		return gameController;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}. This gui version also paints the initial version of the
+	 * map
+	 */
 	public void showInitialInformation() {
 		frame.getMap().initMapComponents(this);
-		paintAllStatus();
+		rePaintAllStatus();
 	}
 
 	/** {@inheritDoc} */
 	public void notifyNewStatus() {
-		paintAllStatus();
+		rePaintAllStatus();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}. In the gui we enable the buttons used to choose the
+	 * position, when the user choose a position the event is caught by a mouse
+	 * handler that translate the event into a road and calls a method of this
+	 * class (setInitialPosition) that saves the position and notifies this
+	 * method
+	 */
 	public Road chooseInitialPosition() {
 		frame.getMap().getListener()
 				.setStatus(GameStatus.CHOOSE_INITIAL_POSITION);
@@ -108,7 +117,9 @@ public class InterfaceGui implements Interface {
 		return toReturn;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void notifyMove(Move move) {
 		if (move instanceof PlayerAction) {
 			if (!((PlayerAction) move).getPlayer().equals(
@@ -352,6 +363,10 @@ public class InterfaceGui implements Interface {
 		frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer());
 	}
 
+	/**
+	 * {@inheritDoc}. The mechanism used to retrieve a move from the user is
+	 * similar to chooseInitialPosition()
+	 */
 	public Move getNewMove() {
 		frame.getConsole().getButtonPanel().setActive(true);
 
@@ -359,8 +374,8 @@ public class InterfaceGui implements Interface {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.log(Level.SEVERE,
+						"Interrupted while retrieving a new move", e);
 			}
 		}
 
@@ -369,18 +384,49 @@ public class InterfaceGui implements Interface {
 		return toReturn;
 	}
 
+	/**
+	 * {@inheritDoc}. The gui version also repaint all the map in order to
+	 * delete the invalid move
+	 */
 	public void notifyNotValidMove() {
-		// TODO scrivere che la mossa non è valida e ridisegnare tutto lo stato
+		frame.getMap()
+				.getMessageManager()
+				.showMessage(
+						"The move goes against Sheepland's rule! Be more careful");
+
+		rePaintAllStatus();
 	}
 
+	/** {@inheritDoc} */
 	public void notifyCurrentPlayer(Player newCurrentPlayer) {
 		String name = Linker.getLinkerInsance().getPawn(newCurrentPlayer)
 				.get(0).getPlayerName();
 		frame.getConsole().getPlayersPanel().markAsCurrentPlayer(name);
 	}
 
+	/** {@inheritDoc} */
 	public void notifyWinners(List<Player> winners) {
-		// TODO scrivere la lista dei vincitori
+		MessageManager mm = frame.getMap().getMessageManager();
+
+		String msg = "Game over. ";
+
+		if (winners.size() == 1) {
+			msg += "There's only one winner:";
+		} else {
+			msg += "The winners are:";
+		}
+
+		for (Player p : winners) {
+			msg += " Player "
+					+ gameController.getBoardStatus().getPlayerNumber(p);
+		}
+
+		if (winners.size() != 1
+				&& winners.contains(gameController.getControlledPlayer())) {
+			msg += "IT'S TIME TO BAA, make some noiseee";
+		}
+
+		mm.showMessage(msg);
 	}
 
 	public void notifyDisconnection() {
@@ -431,7 +477,7 @@ public class InterfaceGui implements Interface {
 	}
 
 	/** This method has to reset all the map and paint a brand new status */
-	private void paintAllStatus() {
+	private void rePaintAllStatus() {
 		// TODO
 	}
 
