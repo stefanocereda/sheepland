@@ -376,11 +376,12 @@ public class GameMap extends JPanel {
 
 		if (currentNumberOfSheep > 0) {
 			// look for the sheep panel in the specified terrain
+			PiecesOnTheMap panelToRemove = null;
 			for (PiecesOnTheMap panel : components.get(terrain)) {
 				if (panel instanceof SheepPanel) {
 					// if there's only one sheep the sheep panel is removed
 					if (currentNumberOfSheep == 1) {
-						components.get(terrain).remove(panel);
+						panelToRemove = panel;
 						this.remove(panel);
 						this.repaint();
 					} else {
@@ -390,6 +391,9 @@ public class GameMap extends JPanel {
 						panel.repaint();
 					}
 				}
+			}
+			if (panelToRemove != null) {
+				components.get(terrain).remove(panelToRemove);
 			}
 		}
 		linker.getSheepForEachTerrain().put(terrain, currentNumberOfSheep - 1);
@@ -406,11 +410,12 @@ public class GameMap extends JPanel {
 
 		if (currentNumberOfLamb > 0) {
 			// look for the sheep panel in the specified terrain
+			PiecesOnTheMap panelToRemove = null;
 			for (PiecesOnTheMap panel : components.get(terrain)) {
 				if (panel instanceof LambPanel) {
 					// if there's only one sheep the sheep panel is removed
 					if (currentNumberOfLamb == 1) {
-						components.get(terrain).remove(panel);
+						panelToRemove = panel;
 						this.remove(panel);
 						this.repaint();
 					} else {
@@ -420,6 +425,9 @@ public class GameMap extends JPanel {
 						panel.repaint();
 					}
 				}
+			}
+			if (panelToRemove != null) {
+				components.get(terrain).remove(panelToRemove);
 			}
 		}
 		linker.getLambForEachTerrain().put(terrain, currentNumberOfLamb - 1);
@@ -436,11 +444,12 @@ public class GameMap extends JPanel {
 
 		if (currentNumberOfRam > 0) {
 			// look for the sheep panel in the specified terrain
+			PiecesOnTheMap panelToRemove = null;
 			for (PiecesOnTheMap panel : components.get(terrain)) {
 				if (panel instanceof RamPanel) {
 					// if there's only one sheep the sheep panel is removed
 					if (currentNumberOfRam == 1) {
-						components.get(terrain).remove(panel);
+						panelToRemove = panel;
 						this.remove(panel);
 						this.repaint();
 					} else {
@@ -450,6 +459,9 @@ public class GameMap extends JPanel {
 						panel.repaint();
 					}
 				}
+			}
+			if (panelToRemove != null) {
+				components.get(terrain).remove(panelToRemove);
 			}
 		}
 		linker.getRamForEachTerrain().put(terrain, currentNumberOfRam - 1);
