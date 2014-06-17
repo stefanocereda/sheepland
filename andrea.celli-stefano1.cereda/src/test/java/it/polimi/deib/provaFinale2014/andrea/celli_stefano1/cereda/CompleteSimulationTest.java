@@ -52,17 +52,17 @@ public class CompleteSimulationTest {
 		}
 		System.out.println("two fake rmi created");
 
-//		// launch a socket client
-//		Client c1 = new Client(new String[] { "fake", "socket" });
-//		Thread t1 = new Thread(c1);
-//		players.add(t1);
-//		t1.start();
-//		// and an rmi Client
-//		c2 = new Client(new String[] { "fake", "rmi" });
-//		Thread t2 = new Thread(c2);
-//		players.add(t2);
-//		t2.start();
-//		System.out.println("created one socket and one rmi");
+		// launch a socket client
+		Client c1 = new Client(new String[] { "fake", "socket" });
+		Thread t1 = new Thread(c1);
+		players.add(t1);
+		t1.start();
+		// and an rmi Client
+		c1 = new Client(new String[] { "fake", "rmi" });
+		Thread t2 = new Thread(c1);
+		players.add(t2);
+		t2.start();
+		System.out.println("created one socket and one rmi");
 
 		// let them play for at most one minute
 		int counter = 0;
@@ -73,7 +73,7 @@ public class CompleteSimulationTest {
 			} catch (InterruptedException e) {
 				System.out.println("interrupted");
 			}
-		} while (!finished(players) && counter < 3);
+		} while (!finished(players) && counter < 10);
 	}
 
 	/** Keep searching for the rmi server */
