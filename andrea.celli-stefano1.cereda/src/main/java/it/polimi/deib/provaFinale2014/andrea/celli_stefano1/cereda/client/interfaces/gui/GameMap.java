@@ -495,7 +495,7 @@ public class GameMap extends JPanel {
 				dropTargetTerrain);
 
 		Animator ani = new Animator(draggedPanel, endPoint);
-		SwingUtilities.invokeLater(ani);
+		(new Thread(ani)).run();
 
 		components.get(dropTargetTerrain).add(draggedPanel);
 	}

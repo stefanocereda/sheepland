@@ -425,7 +425,7 @@ public class DragAndDropManager {
 		}
 
 		Animator ani = new Animator(draggedPanel, endPoint);
-		SwingUtilities.invokeLater(ani);
+		(new Thread(ani)).run();
 
 		// wait for the animation to be completed
 		try {
