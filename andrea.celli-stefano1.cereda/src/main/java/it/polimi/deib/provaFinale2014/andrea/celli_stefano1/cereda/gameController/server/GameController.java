@@ -214,6 +214,7 @@ public class GameController implements Runnable {
 		newClientHandler.setPlayer(player);
 
 		// now wake the player
+		player.deleteLastMoves();
 		player.setConnected();
 		player.resume();
 
