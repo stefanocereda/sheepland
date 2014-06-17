@@ -156,4 +156,8 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 		this.status = newStatus;
 	}
 
+	public void setDraggedPanel(PiecesOnTheMap draggedPanel) {
+		this.draggedPanel = draggedPanel;
+	}
+
 }

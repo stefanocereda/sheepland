@@ -496,7 +496,8 @@ public class DragAndDropManager {
 			// player
 			if (!(dropTarget.equals(oldPawnPosition))) {
 				// animate the pawn to the exact road position
-				map.animatePawn((PawnPanel) draggedPanel, dropTarget, oldPawnPosition);
+				map.animatePawn((PawnPanel) draggedPanel, dropTarget,
+						oldPawnPosition);
 
 				addGate(dropTarget);
 
@@ -504,7 +505,7 @@ public class DragAndDropManager {
 
 				// set the status back to NOT_YOUR_TURN
 				map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
-
+				map.getListener().setDraggedPanel(null);
 			} else {
 				animateBack(draggedPanel);
 			}
