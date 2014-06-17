@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * 
@@ -320,10 +319,12 @@ public class GameMap extends JPanel {
 	 * @param terrain
 	 */
 	public void addBlackSheep(Terrain terrain) {
-		BlackSheepPanel blackSheep = new BlackSheepPanel(GuiConstants.WOLF,
-				dimensionCalculator.getWolfDimension());
+		BlackSheepPanel blackSheep = new BlackSheepPanel(
+				GuiConstants.BLACK_SHEEP,
+				dimensionCalculator.getBlackSheepDimension());
 		this.add(blackSheep);
 		blackSheep.setLocation(linker.getBlackSheepOrigins().get(terrain));
+		blackSheep.setOpaque(false);
 		blackSheep.setVisible(true);
 
 		components.get(terrain).add(blackSheep);
