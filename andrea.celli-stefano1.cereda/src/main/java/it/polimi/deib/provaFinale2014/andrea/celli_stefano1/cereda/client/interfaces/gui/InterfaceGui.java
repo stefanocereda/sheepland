@@ -624,17 +624,44 @@ public class InterfaceGui implements Interface {
 
 	/** This method adds all the pawns to the map */
 	private void paintPlayers() {
+		for (Player p : gameController.getBoardStatus().getPlayers()) {
+			if (p instanceof PlayerDouble) {
+				paintPlayerDouble((PlayerDouble) p);
+			} else {
+				paintPlayer(p);
+			}
+		}
+	}
+
+	/** Draw two pawns for the given player double */
+	private void paintPlayerDouble(PlayerDouble p) {
 		GameMap map = frame.getMap();
 
-		for (Player p : gameController.getBoardStatus().getPlayers()) {
-			Pawns pawn = Pawns.values()[gameController.getBoardStatus()
-					.getPositionOfAPlayer(p)];
+		Pawns pawn = Pawns.values()[gameController.getBoardStatus()
+				.getPositionOfAPlayer(p)];
 
-			Road position = p.getPosition();
+		Road p1 = p.getFirstPosition();
+		Road p2 = p.getSecondposition();
 
-			if (position != null) {
-				map.addPawn(pawn, position);
-			}
+		if (p1 != null) {
+			map.addPawn(pawn, p1);
+		}
+		if (p2 != null) {
+			map.addPawn(pawn, p2);
+		}
+	}
+
+	/** Draw a pawn for the given player */
+	private void paintPlayer(Player p) {
+		GameMap map = frame.getMap();
+
+		Pawns pawn = Pawns.values()[gameController.getBoardStatus()
+				.getPositionOfAPlayer(p)];
+
+		Road position = p.getPosition();
+
+		if (position != null) {
+			map.addPawn(pawn, position);
 		}
 	}
 
