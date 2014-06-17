@@ -130,6 +130,7 @@ public class GameController implements Runnable {
 	protected void initBlackSheep() {
 		BlackSheep blackSheep = new BlackSheep(Terrain.SHEEPSBURG);
 		blackSheep.setID();
+		boardStatus.addSheep(blackSheep);
 		boardStatus.addBlackSheepToBoardStatus(blackSheep);
 	}
 
