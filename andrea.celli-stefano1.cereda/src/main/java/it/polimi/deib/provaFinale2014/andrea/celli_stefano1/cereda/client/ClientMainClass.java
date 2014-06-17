@@ -61,8 +61,6 @@ public class ClientMainClass {
 				userInterface = TypeOfInterface.CONSOLE;
 			} else if ("gui".equals(arg)) {
 				userInterface = TypeOfInterface.GUI;
-			} else if ("fake".equals(arg)) {
-				userInterface = TypeOfInterface.FAKE;
 			} else {
 				try {
 					token = Integer.parseInt(arg);

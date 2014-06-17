@@ -27,8 +27,6 @@ public class InterfaceCreator {
 			return new InterfaceConsole();
 		case GUI:
 			return new InterfaceGui();
-		case FAKE:
-			return new InterfaceFake();
 		default:
 			return new InterfaceConsole();
 		}
