@@ -94,8 +94,10 @@ public class GuiConstants {
 	public static final double LAMB_ADJUSTING_Y = 2;
 	public static final double RAM_ADJUSTING_X = 1.5;
 	public static final double RAM_ADJUSTING_Y = 1.5;
-	public static final double SPECIAL_ANIMALS_X = 1.5;
-	public static final double SPECIAL_ANIMALS_Y = 1.5;
+	public static final double BLACK_SHEEP_X = 1.5;
+	public static final double BLACK_SHEEP_Y = 1.5;
 	public static final double PAWN_ADJUSTING_X = 1.2;
+	public static final double WOLF_ADJUSTING_X = 3.5;
+	public static final double WOLF_ADJUSTING_Y = 3.5;
 
 }
