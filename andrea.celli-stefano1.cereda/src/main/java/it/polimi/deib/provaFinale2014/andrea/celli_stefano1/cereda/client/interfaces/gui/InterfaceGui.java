@@ -364,7 +364,7 @@ public class InterfaceGui implements Interface {
 				frame.getMap().animatePawn(pawn,
 						move.getNewPositionOfThePlayer(), oldPosition);
 
-				placeGate(move.getNewPositionOfThePlayer());
+				placeGate(oldPosition);
 			}
 		}
 	}
@@ -394,7 +394,7 @@ public class InterfaceGui implements Interface {
 			frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer(),
 					oldPosition);
 
-			placeGate(move.getNewPositionOfThePlayer());
+			placeGate(oldPosition);
 		}
 	}
 
