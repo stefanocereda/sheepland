@@ -31,6 +31,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -520,12 +521,12 @@ public class InterfaceGui implements Interface {
 
 	public List<MarketOffer> askMarketOffers() {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<MarketOffer>();
 	}
 
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<MarketBuy>();
 	}
 
 	/**
