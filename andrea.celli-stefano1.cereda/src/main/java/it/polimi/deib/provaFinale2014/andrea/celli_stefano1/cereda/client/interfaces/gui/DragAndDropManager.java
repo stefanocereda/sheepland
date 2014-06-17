@@ -20,6 +20,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
+import javax.swing.SwingUtilities;
+
 /**
  * This class implements methods to verify that the starting point of the d&d
  * and the end of it are performed on valid positions and on valid labels.
@@ -338,7 +340,7 @@ public class DragAndDropManager {
 				// 3)update the fixed panel (not for blackSheep)
 				// 4)remove the dragged panel (not for blackSheep)
 
-				map.animateAnimal(draggedPanel, dropTarget);
+				map.animateAnimal(draggedPanel, dropTarget, oldAnimalPosition);
 
 				// creates a move depending on the type of sheep moved
 				/** @TODO check blacksheep move */
@@ -412,8 +414,18 @@ public class DragAndDropManager {
 	 * @param draggedPanel
 	 */
 	private void animateBack(PiecesOnTheMap draggedPanel) {
+		Point endPoint;
 
-		map.animateAnimal(draggedPanel, oldAnimalPosition);
+		if (draggedPanel instanceof PawnPanel) {
+			endPoint = map
+					.getPointOfAPanelOnRoad(draggedPanel, oldPawnPosition);
+		} else {
+			endPoint = map.getPointOfAPanelOnTerrain(draggedPanel,
+					oldAnimalPosition);
+		}
+
+		Animator ani = new Animator(draggedPanel, endPoint);
+		SwingUtilities.invokeLater(ani);
 
 		// wait for the animation to be completed
 		try {
@@ -484,7 +496,7 @@ public class DragAndDropManager {
 			// player
 			if (!(dropTarget.equals(oldPawnPosition))) {
 				// animate the pawn to the exact road position
-				map.animatePawn(draggedPanel, dropTarget);
+				map.animatePawn((PawnPanel) draggedPanel, dropTarget, oldPawnPosition);
 
 				addGate(dropTarget);
 

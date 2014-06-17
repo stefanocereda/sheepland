@@ -484,14 +484,20 @@ public class GameMap extends JPanel {
 	 *            The panel to move
 	 * @param dropTarget
 	 *            The destination terrain
+	 * @param oldTerrain
+	 *            The terrain where this panel is right now
 	 */
 	public void animateAnimal(PiecesOnTheMap draggedPanel,
-			Terrain dropTargetTerrain) {
+			Terrain dropTargetTerrain, Terrain oldTerrain) {
+		components.get(oldTerrain).remove(draggedPanel);
+
 		Point endPoint = getPointOfAPanelOnTerrain(draggedPanel,
 				dropTargetTerrain);
 
 		Animator ani = new Animator(draggedPanel, endPoint);
 		SwingUtilities.invokeLater(ani);
+
+		components.get(dropTargetTerrain).add(draggedPanel);
 	}
 
 	/**
@@ -502,11 +508,18 @@ public class GameMap extends JPanel {
 	 *            pawn)
 	 * @param dropTargetRoad
 	 *            The target road
+	 * @param oldPosition
+	 *            The road where the panel is located rigth now
 	 */
-	public void animatePawn(PiecesOnTheMap draggedPanel, Road dropTargetRoad) {
+	public void animatePawn(PawnPanel draggedPanel, Road dropTargetRoad,
+			Road oldPosition) {
+		pawnsLocation.remove(oldPosition);
+
 		Point endPoint = linker.getPawnOrigins().get(dropTargetRoad);
 		Animator ani = new Animator(draggedPanel, endPoint);
 		SwingUtilities.invokeLater(ani);
+
+		pawnsLocation.put(dropTargetRoad, draggedPanel);
 	}
 
 	/**
@@ -544,6 +557,14 @@ public class GameMap extends JPanel {
 		return toReturn;
 	}
 
+	/**
+	 * This method is similar to getPointOfAPanelOnTerrain except that it looks
+	 * on road, therefore it look for pawns
+	 */
+	public Point getPointOfAPanelOnRoad(PiecesOnTheMap draggedPanel, Road road) {
+		return linker.getPawnOrigins().get(road);
+	}
+
 	public MessageManager getMessageManager() {
 		return messageManager;
 	}
@@ -563,5 +584,4 @@ public class GameMap extends JPanel {
 		pawnsLocation = new HashMap<Road, PawnPanel>();
 		components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
 	}
-
 }

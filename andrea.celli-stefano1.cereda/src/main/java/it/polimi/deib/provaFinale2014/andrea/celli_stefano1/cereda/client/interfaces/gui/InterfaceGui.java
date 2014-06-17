@@ -183,7 +183,7 @@ public class InterfaceGui implements Interface {
 			}
 		}
 
-		frame.getMap().animateAnimal(panel, move.getNewPosition());
+		frame.getMap().animateAnimal(panel, move.getNewPosition(), oldTerrain);
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class InterfaceGui implements Interface {
 		}
 
 		frame.getMap().animateAnimal(panel,
-				move.getNewPositionOfTheBlackSheep());
+				move.getNewPositionOfTheBlackSheep(), oldTerrain);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class InterfaceGui implements Interface {
 		// repaint and starts the animation
 		frame.getMap().repaint();
 		frame.getMap().animateAnimal(panelToMove,
-				move.getNewPositionOfTheSheep());
+				move.getNewPositionOfTheSheep(), oldPosition);
 
 		// wait for the animation to stop, delete the moving panel and increase
 		// the number of sheep
@@ -360,7 +360,7 @@ public class InterfaceGui implements Interface {
 				PawnPanel pawn = frame.getMap().getPawnsLocation()
 						.get(oldPosition);
 				frame.getMap().animatePawn(pawn,
-						move.getNewPositionOfThePlayer());
+						move.getNewPositionOfThePlayer(), oldPosition);
 			}
 		}
 	}
@@ -387,7 +387,8 @@ public class InterfaceGui implements Interface {
 		} else {
 
 			PawnPanel pawn = frame.getMap().getPawnsLocation().get(oldPosition);
-			frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer());
+			frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer(),
+					oldPosition);
 		}
 	}
 
