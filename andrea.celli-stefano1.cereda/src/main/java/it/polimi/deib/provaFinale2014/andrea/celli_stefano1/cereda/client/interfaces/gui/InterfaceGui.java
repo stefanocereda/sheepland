@@ -493,13 +493,17 @@ public class InterfaceGui implements Interface {
 	 */
 	public void returnMoveFromGui(Move move) {
 		this.returnedMove = move;
-		notify();
+		synchronized (this) {
+			notify();
+		}
 	}
 
 	/** This method has to be called when the user has chosen an initial road */
 	public void setInitialPosition(Road chosenRoad) {
 		initialPosition = chosenRoad;
-		notify();
+		synchronized (this) {
+			notify();
+		}
 	}
 
 	/** This method has to reset all the map and paint a brand new status */

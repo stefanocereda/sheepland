@@ -15,7 +15,7 @@ public class TimeConstants {
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
 
 	/** the time in milliseconds waiting for the max number of players */
-	public static final int WAITING_FOR_MAX_PLAYERS = 1 * 1000;
+	public static final int WAITING_FOR_MAX_PLAYERS = 5 * 1000;
 
 	/** Hide the default constructor */
 	private TimeConstants() {

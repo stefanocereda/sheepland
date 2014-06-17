@@ -59,7 +59,6 @@ public class PaintedMap {
 
 		BufferedImage bimg = null;
 		BufferedImage ret = null;
-		Image scaledImage;
 
 		// load the initial buffered image
 		try {
@@ -76,7 +75,7 @@ public class PaintedMap {
 		g.dispose();
 
 		// scale the bufferedImage
-		scaledImage = ret.getScaledInstance(paintedMapDimension.width,
+		Image scaledImage = ret.getScaledInstance(paintedMapDimension.width,
 				paintedMapDimension.height, Image.SCALE_DEFAULT);
 
 		// creates a new buffered image from the scaled image
@@ -95,6 +94,6 @@ public class PaintedMap {
 	 * This method allows to find the color of a given point in the painted map
 	 */
 	public Color findColor(Point point) {
-		return new Color(paintedMap.getRGB(point.x, point.y));
+		return new Color(paintedMap.getRGB((int) (point.x - border), point.y));
 	}
 }

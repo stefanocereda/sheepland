@@ -542,7 +542,8 @@ public class DragAndDropManager {
 				Road selectedRoad = linker.getColorsAndRoad().get(clickedColor);
 
 				// check if the road is free
-				if (map.getPawnsLocation().get(selectedRoad).equals(null)) {
+				if (interfaceGui.getGameController().getBoardStatus()
+						.isFreeRoad(selectedRoad)) {
 					String pawnPath = linker
 							.getPawn(
 									interfaceGui.getGameController()
