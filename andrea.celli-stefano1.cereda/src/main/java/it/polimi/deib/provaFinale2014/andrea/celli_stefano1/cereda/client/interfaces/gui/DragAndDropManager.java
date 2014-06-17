@@ -544,22 +544,12 @@ public class DragAndDropManager {
 				// check if the road is free
 				if (interfaceGui.getGameController().getBoardStatus()
 						.isFreeRoad(selectedRoad)) {
-					String pawnPath = linker
-							.getPawn(
-									interfaceGui.getGameController()
-											.getControlledPlayer()).get(0)
-							.getImagePath();
-					PawnPanel pawnPanel = new PawnPanel(pawnPath, map
-							.getDimensionCalculator().getPawnDimension());
+					Pawns pawn = linker.getPawn(
+							interfaceGui.getGameController()
+									.getControlledPlayer()).get(0);
 
-					Point position = linker.getPawnOrigins().get(selectedRoad);
+					map.addPawn(pawn, selectedRoad);
 
-					map.add(pawnPanel);
-					pawnPanel.setLocation(position);
-					pawnPanel.setVisible(true);
-
-					// save the pawn in the map
-					map.getPawnsLocation().put(selectedRoad, pawnPanel);
 					// comunicates the initial position to the interfaceGui
 					interfaceGui.setInitialPosition(selectedRoad);
 
