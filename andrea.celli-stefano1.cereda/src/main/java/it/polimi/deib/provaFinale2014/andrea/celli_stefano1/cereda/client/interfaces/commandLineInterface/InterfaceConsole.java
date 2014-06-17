@@ -601,7 +601,7 @@ public class InterfaceConsole implements Interface {
 	//
 	//
 
-	/** Print a MovePlayer move, checking for double shepherds */
+	/** Print a MovePlayer move */
 	private void printMovePlayer(MovePlayer move) {
 		Player p = move.getPlayer();
 		int numberOfThePlayer = gameController.getBoardStatus()

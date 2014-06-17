@@ -54,12 +54,18 @@ public class PlayerDouble extends Player {
 		return super.getPosition();
 	}
 
-	/** Get the position of the second shepherd */
+	/** @return the position of the second shepherd */
 	public Road getSecondposition() {
 		return secondposition;
 	}
 
+	/** @return the position of the first shepherd */
 	public Road getFirstPosition() {
 		return super.getPosition();
+	}
+
+	/** @return true if the player is using his second shepherd */
+	public boolean getShepherd() {
+		return usingSecond;
 	}
 }

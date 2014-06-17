@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameCo
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PawnPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PiecesOnTheMap;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
@@ -24,6 +25,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
 import java.awt.Point;
 import java.util.List;
@@ -139,8 +141,7 @@ public class InterfaceGui implements Interface {
 	}
 
 	private void notifyMoveBuyCard(BuyCardMove move) {
-		// TODO Auto-generated method stub
-
+		// TODO Auto-generated method stub qui cosa si fa?
 	}
 
 	/**
@@ -228,7 +229,7 @@ public class InterfaceGui implements Interface {
 
 	/**
 	 * This method is similar to decreaseNumberOfSheep except that it increase
-	 * the number private void
+	 * the number
 	 */
 	private void increaseNumberOfSheep(TypeOfSheep type, Terrain terrain) {
 		switch (type) {
@@ -265,7 +266,7 @@ public class InterfaceGui implements Interface {
 	}
 
 	/**
-	 * This method calculates the point where is locate the panel for the given
+	 * This method calculates the point where is located the panel for the given
 	 * type of sheep in the given terrain
 	 * 
 	 * @param type
@@ -322,7 +323,33 @@ public class InterfaceGui implements Interface {
 	 *            The move to execute
 	 */
 	private void notifyMovePlayer(MovePlayer move) {
-		// TODO dove li trovo gli shepherd???
+		if (move.getPlayer() instanceof PlayerDouble) {
+			notifyMovePlayerDouble(move);
+		} else {
+			Road oldPosition = gameController.getBoardStatus()
+					.getEquivalentPlayer(move.getPlayer()).getPosition();
+			PawnPanel pawn = frame.getMap().getPawnsLocation().get(oldPosition);
+			frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer());
+		}
+	}
+
+	/**
+	 * This method is used to notify the movement of a player controlling two
+	 * shepherds
+	 */
+	private void notifyMovePlayerDouble(MovePlayer move) {
+		PlayerDouble player = (PlayerDouble) gameController.getBoardStatus()
+				.getEquivalentPlayer(move.getPlayer());
+
+		Road oldPosition = null;
+		if (player.getShepherd()) {
+			oldPosition = player.getSecondposition();
+		} else {
+			oldPosition = player.getFirstPosition();
+		}
+
+		PawnPanel pawn = frame.getMap().getPawnsLocation().get(oldPosition);
+		frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer());
 	}
 
 	public Move getNewMove() {
