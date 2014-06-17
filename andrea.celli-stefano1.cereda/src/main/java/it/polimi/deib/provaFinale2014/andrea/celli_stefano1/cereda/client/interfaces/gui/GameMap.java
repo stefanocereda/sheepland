@@ -550,4 +550,12 @@ public class GameMap extends JPanel {
 		buyCardManager.getNewCard();
 	}
 
+	/** This method cleans the map */
+	public void cleanMap() {
+		// TODO CONTROLLARE CHE REMOVEALL NON TOLGA I MOUSE LISTENER!!!
+		this.removeAll();
+		pawnsLocation = new HashMap<Road, PawnPanel>();
+		components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
+	}
+
 }

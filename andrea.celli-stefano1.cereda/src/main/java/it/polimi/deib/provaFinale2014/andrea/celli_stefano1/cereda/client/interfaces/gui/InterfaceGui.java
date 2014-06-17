@@ -20,6 +20,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mov
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveWolf;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.PlayerAction;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Gate;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
@@ -444,14 +445,14 @@ public class InterfaceGui implements Interface {
 	}
 
 	public Road chooseSecondInitialPosition() {
-		// TODO scrivere che stiamo chiedendo la posizione del secondo pastore
+		// TODO scrivere che stiamo chiedendo la posizione del secondo pastore.
+		// controllare se per come viene scelta la posizione è lecito fare così
 		return chooseInitialPosition();
 	}
 
 	public void notifyShepherd(boolean usingSecond) {
 		// TODO mostrare che il current player sta usando il secondo, si può
 		// anche non fare nulla
-
 	}
 
 	public List<MarketOffer> askMarketOffers() {
@@ -481,7 +482,85 @@ public class InterfaceGui implements Interface {
 
 	/** This method has to reset all the map and paint a brand new status */
 	private void rePaintAllStatus() {
-		// TODO
+		frame.getMap().removeAll();
+
+		paintPlayers();
+		paintSheep();
+		paintCards();
+		paintGates();
+		paintBlackSheep();
+
+		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
+			paintWolf();
+		}
+	}
+
+	private void paintCards() {
+		// TODO Auto-generated method stub
+	}
+
+	/** Add the wolf to the game map */
+	private void paintWolf() {
+		Terrain position = ((BoardStatusExtended) gameController
+				.getBoardStatus()).getWolf().getPosition();
+		frame.getMap().addWolf(position);
+	}
+
+	/** Add to the game map the black sheep */
+	private void paintBlackSheep() {
+		Terrain position = gameController.getBoardStatus().getBlackSheep()
+				.getPosition();
+		frame.getMap().addBlackSheep(position);
+	}
+
+	/** This method adds to the game map all the gates of the board status */
+	private void paintGates() {
+		for (Gate g : gameController.getBoardStatus().getGates()) {
+			String path = null;
+
+			if (g.isLast()) {
+				path = null;// TODO
+			} else {
+				path = null;// TODO
+			}
+
+			frame.getMap().addGate(path, g.getPosition());
+		}
+	}
+
+	/**
+	 * This method adds to the game map all the sheep contained in the board
+	 * status
+	 */
+	private void paintSheep() {
+		GameMap map = frame.getMap();
+		for (Sheep s : gameController.getBoardStatus().getSheeps()) {
+			Terrain t = s.getPosition();
+
+			switch (s.getTypeOfSheep()) {
+			case MALESHEEP:
+				map.addRam(t);
+				break;
+			case FEMALESHEEP:
+				map.addSheep(t);
+				break;
+			default:
+				map.addLamb(t);
+			}
+		}
+	}
+
+	/** This method adds all the pawns to the map */
+	private void paintPlayers() {
+		GameMap map = frame.getMap();
+
+		for (Player p : gameController.getBoardStatus().getPlayers()) {
+			if (p instanceof PlayerDouble) {
+				// TODO
+			} else {
+				// TODO
+			}
+		}
 	}
 
 	public MainFrame getFrame() {
