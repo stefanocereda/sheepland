@@ -9,6 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.RamPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.SheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.WolfPanel;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
@@ -361,6 +362,8 @@ public class InterfaceGui implements Interface {
 						.get(oldPosition);
 				frame.getMap().animatePawn(pawn,
 						move.getNewPositionOfThePlayer(), oldPosition);
+
+				placeGate(move.getNewPositionOfThePlayer());
 			}
 		}
 	}
@@ -389,7 +392,24 @@ public class InterfaceGui implements Interface {
 			PawnPanel pawn = frame.getMap().getPawnsLocation().get(oldPosition);
 			frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer(),
 					oldPosition);
+
+			placeGate(move.getNewPositionOfThePlayer());
 		}
+	}
+
+	/**
+	 * Place a gates on the given road, checking if the gate has to be final or
+	 * not
+	 */
+	private void placeGate(Road road) {
+		String path = null;
+		if (gameController.getBoardStatus().countStandardGates() >= GameConstants.NUMBER_OF_NON_FINAL_GATES) {
+			path = GuiConstants.FINAL_GATE;
+		} else {
+			path = GuiConstants.GATE;
+		}
+
+		frame.getMap().addGate(path, road);
 	}
 
 	/**

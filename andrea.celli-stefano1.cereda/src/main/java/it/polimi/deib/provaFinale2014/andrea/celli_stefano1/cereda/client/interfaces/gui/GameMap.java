@@ -501,7 +501,7 @@ public class GameMap extends JPanel {
 	}
 
 	/**
-	 * This method moves the given draggedPanel to the target road.
+	 * This method moves the given draggedPanel to the target road
 	 * 
 	 * @param draggedPanel
 	 *            The panel moved (we move on roads so this will probably be a
