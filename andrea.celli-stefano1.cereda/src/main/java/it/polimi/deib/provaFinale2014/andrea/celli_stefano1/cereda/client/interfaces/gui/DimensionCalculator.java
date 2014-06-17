@@ -33,22 +33,33 @@ public class DimensionCalculator {
 		kY = (double) mapDimension.height / (double) GuiConstants.MAP_HEIGHT;
 
 		sheepDimension = new Dimension(
-				(int) (DefaultLabelDimension.SHEEP.getDefaultDimension().width * kX),
-				(int) (DefaultLabelDimension.SHEEP.getDefaultDimension().height * kY));
+				(int) (DefaultLabelDimension.SHEEP.getDefaultDimension().width
+						* kX * GuiConstants.SHEEP_ADJUSTING_X),
+				(int) (DefaultLabelDimension.SHEEP.getDefaultDimension().height
+						* kY * GuiConstants.SHEEP_ADJUSTING_Y));
 		wolfDimension = new Dimension(
-				(int) (DefaultLabelDimension.WOLF.getDefaultDimension().width * kX),
-				(int) (DefaultLabelDimension.WOLF.getDefaultDimension().height * kY));
+				(int) (DefaultLabelDimension.WOLF.getDefaultDimension().width
+						* kX * GuiConstants.SPECIAL_ANIMALS_X),
+				(int) (DefaultLabelDimension.WOLF.getDefaultDimension().height
+						* kY * GuiConstants.SPECIAL_ANIMALS_Y));
 		lambDimension = new Dimension(
-				(int) (DefaultLabelDimension.LAMB.getDefaultDimension().width * kX),
-				(int) (DefaultLabelDimension.LAMB.getDefaultDimension().height * kY));
+				(int) (DefaultLabelDimension.LAMB.getDefaultDimension().width
+						* kX * GuiConstants.LAMB_ADJUSTING_X),
+				(int) (DefaultLabelDimension.LAMB.getDefaultDimension().height
+						* kY * GuiConstants.LAMB_ADJUSTING_Y));
 		ramDimension = new Dimension(
-				(int) (DefaultLabelDimension.RAM.getDefaultDimension().width * kX),
-				(int) (DefaultLabelDimension.RAM.getDefaultDimension().height * kY));
+				(int) (DefaultLabelDimension.RAM.getDefaultDimension().width
+						* kX * GuiConstants.RAM_ADJUSTING_X),
+				(int) (DefaultLabelDimension.RAM.getDefaultDimension().height
+						* kY * GuiConstants.RAM_ADJUSTING_Y));
 		blackSheepDimension = new Dimension(
-				(int) (DefaultLabelDimension.BLACKSHEEP.getDefaultDimension().width * kX),
-				(int) (DefaultLabelDimension.BLACKSHEEP.getDefaultDimension().height * kY));
+				(int) (DefaultLabelDimension.BLACKSHEEP.getDefaultDimension().width
+						* kX * GuiConstants.SPECIAL_ANIMALS_X),
+				(int) (DefaultLabelDimension.BLACKSHEEP.getDefaultDimension().height
+						* kY * GuiConstants.SPECIAL_ANIMALS_Y));
 		pawnDimension = new Dimension(
-				(int) (DefaultLabelDimension.PAWN.getDefaultDimension().width * kX),
+				(int) (DefaultLabelDimension.PAWN.getDefaultDimension().width
+						* kX * GuiConstants.PAWN_ADJUSTING_X),
 				(int) (DefaultLabelDimension.PAWN.getDefaultDimension().height * kY));
 	}
 

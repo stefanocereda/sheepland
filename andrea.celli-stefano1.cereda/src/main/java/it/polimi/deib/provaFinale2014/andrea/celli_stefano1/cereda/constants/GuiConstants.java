@@ -82,4 +82,20 @@ public class GuiConstants {
 
 	/** The duration of a message in milliseconds */
 	public static final long MESSAGE_TIME = 2500;
+
+	/**
+	 * 
+	 * Coeff to adjust panels dimension
+	 * 
+	 */
+	public static final double SHEEP_ADJUSTING_X = 1.22;
+	public static final double SHEEP_ADJUSTING_Y = 1.2;
+	public static final double LAMB_ADJUSTING_X = 2;
+	public static final double LAMB_ADJUSTING_Y = 2;
+	public static final double RAM_ADJUSTING_X = 1.5;
+	public static final double RAM_ADJUSTING_Y = 1.5;
+	public static final double SPECIAL_ANIMALS_X = 1.5;
+	public static final double SPECIAL_ANIMALS_Y = 1.5;
+	public static final double PAWN_ADJUSTING_X = 1.2;
+
 }
