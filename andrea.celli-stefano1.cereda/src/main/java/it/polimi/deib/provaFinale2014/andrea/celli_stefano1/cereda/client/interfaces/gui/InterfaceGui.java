@@ -346,10 +346,22 @@ public class InterfaceGui implements Interface {
 		if (move.getPlayer() instanceof PlayerDouble) {
 			notifyMovePlayerDouble(move);
 		} else {
-			Road oldPosition = gameController.getBoardStatus()
-					.getEquivalentPlayer(move.getPlayer()).getPosition();
-			PawnPanel pawn = frame.getMap().getPawnsLocation().get(oldPosition);
-			frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer());
+			Player player = gameController.getBoardStatus()
+					.getEquivalentPlayer(move.getPlayer());
+			Road oldPosition = player.getPosition();
+
+			// if the old position is still null we are handling the first
+			// positioning, therefore we create a new pawn panel
+			if (oldPosition == null) {
+				Pawns pawn = Pawns.values()[gameController.getBoardStatus()
+						.getPositionOfAPlayer(player)];
+				frame.getMap().addPawn(pawn, move.getNewPositionOfThePlayer());
+			} else {
+				PawnPanel pawn = frame.getMap().getPawnsLocation()
+						.get(oldPosition);
+				frame.getMap().animatePawn(pawn,
+						move.getNewPositionOfThePlayer());
+			}
 		}
 	}
 
@@ -368,8 +380,15 @@ public class InterfaceGui implements Interface {
 			oldPosition = player.getFirstPosition();
 		}
 
-		PawnPanel pawn = frame.getMap().getPawnsLocation().get(oldPosition);
-		frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer());
+		if (oldPosition == null) {
+			Pawns pawn = Pawns.values()[gameController.getBoardStatus()
+					.getPositionOfAPlayer(player)];
+			frame.getMap().addPawn(pawn, move.getNewPositionOfThePlayer());
+		} else {
+
+			PawnPanel pawn = frame.getMap().getPawnsLocation().get(oldPosition);
+			frame.getMap().animatePawn(pawn, move.getNewPositionOfThePlayer());
+		}
 	}
 
 	/**
