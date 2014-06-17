@@ -1,6 +1,6 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole.playersPanel;
 
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -16,24 +16,21 @@ import javax.swing.JPanel;
 
 public class PlayerData extends JPanel {
 
-	private GridLayout layout = new GridLayout(2, 2);
+	private GridLayout layout = new GridLayout(1, 2);
 	// the label containing the name of the player
 	private NamePlayer name;
 	// the label containing the money of the player
 	private MoneyPlayer money;
-	// the label containing the cards owned by the player
-	private CardsPlayer cards;
+	// the player
+	private Player player;
 
 	/**
-	 * The constructor creates the label containing the name, the money owned
-	 * and the card owned.
+	 * The constructor creates the label containing the name and the money owned
 	 * 
 	 * @param playerName
 	 * @param initialMoney
-	 * @param initialCard
 	 */
-	public PlayerData(String playerName, int initialMoney, Card initialCard,
-			Color playerColor) {
+	public PlayerData(String playerName, Player player, Color playerColor) {
 
 		this.setLayout(layout);
 
@@ -44,12 +41,10 @@ public class PlayerData extends JPanel {
 		this.add(name);
 
 		// create the label for the money and adds it
-		money = new MoneyPlayer(initialMoney, playerColor);
+		money = new MoneyPlayer(player.getMoney(), playerColor);
 		this.add(money);
 
-		// create the label for the cards and add it
-		cards = new CardsPlayer(initialCard, playerColor);
-		this.add(cards);
+		this.player = player;
 
 	}
 
@@ -59,10 +54,6 @@ public class PlayerData extends JPanel {
 
 	public MoneyPlayer getMoneyPlayer() {
 		return money;
-	}
-
-	public CardsPlayer getCardsPlayer() {
-		return cards;
 	}
 
 }

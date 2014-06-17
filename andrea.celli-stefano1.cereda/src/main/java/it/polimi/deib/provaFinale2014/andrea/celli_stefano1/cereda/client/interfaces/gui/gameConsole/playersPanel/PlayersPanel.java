@@ -47,8 +47,7 @@ public class PlayersPanel extends JPanel {
 	public void addPlayerToPlayersPanel(String namePlayer, Player player,
 			Color playerColor) {
 
-		players.add(new PlayerData(namePlayer, player.getMoney(), player
-				.getCards().get(0), playerColor));
+		players.add(new PlayerData(namePlayer, player, playerColor));
 		this.add(players.get(players.size() - 1));
 	}
 
