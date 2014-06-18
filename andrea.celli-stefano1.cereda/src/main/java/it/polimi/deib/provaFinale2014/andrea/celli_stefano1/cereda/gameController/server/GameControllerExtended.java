@@ -166,11 +166,11 @@ public class GameControllerExtended extends GameController {
 				availableVictims.add(s);
 			}
 		}
-		
-		if (availableVictims.size() == 0){
+
+		if (availableVictims.size() == 0) {
 			return toReturn;
 		}
-		
+
 		int victimNumber = dice.roll(availableVictims.size()) - 1;
 		Sheep sacrificialLamb = availableVictims.get(victimNumber);
 
@@ -198,10 +198,12 @@ public class GameControllerExtended extends GameController {
 		return super.goOn();
 	}
 
-	/** Increase by 1 the age of all the sheeps */
+	/** Increase by 1 the age of all the sheep, excluding the black sheep */
 	private void increaseAgeOfSheep() {
 		for (Sheep s : boardStatus.getSheeps()) {
-			s.ageIcrement();
+			if (!s.getTypeOfSheep().equals(TypeOfSheep.BLACKSHEEP)) {
+				s.ageIcrement();
+			}
 		}
 	}
 

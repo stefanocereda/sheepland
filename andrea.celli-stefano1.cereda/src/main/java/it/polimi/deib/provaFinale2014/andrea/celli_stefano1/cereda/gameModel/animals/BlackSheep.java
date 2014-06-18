@@ -18,6 +18,6 @@ public class BlackSheep extends Sheep {
 	// that creating a default constructor that places the blackSheep at
 	// Sheepsburg would be an error, because that's a rule, here it's a model
 	public BlackSheep(Terrain pos) {
-		super(pos);
+		super(0, TypeOfSheep.BLACKSHEEP, pos);
 	}
 }

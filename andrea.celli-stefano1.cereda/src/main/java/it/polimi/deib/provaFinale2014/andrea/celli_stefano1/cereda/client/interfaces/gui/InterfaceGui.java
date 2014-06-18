@@ -12,6 +12,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.BlackSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
@@ -187,7 +188,7 @@ public class InterfaceGui implements Interface {
 
 		frame.getMap().animateAnimal(panel, move.getNewPosition(), oldTerrain);
 
-		//remove the killed sheep
+		// remove the killed sheep
 		Sheep killed = move.getKilledSheep();
 		if (killed != null) {
 			Terrain crimeScene = killed.getPosition();
@@ -198,8 +199,11 @@ public class InterfaceGui implements Interface {
 			case FEMALESHEEP:
 				frame.getMap().removeSheep(crimeScene);
 				break;
-			default:
+			case NORMALSHEEP:
 				frame.getMap().removeLamb(crimeScene);
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -234,35 +238,46 @@ public class InterfaceGui implements Interface {
 	 *            The move to show
 	 */
 	private void notifyMoveSheep(MoveSheep move) {
-		Sheep movingSheep = gameController.getBoardStatus().getEquivalentSheep(
-				move.getMovedSheep());
-		TypeOfSheep type = movingSheep.getTypeOfSheep();
-		Terrain oldPosition = movingSheep.getPosition();
+		// if the moved sheep is the black sheep create a fake move black sheep
+		// and call the correspondent method
+		if (move.getMovedSheep().getTypeOfSheep()
+				.equals(TypeOfSheep.BLACKSHEEP)) {
+			MoveBlackSheep fake = new MoveBlackSheep(
+					move.getNewPositionOfTheSheep(),
+					(BlackSheep) move.getMovedSheep());
+			notifyMoveBlackSheep(fake);
+		} else {
+			Sheep movingSheep = gameController.getBoardStatus()
+					.getEquivalentSheep(move.getMovedSheep());
+			TypeOfSheep type = movingSheep.getTypeOfSheep();
+			Terrain oldPosition = movingSheep.getPosition();
 
-		// add a panel of a moving sheep
-		PiecesOnTheMap panelToMove = createSheepPanel(type);
-		Point panelPosition = calculateSheepPanelOrigin(type, oldPosition);
-		frame.getMap().add(panelToMove);
-		panelToMove.setLocation(panelPosition);
-		panelToMove.setVisible(true);
+			// add a panel of a moving sheep
+			PiecesOnTheMap panelToMove = createSheepPanel(type);
+			Point panelPosition = calculateSheepPanelOrigin(type, oldPosition);
+			frame.getMap().add(panelToMove);
+			panelToMove.setLocation(panelPosition);
+			panelToMove.setVisible(true);
 
-		// reduce the number of sheep
-		reduceNumberOfSheep(type, oldPosition);
+			// reduce the number of sheep
+			reduceNumberOfSheep(type, oldPosition);
 
-		// repaint and starts the animation
-		frame.getMap().repaint();
-		frame.getMap().animateAnimal(panelToMove,
-				move.getNewPositionOfTheSheep(), oldPosition);
-
-		// wait for the animation to stop, delete the moving panel and increase
-		// the number of sheep
-		try {
-			Thread.sleep(GuiConstants.ANIMATION_LENGTH);
-			frame.getMap().remove(panelToMove);
-			increaseNumberOfSheep(type, move.getNewPositionOfTheSheep());
+			// repaint and starts the animation
 			frame.getMap().repaint();
-		} catch (InterruptedException e) {
-			LOG.log(Level.SEVERE, "Interrupted while moving a sheep", e);
+			frame.getMap().animateAnimal(panelToMove,
+					move.getNewPositionOfTheSheep(), oldPosition);
+
+			// wait for the animation to stop, delete the moving panel and
+			// increase
+			// the number of sheep
+			try {
+				Thread.sleep(GuiConstants.ANIMATION_LENGTH);
+				frame.getMap().remove(panelToMove);
+				increaseNumberOfSheep(type, move.getNewPositionOfTheSheep());
+				frame.getMap().repaint();
+			} catch (InterruptedException e) {
+				LOG.log(Level.SEVERE, "Interrupted while moving a sheep", e);
+			}
 		}
 	}
 
@@ -278,8 +293,11 @@ public class InterfaceGui implements Interface {
 		case FEMALESHEEP:
 			frame.getMap().addSheep(terrain);
 			break;
-		default:
+		case NORMALSHEEP:
 			frame.getMap().addLamb(terrain);
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -299,8 +317,11 @@ public class InterfaceGui implements Interface {
 		case FEMALESHEEP:
 			frame.getMap().removeSheep(terrain);
 			break;
-		default:
+		case NORMALSHEEP:
 			frame.getMap().removeLamb(terrain);
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -326,8 +347,14 @@ public class InterfaceGui implements Interface {
 		case FEMALESHEEP:
 			map = linker.getSheepOrigins();
 			break;
-		default:
+		case NORMALSHEEP:
 			map = linker.getLambOrigins();
+			break;
+		case BLACKSHEEP:
+			map = linker.getBlackSheepOrigins();
+			break;
+		default:
+			break;
 		}
 
 		return map.get(terrain);
@@ -342,17 +369,30 @@ public class InterfaceGui implements Interface {
 	 * @return A panel representing the given type of sheep
 	 */
 	private PiecesOnTheMap createSheepPanel(TypeOfSheep type) {
+		DimensionCalculator dimCalc = frame.getMap().getDimensionCalculator();
+		PiecesOnTheMap toReturn = null;
+
 		switch (type) {
 		case MALESHEEP:
-			return new RamPanel(ImagePathCreator.findRamPathNoNumber(), frame
-					.getMap().getDimensionCalculator().getRamDimension());
+			toReturn = new RamPanel(ImagePathCreator.findRamPathNoNumber(),
+					dimCalc.getRamDimension());
+			break;
 		case FEMALESHEEP:
-			return new SheepPanel(ImagePathCreator.findSheepPathNoNumber(),
-					frame.getMap().getDimensionCalculator().getSheepDimension());
+			toReturn = new SheepPanel(ImagePathCreator.findSheepPathNoNumber(),
+					dimCalc.getSheepDimension());
+			break;
+		case NORMALSHEEP:
+			toReturn = new LambPanel(ImagePathCreator.findLambPathNoNumber(),
+					dimCalc.getLambDimension());
+			break;
+		case BLACKSHEEP:
+			toReturn = new BlackSheepPanel(GuiConstants.BLACK_SHEEP,
+					dimCalc.getBlackSheepDimension());
+			break;
 		default:
-			return new LambPanel(ImagePathCreator.findLambPathNoNumber(), frame
-					.getMap().getDimensionCalculator().getLambDimension());
 		}
+
+		return toReturn;
 	}
 
 	/**
@@ -522,12 +562,10 @@ public class InterfaceGui implements Interface {
 	 * position
 	 */
 	public Road chooseSecondInitialPosition() {
-		// TODO controllare se per come viene scelta la posizione è lecito fare
-		// così
 		frame.getMap()
 				.getMessageManager()
 				.showMessage(
-						"This is a game with two players and four shepherd, choose the position of your second shepherd");
+						"This is a game with two players and four shepherd. Choose the position of your second shepherd");
 		return chooseInitialPosition();
 	}
 
@@ -572,7 +610,6 @@ public class InterfaceGui implements Interface {
 		paintSheep();
 		paintCards();
 		paintGates();
-		paintBlackSheep();
 
 		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
 			paintWolf();
@@ -594,13 +631,6 @@ public class InterfaceGui implements Interface {
 		frame.getMap().addWolf(position);
 	}
 
-	/** Add to the game map the black sheep */
-	private void paintBlackSheep() {
-		Terrain position = gameController.getBoardStatus().getBlackSheep()
-				.getPosition();
-		frame.getMap().addBlackSheep(position);
-	}
-
 	/** This method adds to the game map all the gates of the board status */
 	private void paintGates() {
 		for (Gate g : gameController.getBoardStatus().getGates()) {
@@ -618,7 +648,7 @@ public class InterfaceGui implements Interface {
 
 	/**
 	 * This method adds to the game map all the sheep contained in the board
-	 * status
+	 * status. Including the black sheep
 	 */
 	private void paintSheep() {
 		GameMap map = frame.getMap();
@@ -632,8 +662,14 @@ public class InterfaceGui implements Interface {
 			case FEMALESHEEP:
 				map.addSheep(t);
 				break;
-			default:
+			case NORMALSHEEP:
 				map.addLamb(t);
+				break;
+			case BLACKSHEEP:
+				map.addBlackSheep(t);
+				break;
+			default:
+				break;
 			}
 		}
 	}

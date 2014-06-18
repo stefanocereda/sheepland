@@ -8,7 +8,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
  * @author Stefano
  * */
 public enum TypeOfSheep {
-	NORMALSHEEP, MALESHEEP, FEMALESHEEP;
+	NORMALSHEEP, MALESHEEP, FEMALESHEEP, BLACKSHEEP;
 
 	/** @Return a random type of sheep from the advanced ones */
 	public static TypeOfSheep getRandomAndvancedTypeOfSheep() {
@@ -21,10 +21,10 @@ public enum TypeOfSheep {
 		}
 	}
 
-	/** @Return a random type of sheep() */
+	/** @Return a random type of sheep() excluding black sheep */
 	public static TypeOfSheep getRandomTypeOfSheep() {
 		Dice dice = Dice.create();
-		int roll = dice.roll(TypeOfSheep.values().length) - 1;
+		int roll = dice.roll(TypeOfSheep.values().length - 1) - 1;
 
 		return TypeOfSheep.values()[roll];
 	}
