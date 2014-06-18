@@ -20,8 +20,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
-import javax.swing.SwingUtilities;
-
 /**
  * This class implements methods to verify that the starting point of the d&d
  * and the end of it are performed on valid positions and on valid labels.
@@ -409,8 +407,6 @@ public class DragAndDropManager {
 	 * 
 	 * used both for animals and pawns
 	 * 
-	 * @TODO wait for the end of the animation before remving the panel,complete
-	 * 
 	 * @param draggedPanel
 	 */
 	private void animateBack(PiecesOnTheMap draggedPanel) {
@@ -434,8 +430,11 @@ public class DragAndDropManager {
 			e.printStackTrace();
 		}
 
-		map.remove(draggedPanel);
-		map.repaint();
+		// removes the panel only if the dragged panel was an animal
+		if (!(draggedPanel instanceof PawnPanel)) {
+			map.remove(draggedPanel);
+			map.repaint();
+		}
 	}
 
 	/**
