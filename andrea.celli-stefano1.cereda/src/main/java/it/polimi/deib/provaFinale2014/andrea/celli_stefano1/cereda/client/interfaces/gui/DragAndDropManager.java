@@ -389,10 +389,12 @@ public class DragAndDropManager {
 
 					map.remove(draggedPanel);
 					map.repaint();
-
-					// set the status back to NOT_YOUR_TURN
-					map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
 				}
+
+				// set the status back to NOT_YOUR_TURN
+				map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
+				map.getListener().setDraggedPanel(null);
+
 			} else {
 				animateBack(draggedPanel);
 			}
