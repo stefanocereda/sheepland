@@ -550,7 +550,7 @@ public class InterfaceGui implements Interface {
 
 	/** This method has to reset all the map and paint a brand new status */
 	private void rePaintAllStatus() {
-		frame.getMap().removeAll();
+		frame.getMap().cleanMap();
 
 		paintPlayers();
 		paintSheep();

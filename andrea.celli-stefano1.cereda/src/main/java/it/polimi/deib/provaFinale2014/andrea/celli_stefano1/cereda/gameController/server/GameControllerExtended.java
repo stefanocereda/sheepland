@@ -167,7 +167,7 @@ public class GameControllerExtended extends GameController {
 			}
 		}
 		
-		if (availableVictims.size() == 1){
+		if (availableVictims.size() == 0){
 			return toReturn;
 		}
 		

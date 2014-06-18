@@ -586,5 +586,12 @@ public class GameMap extends JPanel {
 		this.removeAll();
 		pawnsLocation = new HashMap<Road, PawnPanel>();
 		components = new HashMap<Terrain, ArrayList<PiecesOnTheMap>>();
+
+		// initialize the components structure
+		for (Terrain t : Terrain.values()) {
+			components.put(t, new ArrayList<PiecesOnTheMap>());
+		}
+
+		linker.reset();
 	}
 }

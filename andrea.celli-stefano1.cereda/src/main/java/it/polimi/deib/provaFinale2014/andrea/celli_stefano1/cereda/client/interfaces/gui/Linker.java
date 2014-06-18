@@ -365,4 +365,11 @@ public class Linker {
 		return ramForEachTerrain;
 	}
 
+	/** Reset the structures containing the positions of sheep */
+	public void reset() {
+		initNumberOfLambForEachTerrain();
+		initNumberOfRamForEachTerrain();
+		initNumberOfSheepForEachTerrain();
+	}
+
 }
