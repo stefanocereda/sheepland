@@ -166,6 +166,11 @@ public class GameControllerExtended extends GameController {
 				availableVictims.add(s);
 			}
 		}
+		
+		if (availableVictims.size() == 1){
+			return toReturn;
+		}
+		
 		int victimNumber = dice.roll(availableVictims.size()) - 1;
 		Sheep sacrificialLamb = availableVictims.get(victimNumber);
 
