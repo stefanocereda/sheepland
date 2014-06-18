@@ -221,6 +221,10 @@ public class RuleChecker {
 	 */
 	private static boolean isCorrectTurn(PlayerAction moveToCheck,
 			List<Move> oldMoves) {
+		// a move player is always correct
+		if (moveToCheck instanceof MovePlayer) {
+			return true;
+		}
 
 		// the first move is always correct
 		if (oldMoves.isEmpty()) {
