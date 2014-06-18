@@ -39,9 +39,9 @@ public class DimensionCalculator {
 						* kY * GuiConstants.SHEEP_ADJUSTING_Y));
 		wolfDimension = new Dimension(
 				(int) (DefaultLabelDimension.WOLF.getDefaultDimension().width
-						* kX * GuiConstants.SPECIAL_ANIMALS_X),
+						* kX * GuiConstants.WOLF_ADJUSTING_X),
 				(int) (DefaultLabelDimension.WOLF.getDefaultDimension().height
-						* kY * GuiConstants.SPECIAL_ANIMALS_Y));
+						* kY * GuiConstants.WOLF_ADJUSTING_Y));
 		lambDimension = new Dimension(
 				(int) (DefaultLabelDimension.LAMB.getDefaultDimension().width
 						* kX * GuiConstants.LAMB_ADJUSTING_X),
@@ -54,9 +54,9 @@ public class DimensionCalculator {
 						* kY * GuiConstants.RAM_ADJUSTING_Y));
 		blackSheepDimension = new Dimension(
 				(int) (DefaultLabelDimension.BLACKSHEEP.getDefaultDimension().width
-						* kX * GuiConstants.SPECIAL_ANIMALS_X),
+						* kX * GuiConstants.BLACK_SHEEP_X),
 				(int) (DefaultLabelDimension.BLACKSHEEP.getDefaultDimension().height
-						* kY * GuiConstants.SPECIAL_ANIMALS_Y));
+						* kY * GuiConstants.BLACK_SHEEP_Y));
 		pawnDimension = new Dimension(
 				(int) (DefaultLabelDimension.PAWN.getDefaultDimension().width
 						* kX * GuiConstants.PAWN_ADJUSTING_X),

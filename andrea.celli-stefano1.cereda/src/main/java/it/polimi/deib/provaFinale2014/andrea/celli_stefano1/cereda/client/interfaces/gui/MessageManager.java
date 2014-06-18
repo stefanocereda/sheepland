@@ -41,7 +41,7 @@ public class MessageManager {
 		// creates the new text field that has to be displayed
 		JTextField textField = new JTextField(message);
 
-		map.add(textField);
+		map.add(textField, 0);
 		textField.setSize(map.getWidth(), map.getHeight() / 4);
 		textField.setLocation(0, map.getHeight() / 3);
 

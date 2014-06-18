@@ -309,6 +309,7 @@ public class GameMap extends JPanel {
 		wolf.setLocation(linker.getWolfOrigins().get(terrain));
 		wolf.setVisible(true);
 
+		this.repaint();
 		components.get(terrain).add(wolf);
 	}
 
