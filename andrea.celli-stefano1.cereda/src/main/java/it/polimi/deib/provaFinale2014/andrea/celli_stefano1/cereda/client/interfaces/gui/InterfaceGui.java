@@ -167,7 +167,7 @@ public class InterfaceGui implements Interface {
 	}
 
 	/**
-	 * Animate the movement of the wolf
+	 * Animate the movement of the wolf and repaint the sheeps
 	 * 
 	 * @param move
 	 *            The move to show
@@ -186,6 +186,22 @@ public class InterfaceGui implements Interface {
 		}
 
 		frame.getMap().animateAnimal(panel, move.getNewPosition(), oldTerrain);
+
+		//remove the killed sheep
+		Sheep killed = move.getKilledSheep();
+		if (killed != null) {
+			Terrain crimeScene = killed.getPosition();
+			switch (killed.getTypeOfSheep()) {
+			case MALESHEEP:
+				frame.getMap().removeRam(crimeScene);
+				break;
+			case FEMALESHEEP:
+				frame.getMap().removeSheep(crimeScene);
+				break;
+			default:
+				frame.getMap().removeLamb(crimeScene);
+			}
+		}
 	}
 
 	/**
