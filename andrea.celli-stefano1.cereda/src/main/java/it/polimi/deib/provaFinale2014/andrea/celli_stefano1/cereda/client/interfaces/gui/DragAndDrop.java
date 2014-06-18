@@ -62,7 +62,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	 * updated and the map is repainted.
 	 */
 	public void mouseDragged(MouseEvent e) {
-		// chech if the player is dragging something
+		// check if the player is dragging something
 		if (draggedPanel != null && isInsideTheMapPanel(e.getPoint())) {
 			draggedPanel.setLocation(e.getX(), e.getY());
 			draggedPanel.repaint();
@@ -85,7 +85,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 
 	/**
 	 * The clicks are considered only if the player has to choose the initial
-	 * potition, to kill a sheep or to "force a mating".
+	 * position, to kill a sheep or to "force a mating".
 	 * 
 	 */
 	public void mouseClicked(MouseEvent e) {
@@ -105,7 +105,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	}
 
 	/**
-	 * This method checks, depending on the status flag, wheter the player is
+	 * This method checks, depending on the status flag, whether the player is
 	 * trying to move the right label or not. If the piece is draggable in the
 	 * current situation it sets the Panel as the draggedPanel.
 	 */
@@ -118,7 +118,7 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 
 	/**
 	 * Calls methods of the DragAndDropManager to check whether the release
-	 * point was "legal" or not and, eventually, to udate the view.
+	 * point was "legal" or not and, eventually, to update the view.
 	 */
 	public void mouseReleased(MouseEvent e) {
 		if (dragging) {
