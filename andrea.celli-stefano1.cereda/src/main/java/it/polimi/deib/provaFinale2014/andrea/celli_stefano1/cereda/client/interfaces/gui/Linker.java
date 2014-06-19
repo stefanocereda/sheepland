@@ -232,7 +232,7 @@ public class Linker {
 		colorsAndTerrain.put(new Color(128, 84, 85), Terrain.W1);
 		colorsAndTerrain.put(new Color(124, 84, 84), Terrain.W2);
 		colorsAndTerrain.put(new Color(132, 88, 89), Terrain.W3);
-
+		colorsAndTerrain.put(new Color(112, 72, 72), Terrain.SHEEPSBURG);
 	}
 
 	/**
