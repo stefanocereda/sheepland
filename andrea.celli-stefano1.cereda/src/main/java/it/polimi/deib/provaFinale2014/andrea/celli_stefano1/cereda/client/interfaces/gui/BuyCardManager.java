@@ -54,8 +54,10 @@ public class BuyCardManager implements ActionListener {
 		if (buyable.size() > 0) {
 			buyCardPanel = new BuyCardPanel(buyable, this);
 			gameMap.add(buyCardPanel, 0);
-			buyCardPanel.setSize(gameMap.getWidth(), gameMap.getHeight());
-			buyCardPanel.setLocation(0, 0);
+			buyCardPanel.setSize(gameMap.getWidth() / 3,
+					gameMap.getHeight() / 3);
+			buyCardPanel.setLocation(gameMap.getWidth() / 3,
+					gameMap.getHeight() / 3);
 			buyCardPanel.setVisible(true);
 		} else {
 			// if there're no cards available it goes back to move selection
