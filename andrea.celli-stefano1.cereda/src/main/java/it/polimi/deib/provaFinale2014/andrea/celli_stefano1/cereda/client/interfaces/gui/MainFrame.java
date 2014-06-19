@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.gameConsole.GameConsole;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -32,7 +33,9 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() {
 
-		this.setLayout(null);
+		Container content = this.getContentPane();
+
+		content.setLayout(null);
 		setTitle("SHEEPLAND");
 
 		map = new GameMap();
@@ -52,17 +55,19 @@ public class MainFrame extends JFrame {
 		// the frame)
 		int height = screenDimension.height - screenDimension.height / 10;
 
-		setSize(screenDimension.width, height);
+		content.setSize(screenDimension.width, height);
+		content.setPreferredSize(new Dimension(screenDimension.width, height));
 
-		this.getContentPane().add(map);
+		content.add(map);
 		map.setLocation(0, 0);
 		map.setSize(new Dimension(mapWidth, height));
 
-		this.getContentPane().add(console);
+		content.add(console);
 		console.setLocation(mapWidth, 0);
 		console.setSize(new Dimension(consoleWidth, height));
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		pack();
 		// centre the window
 		setLocationRelativeTo(null);
 		setVisible(true);

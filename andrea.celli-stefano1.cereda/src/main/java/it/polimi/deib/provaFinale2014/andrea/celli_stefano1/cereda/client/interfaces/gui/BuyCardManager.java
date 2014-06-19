@@ -115,29 +115,6 @@ public class BuyCardManager implements ActionListener {
 				.getPlayerDisplayedData(currentPlayer).getMoneyPlayer()
 				.setMoneyPlayer(currentPlayer.getMoney() - card.getNumber());
 
-		// // 3)
-		// ArrayList<Card> newAvailableCards = interfaceGui.getGameController()
-		// .getBoardStatus().getDeck().getBuyableCards();
-		//
-		// // if there's a card of the same type among the buyable cards it
-		// update
-		// // the displayed cards, otherwise the card is removed
-		// TerrainType type = card.getTerrainType();
-		//
-		// boolean found = false;
-		// for (Card newCard : newAvailableCards) {
-		// if (newCard.getTerrainType().equals(type)) {
-		// found = true;
-		// interfaceGui.getFrame().getConsole().getCardsPanel()
-		// .addCard(newCard);
-		// }
-		// }
-		//
-		// if (!found) {
-		// interfaceGui.getFrame().getConsole().getCardsPanel()
-		// .removeSingleCardPanel(type);
-		// }
-
 		// 3)
 		int numberOfCard = card.getNumber();
 
