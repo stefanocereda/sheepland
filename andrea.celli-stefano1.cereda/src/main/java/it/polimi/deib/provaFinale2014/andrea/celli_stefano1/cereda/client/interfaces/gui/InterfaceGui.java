@@ -168,6 +168,8 @@ public class InterfaceGui implements Interface {
 			if (!((PlayerAction) move).getPlayer().equals(
 					gameController.getControlledPlayer())) {
 				notifyPlayerAction((PlayerAction) move);
+			} else {
+				notifyPlayerActionWithoutMessages((PlayerAction) move);
 			}
 
 		} else if (move instanceof MoveWolf) {
@@ -191,6 +193,24 @@ public class InterfaceGui implements Interface {
 			notifyMoveSheep((MoveSheep) move);
 		} else if (move instanceof BuyCardMove) {
 			notifyMoveBuyCard((BuyCardMove) move);
+		}
+	}
+
+	/**
+	 * This method is analogous of notifyPlayerAction except that it doesn't
+	 * show useless information: it should be called when the interface receives
+	 * a move that is done by the controlled player, we don't have to tell the
+	 * player what he has just done, but we want to show additional information,
+	 * like the change in the moneys or in the available cards
+	 * 
+	 * @param move
+	 *            The move to show
+	 */
+	private void notifyPlayerActionWithoutMessages(PlayerAction move) {
+		if (move instanceof MovePlayer) {
+			updateMoneys();
+		} else if (move instanceof BuyCardMove) {
+			notifyMoveBuyCardWithoutMessage((BuyCardMove) move);
 		}
 	}
 
