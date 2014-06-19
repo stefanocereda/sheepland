@@ -107,6 +107,8 @@ public class GameMap extends JPanel {
 		setOpaque(true);
 
 		setDoubleBuffered(true);
+		
+		setLayout(null);
 	}
 
 	/**
