@@ -517,4 +517,29 @@ public class BoardStatus implements Serializable {
 		}
 		return buyableByAPlayer;
 	}
+
+	/**
+	 * This method returns the new buyable card having the specified number and
+	 * the specified terrain type.
+	 * 
+	 * @param oldCard
+	 *            (the old buyable card having that terrain type)
+	 */
+	public Card getNewBuyableCardOfATerrainType(Card oldBuyableCard) {
+		// if the number of card was 4 there aren't other buyable card of that
+		// type in the deck
+		if (oldBuyableCard.getNumber() < 4) {
+			// looks for the card in the deck
+			for (int i = 0; i < cardsDeck.size(); i++) {
+
+				if (cardsDeck.get(i).getNumber() == (oldBuyableCard.getNumber() + 1)
+						&& cardsDeck.get(i).getTerrainType()
+								.equals(oldBuyableCard.getTerrainType())) {
+					return cardsDeck.get(i);
+				}
+			}
+
+		}
+		return null;
+	}
 }

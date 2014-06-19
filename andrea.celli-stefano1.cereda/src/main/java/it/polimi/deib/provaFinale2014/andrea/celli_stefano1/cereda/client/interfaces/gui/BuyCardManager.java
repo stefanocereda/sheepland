@@ -2,7 +2,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.TerrainType;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.awt.event.ActionEvent;
@@ -116,26 +115,47 @@ public class BuyCardManager implements ActionListener {
 				.getPlayerDisplayedData(currentPlayer).getMoneyPlayer()
 				.setMoneyPlayer(currentPlayer.getMoney() - card.getNumber());
 
+		// // 3)
+		// ArrayList<Card> newAvailableCards = interfaceGui.getGameController()
+		// .getBoardStatus().getDeck().getBuyableCards();
+		//
+		// // if there's a card of the same type among the buyable cards it
+		// update
+		// // the displayed cards, otherwise the card is removed
+		// TerrainType type = card.getTerrainType();
+		//
+		// boolean found = false;
+		// for (Card newCard : newAvailableCards) {
+		// if (newCard.getTerrainType().equals(type)) {
+		// found = true;
+		// interfaceGui.getFrame().getConsole().getCardsPanel()
+		// .addCard(newCard);
+		// }
+		// }
+		//
+		// if (!found) {
+		// interfaceGui.getFrame().getConsole().getCardsPanel()
+		// .removeSingleCardPanel(type);
+		// }
+
 		// 3)
-		ArrayList<Card> newAvailableCards = interfaceGui.getGameController()
-				.getBoardStatus().getDeck().getBuyableCards();
+		int numberOfCard = card.getNumber();
 
-		// if there's a card of the same type among the buyable cards it update
-		// the diaplayed cards, otherwise the card is removed
-		TerrainType type = card.getTerrainType();
+		if (numberOfCard < 4) {
 
-		boolean found = false;
-		for (Card newCard : newAvailableCards) {
-			if (newCard.getTerrainType().equals(type)) {
-				found = true;
-				interfaceGui.getFrame().getConsole().getCardsPanel()
-						.addCard(newCard);
-			}
-		}
+			// looks in the board status for the new buyable card of that type
+			// and adds it to the cards panel
 
-		if (!found) {
+			interfaceGui
+					.getFrame()
+					.getConsole()
+					.getCardsPanel()
+					.addCard(
+							interfaceGui.getGameController().getBoardStatus()
+									.getNewBuyableCardOfATerrainType(card));
+		} else {
 			interfaceGui.getFrame().getConsole().getCardsPanel()
-					.removeSingleCardPanel(type);
+					.removeSingleCardPanel(card.getTerrainType());
 		}
 	}
 }
