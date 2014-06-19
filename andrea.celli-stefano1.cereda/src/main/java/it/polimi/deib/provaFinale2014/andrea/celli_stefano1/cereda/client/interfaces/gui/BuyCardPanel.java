@@ -38,7 +38,7 @@ public class BuyCardPanel extends JPanel {
 	 *            (the array of buyable cards)
 	 */
 	public BuyCardPanel(ArrayList<Card> buyableCards, BuyCardManager listener) {
-
+		super();
 		this.listener = listener;
 
 		// one slot for the "intro" and then one for each card and one for each
@@ -50,7 +50,8 @@ public class BuyCardPanel extends JPanel {
 
 		JTextField intro = new JTextField("BUYABLE CARDS:");
 		setJTextField(intro);
-		this.add(intro);
+		this.add(intro, 0);
+		intro.setSize(getPreferredSize());
 		intro.setVisible(true);
 
 		// JTextFields rapresenting the cards
@@ -58,18 +59,19 @@ public class BuyCardPanel extends JPanel {
 			cards.add(new JTextField("Card " + i + ": "
 					+ buyableCards.get(i).toString()));
 			setJTextField(cards.get(i));
-			this.add(cards.get(i));
+			this.add(cards.get(i), 0);
 			cards.get(i).setVisible(true);
 		}
 
 		// Buttons
 		for (int i = 0; i < buyableCards.size(); i++) {
 			buttons.add(new JButton("Card " + i));
-			this.add(buttons.get(i));
+			this.add(buttons.get(i), 0);
 			buttons.get(i).addActionListener(listener);
 			buttons.get(i).setVisible(true);
 		}
 
+		this.repaint();
 	}
 
 	/** Used to set the style of the font */
@@ -77,7 +79,8 @@ public class BuyCardPanel extends JPanel {
 		text.setHorizontalAlignment(JTextField.CENTER);
 		text.setBackground(Color.BLUE);
 		text.setEditable(false);
-		text.setFont(new Font("Verdana", Font.BOLD, 13));
+		text.setFont(new Font("Verdana", Font.BOLD, 10));
 		text.setForeground(Color.WHITE);
 	}
+
 }
