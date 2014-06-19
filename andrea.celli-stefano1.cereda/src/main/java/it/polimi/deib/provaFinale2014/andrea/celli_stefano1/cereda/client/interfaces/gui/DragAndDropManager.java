@@ -169,11 +169,12 @@ public class DragAndDropManager {
 					pressedTerrain)) {
 
 				// check condition 2 for each possible type of panel
+				// check if the panel contains the pressed terrain
+				if (panel.contains(point)) {
+					if (panel instanceof SheepPanel) {
 
-				if (panel instanceof SheepPanel) {
-					// check if the panel contains the pressed terrain
-					if (panel.contains(point)) {
-						// creates the new panel with the sheep without number
+						// creates the new panel with the sheep without
+						// number
 						SheepPanel sheepToBeDragged = new SheepPanel(
 								GuiConstants.EMPTY_SHEEP, map
 										.getDimensionCalculator()
@@ -188,44 +189,52 @@ public class DragAndDropManager {
 						// store the old position of the animal
 						oldAnimalPosition = pressedTerrain;
 						return sheepToBeDragged;
+
+					} else if (panel instanceof LambPanel) {
+
+						// creates the new panel with the lamb without number
+						LambPanel lambToBeDragged = new LambPanel(
+								GuiConstants.EMPTY_LAMB, map
+										.getDimensionCalculator()
+										.getLambDimension());
+						map.add(lambToBeDragged);
+						// the location is the position where the mouse was
+						// pressed
+						lambToBeDragged.setLocation(point);
+						lambToBeDragged.setVisible(true);
+						// set to true the dragging flag in DragAndDrop
+						map.getListener().setDragging(true);
+						// store the old position of the animal
+						oldAnimalPosition = pressedTerrain;
+						return lambToBeDragged;
+
+					} else if (panel instanceof RamPanel) {
+
+						// creates the new panel with the ram without number
+						RamPanel ramToBeDragged = new RamPanel(
+								GuiConstants.EMPTY_RAM, map
+										.getDimensionCalculator()
+										.getRamDimension());
+						map.add(ramToBeDragged);
+						// the location is the position where the mouse was
+						// pressed
+						ramToBeDragged.setLocation(point);
+						ramToBeDragged.setVisible(true);
+						// set to true the dragging flag in DragAndDrop
+						map.getListener().setDragging(true);
+						// store the old position of the animal
+						oldAnimalPosition = pressedTerrain;
+						return ramToBeDragged;
+
+					} else if (panel instanceof BlackSheepPanel) {
+
+						// set to true the dragging flag in DragAndDrop
+						map.getListener().setDragging(true);
+						// store the old position of the animal
+						oldAnimalPosition = pressedTerrain;
+						return panel;
+
 					}
-				} else if (panel instanceof LambPanel) {
-					// creates the new panel with the lamb without number
-					LambPanel lambToBeDragged = new LambPanel(
-							GuiConstants.EMPTY_LAMB, map
-									.getDimensionCalculator()
-									.getLambDimension());
-					map.add(lambToBeDragged);
-					// the location is the position where the mouse was
-					// pressed
-					lambToBeDragged.setLocation(point);
-					lambToBeDragged.setVisible(true);
-					// set to true the dragging flag in DragAndDrop
-					map.getListener().setDragging(true);
-					// store the old position of the animal
-					oldAnimalPosition = pressedTerrain;
-					return lambToBeDragged;
-				} else if (panel instanceof RamPanel) {
-					// creates the new panel with the ram without number
-					RamPanel ramToBeDragged = new RamPanel(
-							GuiConstants.EMPTY_RAM, map
-									.getDimensionCalculator().getRamDimension());
-					map.add(ramToBeDragged);
-					// the location is the position where the mouse was
-					// pressed
-					ramToBeDragged.setLocation(point);
-					ramToBeDragged.setVisible(true);
-					// set to true the dragging flag in DragAndDrop
-					map.getListener().setDragging(true);
-					// store the old position of the animal
-					oldAnimalPosition = pressedTerrain;
-					return ramToBeDragged;
-				} else if (panel instanceof BlackSheepPanel) {
-					// set to true the dragging flag in DragAndDrop
-					map.getListener().setDragging(true);
-					// store the old position of the animal
-					oldAnimalPosition = pressedTerrain;
-					return panel;
 				}
 			}
 		}
