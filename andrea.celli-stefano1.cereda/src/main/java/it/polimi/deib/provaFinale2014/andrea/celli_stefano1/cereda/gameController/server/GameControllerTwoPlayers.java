@@ -64,6 +64,7 @@ public class GameControllerTwoPlayers extends GameController {
 		for (ClientHandler ch : clients) {
 			Road initial = null;
 			((PlayerDouble) ch.getPlayer()).setShepherd(true);
+			ch.getPlayer().deleteLastMoves();
 
 			boardStatus.setCurrentPlayer(boardStatus.getEquivalentPlayer(ch
 					.getPlayer()));

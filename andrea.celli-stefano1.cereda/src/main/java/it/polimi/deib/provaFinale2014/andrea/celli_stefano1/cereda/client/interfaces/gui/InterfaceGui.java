@@ -624,7 +624,7 @@ public class InterfaceGui implements Interface {
 		frame.getMap()
 				.getMessageManager()
 				.showMessage(
-						"We're disconnected from the server, but our shepherd dog is working hard to solve this");
+						"We're disconnected from the server");
 	}
 
 	/**
@@ -646,7 +646,7 @@ public class InterfaceGui implements Interface {
 		frame.getMap()
 				.getMessageManager()
 				.showMessage(
-						"This is a game with two players and four shepherd. Choose the position of your second shepherd");
+						"Choose the position of your second shepherd");
 		return chooseInitialPosition();
 	}
 
@@ -687,10 +687,10 @@ public class InterfaceGui implements Interface {
 	private void rePaintAllStatus() {
 		frame.getMap().cleanMap();
 
-		paintPlayers();
 		paintSheep();
 		paintCards();
 		paintGates();
+		paintPlayers();
 		updateMoneys();
 
 		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
