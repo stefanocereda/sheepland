@@ -52,13 +52,16 @@ public class BuyCardManager implements ActionListener {
 						interfaceGui.getGameController().getControlledPlayer());
 		// ask for the card only if there's at least a buyable card
 		if (buyable.size() > 0) {
-			buyCardPanel = new BuyCardPanel(buyable, this);
-			gameMap.add(buyCardPanel, 0);
+			buyCardPanel = new BuyCardPanel(buyable, this,
+					(int) gameMap.getWidth() / 3, (int) gameMap.getHeight() / 3);
 			buyCardPanel.setSize(gameMap.getWidth() / 3,
 					gameMap.getHeight() / 3);
 			buyCardPanel.setLocation(gameMap.getWidth() / 3,
 					gameMap.getHeight() / 3);
+			gameMap.add(buyCardPanel, 0);
 			buyCardPanel.setVisible(true);
+
+			gameMap.repaint();
 		} else {
 			// if there're no cards available it goes back to move selection
 			interfaceGui.getNewMove();
@@ -79,13 +82,15 @@ public class BuyCardManager implements ActionListener {
 		JButton pressed = (JButton) e.getSource();
 		String text = pressed.getText();
 
-		if (text.equals("Card 1")) {
+		if (text.equals(buyable.get(0).toString())) {
 			update(buyable.get(0));
 		} else {
-			if (text.equals("Card 2")) {
+			if (text.equals(buyable.get(1).toString())) {
 				update(buyable.get(1));
 			}
 		}
+
+		removeBuyCardPanel();
 	}
 
 	/**

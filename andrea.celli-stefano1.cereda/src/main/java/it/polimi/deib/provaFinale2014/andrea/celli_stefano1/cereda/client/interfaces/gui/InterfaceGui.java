@@ -40,7 +40,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * This class manages the gui. If contains the methods called by the
@@ -79,7 +78,7 @@ public class InterfaceGui implements Interface {
 			LOG.log(Level.WARNING,
 					"Unable to load the desidered look and feel.", e);
 		}
-		
+
 		this.frame = new MainFrame();
 	}
 
