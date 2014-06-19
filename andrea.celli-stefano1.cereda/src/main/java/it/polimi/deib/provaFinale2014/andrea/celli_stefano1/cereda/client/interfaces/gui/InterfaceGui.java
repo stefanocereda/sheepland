@@ -39,6 +39,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  * This class manages the gui. If contains the methods called by the
  * "communication unit".
@@ -70,6 +73,13 @@ public class InterfaceGui implements Interface {
 	 * the first board status is received.
 	 */
 	public InterfaceGui() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			LOG.log(Level.WARNING,
+					"Unable to load the desidered look and feel.", e);
+		}
+		
 		this.frame = new MainFrame();
 	}
 
