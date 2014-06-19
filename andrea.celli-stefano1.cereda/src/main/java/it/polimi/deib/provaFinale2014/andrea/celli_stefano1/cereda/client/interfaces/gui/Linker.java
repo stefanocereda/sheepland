@@ -247,8 +247,8 @@ public class Linker {
 				.getHashMapOfRoads();
 
 		colorsAndRoad.put(new Color(254, 0, 0), roads.get(1));
-		colorsAndRoad.put(new Color(0, 96, 255), roads.get(2));
-		colorsAndRoad.put(new Color(1, 202, 255), roads.get(3));
+		colorsAndRoad.put(new Color(0, 97, 255), roads.get(2));
+		colorsAndRoad.put(new Color(1, 202, 254), roads.get(3));
 		colorsAndRoad.put(new Color(255, 180, 0), roads.get(4));
 		colorsAndRoad.put(new Color(255, 245, 0), roads.get(5));
 		colorsAndRoad.put(new Color(134, 255, 0), roads.get(6));
@@ -278,7 +278,7 @@ public class Linker {
 		colorsAndRoad.put(new Color(84, 0, 112), roads.get(30));
 		colorsAndRoad.put(new Color(112, 0, 147), roads.get(31));
 		colorsAndRoad.put(new Color(88, 0, 120), roads.get(32));
-		colorsAndRoad.put(new Color(92, 0, 124), roads.get(33));
+		colorsAndRoad.put(new Color(92, 0, 125), roads.get(33));
 		colorsAndRoad.put(new Color(96, 0, 133), roads.get(34));
 		colorsAndRoad.put(new Color(140, 40, 172), roads.get(35));
 		colorsAndRoad.put(new Color(100, 0, 135), roads.get(36));
