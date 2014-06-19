@@ -31,6 +31,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,22 @@ public class InterfaceGui implements Interface {
 	 */
 	public void showInitialInformation() {
 		frame.getMap().initMapComponents(this);
+		frame.getConsole().getCardsPanel().initCards();
+		initPlayers();
 		rePaintAllStatus();
+	}
+
+	/** This method initialize the players panel */
+	private void initPlayers() {
+		for (Player p : gameController.getBoardStatus().getPlayers()) {
+			String pName = "Player "
+					+ gameController.getBoardStatus().getPlayerNumber(p);
+			Color pColor = Linker.getLinkerInsance().getPawn(p).get(0)
+					.getPawnColor();
+
+			frame.getConsole().getPlayersPanel()
+					.addPlayerToPlayersPanel(pName, p, pColor);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -160,11 +176,28 @@ public class InterfaceGui implements Interface {
 		}
 	}
 
+	/**
+	 * The gui version shows a message, removes the card from the console list
+	 * of available cards and updates the player's money
+	 */
 	private void notifyMoveBuyCard(BuyCardMove move) {
-		// TODO
-		// messaggio che lo dice
-		// togliere dalle carte quella comprata
-		// soldi giocatore
+		// print a message
+		String msg = "Player "
+				+ gameController.getBoardStatus().getPlayerNumber(
+						move.getPlayer()) + " bought the card "
+				+ move.getNewCard().toString();
+		frame.getMap().getMessageManager().showMessage(msg);
+
+		// update the available cards
+		frame.getConsole().getCardsPanel().goToNextCard(move.getNewCard());
+
+		// update the money
+		Player p = move.getPlayer();
+		int money = gameController.getBoardStatus().getEquivalentPlayer(p)
+				.getMoney();
+		money -= move.getNewCard().getNumber();
+
+		frame.getConsole().getPlayersPanel().setMoneyToPlayer(p, money);
 	}
 
 	/**
@@ -610,9 +643,18 @@ public class InterfaceGui implements Interface {
 		paintSheep();
 		paintCards();
 		paintGates();
+		updateMoneys();
 
 		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
 			paintWolf();
+		}
+	}
+
+	/** This method sets the displayed money for every player */
+	private void updateMoneys() {
+		for (Player p : gameController.getBoardStatus().getPlayers()) {
+			frame.getConsole().getPlayersPanel()
+					.setMoneyToPlayer(p, p.getMoney());
 		}
 	}
 

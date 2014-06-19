@@ -60,4 +60,37 @@ public class CardsPanel extends JPanel {
 		this.remove(panels.get(type));
 	}
 
+	/**
+	 * This method adds to the cards panel all the initial cards (where by
+	 * initials we mean costing 0, not the cards given at the starting of the
+	 * game
+	 */
+	public void initCards() {
+		for (Card c : Card.values()) {
+			if (!c.isInitial() && c.getNumber() == 0) {
+				addCard(c);
+			}
+		}
+	}
+
+	/**
+	 * This method removes the given card from the console and shows the next
+	 * one, if it was the last available removes the card panel
+	 */
+	public void goToNextCard(Card cardToRemove) {
+		Card newCard = null;
+
+		for (Card c : Card.values()) {
+			if (c.getTerrainType().equals(cardToRemove.getTerrainType())
+					&& c.getNumber() == cardToRemove.getNumber() + 1) {
+				newCard = c;
+			}
+		}
+
+		if (newCard != null) {
+			addCard(newCard);
+		} else {
+			removeSingleCardPanel(cardToRemove.getTerrainType());
+		}
+	}
 }

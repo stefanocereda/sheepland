@@ -96,4 +96,16 @@ public class PlayersPanel extends JPanel {
 		}
 		return null;
 	}
+
+	/**
+	 * Set the money for a player
+	 * 
+	 * @param player
+	 *            The player to modify
+	 * @param money
+	 *            The new money
+	 */
+	public void setMoneyToPlayer(Player player, int money) {
+		getPlayerDisplayedData(player).getMoneyPlayer().setMoneyPlayer(money);
+	}
 }
