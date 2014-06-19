@@ -102,6 +102,15 @@ public class InterfaceGui implements Interface {
 		frame.getConsole().getCardsPanel().initCards();
 		initPlayers();
 		rePaintAllStatus();
+
+		// there is a strange bug that prevents the game console to be shown, if
+		// we add these instructions it works. They doesn't have a fucking
+		// meaning, but they works and doesn't change the game model.
+		Player p = gameController.getControlledPlayer();
+		BuyCardMove fake = new BuyCardMove(p, Card.COUNTRYSIDE4);
+		notifyMoveBuyCardWithoutMessage(fake);
+
+		rePaintAllStatus();
 	}
 
 	/** This method initialize the players panel */
@@ -197,6 +206,16 @@ public class InterfaceGui implements Interface {
 				+ move.getNewCard().toString();
 		frame.getMap().getMessageManager().showMessage(msg);
 
+		notifyMoveBuyCardWithoutMessage(move);
+	}
+
+	/**
+	 * This method completes the showing of a buy card updating the money and
+	 * the available cards, it is used because when a player buys a card he gets
+	 * back his own moves and we want to update the money without showing to him
+	 * that he bought a card, he should know what he has just done
+	 */
+	private void notifyMoveBuyCardWithoutMessage(BuyCardMove move) {
 		// update the available cards
 		frame.getConsole().getCardsPanel().goToNextCard(move.getNewCard());
 
