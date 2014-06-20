@@ -53,10 +53,32 @@ public class SingleCardToSell extends JPanel {
 		cardName.setVisible(false);
 	}
 
+	/**
+	 * The listener manages changes in the JTextField. If the player writes
+	 * "Don't" sell the flag is set to false. Otherwise, if the string in the
+	 * jTextField is a number, is set the new price and the flag to true.
+	 * 
+	 */
 	private class TextListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 
+			// get the new price
+			JTextField textField = (JTextField) e.getSource();
+			String newPrice = textField.getText();
+
+			// if the text is "Don't sell" the flag is set again to false
+			if ((textField.equals("Don't sell"))) {
+				sell = false;
+			} else {
+				// try to get the price from the input string
+				try {
+					price = Integer.parseInt(newPrice);
+					sell = true;
+				} catch (NumberFormatException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
 	}
@@ -67,6 +89,10 @@ public class SingleCardToSell extends JPanel {
 
 	public boolean wantToSell() {
 		return sell;
+	}
+
+	public Card getCard() {
+		return card;
 	}
 
 }
