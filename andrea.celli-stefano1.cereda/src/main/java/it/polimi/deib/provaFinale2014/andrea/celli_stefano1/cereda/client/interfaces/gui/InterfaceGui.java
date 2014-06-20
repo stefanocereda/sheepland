@@ -107,10 +107,11 @@ public class InterfaceGui implements Interface {
 		// we add these instructions it works. They doesn't have a fucking
 		// meaning, but they works and doesn't change the game model.
 		Player p = gameController.getControlledPlayer();
-		BuyCardMove fake = new BuyCardMove(p, Card.COUNTRYSIDE4);
+		BuyCardMove fake = new BuyCardMove(p, Card.COUNTRYSIDE1);
 		notifyMoveBuyCardWithoutMessage(fake);
 
 		rePaintAllStatus();
+		
 	}
 
 	/** This method initialize the players panel */
