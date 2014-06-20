@@ -94,4 +94,12 @@ public class SingleCardToBuy extends JPanel {
 
 	}
 
+	public MarketOffer getMarketOffer() {
+		return marketOffer;
+	}
+
+	public boolean isBought() {
+		return bought;
+	}
+
 }
