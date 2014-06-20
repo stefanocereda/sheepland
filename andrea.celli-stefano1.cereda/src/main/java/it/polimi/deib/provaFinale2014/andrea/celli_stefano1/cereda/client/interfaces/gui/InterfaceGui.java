@@ -59,6 +59,7 @@ public class InterfaceGui implements Interface {
 
 	/** The initial position chosen by the player */
 	private Road initialPosition = null;
+
 	/** The move passed by the user */
 	private Move returnedMove = null;
 
@@ -621,10 +622,8 @@ public class InterfaceGui implements Interface {
 
 	/** {@inheritDoc} */
 	public void notifyDisconnection() {
-		frame.getMap()
-				.getMessageManager()
-				.showMessage(
-						"We're disconnected from the server");
+		frame.getMap().getMessageManager()
+				.showMessage("We're disconnected from the server");
 	}
 
 	/**
@@ -632,9 +631,14 @@ public class InterfaceGui implements Interface {
 	 * for the answer
 	 */
 	public boolean chooseShepherd() {
-		// TODO chiedere se usare secondo shepherd: mostrare finestra in cui
-		// mette si/no
-		return false;
+		/**
+		 * The class that allows the player to choose the pawn he wants to use
+		 * (in a two player game)
+		 */
+		PawnChooserPanel pawnChooser = new PawnChooserPanel(frame.getMap()
+				.getWidth() / 3, frame.getMap().getHeight() / 3);
+
+		return pawnChooser.useSecondPlayer(frame.getMap());
 	}
 
 	/**
@@ -643,10 +647,8 @@ public class InterfaceGui implements Interface {
 	 * position
 	 */
 	public Road chooseSecondInitialPosition() {
-		frame.getMap()
-				.getMessageManager()
-				.showMessage(
-						"Choose the position of your second shepherd");
+		frame.getMap().getMessageManager()
+				.showMessage("Choose the position of your second shepherd");
 		return chooseInitialPosition();
 	}
 
