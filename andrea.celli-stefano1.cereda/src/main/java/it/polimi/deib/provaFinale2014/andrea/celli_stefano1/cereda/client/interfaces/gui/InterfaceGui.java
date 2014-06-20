@@ -63,6 +63,12 @@ public class InterfaceGui implements Interface {
 	/** The move passed by the user */
 	private Move returnedMove = null;
 
+	/** Indicates if the user has chosen which shepherd to use */
+	private boolean makeAShepherdDecision = false;
+
+	/** Indicates if the user wants to use his second shepherd */
+	private boolean chosenShepherd = false;
+
 	/** A logger */
 	private static final Logger LOG = Logger.getLogger(InterfaceGui.class
 			.getName());
@@ -81,6 +87,7 @@ public class InterfaceGui implements Interface {
 		}
 
 		this.frame = new MainFrame();
+		frame.validate();
 	}
 
 	/** {@inheritDoc} */
@@ -98,7 +105,7 @@ public class InterfaceGui implements Interface {
 	 * {@inheritDoc}. This gui version also paints the initial version of the
 	 * map
 	 */
-	public void showInitialInformation() {
+	public synchronized void showInitialInformation() {
 		frame.getMap().initMapComponents(this);
 		frame.getConsole().getCardsPanel().initCards();
 		initPlayers();
@@ -118,11 +125,13 @@ public class InterfaceGui implements Interface {
 			frame.getConsole().getPlayersPanel()
 					.addPlayerToPlayersPanel(pName, p, pColor);
 		}
+		frame.validate();
 	}
 
 	/** {@inheritDoc} */
-	public void notifyNewStatus() {
+	public synchronized void notifyNewStatus() {
 		rePaintAllStatus();
+		frame.validate();
 	}
 
 	/**
@@ -132,7 +141,7 @@ public class InterfaceGui implements Interface {
 	 * class (setInitialPosition) that saves the position and notifies this
 	 * method
 	 */
-	public Road chooseInitialPosition() {
+	public synchronized Road chooseInitialPosition() {
 		frame.getMap().getMessageManager()
 				.showMessage("Choose your initial position");
 		frame.getMap().getListener()
@@ -151,13 +160,14 @@ public class InterfaceGui implements Interface {
 
 		Road toReturn = initialPosition;
 		initialPosition = null;
+		frame.validate();
 		return toReturn;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyMove(Move move) {
+	public synchronized void notifyMove(Move move) {
 		if (move instanceof PlayerAction) {
 			if (!((PlayerAction) move).getPlayer().equals(
 					gameController.getControlledPlayer())) {
@@ -172,6 +182,7 @@ public class InterfaceGui implements Interface {
 		} else if (move instanceof MoveBlackSheep) {
 			notifyMoveBlackSheep((MoveBlackSheep) move);
 		}
+		frame.validate();
 	}
 
 	/**
@@ -549,8 +560,9 @@ public class InterfaceGui implements Interface {
 	 * {@inheritDoc}. The mechanism used to retrieve a move from the user is
 	 * similar to chooseInitialPosition()
 	 */
-	public Move getNewMove() {
+	public synchronized Move getNewMove() {
 		frame.getConsole().getButtonPanel().setActive(true);
+		frame.validate();
 
 		while (returnedMove == null) {
 			try {
@@ -572,24 +584,26 @@ public class InterfaceGui implements Interface {
 	 * {@inheritDoc}. The gui version also repaint all the map in order to
 	 * delete the invalid move
 	 */
-	public void notifyNotValidMove() {
+	public synchronized void notifyNotValidMove() {
 		frame.getMap()
 				.getMessageManager()
 				.showMessage(
 						"The move goes against Sheepland's rule! Be more careful");
 
 		rePaintAllStatus();
+		frame.validate();
 	}
 
 	/** {@inheritDoc} */
-	public void notifyCurrentPlayer(Player newCurrentPlayer) {
+	public synchronized void notifyCurrentPlayer(Player newCurrentPlayer) {
 		String name = Linker.getLinkerInsance().getPawn(newCurrentPlayer)
 				.get(0).getPlayerName();
 		frame.getConsole().getPlayersPanel().markAsCurrentPlayer(name);
+		frame.validate();
 	}
 
 	/** {@inheritDoc} */
-	public void notifyWinners(List<Player> winners) {
+	public synchronized void notifyWinners(List<Player> winners) {
 		MessageManager mm = frame.getMap().getMessageManager();
 
 		String msg = "Game over. ";
@@ -611,27 +625,52 @@ public class InterfaceGui implements Interface {
 		}
 
 		mm.showMessage(msg);
+		frame.validate();
 	}
 
 	/** {@inheritDoc} */
-	public void notifyDisconnection() {
+	public synchronized void notifyDisconnection() {
 		frame.getMap().getMessageManager()
 				.showMessage("We're disconnected from the server");
+		frame.validate();
 	}
 
 	/**
 	 * {@inheritDoc}. The gui version creates a panel with a question a waits
 	 * for the answer
 	 */
-	public boolean chooseShepherd() {
+	public synchronized boolean chooseShepherd() {
+		try {
+			Thread.sleep(2 * GuiConstants.ANIMATION_LENGTH);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		/**
 		 * The class that allows the player to choose the pawn he wants to use
 		 * (in a two player game)
 		 */
 		PawnChooserPanel pawnChooser = new PawnChooserPanel(frame.getMap()
-				.getWidth() / 3, frame.getMap().getHeight() / 3);
+				.getWidth() / 3, frame.getMap().getHeight() / 3, this);
 
-		return pawnChooser.useSecondPlayer(frame.getMap());
+		while (makeAShepherdDecision == false) {
+			try {
+				synchronized (this) {
+					wait();
+				}
+			} catch (InterruptedException e) {
+				LOG.log(Level.SEVERE,
+						"Interrupted while choosing the shepherd", e);
+			}
+		}
+
+		frame.getMap().remove(pawnChooser);
+		frame.validate();
+		frame.repaint();
+
+		makeAShepherdDecision = false;
+		return chosenShepherd;
 	}
 
 	/**
@@ -639,23 +678,34 @@ public class InterfaceGui implements Interface {
 	 * position for the second shepherd and then acts as it is the first
 	 * position
 	 */
-	public Road chooseSecondInitialPosition() {
+	public synchronized Road chooseSecondInitialPosition() {
+		// wait a while, before choosing the shepherd we can receive the move of
+		// the black sheep, and we don't want this actions to overlap
+		try {
+			Thread.sleep(GuiConstants.ANIMATION_LENGTH);
+		} catch (InterruptedException e) {
+			LOG.log(Level.SEVERE, "Interrupted", e);
+		}
 		frame.getMap().getMessageManager()
 				.showMessage("Choose the position of your second shepherd");
+		frame.validate();
 		return chooseInitialPosition();
 	}
 
 	/** {@inheritDoc}. The gui version does nothing, it doesn't have sense */
-	public void notifyShepherd(boolean usingSecond) {
+	public synchronized void notifyShepherd(boolean usingSecond) {
+		frame.validate();
 	}
 
-	public List<MarketOffer> askMarketOffers() {
+	public synchronized List<MarketOffer> askMarketOffers() {
 		// TODO Auto-generated method stub
+		frame.validate();
 		return new ArrayList<MarketOffer>();
 	}
 
-	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
+	public synchronized List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
 		// TODO Auto-generated method stub
+		frame.validate();
 		return new ArrayList<MarketBuy>();
 	}
 
@@ -678,6 +728,18 @@ public class InterfaceGui implements Interface {
 		}
 	}
 
+	/**
+	 * This method has to be called when the user has chosen which shepherd he
+	 * wants to use
+	 */
+	public void returnShepherdChoice(boolean answer) {
+		makeAShepherdDecision = true;
+		chosenShepherd = answer;
+		synchronized (this) {
+			notify();
+		}
+	}
+
 	/** This method has to reset all the map and paint a brand new status */
 	private void rePaintAllStatus() {
 		frame.getMap().cleanMap();
@@ -691,6 +753,8 @@ public class InterfaceGui implements Interface {
 		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
 			paintWolf();
 		}
+
+		frame.validate();
 	}
 
 	/** This method sets the displayed money for every player */
