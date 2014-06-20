@@ -148,7 +148,8 @@ public class ServerStarter implements Runnable {
 	private synchronized void startTimer() {
 		if (waitingClients.size() == 1) {
 			timerTaskStartGame = new TimerTaskStartGame();
-			timer.schedule(timerTaskStartGame, timeWaitingForMaxPlayers);
+			timer.scheduleAtFixedRate(timerTaskStartGame,
+					timeWaitingForMaxPlayers, timeWaitingForMaxPlayers);
 		}
 	}
 

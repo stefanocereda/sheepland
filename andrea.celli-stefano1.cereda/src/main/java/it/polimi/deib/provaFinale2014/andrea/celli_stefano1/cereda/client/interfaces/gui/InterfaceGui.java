@@ -103,15 +103,7 @@ public class InterfaceGui implements Interface {
 		initPlayers();
 		rePaintAllStatus();
 
-		// there is a strange bug that prevents the game console to be shown, if
-		// we add these instructions it works. They doesn't have a fucking
-		// meaning, but they works and doesn't change the game model.
-		Player p = gameController.getControlledPlayer();
-		BuyCardMove fake = new BuyCardMove(p, Card.COUNTRYSIDE1);
-		notifyMoveBuyCardWithoutMessage(fake);
-
-		rePaintAllStatus();
-		
+		frame.validate();
 	}
 
 	/** This method initialize the players panel */
@@ -622,10 +614,8 @@ public class InterfaceGui implements Interface {
 
 	/** {@inheritDoc} */
 	public void notifyDisconnection() {
-		frame.getMap()
-				.getMessageManager()
-				.showMessage(
-						"We're disconnected from the server");
+		frame.getMap().getMessageManager()
+				.showMessage("We're disconnected from the server");
 	}
 
 	/**
@@ -644,10 +634,8 @@ public class InterfaceGui implements Interface {
 	 * position
 	 */
 	public Road chooseSecondInitialPosition() {
-		frame.getMap()
-				.getMessageManager()
-				.showMessage(
-						"Choose the position of your second shepherd");
+		frame.getMap().getMessageManager()
+				.showMessage("Choose the position of your second shepherd");
 		return chooseInitialPosition();
 	}
 

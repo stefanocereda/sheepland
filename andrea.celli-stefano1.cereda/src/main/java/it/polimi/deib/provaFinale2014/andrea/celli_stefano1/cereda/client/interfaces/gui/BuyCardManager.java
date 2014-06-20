@@ -58,6 +58,7 @@ public class BuyCardManager implements ActionListener {
 			buyCardPanel.setLocation(gameMap.getWidth() / 3,
 					gameMap.getHeight() / 3);
 			gameMap.add(buyCardPanel, 0);
+			
 			buyCardPanel.setVisible(true);
 
 			gameMap.repaint();
