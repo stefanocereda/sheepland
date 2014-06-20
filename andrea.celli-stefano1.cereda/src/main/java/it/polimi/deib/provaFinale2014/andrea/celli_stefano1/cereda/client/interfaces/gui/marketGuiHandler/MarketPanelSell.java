@@ -54,7 +54,6 @@ public class MarketPanelSell extends JPanel {
 	 * 
 	 * Adds the listener to the button.
 	 * 
-	 * @param gameMap
 	 * @param sellable
 	 * @param interfaceGui
 	 */
@@ -133,7 +132,7 @@ public class MarketPanelSell extends JPanel {
 
 			/**
 			 * @TODO aggiungere metodo che restituisce l'arrayList di market
-			 *       offers ad interfaceGui
+			 *       offers ad interfaceGui+remove the panel
 			 */
 		}
 	}
