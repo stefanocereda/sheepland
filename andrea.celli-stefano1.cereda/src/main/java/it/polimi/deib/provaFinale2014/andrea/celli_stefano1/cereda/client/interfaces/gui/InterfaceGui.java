@@ -104,14 +104,7 @@ public class InterfaceGui implements Interface {
 		initPlayers();
 		rePaintAllStatus();
 
-		// there is a strange bug that prevents the game console to be shown, if
-		// we add these instructions it works. They doesn't have a fucking
-		// meaning, but they works and doesn't change the game model.
-		Player p = gameController.getControlledPlayer();
-		BuyCardMove fake = new BuyCardMove(p, Card.COUNTRYSIDE4);
-		notifyMoveBuyCardWithoutMessage(fake);
-
-		rePaintAllStatus();
+		frame.validate();
 	}
 
 	/** This method initialize the players panel */
