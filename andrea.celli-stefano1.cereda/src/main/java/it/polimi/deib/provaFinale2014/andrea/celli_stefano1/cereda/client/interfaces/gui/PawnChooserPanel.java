@@ -14,6 +14,7 @@ import javax.swing.JPanel;
  * 
  */
 public class PawnChooserPanel extends JPanel {
+	private static final long serialVersionUID = -5633075482856081626L;
 
 	// the button listener
 	private ButtonListener listener;
@@ -22,25 +23,18 @@ public class PawnChooserPanel extends JPanel {
 	JButton pawn1Button = new JButton("Use pawn 1");
 	JButton pawn2Button = new JButton("Use pawn 2");
 
-	// dimension of the panel
-	private int choicePanelWidth;
-	private int choicePanelHeight;
-
-	private boolean hasAnswered;
-	private boolean answer;
+	// the gui
+	InterfaceGui gui;
 
 	/**
 	 * The constructor
 	 */
-	public PawnChooserPanel(int choicePanelWidth, int choicePanelHeight) {
-
-		this.choicePanelWidth = choicePanelWidth;
-		this.choicePanelHeight = choicePanelHeight;
+	public PawnChooserPanel(int choicePanelWidth, int choicePanelHeight,
+			InterfaceGui gui) {
+		this.gui = gui;
 
 		this.setSize(choicePanelWidth, choicePanelHeight);
 		this.setLocation(choicePanelWidth, choicePanelHeight);
-
-		hasAnswered = false;
 
 		listener = new ButtonListener();
 		pawn1Button.addActionListener(listener);
@@ -59,31 +53,9 @@ public class PawnChooserPanel extends JPanel {
 		pawn1Button.setVisible(true);
 		pawn2Button.setVisible(true);
 
-	}
-
-	public boolean useSecondPlayer(GameMap gameMap) {
-
-		gameMap.add(this);
-		this.setVisible(true);
-
-		// the method waits for the user to push a button
-		synchronized (this) {
-			do {
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			} while (!hasAnswered);
-		}
-
-		// removes the panel after the player has choosen the pawn he wants to
-		// use
-		gameMap.remove(this);
-		gameMap.repaint();
-
-		hasAnswered = false;
-		return answer;
+		gui.getFrame().getMap().add(this, 0);
+		gui.getFrame().validate();
+		gui.getFrame().repaint();
 	}
 
 	/**
@@ -93,6 +65,7 @@ public class PawnChooserPanel extends JPanel {
 	private class ButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			boolean answer = false;
 			JButton pressed = (JButton) e.getSource();
 
 			String selectedOption = pressed.getText();
@@ -100,16 +73,11 @@ public class PawnChooserPanel extends JPanel {
 			if (selectedOption.equals("Use pawn 1")) {
 				answer = false;
 			} else {
-				if (selectedOption.equals("Use pawn 2")) {
-					answer = true;
-				}
+				answer = true;
+
 			}
 
-			synchronized (this) {
-				hasAnswered = true;
-				notify();
-			}
-
+			gui.returnShepherdChoice(answer);
 		}
 
 	}

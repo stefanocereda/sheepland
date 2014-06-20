@@ -297,24 +297,7 @@ public class GameMap extends JPanel {
 		// update the sheep counter
 		linker.getLambForEachTerrain().put(terrain, currentNumberOfLamb + 1);
 	}
-
-	/**
-	 * This method adds a wolf to the specified terrain (it creates a new
-	 * instace of WolfPanel)
-	 * 
-	 * @param terrain
-	 */
-	public void addWolf(Terrain terrain) {
-		WolfPanel wolf = new WolfPanel(GuiConstants.WOLF,
-				dimensionCalculator.getWolfDimension());
-		this.add(wolf);
-		wolf.setLocation(linker.getWolfOrigins().get(terrain));
-		wolf.setVisible(true);
-
-		this.repaint();
-		components.get(terrain).add(wolf);
-	}
-
+	
 	/**
 	 * This method adds a blackSheep to a certain terrain creating a new
 	 * instance of blackSheep panel
@@ -331,6 +314,23 @@ public class GameMap extends JPanel {
 		blackSheep.setVisible(true);
 
 		components.get(terrain).add(blackSheep);
+	}
+
+	/**
+	 * This method adds a wolf to the specified terrain (it creates a new
+	 * instace of WolfPanel)
+	 * 
+	 * @param terrain
+	 */
+	public void addWolf(Terrain terrain) {
+		WolfPanel wolf = new WolfPanel(GuiConstants.WOLF,
+				dimensionCalculator.getWolfDimension());
+		this.add(wolf);
+		wolf.setLocation(linker.getWolfOrigins().get(terrain));
+		wolf.setVisible(true);
+
+		this.repaint();
+		components.get(terrain).add(wolf);
 	}
 
 	/**

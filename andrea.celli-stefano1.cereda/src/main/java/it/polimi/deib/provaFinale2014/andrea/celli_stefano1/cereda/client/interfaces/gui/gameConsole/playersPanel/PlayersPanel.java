@@ -68,13 +68,11 @@ public class PlayersPanel extends JPanel {
 			} else {
 				// delete the border from the old currentPlayer
 				if (panel.getBorder() != null) {
-					//
-					//
-					// does it work??
-					//
-					//
+
 					panel.setBorder(BorderFactory.createLineBorder(
 							GuiConstants.COLORGAMECONSOLE, 0));
+					this.validate();
+					this.repaint();
 				}
 
 			}
