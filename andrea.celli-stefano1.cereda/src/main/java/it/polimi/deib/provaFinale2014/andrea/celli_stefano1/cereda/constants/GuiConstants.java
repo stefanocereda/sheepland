@@ -81,7 +81,7 @@ public class GuiConstants {
 	public static final long ANIMATION_LENGTH = 1000;
 
 	/** The duration of a message in milliseconds */
-	public static final long MESSAGE_TIME = 2500;
+	public static final long MESSAGE_TIME = 1500;
 
 	/**
 	 * 

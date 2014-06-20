@@ -53,7 +53,7 @@ public class PawnChooserPanel extends JPanel {
 		pawn1Button.setVisible(true);
 		pawn2Button.setVisible(true);
 
-		gui.getFrame().getMap().add(this);
+		gui.getFrame().getMap().add(this, 0);
 		gui.getFrame().validate();
 		gui.getFrame().repaint();
 	}

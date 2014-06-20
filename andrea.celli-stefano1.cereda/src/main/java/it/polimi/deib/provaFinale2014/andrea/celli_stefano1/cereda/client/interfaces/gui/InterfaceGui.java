@@ -641,7 +641,7 @@ public class InterfaceGui implements Interface {
 	 */
 	public synchronized boolean chooseShepherd() {
 		try {
-			Thread.sleep(2 * GuiConstants.ANIMATION_LENGTH);
+			Thread.sleep(GuiConstants.ANIMATION_LENGTH);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

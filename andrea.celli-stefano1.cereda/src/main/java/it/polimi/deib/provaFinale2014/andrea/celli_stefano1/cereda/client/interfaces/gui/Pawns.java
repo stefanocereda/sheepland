@@ -1,4 +1,3 @@
-
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
 import java.awt.Color;
@@ -10,9 +9,9 @@ import java.awt.Color;
  * 
  */
 public enum Pawns {
-	BLUEPAWN(Color.BLUE, "player0", "/pedinaBlu.png"), YELLOWPAWN(Color.YELLOW,
-			"player1", "/pedinaGialla.png"), REDPAWN(Color.RED, "player2",
-			"/pedinaRossa.png"), GREENPAWN(Color.GREEN, "player3",
+	BLUEPAWN(Color.BLUE, "Player 1", "/pedinaBlu.png"), YELLOWPAWN(
+			Color.YELLOW, "Player 2", "/pedinaGialla.png"), REDPAWN(Color.RED,
+			"Player 3", "/pedinaRossa.png"), GREENPAWN(Color.GREEN, "Player 4",
 			"/pedinaVerde.png");
 
 	private Color pawnColor;
