@@ -9,6 +9,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.PlayerDouble;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -205,7 +206,13 @@ public class GameControllerClient {
 	 * @return A list of market offers
 	 */
 	public List<MarketOffer> askMarketOffers() {
-		return userInterface.askMarketOffers();
+		List<MarketOffer> toReturn = userInterface.askMarketOffers();
+
+		if (toReturn == null) {
+			toReturn = new ArrayList<MarketOffer>();
+		}
+
+		return toReturn;
 	}
 
 	/**
@@ -217,6 +224,12 @@ public class GameControllerClient {
 	 * @return the list of MarketBuy chosen by the user among the offers
 	 */
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
-		return userInterface.askMarketBuy(offers);
+		List<MarketBuy> toReturn = userInterface.askMarketBuy(offers);
+
+		if (toReturn == null) {
+			toReturn = new ArrayList<MarketBuy>();
+		}
+
+		return toReturn;
 	}
 }
