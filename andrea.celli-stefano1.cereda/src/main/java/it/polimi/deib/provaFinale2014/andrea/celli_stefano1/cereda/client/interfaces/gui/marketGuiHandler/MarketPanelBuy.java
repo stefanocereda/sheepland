@@ -94,13 +94,13 @@ public class MarketPanelBuy extends JPanel {
 				// create the new SingleCardToBuy panel
 				offersPanels.add(new SingleCardToBuy(buyableOffers.get(i)));
 
-				this.add(offersPanels.get(i));
+				this.add(offersPanels.get(i), 0);
 				offersPanels.get(i).setVisible(true);
 			}
 		} else {
 			// if there are no offers to buy
 			infoLabel = new JLabel("No available offers");
-			this.add(infoLabel);
+			this.add(infoLabel, 0);
 			infoLabel.setVisible(true);
 		}
 
@@ -108,7 +108,7 @@ public class MarketPanelBuy extends JPanel {
 		nextButton = new JButton("Next");
 		listener = new NextListener();
 		nextButton.addActionListener(listener);
-		this.add(nextButton);
+		this.add(nextButton, 0);
 	}
 
 	/**

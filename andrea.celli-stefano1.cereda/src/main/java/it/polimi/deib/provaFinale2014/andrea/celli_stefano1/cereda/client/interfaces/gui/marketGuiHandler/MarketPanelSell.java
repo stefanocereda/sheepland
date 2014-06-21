@@ -35,7 +35,7 @@ public class MarketPanelSell extends JPanel {
 	private ArrayList<Card> sellable;
 	// the arraylist containing panels that display card's information and
 	// allows to set the price
-	private ArrayList<SingleCardToSell> cardsSubPanels;
+	private ArrayList<SingleCardToSell> cardsSubPanels = new ArrayList<SingleCardToSell>();
 
 	private JLabel initialInformation;
 
@@ -79,7 +79,7 @@ public class MarketPanelSell extends JPanel {
 			// add the information panel
 			initialInformation = new JLabel(
 					"Choose the price of the cards you want to sell");
-			this.add(initialInformation);
+			this.add(initialInformation, 0);
 			initialInformation.setVisible(true);
 
 			// add the cards subpanels
@@ -91,12 +91,12 @@ public class MarketPanelSell extends JPanel {
 				cardsSubPanels.add(new SingleCardToSell(sellable.get(i)));
 
 				// add the single card panel to the container panel
-				this.add(cardsSubPanels.get(i));
+				this.add(cardsSubPanels.get(i), 0);
 				cardsSubPanels.get(i).setVisible(true);
 			}
 		} else {
 			initialInformation = new JLabel("No cards to sell");
-			this.add(initialInformation);
+			this.add(initialInformation, 0);
 			initialInformation.setVisible(true);
 		}
 
@@ -104,7 +104,7 @@ public class MarketPanelSell extends JPanel {
 		nextButton = new JButton("Next");
 		listener = new NextListener();
 		nextButton.addActionListener(listener);
-		this.add(nextButton);
+		this.add(nextButton, 0);
 	}
 
 	/**
