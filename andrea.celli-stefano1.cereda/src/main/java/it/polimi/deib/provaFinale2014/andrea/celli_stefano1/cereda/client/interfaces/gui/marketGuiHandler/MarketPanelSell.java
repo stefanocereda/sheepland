@@ -130,10 +130,7 @@ public class MarketPanelSell extends JPanel {
 				}
 			}
 
-			/**
-			 * @TODO aggiungere metodo che restituisce l'arrayList di market
-			 *       offers ad interfaceGui+remove the panel
-			 */
+			interfaceGui.returnMarketOffers(marketOffersList);
 		}
 	}
 

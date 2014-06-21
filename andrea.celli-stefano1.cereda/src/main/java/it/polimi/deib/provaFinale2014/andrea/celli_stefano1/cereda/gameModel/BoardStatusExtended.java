@@ -1,12 +1,16 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Wolf;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * BoardStatus with additional rules(ex. the wolf)
@@ -87,5 +91,26 @@ public class BoardStatusExtended extends BoardStatus {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * This method returns to the player the list of cards he can sell during
+	 * the market. They are all his cards without the initial one.
+	 * 
+	 * @param player
+	 * @return arrayList of sellable cards
+	 * 
+	 */
+	public List<Card> getSellableCards(Player player) {
+
+		List<Card> toReturn = new ArrayList<Card>();
+
+		for (Card card : player.getCards()) {
+			if (!(card.isInitial())) {
+				toReturn.add(card);
+			}
+		}
+
+		return toReturn;
 	}
 }

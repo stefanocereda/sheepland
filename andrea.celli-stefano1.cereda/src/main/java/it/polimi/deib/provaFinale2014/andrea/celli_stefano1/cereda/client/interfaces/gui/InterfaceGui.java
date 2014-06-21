@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.marketGuiHandler.MarketPanelSell;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.PawnPanel;
@@ -68,6 +69,18 @@ public class InterfaceGui implements Interface {
 
 	/** Indicates if the user wants to use his second shepherd */
 	private boolean chosenShepherd = false;
+
+	/** Indicates that the player has made his offers in the market */
+	private boolean offersMade = false;
+
+	/** Indicates that the player has purchased offers in the market */
+	private boolean offersPurchased = false;
+
+	/** The list of MarketOffer made by a player */
+	private List<MarketOffer> offersOfAPlayer;
+
+	/** The list of marketBuy made by a player */
+	private List<MarketBuy> purchasedOfferOfPlayer;
 
 	/** A logger */
 	private static final Logger LOG = Logger.getLogger(InterfaceGui.class
@@ -697,10 +710,60 @@ public class InterfaceGui implements Interface {
 		frame.validate();
 	}
 
+	/**
+	 * This methods is used to ask to the player the offers he wants to make in
+	 * the market and wait for his answer.
+	 */
 	public synchronized List<MarketOffer> askMarketOffers() {
-		// TODO Auto-generated method stub
+
+		// get the sellable cards of the controlled player
+		BoardStatusExtended bs = (BoardStatusExtended) gameController
+				.getBoardStatus();
+		List<Card> sellable = bs.getSellableCards(gameController
+				.getControlledPlayer());
+
+		MarketPanelSell marketPanel = new MarketPanelSell(sellable, this);
 		frame.validate();
-		return new ArrayList<MarketOffer>();
+		frame.repaint();
+
+		while (!offersMade) {
+			try {
+				synchronized (this) {
+					wait();
+				}
+			} catch (InterruptedException e) {
+				LOG.log(Level.SEVERE,
+						"Interrupted while retrieving offers in the market", e);
+			}
+		}
+
+		ArrayList<MarketOffer> toReturn = (ArrayList<MarketOffer>) offersOfAPlayer;
+		offersOfAPlayer = null;
+		offersMade = false;
+
+		frame.getMap().remove(marketPanel);
+		frame.validate();
+		frame.repaint();
+
+		return toReturn;
+	}
+
+	/**
+	 * This method is used to send back to the interfaceGui the offers made by
+	 * the player during the market.
+	 * 
+	 * @param offers
+	 */
+	public void returnMarketOffers(ArrayList<MarketOffer> offers) {
+
+		offersOfAPlayer = offers;
+		// states that the offers have been made
+		offersMade = true;
+
+		synchronized (this) {
+			notify();
+		}
+
 	}
 
 	public synchronized List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
