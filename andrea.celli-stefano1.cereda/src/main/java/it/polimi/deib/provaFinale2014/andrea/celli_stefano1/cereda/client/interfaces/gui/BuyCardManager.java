@@ -53,13 +53,13 @@ public class BuyCardManager implements ActionListener {
 		if (buyable.size() > 0) {
 			buyCardPanel = new BuyCardPanel(buyable, this,
 					(int) gameMap.getWidth() / 3, (int) gameMap.getHeight() / 3);
-			buyCardPanel.setSize(gameMap.getWidth() / 3,
-					gameMap.getHeight() / 3);
-			buyCardPanel.setLocation(gameMap.getWidth() / 3,
-					gameMap.getHeight() / 3);
-			gameMap.add(buyCardPanel, 0);
 
-			buyCardPanel.setVisible(true);
+			// buyCardPanel.setSize(gameMap.getWidth() / 3,
+			// gameMap.getHeight() / 3);
+			// buyCardPanel.setLocation(gameMap.getWidth() / 3,
+			// gameMap.getHeight() / 3);
+			// gameMap.add(buyCardPanel, 0);
+			// buyCardPanel.setVisible(true);
 
 			interfaceGui.getFrame().validate();
 			interfaceGui.getFrame().repaint();
@@ -137,4 +137,9 @@ public class BuyCardManager implements ActionListener {
 					.removeSingleCardPanel(card.getTerrainType());
 		}
 	}
+
+	public GameMap getGameMap() {
+		return gameMap;
+	}
+
 }

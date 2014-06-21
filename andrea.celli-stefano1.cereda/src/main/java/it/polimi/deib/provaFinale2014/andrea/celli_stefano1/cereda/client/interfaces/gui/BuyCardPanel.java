@@ -5,8 +5,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,6 +18,11 @@ public class BuyCardPanel extends JPanel {
 		this.listener = listener;
 
 		this.setLayout(null);
+
+		this.setLocation(choicePanelWidth, choicePanelHeight);
+		this.setSize(choicePanelWidth, choicePanelHeight);
+		listener.getGameMap().add(this, 0);
+		this.setVisible(true);
 
 		switch (buyableCards.size()) {
 
@@ -49,8 +52,8 @@ public class BuyCardPanel extends JPanel {
 			button2.setLocation(0, choicePanelHeight / 2);
 			button1.setOpaque(true);
 			button2.setOpaque(true);
-			this.add(button1);
-			this.add(button2);
+			this.add(button1, 0);
+			this.add(button2, 0);
 			button1.setVisible(true);
 			button2.setVisible(true);
 			break;
