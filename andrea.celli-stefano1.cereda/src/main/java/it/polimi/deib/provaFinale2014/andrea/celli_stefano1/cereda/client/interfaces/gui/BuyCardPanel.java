@@ -28,14 +28,14 @@ public class BuyCardPanel extends JPanel {
 
 		case (0):
 			JLabel label = new JLabel("No buyable cards");
-			this.setSize(choicePanelWidth, choicePanelHeight / 3);
+			label.setSize(choicePanelWidth, choicePanelHeight / 3);
 			label.setLocation(0, choicePanelHeight / 3);
 			this.add(label);
 			break;
 		case (1):
 			JButton button = new JButton(buyableCards.get(0).toString());
 			button.addActionListener(listener);
-			this.setSize(choicePanelWidth, choicePanelHeight / 3);
+			button.setSize(choicePanelWidth, choicePanelHeight / 3);
 			button.setLocation(0, choicePanelHeight / 3);
 			button.setOpaque(true);
 			this.add(button);
