@@ -129,10 +129,8 @@ public class MarketPanelBuy extends JPanel {
 				}
 			}
 
-			/**
-			 * @TODO send it back to the interfaceGui+remove the panel + deve
-			 *       essere aggiornata la gui o viene mandato un nuovo stato?
-			 */
+			interfaceGui
+					.returnMarketBuyList((ArrayList<MarketBuy>) offersPurchased);
 		}
 
 	}

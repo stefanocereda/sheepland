@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.gameController.GameControllerClient;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.Interface;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.marketGuiHandler.MarketPanelBuy;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.marketGuiHandler.MarketPanelSell;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.BlackSheepPanel;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.pieces.LambPanel;
@@ -713,6 +714,8 @@ public class InterfaceGui implements Interface {
 	/**
 	 * This methods is used to ask to the player the offers he wants to make in
 	 * the market and wait for his answer.
+	 * 
+	 * @return the list of marketOffers made by the player
 	 */
 	public synchronized List<MarketOffer> askMarketOffers() {
 
@@ -766,10 +769,58 @@ public class InterfaceGui implements Interface {
 
 	}
 
+	/**
+	 * This methods ask to the player which are the offers he wants to purchase.
+	 * It waits for the answer and collect it.
+	 * 
+	 * @paramthe offers
+	 * @return the list of marketBuy made by the player.
+	 */
 	public synchronized List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
-		// TODO Auto-generated method stub
+
+		MarketPanelBuy marketPanel = new MarketPanelBuy(
+				(ArrayList<MarketOffer>) offers, this);
 		frame.validate();
-		return new ArrayList<MarketBuy>();
+		frame.repaint();
+
+		while (!offersPurchased) {
+			try {
+				synchronized (this) {
+					wait();
+				}
+			} catch (InterruptedException e) {
+				LOG.log(Level.SEVERE,
+						"Interrupted while retrieving offers purchased in the market",
+						e);
+			}
+		}
+
+		ArrayList<MarketBuy> toReturn = (ArrayList<MarketBuy>) purchasedOfferOfPlayer;
+		purchasedOfferOfPlayer = null;
+		offersPurchased = false;
+
+		frame.getMap().remove(marketPanel);
+		frame.validate();
+		frame.repaint();
+
+		return toReturn;
+	}
+
+	/**
+	 * This method is used to send back to the interfaceGui the marketBuy made
+	 * by the player during the market.
+	 * 
+	 * @param the
+	 *            list of marketBuy
+	 */
+	public void returnMarketBuyList(ArrayList<MarketBuy> marketBuy) {
+
+		purchasedOfferOfPlayer = marketBuy;
+		offersPurchased = true;
+
+		synchronized (this) {
+			notify();
+		}
 	}
 
 	/**
