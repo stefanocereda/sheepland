@@ -73,24 +73,31 @@ public class MarketPanelSell extends JPanel {
 		// add the bigger panel to the game map
 		this.setSize(gameMap.getWidth() / 2, gameMap.getHeight() / 2);
 		this.setLocation(gameMap.getWidth() / 4, gameMap.getHeight() / 4);
-		gameMap.add(this);
+		gameMap.add(this, 0);
 
-		// add the information panel
-		initialInformation = new JLabel(
-				"Choose the price of the cards you want to sell");
-		this.add(initialInformation);
-		initialInformation.setVisible(true);
+		if (sellable.size() > 0) {
+			// add the information panel
+			initialInformation = new JLabel(
+					"Choose the price of the cards you want to sell");
+			this.add(initialInformation);
+			initialInformation.setVisible(true);
 
-		// add the cards subpanels
-		for (int i = 0; i < sellable.size(); i++) {
+			// add the cards subpanels
+			for (int i = 0; i < sellable.size(); i++) {
 
-			// creates a new SingleCardToBuyPanel and adds it to the arraylist
-			// of panels
-			cardsSubPanels.add(new SingleCardToSell(sellable.get(i)));
+				// creates a new SingleCardToBuyPanel and adds it to the
+				// arraylist
+				// of panels
+				cardsSubPanels.add(new SingleCardToSell(sellable.get(i)));
 
-			// add the single card panel to the container panel
-			this.add(cardsSubPanels.get(i));
-			cardsSubPanels.get(i).setVisible(true);
+				// add the single card panel to the container panel
+				this.add(cardsSubPanels.get(i));
+				cardsSubPanels.get(i).setVisible(true);
+			}
+		} else {
+			initialInformation = new JLabel("No cards to sell");
+			this.add(initialInformation);
+			initialInformation.setVisible(true);
 		}
 
 		// add the button and set the action listener
@@ -120,13 +127,15 @@ public class MarketPanelSell extends JPanel {
 
 			ArrayList<MarketOffer> marketOffersList = new ArrayList<MarketOffer>();
 
-			for (SingleCardToSell cardToSell : cardsSubPanels) {
+			if (cardsSubPanels != null) {
+				for (SingleCardToSell cardToSell : cardsSubPanels) {
 
-				if (cardToSell.wantToSell()) {
-					// creates and adds the new market offer
-					marketOffersList.add(new MarketOffer(interfaceGui
-							.getGameController().getControlledPlayer(),
-							cardToSell.getCard(), cardToSell.getPrice()));
+					if (cardToSell.wantToSell()) {
+						// creates and adds the new market offer
+						marketOffersList.add(new MarketOffer(interfaceGui
+								.getGameController().getControlledPlayer(),
+								cardToSell.getCard(), cardToSell.getPrice()));
+					}
 				}
 			}
 

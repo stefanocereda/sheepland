@@ -258,7 +258,7 @@ public class Linker {
 		colorsAndRoad.put(new Color(142, 1, 255), roads.get(10));
 		colorsAndRoad.put(new Color(3, 0, 255), roads.get(11));
 		colorsAndRoad.put(new Color(207, 0, 255), roads.get(12));
-		colorsAndRoad.put(new Color(175, 0, 255), roads.get(13));
+		colorsAndRoad.put(new Color(176, 0, 255), roads.get(13));
 		colorsAndRoad.put(new Color(255, 0, 220), roads.get(14));
 		colorsAndRoad.put(new Color(64, 0, 84), roads.get(15));
 		colorsAndRoad.put(new Color(76, 0, 100), roads.get(16));
@@ -272,7 +272,7 @@ public class Linker {
 		colorsAndRoad.put(new Color(255, 0, 56), roads.get(24));
 		colorsAndRoad.put(new Color(254, 0, 122), roads.get(25));
 		colorsAndRoad.put(new Color(96, 0, 128), roads.get(26));
-		colorsAndRoad.put(new Color(92, 0, 124), roads.get(27));
+		colorsAndRoad.put(new Color(92, 0, 125), roads.get(27));
 		colorsAndRoad.put(new Color(88, 0, 120), roads.get(28));
 		colorsAndRoad.put(new Color(89, 0, 116), roads.get(29));
 		colorsAndRoad.put(new Color(84, 0, 112), roads.get(30));

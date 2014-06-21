@@ -80,21 +80,28 @@ public class MarketPanelBuy extends JPanel {
 		// sets the dimension, the location and adds to the gameMap
 		this.setSize(gameMap.getWidth() / 2, gameMap.getHeight() / 2);
 		this.setLocation(gameMap.getWidth() / 4, gameMap.getHeight() / 4);
-		gameMap.add(this);
+		gameMap.add(this, 0);
 
-		// add the information panel
-		infoLabel = new JLabel("Select offers you want to purchase");
-		this.add(infoLabel);
-		infoLabel.setVisible(true);
+		if (buyableOffers.size() > 0) {
+			// add the information panel
+			infoLabel = new JLabel("Select offers you want to purchase");
+			this.add(infoLabel);
+			infoLabel.setVisible(true);
 
-		// adds offers panels
-		for (int i = 0; i < buyableOffers.size(); i++) {
+			// adds offers panels
+			for (int i = 0; i < buyableOffers.size(); i++) {
 
-			// create the new SingleCardToBuy panel
-			offersPanels.add(new SingleCardToBuy(buyableOffers.get(i)));
+				// create the new SingleCardToBuy panel
+				offersPanels.add(new SingleCardToBuy(buyableOffers.get(i)));
 
-			this.add(offersPanels.get(i));
-			offersPanels.get(i).setVisible(true);
+				this.add(offersPanels.get(i));
+				offersPanels.get(i).setVisible(true);
+			}
+		} else {
+			// if there are no offers to buy
+			infoLabel = new JLabel("No available offers");
+			this.add(infoLabel);
+			infoLabel.setVisible(true);
 		}
 
 		// adds the button and sets the listener
