@@ -9,7 +9,7 @@ public class TimeConstants {
 	public static final long WAITING_FOR_CLIENT_RECONNECT = 5 * 1000;//
 
 	/** The time in milliseconds between each reconnection test */
-	public static final long WAIT_FOR_RECONNECTION = 10 * 1000;
+	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;
 
 	/** the time in milliseconds waiting for the max number of players */
 	public static final int WAITING_FOR_MAX_PLAYERS = 10 * 1000;
