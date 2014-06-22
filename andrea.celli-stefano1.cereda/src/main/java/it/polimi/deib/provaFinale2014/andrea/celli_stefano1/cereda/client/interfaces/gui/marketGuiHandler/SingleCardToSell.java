@@ -50,7 +50,6 @@ public class SingleCardToSell extends JPanel {
 		this.add(cardName);
 		this.add(priceSetter);
 		cardName.setVisible(true);
-		cardName.setVisible(false);
 	}
 
 	/**
