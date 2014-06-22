@@ -349,8 +349,8 @@ public class InterfaceConsole implements Interface {
 				.getRoadMap().getHashMapOfRoads();
 
 		// the numbers identifying free roads
-		List<Integer> freeRoad = (ArrayList<Integer>) gameController
-				.getBoardStatus().findFreeRoads();
+		List<Integer> freeRoad = gameController.getBoardStatus()
+				.findFreeRoads();
 
 		// shows to the user the free roads
 		Printer.println("The free roads are: ");
@@ -621,8 +621,8 @@ public class InterfaceConsole implements Interface {
 				+ " moved to road "
 				+ numberOfTheRoad
 				+ " paying "
-				+ (MoveCostCalculator.getMoveCost(move,
-						gameController.getBoardStatus()));
+				+ MoveCostCalculator.getMoveCost(move,
+						gameController.getBoardStatus());
 
 		Printer.println(message);
 	}

@@ -24,8 +24,6 @@ import java.util.Map;
  * operation and finds the new points.
  * 
  * @author Andrea
- * @TODO refactor (tutti i metodi sono molto simili)
- * 
  */
 public class CoordinatesConverter {
 
@@ -56,7 +54,7 @@ public class CoordinatesConverter {
 	 * @return hashMap of terrain/sheep's origins
 	 * */
 	public Map<Terrain, Point> calculateSheepOrigins() {
-		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
+		Map<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (SheepPositions position : SheepPositions.values()) {
 			hashMap.put(position.getTerrain(),
@@ -75,7 +73,7 @@ public class CoordinatesConverter {
 	 * */
 
 	public Map<Terrain, Point> calculateLambOrigins() {
-		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
+		Map<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (LambPositions position : LambPositions.values()) {
 			hashMap.put(position.getTerrain(),
@@ -152,9 +150,9 @@ public class CoordinatesConverter {
 	 * @return the hashMap containing roads and the origin of the pawns that
 	 *         thay may display
 	 */
-	public Map<Road, Point> calculatePawnOrigins(HashMap<Integer, Road> roads) {
+	public Map<Road, Point> calculatePawnOrigins(Map<Integer, Road> roads) {
 
-		HashMap<Road, Point> hashMap = new HashMap<Road, Point>();
+		Map<Road, Point> hashMap = new HashMap<Road, Point>();
 
 		for (PawnPositions i : PawnPositions.values()) {
 			hashMap.put(roads.get(i.getRoadNumber()), new Point(

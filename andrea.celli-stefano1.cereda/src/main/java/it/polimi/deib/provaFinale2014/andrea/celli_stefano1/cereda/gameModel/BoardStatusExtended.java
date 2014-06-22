@@ -106,7 +106,7 @@ public class BoardStatusExtended extends BoardStatus {
 		List<Card> toReturn = new ArrayList<Card>();
 
 		for (Card card : player.getCards()) {
-			if (!(card.isInitial())) {
+			if (!card.isInitial()) {
 				toReturn.add(card);
 			}
 		}

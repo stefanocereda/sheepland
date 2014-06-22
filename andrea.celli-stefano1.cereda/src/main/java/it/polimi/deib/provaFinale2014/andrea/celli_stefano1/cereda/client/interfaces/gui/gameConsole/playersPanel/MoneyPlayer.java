@@ -3,7 +3,6 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import java.awt.Color;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 /**
  * A label containing the money of a certain player
@@ -12,6 +11,11 @@ import javax.swing.JTextField;
  * 
  */
 public class MoneyPlayer extends JLabel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5999394955531410365L;
 
 	/**
 	 * the constructor takes as input the number of initial money of the player

@@ -107,24 +107,26 @@ public class GameMap extends JPanel {
 		setOpaque(true);
 
 		setDoubleBuffered(true);
-		
+
 		setLayout(null);
 	}
 
 	/**
 	 * Draw the image of the map.
 	 */
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// set the border color of the panel
 		setBackground(GuiConstants.SEACOLOR);
 		Graphics2D g2d = (Graphics2D) g;
 		// paint the image so that it's entirely displayed in the panel
-		g2d.drawImage(img,
-				(this.getWidth() - (img.getWidth(null) * this.getHeight())
-						/ img.getHeight(null)) / 2, 0,
-				(img.getWidth(null) * this.getHeight()) / img.getHeight(null),
-				getHeight(), null);
+		g2d.drawImage(
+				img,
+				(this.getWidth() - img.getWidth(null) * this.getHeight()
+						/ img.getHeight(null)) / 2, 0, img.getWidth(null)
+						* this.getHeight() / img.getHeight(null), getHeight(),
+				null);
 
 		// init the message manager
 		messageManager = new MessageManager(this);
@@ -150,9 +152,8 @@ public class GameMap extends JPanel {
 	public void initMapComponents(InterfaceGui interfaceGui) {
 
 		// calculates the map dimension
-		mapDimension = new Dimension(
-				(GuiConstants.MAP_WIDTH * this.getHeight())
-						/ GuiConstants.MAP_HEIGHT, this.getHeight());
+		mapDimension = new Dimension(GuiConstants.MAP_WIDTH * this.getHeight()
+				/ GuiConstants.MAP_HEIGHT, this.getHeight());
 
 		linker = Linker.getLinkerInsance();
 		linker.initLinker(interfaceGui.getGameController().getBoardStatus(),
@@ -297,7 +298,7 @@ public class GameMap extends JPanel {
 		// update the sheep counter
 		linker.getLambForEachTerrain().put(terrain, currentNumberOfLamb + 1);
 	}
-	
+
 	/**
 	 * This method adds a blackSheep to a certain terrain creating a new
 	 * instance of blackSheep panel
@@ -502,7 +503,7 @@ public class GameMap extends JPanel {
 				dropTargetTerrain);
 
 		Animator ani = new Animator(draggedPanel, endPoint);
-		(new Thread(ani)).run();
+		new Thread(ani).start();
 
 		components.get(dropTargetTerrain).add(draggedPanel);
 	}
@@ -524,7 +525,7 @@ public class GameMap extends JPanel {
 
 		Point endPoint = linker.getPawnOrigins().get(dropTargetRoad);
 		Animator ani = new Animator(draggedPanel, endPoint);
-		(new Thread(ani)).run();
+		new Thread(ani).start();
 
 		pawnsLocation.put(dropTargetRoad, draggedPanel);
 	}
@@ -543,21 +544,17 @@ public class GameMap extends JPanel {
 		Point toReturn = null;
 		if (panel instanceof SheepPanel) {
 			toReturn = linker.getSheepOrigins().get(terrain);
-		}
 
-		else if (panel instanceof RamPanel) {
+		} else if (panel instanceof RamPanel) {
 			toReturn = linker.getRamOrigins().get(terrain);
-		}
 
-		else if (panel instanceof LambPanel) {
+		} else if (panel instanceof LambPanel) {
 			toReturn = linker.getLambOrigins().get(terrain);
-		}
 
-		else if (panel instanceof BlackSheepPanel) {
+		} else if (panel instanceof BlackSheepPanel) {
 			toReturn = linker.getBlackSheepOrigins().get(terrain);
-		}
 
-		else if (panel instanceof WolfPanel) {
+		} else if (panel instanceof WolfPanel) {
 			toReturn = linker.getWolfOrigins().get(terrain);
 		}
 

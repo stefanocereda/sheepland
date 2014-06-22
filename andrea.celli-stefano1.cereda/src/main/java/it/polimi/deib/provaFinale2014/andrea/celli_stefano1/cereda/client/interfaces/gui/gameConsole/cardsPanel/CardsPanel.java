@@ -18,6 +18,11 @@ import javax.swing.JPanel;
  */
 public class CardsPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2935976891780028647L;
+
 	private Map<TerrainType, SingleCardPanel> panels = new HashMap<TerrainType, SingleCardPanel>();
 
 	private GridLayout layout = new GridLayout(2, 3, 30, 30);

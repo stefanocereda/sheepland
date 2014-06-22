@@ -7,6 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -19,10 +20,14 @@ import javax.swing.JPanel;
  */
 public class PlayersPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -200102214997913078L;
 	private GridLayout layout;
 	// this arraylist contains the PlayersData of the player of a game (it's a
 	// variable number and therefore it's used an arraylist)
-	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
+	private List<PlayerData> players = new ArrayList<PlayerData>();
 
 	/**
 	 * The constructor takes as input the number of players that will
@@ -81,7 +86,7 @@ public class PlayersPanel extends JPanel {
 	}
 
 	/** Get the arrayList of playerDatas */
-	public ArrayList<PlayerData> getPlayers() {
+	public List<PlayerData> getPlayers() {
 		return players;
 	}
 

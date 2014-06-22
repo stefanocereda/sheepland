@@ -17,6 +17,11 @@ import javax.swing.JFrame;
  */
 public class MainFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -863823923223326292L;
+
 	/** The panel containing the map */
 	private GameMap map;
 
@@ -47,7 +52,7 @@ public class MainFrame extends JFrame {
 		screenDimension = toolKit.getScreenSize();
 
 		// calculate the x and y size of the two displayed panels
-		int mapWidth = (screenDimension.width * 2) / 3;
+		int mapWidth = screenDimension.width * 2 / 3;
 		int consoleWidth = screenDimension.width / 3;
 
 		// the height is a little reduced to avoid problems with the effective

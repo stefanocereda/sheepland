@@ -106,8 +106,8 @@ public class ServerStarter implements Runnable {
 		socketServer = new ServerStarterSocket(socketPort, this);
 		rmiServer = new ServerStarterRMI(rmiPort, this);
 
-		(new Thread(socketServer)).start();
-		(new Thread(rmiServer)).start();
+		new Thread(socketServer).start();
+		new Thread(rmiServer).start();
 	}
 
 	/** This method close the servers */

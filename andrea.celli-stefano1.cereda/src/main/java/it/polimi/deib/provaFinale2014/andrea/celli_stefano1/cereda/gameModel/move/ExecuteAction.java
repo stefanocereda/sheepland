@@ -1,10 +1,5 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GameConstants;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
@@ -17,6 +12,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.MarketOffer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Road;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains the methods for executing the moves communicated by the
@@ -244,7 +244,7 @@ public class ExecuteAction {
 			}
 		}
 
-		assert (rightOffer != null);
+		assert rightOffer != null;
 
 		Player seller = boardStatus
 				.getEquivalentPlayer(rightOffer.getOfferer());

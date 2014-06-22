@@ -14,10 +14,13 @@ import javax.swing.JPanel;
  * This JPanel displays a buyable card of a certain terrain type.
  * 
  * @author Andrea
- * @TODO findImage
  */
 public class SingleCardPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6662691136985725299L;
 	// the image to display
 	Image image;
 	// the Card displayed
@@ -37,6 +40,7 @@ public class SingleCardPanel extends JPanel {
 	/**
 	 * Paints the image on the JPanel
 	 */
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;

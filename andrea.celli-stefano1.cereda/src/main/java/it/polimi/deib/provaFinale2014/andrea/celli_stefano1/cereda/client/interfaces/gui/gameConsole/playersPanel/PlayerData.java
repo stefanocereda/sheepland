@@ -16,6 +16,10 @@ import javax.swing.JPanel;
 
 public class PlayerData extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5876071555465736915L;
 	private GridLayout layout = new GridLayout(1, 2);
 	// the label containing the name of the player
 	private NamePlayer name;

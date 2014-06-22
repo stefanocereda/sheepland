@@ -166,6 +166,10 @@ public class GameControllerTwoPlayers extends GameController {
 			p.deleteLastMoves();
 		}
 
+		// go to the selected first player
+		boardStatus.setCurrentPlayer(boardStatus.getFirstPlayer());
+		notifyNewCurrentPlayer();
+
 		return "moveTheBlackSheep";
 	}
 
@@ -205,8 +209,8 @@ public class GameControllerTwoPlayers extends GameController {
 	 */
 	@Override
 	public String notifyNewCurrentPlayer() {
-		if (super.notifyNewCurrentPlayer().equals(
-				"retrieveMoveFromCurrentPlayer")) {
+		if ("retrieveMoveFromCurrentPlayer".equals(super
+				.notifyNewCurrentPlayer())) {
 			return "retrieveShepherdFromCurrentPlayer";
 		} else {
 			return "moveTheBlackSheep";

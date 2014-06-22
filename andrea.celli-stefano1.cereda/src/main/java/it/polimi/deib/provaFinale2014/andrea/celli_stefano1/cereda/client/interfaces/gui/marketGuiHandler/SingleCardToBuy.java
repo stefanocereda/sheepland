@@ -25,6 +25,11 @@ import javax.swing.JPanel;
  */
 public class SingleCardToBuy extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1737954786166820362L;
+
 	// the displayed market offer
 	private MarketOffer marketOffer;
 
@@ -50,10 +55,6 @@ public class SingleCardToBuy extends JPanel {
 		this.setLayout(new GridLayout(1, 2));
 
 		bought = false;
-
-		//
-		// TODO ADD PLAYER NAME
-		//
 
 		// Label displaying information about the offer
 		offerInformation = new JLabel(marketOffer.getCardOffered().toString()

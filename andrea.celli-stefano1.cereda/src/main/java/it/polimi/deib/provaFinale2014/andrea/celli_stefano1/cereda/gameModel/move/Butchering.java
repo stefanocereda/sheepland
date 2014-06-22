@@ -51,8 +51,8 @@ public class Butchering extends AdvancedPlayerAction {
 
 	@Override
 	public void execute(BoardStatus boardStatus) {
-		ExecuteAction.executeButchering(this,
-				((BoardStatusExtended) boardStatus));
+		ExecuteAction
+				.executeButchering(this, (BoardStatusExtended) boardStatus);
 	}
 
 }

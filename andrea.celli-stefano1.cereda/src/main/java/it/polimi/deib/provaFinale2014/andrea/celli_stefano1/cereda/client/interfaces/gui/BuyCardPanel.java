@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,9 +11,13 @@ import javax.swing.JPanel;
 
 public class BuyCardPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3781288766242306948L;
 	BuyCardManager listener;
 
-	public BuyCardPanel(ArrayList<Card> buyableCards, BuyCardManager listener,
+	public BuyCardPanel(List<Card> buyable, BuyCardManager listener,
 			int choicePanelWidth, int choicePanelHeight) {
 
 		this.listener = listener;
@@ -24,16 +29,16 @@ public class BuyCardPanel extends JPanel {
 		listener.getGameMap().add(this, 0);
 		this.setVisible(true);
 
-		switch (buyableCards.size()) {
+		switch (buyable.size()) {
 
-		case (0):
+		case 0:
 			JLabel label = new JLabel("No buyable cards");
 			label.setSize(choicePanelWidth, choicePanelHeight / 3);
 			label.setLocation(0, choicePanelHeight / 3);
 			this.add(label);
 			break;
-		case (1):
-			JButton button = new JButton(buyableCards.get(0).toString());
+		case 1:
+			JButton button = new JButton(buyable.get(0).toString());
 			button.addActionListener(listener);
 			button.setSize(choicePanelWidth, choicePanelHeight / 3);
 			button.setLocation(0, choicePanelHeight / 3);
@@ -41,9 +46,9 @@ public class BuyCardPanel extends JPanel {
 			this.add(button);
 			button.setVisible(true);
 			break;
-		case (2):
-			JButton button1 = new JButton(buyableCards.get(0).toString());
-			JButton button2 = new JButton(buyableCards.get(1).toString());
+		case 2:
+			JButton button1 = new JButton(buyable.get(0).toString());
+			JButton button2 = new JButton(buyable.get(1).toString());
 			button1.addActionListener(listener);
 			button2.addActionListener(listener);
 			button1.setSize(choicePanelWidth, choicePanelHeight / 2);

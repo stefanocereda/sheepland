@@ -28,14 +28,17 @@ import javax.swing.JPanel;
  */
 public class MarketPanelSell extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4071397720025743458L;
+
 	// the layout
 	private GridLayout layout;
 
-	// the arraylist containing player's cards that can be sold
-	private ArrayList<Card> sellable;
 	// the arraylist containing panels that display card's information and
 	// allows to set the price
-	private ArrayList<SingleCardToSell> cardsSubPanels = new ArrayList<SingleCardToSell>();
+	private List<SingleCardToSell> cardsSubPanels = new ArrayList<SingleCardToSell>();
 
 	private JLabel initialInformation;
 
@@ -61,7 +64,6 @@ public class MarketPanelSell extends JPanel {
 
 		super();
 
-		this.sellable = (ArrayList<Card>) sellable;
 		this.interfaceGui = interfaceGui;
 
 		GameMap gameMap = interfaceGui.getFrame().getMap();
@@ -75,7 +77,7 @@ public class MarketPanelSell extends JPanel {
 		this.setLocation(gameMap.getWidth() / 4, gameMap.getHeight() / 4);
 		gameMap.add(this, 0);
 
-		if (sellable.size() > 0) {
+		if (!sellable.isEmpty()) {
 			// add the information panel
 			initialInformation = new JLabel(
 					"Choose the price of the cards you want to sell");
@@ -125,7 +127,7 @@ public class MarketPanelSell extends JPanel {
 			// Finally it send the whole list of market offer to the
 			// interfaceGui
 
-			ArrayList<MarketOffer> marketOffersList = new ArrayList<MarketOffer>();
+			List<MarketOffer> marketOffersList = new ArrayList<MarketOffer>();
 
 			if (cardsSubPanels != null) {
 				for (SingleCardToSell cardToSell : cardsSubPanels) {

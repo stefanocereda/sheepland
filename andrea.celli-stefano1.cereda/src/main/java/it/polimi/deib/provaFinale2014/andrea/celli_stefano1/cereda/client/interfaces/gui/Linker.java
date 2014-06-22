@@ -144,7 +144,7 @@ public class Linker {
 		initColorsAndRoad(boardStatus.getRoadMap());
 
 		// creates hashMap of origins
-		calculateOrigins(mapDimension, (HashMap) boardStatus.getRoadMap()
+		calculateOrigins(mapDimension, boardStatus.getRoadMap()
 				.getHashMapOfRoads(), panelDimension);
 
 		initNumberOfSheepForEachTerrain();
@@ -163,7 +163,7 @@ public class Linker {
 	 *            hashmap of roads contained in the board status
 	 */
 	private void calculateOrigins(Dimension mapDimension,
-			HashMap<Integer, Road> roads, Dimension panelDimension) {
+			Map<Integer, Road> map, Dimension panelDimension) {
 		// the class containing the methods to create the hashmaps with the
 		// right points
 		CoordinatesConverter converter = new CoordinatesConverter(mapDimension,
@@ -179,7 +179,7 @@ public class Linker {
 
 		blackSheepOrigins = converter.calculateBlackSheepOrigins();
 
-		pawnOrigins = converter.calculatePawnOrigins(roads);
+		pawnOrigins = converter.calculatePawnOrigins(map);
 
 	}
 
@@ -243,8 +243,7 @@ public class Linker {
 	 */
 	private void initColorsAndRoad(RoadMap roadMap) {
 
-		HashMap<Integer, Road> roads = (HashMap<Integer, Road>) roadMap
-				.getHashMapOfRoads();
+		Map<Integer, Road> roads = roadMap.getHashMapOfRoads();
 
 		colorsAndRoad.put(new Color(254, 0, 0), roads.get(1));
 		colorsAndRoad.put(new Color(0, 97, 255), roads.get(2));

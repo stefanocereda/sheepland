@@ -7,6 +7,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 
@@ -32,7 +33,7 @@ public class BuyCardManager implements ActionListener {
 	BuyCardPanel buyCardPanel;
 
 	/** The buyable cards */
-	ArrayList<Card> buyable;
+	List<Card> buyable;
 
 	public BuyCardManager(GameMap map, InterfaceGui interfaceGui) {
 		gameMap = map;
@@ -44,22 +45,15 @@ public class BuyCardManager implements ActionListener {
 	 */
 	public void getNewCard() {
 
-		buyable = (ArrayList) interfaceGui
+		buyable = interfaceGui
 				.getGameController()
 				.getBoardStatus()
 				.getCardsPlayerCanBuy(
 						interfaceGui.getGameController().getControlledPlayer());
 		// ask for the card only if there's at least a buyable card
-		if (buyable.size() > 0) {
+		if (!buyable.isEmpty()) {
 			buyCardPanel = new BuyCardPanel(buyable, this,
-					(int) gameMap.getWidth() / 3, (int) gameMap.getHeight() / 3);
-
-			// buyCardPanel.setSize(gameMap.getWidth() / 3,
-			// gameMap.getHeight() / 3);
-			// buyCardPanel.setLocation(gameMap.getWidth() / 3,
-			// gameMap.getHeight() / 3);
-			// gameMap.add(buyCardPanel, 0);
-			// buyCardPanel.setVisible(true);
+					gameMap.getWidth() / 3, gameMap.getHeight() / 3);
 
 			interfaceGui.getFrame().validate();
 			interfaceGui.getFrame().repaint();

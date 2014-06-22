@@ -465,7 +465,7 @@ public class GameController implements Runnable {
 		// the first turn starts notifying the controlled player
 		String nextMethod = "notifyControlledPlayers";
 
-		while (true) {
+		while (!"gameOver".equals(nextMethod)) {
 			try {
 				// finds the next method
 				Method method = getClass()
@@ -478,10 +478,6 @@ public class GameController implements Runnable {
 				// method.invoke
 				String message = "Problems managing the game";
 				LOGGER.log(Level.SEVERE, message, e);
-				break;
-			}
-
-			if (nextMethod.equals("gameOver")) {
 				break;
 			}
 		}
@@ -510,6 +506,10 @@ public class GameController implements Runnable {
 		for (Player p : boardStatus.getPlayers()) {
 			p.deleteLastMoves();
 		}
+
+		// go to the selected first player
+		boardStatus.setCurrentPlayer(boardStatus.getFirstPlayer());
+		notifyNewCurrentPlayer();
 
 		return "moveTheBlackSheep";
 	}
@@ -713,12 +713,8 @@ public class GameController implements Runnable {
 		// find the position of the current player in the array of players
 		positionCurrentPlayer = boardStatus.getPositionOfAPlayer(currentPlayer);
 
-		if (positionFirstPlayer == positionCurrentPlayer) {
-			if (boardStatus.countStandardGates() >= GameConstants.NUMBER_OF_NON_FINAL_GATES) {
-				return true;
-			}
-		}
-		return false;
+		return positionFirstPlayer == positionCurrentPlayer
+				&& boardStatus.countStandardGates() >= GameConstants.NUMBER_OF_NON_FINAL_GATES;
 	}
 
 	/** This method computes and notifies the winners to all the clients */
@@ -760,7 +756,6 @@ public class GameController implements Runnable {
 		for (Player player : boardStatus.getPlayers()) {
 			for (Card card : player.getCards()) {
 				player.addMoney(valuesOfCards.get(card.getTerrainType()));
-				;
 			}
 		}
 

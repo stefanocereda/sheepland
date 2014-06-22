@@ -17,6 +17,10 @@ import javax.swing.JPanel;
  */
 public class GameConsole extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7971581227330764418L;
 	private PlayersPanel playersPanel;
 	private CardsPanel cardsPanel;
 	private ButtonsPanel buttonsPanel;

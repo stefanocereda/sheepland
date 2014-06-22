@@ -9,8 +9,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 /**
  * Static class to calculate the cost of a move
  * 
- * TODO tests
- * 
  * @author Stefano
  * 
  */

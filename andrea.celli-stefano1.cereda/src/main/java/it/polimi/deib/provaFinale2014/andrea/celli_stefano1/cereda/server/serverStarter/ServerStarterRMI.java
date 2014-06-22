@@ -36,7 +36,8 @@ public class ServerStarterRMI implements Runnable {
 	private Registry registry;
 
 	/** A logger */
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private static final Logger LOG = Logger.getLogger(ServerStarterRMI.class
+			.getName());
 
 	/**
 	 * This constructor saves the passed parameters, without actually starting
@@ -70,10 +71,10 @@ public class ServerStarterRMI implements Runnable {
 			registry.rebind(RMICostants.CONNECTOR, connectorStub);
 		} catch (AccessException e) {
 			String message = "Problems starting the rmi server, AccessException";
-			logger.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 		} catch (RemoteException e) {
 			String message = "Problems starting the rmi server, RemoteException";
-			logger.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 		}
 	}
 
@@ -97,7 +98,7 @@ public class ServerStarterRMI implements Runnable {
 			// if there is a problem we simply don't register this client
 		} catch (RemoteException e) {
 			String message = "Problems accepting a client, RemoteException";
-			logger.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 		}
 	}
 
@@ -108,13 +109,13 @@ public class ServerStarterRMI implements Runnable {
 			registry.unbind(RMICostants.CONNECTOR);
 		} catch (AccessException e) {
 			String message = "Problems closing the rmi server";
-			logger.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 		} catch (RemoteException e) {
 			String message = "Problems closing the rmi server";
-			logger.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 		} catch (NotBoundException e) {
 			String message = "Problems closing the rmi server";
-			logger.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 		}
 	}
 

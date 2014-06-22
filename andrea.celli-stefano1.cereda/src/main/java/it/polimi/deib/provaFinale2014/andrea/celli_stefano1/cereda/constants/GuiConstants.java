@@ -10,11 +10,6 @@ import java.awt.Color;
  */
 
 public class GuiConstants {
-
-	/** Hide the default constructor */
-	private GuiConstants() {
-	}
-
 	/** The color of the sea (used to fill spaces in the map) */
 	public static final Color SEACOLOR = new Color(38, 162, 248);
 
@@ -100,4 +95,7 @@ public class GuiConstants {
 	public static final double WOLF_ADJUSTING_X = 3.5;
 	public static final double WOLF_ADJUSTING_Y = 3.5;
 
+	/** Hide the default constructor */
+	private GuiConstants() {
+	}
 }

@@ -71,15 +71,15 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 
 	/** Check if the dragged panel is entirely inside the map panel */
 	private boolean isInsideTheMapPanel(Point point) {
-		if (point.x > 0 && (point.x + draggedPanel.getWidth() < map.getWidth())
+		if (point.x > 0 && point.x + draggedPanel.getWidth() < map.getWidth()
 				&& point.y > 0
-				&& (point.y + draggedPanel.getHeight() < map.getHeight()))
+				&& point.y + draggedPanel.getHeight() < map.getHeight()) {
 			return true;
+		}
 		return false;
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -129,12 +129,10 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
