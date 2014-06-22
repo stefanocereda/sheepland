@@ -51,9 +51,12 @@ public class SingleCardToBuy extends JPanel {
 
 		bought = false;
 
+		//
+		// TODO ADD PLAYER NAME
+		//
+
 		// Label displaying information about the offer
-		offerInformation = new JLabel(marketOffer.getOfferer().toString()
-				+ " sells " + marketOffer.getCardOffered().toString()
+		offerInformation = new JLabel(marketOffer.getCardOffered().toString()
 				+ " at price: " + marketOffer.getPrice());
 		offerInformation.setBackground(GuiConstants.COLORGAMECONSOLE);
 		this.add(offerInformation);
@@ -82,14 +85,15 @@ public class SingleCardToBuy extends JPanel {
 
 				offerInformation.setBackground(Color.GREEN);
 				bought = true;
+				offerInformation.repaint();
 
 			} else {
 
 				offerInformation.setBackground(GuiConstants.COLORGAMECONSOLE);
 				bought = false;
+				offerInformation.repaint();
 
 			}
-
 		}
 
 	}

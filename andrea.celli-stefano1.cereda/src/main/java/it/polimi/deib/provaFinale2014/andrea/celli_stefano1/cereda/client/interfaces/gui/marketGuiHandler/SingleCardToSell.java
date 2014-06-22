@@ -3,12 +3,12 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  * This panel displays the information on a single card that can be sold in the
@@ -29,7 +29,7 @@ public class SingleCardToSell extends JPanel {
 	// flag that determines wheter the player wants to sell the card or not
 	private boolean sell;
 	// the listener
-	TextListener textListener;
+	DocListener listener;
 
 	public SingleCardToSell(Card card) {
 		super();
@@ -39,13 +39,14 @@ public class SingleCardToSell extends JPanel {
 		this.card = card;
 		price = 0;
 		sell = false;
-		textListener = new TextListener();
 
-		cardName = new JLabel(card.toString());
+		listener = new DocListener();
+
+		cardName = new JLabel("     " + card.toString());
 
 		priceSetter = new JTextField("Don't sell");
 		priceSetter.setEditable(true);
-		priceSetter.addActionListener(textListener);
+		priceSetter.getDocument().addDocumentListener(listener);
 
 		this.add(cardName);
 		this.add(priceSetter);
@@ -58,28 +59,38 @@ public class SingleCardToSell extends JPanel {
 	 * jTextField is a number, is set the new price and the flag to true.
 	 * 
 	 */
-	private class TextListener implements ActionListener {
+	private class DocListener implements DocumentListener {
 
-		public void actionPerformed(ActionEvent e) {
+		public void insertUpdate(DocumentEvent e) {
 
-			// get the new price
-			JTextField textField = (JTextField) e.getSource();
-			String newPrice = textField.getText();
+			String text = priceSetter.getText();
 
 			// if the text is "Don't sell" the flag is set again to false
-			if ((textField.equals("Don't sell"))) {
+			if ((text.equals("Don't sell"))) {
 				sell = false;
 			} else {
 				// try to get the price from the input string
 				try {
-					price = Integer.parseInt(newPrice);
+					price = Integer.parseInt(text);
 					sell = true;
 				} catch (NumberFormatException ex) {
-					ex.printStackTrace();
+					// if the player writes the wrong input the card is not sold
+					sell = false;
 				}
+
 			}
+
 		}
 
+		public void removeUpdate(DocumentEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void changedUpdate(DocumentEvent e) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	public int getPrice() {
