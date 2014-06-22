@@ -166,6 +166,10 @@ public class GameControllerTwoPlayers extends GameController {
 			p.deleteLastMoves();
 		}
 
+		// go to the selected first player
+		boardStatus.setCurrentPlayer(boardStatus.getFirstPlayer());
+		notifyNewCurrentPlayer();
+
 		return "moveTheBlackSheep";
 	}
 
