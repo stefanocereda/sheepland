@@ -396,4 +396,20 @@ public class BoardStatusTest {
 		}
 		assertFalse(it.hasNext());
 	}
+
+	@Test
+	public void isFreeFromGatesTest() {
+		int nPlayers = 4;
+		BoardStatus bs = new BoardStatus(nPlayers);
+
+		bs.addPlacedGateToBoardStatus(new Gate(false, bs.getRoadMap()
+				.getHashMapOfRoads().get(3)));
+
+		assertFalse(bs.isFreeFromGates(bs.getRoadMap().getHashMapOfRoads()
+				.get(3)));
+
+		assertTrue(bs.isFreeFromGates(bs.getRoadMap().getHashMapOfRoads()
+				.get(2)));
+
+	}
 }
