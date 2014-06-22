@@ -28,4 +28,25 @@ public class TypeOfSheepTest {
 		assertFalse(type.equals(TypeOfSheep.NORMALSHEEP));
 	}
 
+	@Test
+	public void getRandomTypeOfSheepTestTest() {
+
+		TypeOfSheep type = TypeOfSheep.getRandomTypeOfSheep();
+
+		assertFalse(TypeOfSheep.BLACKSHEEP.equals(type));
+		assertTrue(type.equals(TypeOfSheep.FEMALESHEEP)
+				|| type.equals(TypeOfSheep.MALESHEEP)
+				|| type.equals(TypeOfSheep.NORMALSHEEP));
+	}
+
+	@Test
+	public void isNormalTest() {
+		TypeOfSheep type1 = TypeOfSheep.NORMALSHEEP;
+		TypeOfSheep type2 = TypeOfSheep.FEMALESHEEP;
+		TypeOfSheep type3 = TypeOfSheep.BLACKSHEEP;
+
+		assertTrue(type1.isNormal());
+		assertFalse(type2.isNormal());
+		assertFalse(type3.isNormal());
+	}
 }
