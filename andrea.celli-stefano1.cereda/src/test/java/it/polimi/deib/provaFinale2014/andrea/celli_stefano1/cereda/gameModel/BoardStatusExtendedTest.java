@@ -4,10 +4,15 @@ import static org.junit.Assert.assertEquals;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Sheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.TypeOfSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.animals.Wolf;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Terrain;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -24,7 +29,9 @@ public class BoardStatusExtendedTest {
 
 		BoardStatusExtended bs = new BoardStatusExtended(3);
 		Wolf wolf = new Wolf(Terrain.C1);
+		wolf.setID();
 		Wolf wolf2 = new Wolf(Terrain.C2);
+		wolf2.setID();
 
 		bs.addWolfToBoardStatus(wolf);
 		bs.addWolfToBoardStatus(wolf2);
@@ -75,4 +82,48 @@ public class BoardStatusExtendedTest {
 
 	}
 
+	@Test
+	public void findASheepTest() {
+		BoardStatusExtended bse = new BoardStatusExtended(3);
+
+		TypeOfSheep[] types = { TypeOfSheep.NORMALSHEEP, TypeOfSheep.MALESHEEP,
+				TypeOfSheep.FEMALESHEEP };
+
+		for (TypeOfSheep type : types) {
+			Sheep sheep = new Sheep(0, type, Terrain.M1);
+			sheep.setID();
+			bse.addSheep(sheep);
+
+			Sheep foundSheep = bse.findASheep(Terrain.M1, type);
+			assertEquals(foundSheep.getTypeOfSheep(), type);
+
+			assertEquals(bse.findASheep(Terrain.C1, type), null);
+		}
+	}
+
+	@Test
+	public void getSellableCardsTest() {
+		BoardStatusExtended bse = new BoardStatusExtended(1);
+
+		Player p = new Player();
+		p.setID();
+		bse.addPlayerToBoardStatus(p);
+
+		assertEquals(new ArrayList<Card>(), bse.getSellableCards(p));
+
+		p.addCard(Card.COUNTRYSIDEi);
+
+		assertEquals(new ArrayList<Card>(), bse.getSellableCards(p));
+
+		p.addCard(Card.COUNTRYSIDE1);
+		p.addCard(Card.MOUNTAIN0);
+
+		Set<Card> set = new HashSet<Card>();
+		set.add(Card.COUNTRYSIDE1);
+		set.add(Card.MOUNTAIN0);
+
+		Set<Card> result = new HashSet<Card>(bse.getSellableCards(p));
+
+		assertEquals(set, result);
+	}
 }

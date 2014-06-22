@@ -81,7 +81,7 @@ public class BoardStatusExtended extends BoardStatus {
 	 *            the terrain where search
 	 * @param type
 	 *            the type of sheep searched
-	 * @return a sheep in that terrain of taht type, or null
+	 * @return a sheep in that terrain of that type, or null
 	 */
 	public Sheep findASheep(Terrain terrain, TypeOfSheep type) {
 		for (Sheep s : sheeps) {
