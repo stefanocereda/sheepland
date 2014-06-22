@@ -25,7 +25,8 @@ public class ServerStarterSocket implements Runnable {
 	/** This variable is used to stop the server */
 	private boolean running = false;
 	/** A logger */
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private static final Logger LOG = Logger.getLogger(ServerSocket.class
+			.getName());
 
 	/**
 	 * The constructor of a server socket only saves the parameters passed,
@@ -69,7 +70,7 @@ public class ServerStarterSocket implements Runnable {
 			serverSocket.close();
 		} catch (IOException e) {
 			String message = "Problems in the socket server";
-			logger.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 		}
 	}
 

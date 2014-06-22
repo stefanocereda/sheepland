@@ -20,11 +20,11 @@ public class PawnChooserPanel extends JPanel {
 	private ButtonListener listener;
 
 	// buttons
-	JButton pawn1Button = new JButton("Use pawn 1");
-	JButton pawn2Button = new JButton("Use pawn 2");
+	private JButton pawn1Button = new JButton("Use pawn 1");
+	private JButton pawn2Button = new JButton("Use pawn 2");
 
 	// the gui
-	InterfaceGui gui;
+	private InterfaceGui gui;
 
 	/**
 	 * The constructor
@@ -70,7 +70,7 @@ public class PawnChooserPanel extends JPanel {
 
 			String selectedOption = pressed.getText();
 
-			if (selectedOption.equals("Use pawn 1")) {
+			if ("Use pawn 1".equals(selectedOption)) {
 				answer = false;
 			} else {
 				answer = true;

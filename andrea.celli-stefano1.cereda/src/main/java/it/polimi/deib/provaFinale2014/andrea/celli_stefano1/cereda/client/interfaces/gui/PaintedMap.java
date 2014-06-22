@@ -9,6 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -21,14 +23,18 @@ import javax.imageio.ImageIO;
  */
 public class PaintedMap {
 
-	// the painted map
+	/** the painted map */
 	private BufferedImage paintedMap;
 
-	// the border that surrounds the displayed map
+	/** the border that surrounds the displayed map */
 	private double border;
 
-	// the dimension that the final painted map has to have
+	/** the dimension that the final painted map has to have */
 	private Dimension paintedMapDimension = new Dimension();
+
+	/** class logger */
+	private static final Logger LOG = Logger.getLogger(PaintedMap.class
+			.getName());
 
 	/**
 	 * The constructor
@@ -64,7 +70,7 @@ public class PaintedMap {
 			bimg = ImageIO.read(getClass().getClassLoader().getResource(
 					GuiConstants.PAINTED_MAP));
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.log(Level.SEVERE, "Unable to load the painted map file", e);
 		}
 
 		ret = new BufferedImage(GuiConstants.MAP_WIDTH,

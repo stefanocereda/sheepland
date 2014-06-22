@@ -8,6 +8,9 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
  * 
  */
 public class ImagePathCreator {
+	/** Hide the default constructor */
+	private ImagePathCreator() {
+	}
 
 	public static final String findSheepPath(int numberOfSheep) {
 		return "/pecora" + numberOfSheep + ".png";

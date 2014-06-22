@@ -18,13 +18,13 @@ public class ClientDisconnectedException extends Exception {
 	private static final long serialVersionUID = -7184512801239412016L;
 
 	/** A reference to the game controller where this player was playing */
-	private GameController gameController;
+	private final GameController gameController;
 
 	/** A reference to the player controlled */
-	private Player player;
+	private final Player player;
 
 	/** The original exception */
-	private Exception originalException;
+	private final Exception originalException;
 
 	/**
 	 * The constructor sets the parameter

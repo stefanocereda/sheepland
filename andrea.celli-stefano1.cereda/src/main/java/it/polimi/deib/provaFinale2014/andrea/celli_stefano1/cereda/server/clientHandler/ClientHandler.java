@@ -31,7 +31,8 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 	private ServerStarter serverStarter = null;
 
 	/** A logger */
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private static final Logger LOG = Logger.getLogger(ClientHandler.class
+			.getName());
 
 	/** A timer used to ping the client */
 	protected Timer timer = new Timer();
@@ -46,7 +47,7 @@ public abstract class ClientHandler implements ClientHandlerInterface {
 				pingTheClient();
 			} catch (ClientDisconnectedException e) {
 				String message = "Error during the periodic ping, the client disconnected";
-				logger.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, message, e);
 				notifyClientDisconnection();
 			}
 		}

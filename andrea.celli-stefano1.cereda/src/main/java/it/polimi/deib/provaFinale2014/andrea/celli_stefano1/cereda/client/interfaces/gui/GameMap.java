@@ -503,7 +503,7 @@ public class GameMap extends JPanel {
 				dropTargetTerrain);
 
 		Animator ani = new Animator(draggedPanel, endPoint);
-		new Thread(ani).run();
+		new Thread(ani).start();
 
 		components.get(dropTargetTerrain).add(draggedPanel);
 	}
@@ -525,7 +525,7 @@ public class GameMap extends JPanel {
 
 		Point endPoint = linker.getPawnOrigins().get(dropTargetRoad);
 		Animator ani = new Animator(draggedPanel, endPoint);
-		new Thread(ani).run();
+		new Thread(ani).start();
 
 		pawnsLocation.put(dropTargetRoad, draggedPanel);
 	}
@@ -544,21 +544,17 @@ public class GameMap extends JPanel {
 		Point toReturn = null;
 		if (panel instanceof SheepPanel) {
 			toReturn = linker.getSheepOrigins().get(terrain);
-		}
 
-		else if (panel instanceof RamPanel) {
+		} else if (panel instanceof RamPanel) {
 			toReturn = linker.getRamOrigins().get(terrain);
-		}
 
-		else if (panel instanceof LambPanel) {
+		} else if (panel instanceof LambPanel) {
 			toReturn = linker.getLambOrigins().get(terrain);
-		}
 
-		else if (panel instanceof BlackSheepPanel) {
+		} else if (panel instanceof BlackSheepPanel) {
 			toReturn = linker.getBlackSheepOrigins().get(terrain);
-		}
 
-		else if (panel instanceof WolfPanel) {
+		} else if (panel instanceof WolfPanel) {
 			toReturn = linker.getWolfOrigins().get(terrain);
 		}
 

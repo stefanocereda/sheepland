@@ -80,7 +80,6 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -130,12 +129,10 @@ public class DragAndDrop implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

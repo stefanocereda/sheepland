@@ -87,13 +87,9 @@ public class SingleCardToSell extends JPanel {
 		}
 
 		public void removeUpdate(DocumentEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 		public void changedUpdate(DocumentEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 

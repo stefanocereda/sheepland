@@ -41,7 +41,6 @@ public class PlayersOfAGame extends GenericGameObject {
 	public void addPlayerToPlayersOfAGame(Player player) {
 		int index;
 		for (index = 0; index < players.length && players[index] != null; index++) {
-			;
 		}
 		players[index] = player;
 	}

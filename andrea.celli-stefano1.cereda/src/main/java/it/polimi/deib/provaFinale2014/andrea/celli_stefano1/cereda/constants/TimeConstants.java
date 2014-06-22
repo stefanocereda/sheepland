@@ -6,7 +6,7 @@ public class TimeConstants {
 	public static final long PING_TIME = 20 * 1000;
 
 	/** The time in milliseconds waiting for the reconnection of a client */
-	public static final long WAITING_FOR_CLIENT_RECONNECT = 5 * 1000;//
+	public static final long WAITING_FOR_CLIENT_RECONNECT = 1 * 1000;//
 
 	/** The time in milliseconds between each reconnection test */
 	public static final long WAIT_FOR_RECONNECTION = 1 * 1000;

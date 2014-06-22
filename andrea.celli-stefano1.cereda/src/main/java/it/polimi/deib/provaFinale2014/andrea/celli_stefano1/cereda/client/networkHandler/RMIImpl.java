@@ -102,8 +102,6 @@ public class RMIImpl implements RMIInterface {
 		SendWinners sw = new SendWinners(winners);
 		new Thread(sw).start();
 		controller.notifyWinners(winners);
-
-		// TODO handle closing connection
 	}
 
 	/**

@@ -657,8 +657,8 @@ public class InterfaceGui implements Interface {
 		try {
 			Thread.sleep(GuiConstants.ANIMATION_LENGTH);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.log(Level.WARNING, "Interrupted while executing an animation",
+					e);
 		}
 
 		/**
@@ -668,7 +668,7 @@ public class InterfaceGui implements Interface {
 		PawnChooserPanel pawnChooser = new PawnChooserPanel(frame.getMap()
 				.getWidth() / 3, frame.getMap().getHeight() / 3, this);
 
-		while (makeAShepherdDecision == false) {
+		while (!makeAShepherdDecision) {
 			try {
 				synchronized (this) {
 					wait();
@@ -740,7 +740,7 @@ public class InterfaceGui implements Interface {
 			}
 		}
 
-		ArrayList<MarketOffer> toReturn = (ArrayList<MarketOffer>) offersOfAPlayer;
+		List<MarketOffer> toReturn = (ArrayList<MarketOffer>) offersOfAPlayer;
 		offersOfAPlayer = null;
 		offersMade = false;
 
@@ -755,11 +755,11 @@ public class InterfaceGui implements Interface {
 	 * This method is used to send back to the interfaceGui the offers made by
 	 * the player during the market.
 	 * 
-	 * @param offers
+	 * @param marketOffersList
 	 */
-	public void returnMarketOffers(ArrayList<MarketOffer> offers) {
+	public void returnMarketOffers(List<MarketOffer> marketOffersList) {
 
-		offersOfAPlayer = offers;
+		offersOfAPlayer = marketOffersList;
 		// states that the offers have been made
 		offersMade = true;
 
@@ -795,7 +795,7 @@ public class InterfaceGui implements Interface {
 			}
 		}
 
-		ArrayList<MarketBuy> toReturn = (ArrayList<MarketBuy>) purchasedOfferOfPlayer;
+		List<MarketBuy> toReturn = (ArrayList<MarketBuy>) purchasedOfferOfPlayer;
 		purchasedOfferOfPlayer = null;
 		offersPurchased = false;
 
@@ -813,7 +813,7 @@ public class InterfaceGui implements Interface {
 	 * @param the
 	 *            list of marketBuy
 	 */
-	public void returnMarketBuyList(ArrayList<MarketBuy> marketBuy) {
+	public void returnMarketBuyList(List<MarketBuy> marketBuy) {
 
 		purchasedOfferOfPlayer = marketBuy;
 		offersPurchased = true;

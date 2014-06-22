@@ -56,10 +56,6 @@ public class SingleCardToBuy extends JPanel {
 
 		bought = false;
 
-		//
-		// TODO ADD PLAYER NAME
-		//
-
 		// Label displaying information about the offer
 		offerInformation = new JLabel(marketOffer.getCardOffered().toString()
 				+ " at price: " + marketOffer.getPrice());

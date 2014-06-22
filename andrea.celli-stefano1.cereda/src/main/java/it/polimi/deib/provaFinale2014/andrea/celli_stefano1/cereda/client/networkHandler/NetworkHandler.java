@@ -56,7 +56,7 @@ public abstract class NetworkHandler {
 	}
 
 	/** Connect to the server */
-	protected abstract void connect() throws RemoteException, IOException;
+	protected abstract void connect() throws IOException;
 
 	/**
 	 * This method tells the controller to inform the user that we're

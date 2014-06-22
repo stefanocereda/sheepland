@@ -1,12 +1,11 @@
-/**
- * 
- */
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -21,6 +20,10 @@ public class MessageManager {
 
 	/** The map on which the messages are printed */
 	private GameMap map;
+
+	/** Class logger */
+	private static final Logger LOG = Logger.getLogger(MessageManager.class
+			.getName());
 
 	/**
 	 * Constructor
@@ -56,7 +59,7 @@ public class MessageManager {
 		try {
 			this.wait(GuiConstants.MESSAGE_TIME);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LOG.log(Level.WARNING, "Interrupted while showing a message", e);
 		}
 
 		map.remove(textField);

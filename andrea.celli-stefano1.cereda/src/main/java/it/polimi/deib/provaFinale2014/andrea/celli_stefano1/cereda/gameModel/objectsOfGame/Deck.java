@@ -93,11 +93,10 @@ public class Deck extends ArrayList<Card> implements Serializable {
 	 * terrain.
 	 * 
 	 * @return ArrayList<Card>
-	 * @TODO test
 	 */
-	public ArrayList<Card> getBuyableCards() {
+	public List<Card> getBuyableCards() {
 		Map<TerrainType, Integer> buyable = new HashMap<TerrainType, Integer>();
-		ArrayList<Card> cards = new ArrayList<Card>();
+		List<Card> cards = new ArrayList<Card>();
 
 		// finds the lowest price of a card for each type of terrain
 		for (Card card : this) {

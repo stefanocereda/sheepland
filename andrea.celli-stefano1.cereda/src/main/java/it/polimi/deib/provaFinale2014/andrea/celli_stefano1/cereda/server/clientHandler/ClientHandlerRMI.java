@@ -165,7 +165,7 @@ public class ClientHandlerRMI extends ClientHandler {
 	}
 
 	public List<MarketOffer> askMarketOffers()
-			throws ClientDisconnectedException, ClientDisconnectedException {
+			throws ClientDisconnectedException {
 		try {
 			return clientObject.askMarketOffers();
 		} catch (RemoteException e) {

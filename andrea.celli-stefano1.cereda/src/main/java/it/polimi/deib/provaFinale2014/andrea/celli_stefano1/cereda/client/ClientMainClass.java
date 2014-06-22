@@ -125,9 +125,9 @@ public class ClientMainClass {
 			Printer.println("2 - Gui");
 			Printer.println("Insert answer:");
 			answer = in.nextLine();
-		} while (!answer.equals("1") && !answer.equals("2"));
+		} while (!"1".equals(answer) && !"2".equals(answer));
 
-		if (answer.equals("1")) {
+		if ("1".equals(answer)) {
 			return TypeOfInterface.CONSOLE;
 		} else {
 			return TypeOfInterface.GUI;
@@ -148,9 +148,9 @@ public class ClientMainClass {
 			Printer.println("2 - RMI");
 			Printer.println("Insert answer:");
 			answer = in.nextLine();
-		} while (!answer.equals("1") && !answer.equals("2"));
+		} while (!"1".equals(answer) && !"2".equals(answer));
 
-		if (answer.equals("1")) {
+		if ("1".equals(answer)) {
 			return 1;
 		} else {
 			return 2;

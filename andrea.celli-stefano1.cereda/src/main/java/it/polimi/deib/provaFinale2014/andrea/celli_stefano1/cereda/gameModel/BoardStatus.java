@@ -503,7 +503,7 @@ public class BoardStatus implements Serializable {
 
 		List<Card> buyableByAPlayer = new ArrayList<Card>();
 
-		ArrayList<Card> allBuyableCards = cardsDeck.getBuyableCards();
+		List<Card> allBuyableCards = cardsDeck.getBuyableCards();
 
 		Terrain[] adjacentTerrains = player.getPosition().getAdjacentTerrains();
 

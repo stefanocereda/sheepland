@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -107,7 +108,7 @@ public class DeckTest {
 		}
 
 		// calculates the buyable cards remaining in the deck
-		ArrayList<Card> buyable = deck.getBuyableCards();
+		List<Card> buyable = deck.getBuyableCards();
 
 		for (Card card : buyable) {
 			assertNotEquals(TerrainType.PLAIN, card.getTerrainType());

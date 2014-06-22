@@ -40,7 +40,7 @@ public class ButtonsPanel extends JPanel {
 	private GridLayout layout = new GridLayout(5, 1);
 
 	/** The button listener */
-	private buttonListener listener = new buttonListener();
+	private ButtonListener listener = new ButtonListener();
 
 	public ButtonsPanel() {
 
@@ -92,7 +92,7 @@ public class ButtonsPanel extends JPanel {
 	 * When a button is clicked the listener change the drag&drop status flag or
 	 * activate a buy_card panel
 	 */
-	private class buttonListener implements ActionListener {
+	private class ButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 
@@ -105,44 +105,29 @@ public class ButtonsPanel extends JPanel {
 				JButton pressed = (JButton) e.getSource();
 				String selectedTypeOfMove = pressed.getText();
 
-				if (selectedTypeOfMove.equals("move player")) {
-
+				if ("move player".equals(selectedTypeOfMove)) {
 					map.getMessageManager().showMessage("Move your pawn");
 					map.getListener().setStatus(GameStatus.MOVE_PLAYER);
 
-				} else {
-					if (selectedTypeOfMove.equals("move sheep")) {
+				} else if ("move sheep".equals(selectedTypeOfMove)) {
+					map.getMessageManager().showMessage("Move a sheep");
+					map.getListener().setStatus(GameStatus.MOVE_SHEEP);
 
-						map.getMessageManager().showMessage("Move a sheep");
-						map.getListener().setStatus(GameStatus.MOVE_SHEEP);
+				} else if ("buy card".equals(selectedTypeOfMove)) {
+					map.buyNewCard();
 
-					} else {
-						if (selectedTypeOfMove.equals("buy card")) {
-							map.buyNewCard();
-						} else {
-							if (selectedTypeOfMove.equals("butchery")) {
+				} else if ("butchery".equals(selectedTypeOfMove)) {
+					map.getMessageManager().showMessage(
+							"Choose which sheep you want to kill");
+					map.getListener().setStatus(GameStatus.BUTCHERING);
 
-								map.getMessageManager().showMessage(
-										"Choose which sheep you want to kill");
-								map.getListener().setStatus(
-										GameStatus.BUTCHERING);
+				} else if ("mating".equals(selectedTypeOfMove)) {
+					map.getMessageManager().showMessage(
+							"Choose where to mate two sheeps");
+					map.getListener().setStatus(GameStatus.MATING);
 
-							} else {
-								if (selectedTypeOfMove.equals("mating")) {
-
-									map.getMessageManager().showMessage(
-											"Choose where to mate two sheeps");
-									map.getListener().setStatus(
-											GameStatus.MATING);
-
-								}
-							}
-						}
-					}
 				}
 			}
-
 		}
 	}
-
 }
