@@ -20,6 +20,10 @@ import javax.swing.event.DocumentListener;
  */
 public class SingleCardToSell extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4465135399964134446L;
 	JLabel cardName;
 	JTextField priceSetter;
 	// the displayed card
@@ -66,7 +70,7 @@ public class SingleCardToSell extends JPanel {
 			String text = priceSetter.getText();
 
 			// if the text is "Don't sell" the flag is set again to false
-			if ((text.equals("Don't sell"))) {
+			if (text.equals("Don't sell")) {
 				sell = false;
 			} else {
 				// try to get the price from the input string

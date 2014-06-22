@@ -125,7 +125,7 @@ public class DragAndDropManager {
 		// the border between the image and the end of the panel
 		int border = (map.getWidth() - map.getMapDimension().width) / 2;
 		int x = point.x;
-		if (x > border && x < (border + map.getMapDimension().width)) {
+		if (x > border && x < border + map.getMapDimension().width) {
 			return true;
 		}
 		return false;
@@ -331,7 +331,7 @@ public class DragAndDropManager {
 					.getControlledPlayer().getPosition().getAdjacentTerrains();
 
 			// if the drop position is right
-			if (!(dropTarget.equals(oldAnimalPosition))
+			if (!dropTarget.equals(oldAnimalPosition)
 					&& (dropTarget.equals(adjacentTerrains[0]) || dropTarget
 							.equals(adjacentTerrains[1]))) {
 
@@ -426,7 +426,7 @@ public class DragAndDropManager {
 		}
 
 		Animator ani = new Animator(draggedPanel, endPoint);
-		(new Thread(ani)).run();
+		new Thread(ani).run();
 
 		// wait for the animation to be completed
 		try {
@@ -498,7 +498,7 @@ public class DragAndDropManager {
 			Road dropTarget = linker.getColorsAndRoad().get(dropColor);
 			// check if the road is different from the old position of the
 			// player
-			if (!(dropTarget.equals(oldPawnPosition))) {
+			if (!dropTarget.equals(oldPawnPosition)) {
 				// animate the pawn to the exact road position
 				map.animatePawn((PawnPanel) draggedPanel, dropTarget,
 						oldPawnPosition);
@@ -652,9 +652,9 @@ public class DragAndDropManager {
 				if (type != null) {
 					BoardStatusExtended bs = (BoardStatusExtended) interfaceGui
 							.getGameController().getBoardStatus();
-					interfaceGui.returnMoveFromGui((new Butchering(interfaceGui
+					interfaceGui.returnMoveFromGui(new Butchering(interfaceGui
 							.getGameController().getControlledPlayer(), bs
-							.findASheep(clickedTerrain, type))));
+							.findASheep(clickedTerrain, type)));
 
 					// set the status back to NOT_YOUR_TURN
 					map.getListener().setStatus(GameStatus.NOT_YOUR_TURN);

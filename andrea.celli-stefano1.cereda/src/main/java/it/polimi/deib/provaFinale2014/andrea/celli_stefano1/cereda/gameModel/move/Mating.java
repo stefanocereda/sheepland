@@ -41,7 +41,7 @@ public class Mating extends AdvancedPlayerAction {
 
 	@Override
 	public void execute(BoardStatus boardStatus) {
-		BoardStatusExtended bs = ((BoardStatusExtended) boardStatus);
+		BoardStatusExtended bs = (BoardStatusExtended) boardStatus;
 		ExecuteAction.executeMating(this, bs);
 	}
 }

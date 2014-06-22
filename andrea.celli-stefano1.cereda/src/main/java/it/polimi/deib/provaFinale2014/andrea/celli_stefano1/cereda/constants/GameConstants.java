@@ -36,7 +36,7 @@ public class GameConstants {
 	 * payed by a player who is doing a butchering
 	 */
 	public static final int MINIMUN_SCORE_IN_BUTCHERING = 5;
-	
+
 	/**
 	 * The number of coins that a butcher has to give to every player that
 	 * scores a value > 5

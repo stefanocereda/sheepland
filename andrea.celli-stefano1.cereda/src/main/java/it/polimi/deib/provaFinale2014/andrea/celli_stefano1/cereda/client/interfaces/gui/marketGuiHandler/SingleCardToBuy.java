@@ -25,6 +25,11 @@ import javax.swing.JPanel;
  */
 public class SingleCardToBuy extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1737954786166820362L;
+
 	// the displayed market offer
 	private MarketOffer marketOffer;
 

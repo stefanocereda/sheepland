@@ -238,8 +238,8 @@ public class RuleChecker {
 		// both move player
 		if (oldMoves.size() == 1) {
 			return !moveToCheck.getClass().isInstance(firstMove)
-					|| (MovePlayer.class.isInstance(firstMove))
-					|| (MovePlayer.class.isInstance(moveToCheck));
+					|| MovePlayer.class.isInstance(firstMove)
+					|| MovePlayer.class.isInstance(moveToCheck);
 		}
 
 		// this is the third move, is correct if: 1)they're all different 2)it's
@@ -247,9 +247,9 @@ public class RuleChecker {
 		// the second and they're both moveplayer => all different or the second
 		// is a move player
 		Move secondMove = oldMoves.get(1);
-		return (!firstMove.getClass().isInstance(moveToCheck) && (!secondMove
-				.getClass().isInstance(moveToCheck)))
-				|| (MovePlayer.class.isInstance(secondMove));
+		return !firstMove.getClass().isInstance(moveToCheck)
+				&& !secondMove.getClass().isInstance(moveToCheck)
+				|| MovePlayer.class.isInstance(secondMove);
 	}
 
 	//

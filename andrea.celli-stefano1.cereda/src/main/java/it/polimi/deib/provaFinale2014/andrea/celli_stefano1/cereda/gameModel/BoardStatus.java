@@ -322,7 +322,7 @@ public class BoardStatus implements Serializable {
 	 * @return index the position of the player
 	 */
 	public int getPositionOfAPlayer(Player player) {
-		for (int index = 0; index < (players.getPlayers().length); index++) {
+		for (int index = 0; index < players.getPlayers().length; index++) {
 			if (player.equals(players.getPlayers()[index])) {
 				return index;
 			}
@@ -437,7 +437,7 @@ public class BoardStatus implements Serializable {
 		public boolean hasNext() {
 			int curPos = getPositionOfAPlayer(playerPointed);
 			int nextPos = (curPos + 1) % getPlayers().length;
-			return (nextPos != (firstPos + 1) % getPlayers().length)
+			return nextPos != (firstPos + 1) % getPlayers().length
 					|| firstCallToDo;
 		}
 
@@ -475,7 +475,7 @@ public class BoardStatus implements Serializable {
 		public boolean hasNext() {
 			int curPos = getPositionOfAPlayer(playerPointed);
 			int nextPos = (curPos + 1) % getPlayers().length;
-			return (nextPos != (firstPos + 1) % getPlayers().length)
+			return nextPos != (firstPos + 1) % getPlayers().length
 					|| firstCallToDo;
 		}
 
@@ -532,7 +532,7 @@ public class BoardStatus implements Serializable {
 			// looks for the card in the deck
 			for (int i = 0; i < cardsDeck.size(); i++) {
 
-				if (cardsDeck.get(i).getNumber() == (oldBuyableCard.getNumber() + 1)
+				if (cardsDeck.get(i).getNumber() == oldBuyableCard.getNumber() + 1
 						&& cardsDeck.get(i).getTerrainType()
 								.equals(oldBuyableCard.getTerrainType())) {
 					return cardsDeck.get(i);

@@ -20,7 +20,7 @@ public class ImagePathCreator {
 	public static final String findRamPath(int numberOfRam) {
 		return "/montone" + numberOfRam + ".png";
 	}
-	
+
 	public static final String findSheepPathNoNumber() {
 		return "/sheepNoNumber.png";
 	}
@@ -32,5 +32,5 @@ public class ImagePathCreator {
 	public static final String findRamPathNoNumber() {
 		return "/ramNoNumber.png";
 	}
-	
+
 }

@@ -1,10 +1,8 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui;
 
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.GuiConstants;
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.constants.TimeConstants;
 
 import java.awt.Point;
-import java.awt.geom.Line2D.Double;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -111,13 +109,13 @@ public class Animator implements Runnable {
 
 		// v(0) = 2*Vc where Vc is the constant speed that we should keep in
 		// order to cover the same distance in the same time
-		double v0 = (2 * startPoint.distance(endPoint) / numberOfRepaints);
+		double v0 = 2 * startPoint.distance(endPoint) / numberOfRepaints;
 
 		double distance = startPoint.distance(endPoint);
 
 		double t = startPoint.distance(objectToMove.getLocation());
 
 		// add 1 to achieve a smoother end
-		return (v0 - v0 / distance * t) + 1;
+		return v0 - v0 / distance * t + 1;
 	}
 }

@@ -28,6 +28,11 @@ import javax.swing.JPanel;
  */
 public class MarketPanelSell extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4071397720025743458L;
+
 	// the layout
 	private GridLayout layout;
 

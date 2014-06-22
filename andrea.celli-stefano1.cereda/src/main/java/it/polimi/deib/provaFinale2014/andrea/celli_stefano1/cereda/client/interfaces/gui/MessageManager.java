@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /**
  * This class is used to print information messages.
@@ -45,7 +46,7 @@ public class MessageManager {
 		textField.setSize(map.getWidth(), map.getHeight() / 4);
 		textField.setLocation(0, map.getHeight() / 3);
 
-		textField.setHorizontalAlignment(JTextField.CENTER);
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setBackground(Color.BLUE);
 		textField.setEditable(false);
 		textField.setFont(new Font("Verdana", Font.BOLD, 20));

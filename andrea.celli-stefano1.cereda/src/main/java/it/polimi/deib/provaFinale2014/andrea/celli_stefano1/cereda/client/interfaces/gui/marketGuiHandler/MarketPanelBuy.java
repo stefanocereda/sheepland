@@ -27,6 +27,11 @@ import javax.swing.JPanel;
  */
 public class MarketPanelBuy extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4241744792366068512L;
+
 	private InterfaceGui interfaceGui;
 
 	// the list of offers that can be purchased by the player
@@ -67,8 +72,8 @@ public class MarketPanelBuy extends JPanel {
 		// creates the arraylist of buyable offers deleting offers made by this
 		// player.
 		for (MarketOffer marketOffer : marketOffers) {
-			if (!(marketOffer.getOfferer().equals(interfaceGui
-					.getGameController().getControlledPlayer()))) {
+			if (!marketOffer.getOfferer().equals(
+					interfaceGui.getGameController().getControlledPlayer())) {
 				buyableOffers.add(marketOffer);
 			}
 		}

@@ -26,6 +26,11 @@ import javax.swing.JPanel;
 
 public class ButtonsPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 213582368190596833L;
+
 	/** The map */
 	private GameMap map;
 

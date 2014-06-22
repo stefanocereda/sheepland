@@ -39,10 +39,9 @@ public class PaintedMap {
 	public PaintedMap(Dimension panelMapDimension) {
 
 		// calculate the dimension and the border
-		paintedMapDimension
-				.setSize(
-						(int) ((GuiConstants.MAP_WIDTH * panelMapDimension.height) / GuiConstants.MAP_HEIGHT),
-						panelMapDimension.height);
+		paintedMapDimension.setSize(GuiConstants.MAP_WIDTH
+				* panelMapDimension.height / GuiConstants.MAP_HEIGHT,
+				panelMapDimension.height);
 
 		border = (panelMapDimension.width - paintedMapDimension.width) / 2;
 

@@ -52,7 +52,7 @@ public class BuyCardManager implements ActionListener {
 		// ask for the card only if there's at least a buyable card
 		if (buyable.size() > 0) {
 			buyCardPanel = new BuyCardPanel(buyable, this,
-					(int) gameMap.getWidth() / 3, (int) gameMap.getHeight() / 3);
+					gameMap.getWidth() / 3, gameMap.getHeight() / 3);
 
 			// buyCardPanel.setSize(gameMap.getWidth() / 3,
 			// gameMap.getHeight() / 3);

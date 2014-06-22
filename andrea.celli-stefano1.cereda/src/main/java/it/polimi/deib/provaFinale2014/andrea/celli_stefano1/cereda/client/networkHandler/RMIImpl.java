@@ -34,7 +34,7 @@ public class RMIImpl implements RMIInterface {
 
 	public void executeMove(Move moveToExecute) throws RemoteException {
 		SendMove sm = new SendMove(moveToExecute);
-		(new Thread(sm)).start();
+		new Thread(sm).start();
 	}
 
 	/** This class is used to send a move to the interface on a separate thread */
@@ -57,7 +57,7 @@ public class RMIImpl implements RMIInterface {
 
 	public void updateStatus(BoardStatus newStatus) throws RemoteException {
 		SendStatus ss = new SendStatus(newStatus);
-		(new Thread(ss)).start();
+		new Thread(ss).start();
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class RMIImpl implements RMIInterface {
 	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws RemoteException {
 		SetCurrentPlayer scp = new SetCurrentPlayer(newCurrentPlayer);
-		(new Thread(scp)).start();
+		new Thread(scp).start();
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class RMIImpl implements RMIInterface {
 
 	public void sendWinners(List<Player> winners) throws RemoteException {
 		SendWinners sw = new SendWinners(winners);
-		(new Thread(sw)).start();
+		new Thread(sw).start();
 		controller.notifyWinners(winners);
 
 		// TODO handle closing connection

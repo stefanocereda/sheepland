@@ -71,7 +71,7 @@ public class PlayersOfAGame extends GenericGameObject {
 	public int findPosition(Player player) {
 		int position = 0;
 		for (int i = 0; i < players.length; i++) {
-			if ((players[i] != null) && (player.equals(players[i]))) {
+			if (players[i] != null && player.equals(players[i])) {
 				position = i + 1;
 			}
 		}

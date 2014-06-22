@@ -19,6 +19,10 @@ import javax.swing.JPanel;
  */
 public class PlayersPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -200102214997913078L;
 	private GridLayout layout;
 	// this arraylist contains the PlayersData of the player of a game (it's a
 	// variable number and therefore it's used an arraylist)

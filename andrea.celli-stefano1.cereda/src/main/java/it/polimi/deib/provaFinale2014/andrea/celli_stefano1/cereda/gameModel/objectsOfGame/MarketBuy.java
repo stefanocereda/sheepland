@@ -1,13 +1,12 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame;
 
-import java.util.List;
-
-import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatus;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.BoardStatusExtended;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.GenericGameObject;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.ExecuteAction;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.RuleChecker;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
+
+import java.util.List;
 
 /** This class represents the act of buying a card during the market phase */
 public class MarketBuy extends GenericGameObject {

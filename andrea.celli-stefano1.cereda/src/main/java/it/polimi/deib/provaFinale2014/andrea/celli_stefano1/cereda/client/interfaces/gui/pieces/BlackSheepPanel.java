@@ -10,6 +10,11 @@ import java.awt.Dimension;
  */
 public class BlackSheepPanel extends PiecesOnTheMap {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6755626006207860456L;
+
 	public BlackSheepPanel(String path, Dimension dimension) {
 		super(path, dimension);
 	}
