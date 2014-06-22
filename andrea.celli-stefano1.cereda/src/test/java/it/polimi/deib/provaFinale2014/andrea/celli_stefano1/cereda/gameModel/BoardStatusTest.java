@@ -470,4 +470,16 @@ public class BoardStatusTest {
 		assertEquals(buyableSet, foundBuyable);
 	}
 
+	@Test
+	public void getNewBuyableCardOfATerrainTypeTest() {
+		int numberPlayers = 1;
+		BoardStatus bs = new BoardStatus(numberPlayers);
+
+		bs.getDeck().deleteRemainingInitialCards();
+
+		assertEquals(Card.WOOD1, bs.getNewBuyableCardOfATerrainType(Card.WOOD0));
+		assertEquals(null, bs.getNewBuyableCardOfATerrainType(Card.DESERT4));
+
+	}
+
 }
