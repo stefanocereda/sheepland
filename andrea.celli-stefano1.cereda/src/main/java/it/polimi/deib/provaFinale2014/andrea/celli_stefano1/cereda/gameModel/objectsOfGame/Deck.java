@@ -93,7 +93,7 @@ public class Deck extends ArrayList<Card> implements Serializable {
 	 * terrain.
 	 * 
 	 * @return ArrayList<Card>
-	 * @TODO test,un metodo più carino?
+	 * @TODO test
 	 */
 	public ArrayList<Card> getBuyableCards() {
 		Map<TerrainType, Integer> buyable = new HashMap<TerrainType, Integer>();

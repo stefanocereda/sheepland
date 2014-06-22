@@ -441,4 +441,33 @@ public class BoardStatusTest {
 		assertEquals(free, foundFree);
 	}
 
+	@Test
+	public void getCardsPlayerCanBuyTest() {
+
+		int numberPlayers = 1;
+		BoardStatus bs = new BoardStatus(numberPlayers);
+
+		List<Card> buyable = new ArrayList<Card>();
+		buyable.add(Card.PLAIN0);
+
+		Player p = new Player();
+		p.setID();
+		bs.addPlayerToBoardStatus(p);
+
+		bs.getDeck().deleteRemainingInitialCards();
+
+		// same terrain on both sides
+		p.move(bs.getRoadMap().getHashMapOfRoads().get(4));
+
+		assertEquals(buyable, bs.getCardsPlayerCanBuy(p));
+
+		// different terrains on the two sides
+		p.move(bs.getRoadMap().getHashMapOfRoads().get(18));
+		buyable.add(Card.WOOD0);
+		Set<Card> buyableSet = new HashSet<Card>(buyable);
+		Set<Card> foundBuyable = new HashSet<Card>(bs.getCardsPlayerCanBuy(p));
+
+		assertEquals(buyableSet, foundBuyable);
+	}
+
 }
