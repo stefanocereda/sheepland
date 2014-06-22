@@ -17,9 +17,11 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.players.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -412,4 +414,31 @@ public class BoardStatusTest {
 				.get(2)));
 
 	}
+
+	@Test
+	public void findFreeRoadsTest() {
+
+		int numberPlayers = 1;
+		BoardStatus bs = new BoardStatus(numberPlayers);
+		Player p = new Player();
+		p.setID();
+		bs.addPlayerToBoardStatus(p);
+
+		Set<Integer> free = new HashSet<Integer>();
+		free.add(40);
+		free.add(41);
+		free.add(42);
+
+		p.move(bs.getRoadMap().getHashMapOfRoads().get(1));
+
+		for (int i = 2; i < 40; i++) {
+			bs.addPlacedGateToBoardStatus(new Gate(false, bs.getRoadMap()
+					.getHashMapOfRoads().get(i)));
+		}
+
+		Set<Integer> foundFree = new HashSet<Integer>(bs.findFreeRoads());
+
+		assertEquals(free, foundFree);
+	}
+
 }
