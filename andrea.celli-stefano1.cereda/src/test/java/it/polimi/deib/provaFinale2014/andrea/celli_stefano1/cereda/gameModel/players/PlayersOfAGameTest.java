@@ -87,4 +87,28 @@ public class PlayersOfAGameTest {
 		assertFalse(poag.isAlreadyThere(player2));
 	}
 
+	@Test
+	public void findPositionTest() {
+		PlayersOfAGame poag = new PlayersOfAGame(4);
+		poag.setID();
+		Player player1 = new Player();
+		player1.setID();
+		Player player2 = new Player();
+		player2.setID();
+		Player player3 = new Player();
+		player3.setID();
+		Player player4 = new Player();
+		player4.setID();
+
+		poag.addPlayerToPlayersOfAGame(player1);
+		poag.addPlayerToPlayersOfAGame(player2);
+		poag.addPlayerToPlayersOfAGame(player3);
+		poag.addPlayerToPlayersOfAGame(player4);
+
+		assertEquals(1, poag.findPosition(player1));
+		assertEquals(2, poag.findPosition(player2));
+		assertEquals(3, poag.findPosition(player3));
+		assertEquals(4, poag.findPosition(player4));
+	}
+
 }
