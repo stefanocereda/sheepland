@@ -62,6 +62,8 @@ public class BuyCardPanel extends JPanel {
 			button1.setVisible(true);
 			button2.setVisible(true);
 			break;
+		default:
+			break;
 		}
 	}
 
