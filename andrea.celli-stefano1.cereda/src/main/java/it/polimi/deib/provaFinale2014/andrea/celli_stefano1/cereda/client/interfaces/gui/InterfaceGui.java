@@ -227,7 +227,7 @@ public class InterfaceGui implements Interface {
      */
     private void notifyPlayerActionWithoutMessages(PlayerAction move) {
         if (move instanceof MovePlayer) {
-            updateMoneysAfterAMovePlayer(((MovePlayer) move));
+            updateMoneysAfterAMovePlayer((MovePlayer) move);
         } else if (move instanceof BuyCardMove) {
             notifyMoveBuyCardWithoutMessage((BuyCardMove) move);
         }
