@@ -806,6 +806,8 @@ public class InterfaceConsole implements Interface {
             try {
                 toReturn = Integer.parseInt(answer);
             } catch (NumberFormatException e) {
+                Logger.getLogger(InterfaceConsole.class.getName()).log(
+                        Level.WARNING, "You didn't insert a number", e);
                 reAsk = true;
             }
         } while (reAsk);

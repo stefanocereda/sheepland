@@ -1,8 +1,11 @@
 package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.gui.marketGuiHandler;
 
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.commandLineInterface.InterfaceConsole;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.objectsOfGame.Card;
 
 import java.awt.GridLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -78,6 +81,8 @@ public class SingleCardToSell extends JPanel {
                     price = Integer.parseInt(text);
                     sell = true;
                 } catch (NumberFormatException ex) {
+                    Logger.getLogger(InterfaceConsole.class.getName()).log(
+                            Level.WARNING, "You didn't insert a number", e);
                     // if the player writes the wrong input the card is not sold
                     sell = false;
                 }
