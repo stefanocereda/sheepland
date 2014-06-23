@@ -20,6 +20,7 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.ani
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.BuyCardMove;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.Move;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveBlackSheep;
+import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveCostCalculator;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MovePlayer;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveSheep;
 import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.move.MoveWolf;
@@ -41,6 +42,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.spec.GCMParameterSpec;
 import javax.swing.UIManager;
 
 /**
@@ -227,7 +229,7 @@ public class InterfaceGui implements Interface {
 	 */
 	private void notifyPlayerActionWithoutMessages(PlayerAction move) {
 		if (move instanceof MovePlayer) {
-			updateMoneys();
+			updateMoneysAfterAMovePlayer(((MovePlayer) move));
 		} else if (move instanceof BuyCardMove) {
 			notifyMoveBuyCardWithoutMessage((BuyCardMove) move);
 		}
@@ -523,6 +525,9 @@ public class InterfaceGui implements Interface {
 
 				placeGate(oldPosition);
 			}
+
+			// set the new money
+			updateMoneysAfterAMovePlayer(move);
 		}
 	}
 
@@ -553,6 +558,10 @@ public class InterfaceGui implements Interface {
 
 			placeGate(oldPosition);
 		}
+
+		// set the new money
+		updateMoneysAfterAMovePlayer(move);
+
 	}
 
 	/**
@@ -877,6 +886,19 @@ public class InterfaceGui implements Interface {
 			frame.getConsole().getPlayersPanel()
 					.setMoneyToPlayer(p, p.getMoney());
 		}
+	}
+
+	/**
+	 * This method receives a move player and consequently reduces the displayed
+	 * money
+	 */
+	private void updateMoneysAfterAMovePlayer(MovePlayer move) {
+		Player p = move.getPlayer();
+		int newMoney = p.getMoney()
+				- MoveCostCalculator.getMoveCost(move,
+						gameController.getBoardStatus());
+		frame.getConsole().getPlayersPanel().getPlayerDisplayedData(p)
+				.getMoneyPlayer().setMoneyPlayer(newMoney);
 	}
 
 	/** This method prints on the game console the cards the remain in the deck */
