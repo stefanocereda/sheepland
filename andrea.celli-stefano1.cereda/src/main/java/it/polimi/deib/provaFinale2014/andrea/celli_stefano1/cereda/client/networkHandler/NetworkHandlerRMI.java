@@ -26,83 +26,83 @@ import java.util.logging.Level;
  * 
  */
 public class NetworkHandlerRMI extends NetworkHandler {
-	/** The rmi registry */
-	private static Registry registry;
-	/** The remote connector object */
-	private static RMIConnector connector;
+    /** The rmi registry */
+    private static Registry registry;
+    /** The remote connector object */
+    private static RMIConnector connector;
 
-	/** The timer used to ping the server */
-	private Timer timerPing = new Timer();
-	private TimerTask timerTaskPing;
+    /** The timer used to ping the server */
+    private Timer timerPing = new Timer();
+    private TimerTask timerTaskPing;
 
-	/** A TimerTask executed periodically by the timer to check connectivity */
-	class TimerTaskPing extends TimerTask {
-		@Override
-		public void run() {
-			try {
-				pingTheServer();
-			} catch (RemoteException e) {
-				String message = "Error during the periodic ping, we are disconnected";
-				logger.log(Level.INFO, message, e);
-				controller.notifyDisconnection();
-				timerTaskPing.cancel();
-				reconnect();
-			}
-		}
-	}
+    /** A TimerTask executed periodically by the timer to check connectivity */
+    class TimerTaskPing extends TimerTask {
+        @Override
+        public void run() {
+            try {
+                pingTheServer();
+            } catch (RemoteException e) {
+                String message = "Error during the periodic ping, we are disconnected";
+                logger.log(Level.INFO, message, e);
+                controller.notifyDisconnection();
+                timerTaskPing.cancel();
+                reconnect();
+            }
+        }
+    }
 
-	/**
-	 * the constructor of an rmi network handler needs to receive a reference to
-	 * the client's game controller
-	 * 
-	 * @param gameController
-	 *            a reference to the game controller using this network handler
-	 * @param token
-	 *            An identifier used to perform reconnection
-	 */
-	public NetworkHandlerRMI(GameControllerClient gameController, int token)
-			throws RemoteException, NotBoundException {
-		super(gameController, token);
+    /**
+     * the constructor of an rmi network handler needs to receive a reference to
+     * the client's game controller
+     * 
+     * @param gameController
+     *            a reference to the game controller using this network handler
+     * @param token
+     *            An identifier used to perform reconnection
+     */
+    public NetworkHandlerRMI(GameControllerClient gameController, int token)
+            throws RemoteException, NotBoundException {
+        super(gameController, token);
 
-		// get the remote registry
-		registry = LocateRegistry.getRegistry(
-				NetworkConstants.SERVER_RMI_ADDRESS,
-				NetworkConstants.REGISTRY_IP_PORT);
+        // get the remote registry
+        registry = LocateRegistry.getRegistry(
+                NetworkConstants.SERVER_RMI_ADDRESS,
+                NetworkConstants.REGISTRY_IP_PORT);
 
-		// Search the server acceptor
-		connector = (RMIConnector) registry.lookup(RMICostants.CONNECTOR);
-	}
+        // Search the server acceptor
+        connector = (RMIConnector) registry.lookup(RMICostants.CONNECTOR);
+    }
 
-	/**
-	 * This method pings the server
-	 * 
-	 * @throws RemoteException
-	 */
-	public void pingTheServer() throws RemoteException {
-		connector.ping();
-	}
+    /**
+     * This method pings the server
+     * 
+     * @throws RemoteException
+     */
+    public void pingTheServer() throws RemoteException {
+        connector.ping();
+    }
 
-	/**
-	 * This method connects to the server and creates a network handler and
-	 * starts pinging the server
-	 */
-	@Override
-	public void connect() throws RemoteException {
-		// Login with the previous id (0 the first time)
-		myId = connector.connect(myId);
-		logger.log(Level.INFO, "You have received the token: " + myId);
+    /**
+     * This method connects to the server and creates a network handler and
+     * starts pinging the server
+     */
+    @Override
+    public void connect() throws RemoteException {
+        // Login with the previous id (0 the first time)
+        myId = connector.connect(myId);
+        logger.log(Level.INFO, "You have received the token: " + myId);
 
-		// Create and export a network handler with the returned id
-		RMIInterface rmiHandler = new RMIImpl(controller);
-		RMIInterface stubRMIHandler = (RMIInterface) UnicastRemoteObject
-				.exportObject(rmiHandler, 0);
+        // Create and export a network handler with the returned id
+        RMIInterface rmiHandler = new RMIImpl(controller);
+        RMIInterface stubRMIHandler = (RMIInterface) UnicastRemoteObject
+                .exportObject(rmiHandler, 0);
 
-		// start pinging the server
-		timerTaskPing = new TimerTaskPing();
-		timerPing.scheduleAtFixedRate(timerTaskPing, TimeConstants.PING_TIME,
-				TimeConstants.PING_TIME);
+        // start pinging the server
+        timerTaskPing = new TimerTaskPing();
+        timerPing.scheduleAtFixedRate(timerTaskPing, TimeConstants.PING_TIME,
+                TimeConstants.PING_TIME);
 
-		// notify the server
-		connector.notify(stubRMIHandler);
-	}
+        // notify the server
+        connector.notify(stubRMIHandler);
+    }
 }

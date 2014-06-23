@@ -23,36 +23,36 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  */
 public class Butchering extends AdvancedPlayerAction {
 
-	private static final long serialVersionUID = 7611124975542158430L;
-	/** The sheep that the player wants to kill */
-	private Sheep killedSheep;
+    private static final long serialVersionUID = 7611124975542158430L;
+    /** The sheep that the player wants to kill */
+    private Sheep killedSheep;
 
-	/**
-	 * @param player
-	 *            The player performing the move
-	 * @param sheppToKill
-	 *            The sheep you want to kill
-	 */
-	public Butchering(Player player, Sheep sheppToKill) {
-		super(player);
-		killedSheep = sheppToKill;
-	}
+    /**
+     * @param player
+     *            The player performing the move
+     * @param sheppToKill
+     *            The sheep you want to kill
+     */
+    public Butchering(Player player, Sheep sheppToKill) {
+        super(player);
+        killedSheep = sheppToKill;
+    }
 
-	/** @return The sheep that has to be killed */
-	public Sheep getKilledSheep() {
-		return killedSheep;
-	}
+    /** @return The sheep that has to be killed */
+    public Sheep getKilledSheep() {
+        return killedSheep;
+    }
 
-	@Override
-	public boolean isValid(BoardStatus boardStatus) {
-		return RuleChecker.isValidButchering(this,
-				(BoardStatusExtended) boardStatus);
-	}
+    @Override
+    public boolean isValid(BoardStatus boardStatus) {
+        return RuleChecker.isValidButchering(this,
+                (BoardStatusExtended) boardStatus);
+    }
 
-	@Override
-	public void execute(BoardStatus boardStatus) {
-		ExecuteAction
-				.executeButchering(this, (BoardStatusExtended) boardStatus);
-	}
+    @Override
+    public void execute(BoardStatus boardStatus) {
+        ExecuteAction
+                .executeButchering(this, (BoardStatusExtended) boardStatus);
+    }
 
 }

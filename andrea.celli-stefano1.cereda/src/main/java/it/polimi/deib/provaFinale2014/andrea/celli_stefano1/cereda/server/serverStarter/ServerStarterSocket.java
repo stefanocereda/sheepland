@@ -16,66 +16,66 @@ import java.util.logging.Logger;
  * 
  */
 public class ServerStarterSocket implements Runnable {
-	/** A reference to the server starter that created this socket server */
-	private ServerStarter creator;
-	/** The ip port of the server */
-	private int port;
-	/** the server socket for income connections */
-	private ServerSocket serverSocket = null;
-	/** This variable is used to stop the server */
-	private boolean running = false;
-	/** A logger */
-	private static final Logger LOG = Logger.getLogger(ServerSocket.class
-			.getName());
+    /** A reference to the server starter that created this socket server */
+    private ServerStarter creator;
+    /** The ip port of the server */
+    private int port;
+    /** the server socket for income connections */
+    private ServerSocket serverSocket = null;
+    /** This variable is used to stop the server */
+    private boolean running = false;
+    /** A logger */
+    private static final Logger LOG = Logger.getLogger(ServerSocket.class
+            .getName());
 
-	/**
-	 * The constructor of a server socket only saves the parameters passed,
-	 * without actually starting the server
-	 * 
-	 * @param port
-	 *            The IP port on wich start the socket server
-	 * @param serverCreator
-	 *            the object that is creating this server: will be used to
-	 *            notify connecting clients
-	 */
-	public ServerStarterSocket(int port, ServerStarter serverCreator) {
-		this.port = port;
-		this.creator = serverCreator;
-	}
+    /**
+     * The constructor of a server socket only saves the parameters passed,
+     * without actually starting the server
+     * 
+     * @param port
+     *            The IP port on wich start the socket server
+     * @param serverCreator
+     *            the object that is creating this server: will be used to
+     *            notify connecting clients
+     */
+    public ServerStarterSocket(int port, ServerStarter serverCreator) {
+        this.port = port;
+        this.creator = serverCreator;
+    }
 
-	/**
-	 * This method starts the server and begin listening to incoming
-	 * connections, when detects a new one creates a proper client handler and
-	 * notifies it back to the main server
-	 */
-	public void run() {
-		try {
-			// opens the socket for incoming connections
-			serverSocket = new ServerSocket(port);
+    /**
+     * This method starts the server and begin listening to incoming
+     * connections, when detects a new one creates a proper client handler and
+     * notifies it back to the main server
+     */
+    public void run() {
+        try {
+            // opens the socket for incoming connections
+            serverSocket = new ServerSocket(port);
 
-			// start waiting for connections
-			running = true;
+            // start waiting for connections
+            running = true;
 
-			while (running) {
-				// accept a connection
-				Socket acceptedSocket = serverSocket.accept();
-				// create a client handler
-				ClientHandlerSocket acceptedHandler = new ClientHandlerSocket(
-						creator, acceptedSocket);
-				// give it back to the server
-				creator.addClient(acceptedHandler);
-			}
+            while (running) {
+                // accept a connection
+                Socket acceptedSocket = serverSocket.accept();
+                // create a client handler
+                ClientHandlerSocket acceptedHandler = new ClientHandlerSocket(
+                        creator, acceptedSocket);
+                // give it back to the server
+                creator.addClient(acceptedHandler);
+            }
 
-			// If we are here the server has been closed
-			serverSocket.close();
-		} catch (IOException e) {
-			String message = "Problems in the socket server";
-			LOG.log(Level.SEVERE, message, e);
-		}
-	}
+            // If we are here the server has been closed
+            serverSocket.close();
+        } catch (IOException e) {
+            String message = "Problems in the socket server";
+            LOG.log(Level.SEVERE, message, e);
+        }
+    }
 
-	/** This method closes the socket server */
-	public void stop() {
-		running = false;
-	}
+    /** This method closes the socket server */
+    public void stop() {
+        running = false;
+    }
 }

@@ -10,13 +10,13 @@ import java.awt.Dimension;
  */
 public class WolfPanel extends PiecesOnTheMap {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 4697975431214377510L;
+    private static final long serialVersionUID = 4697975431214377510L;
 
-	public WolfPanel(String path, Dimension dimension) {
-		super(path, dimension);
-	}
+    public WolfPanel(String path, Dimension dimension) {
+        super(path, dimension);
+    }
 
 }

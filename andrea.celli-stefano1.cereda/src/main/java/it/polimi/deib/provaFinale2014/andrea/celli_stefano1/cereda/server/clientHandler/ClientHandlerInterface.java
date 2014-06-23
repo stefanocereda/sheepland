@@ -16,122 +16,122 @@ import java.util.List;
  */
 
 public interface ClientHandlerInterface {
-	/**
-	 * This method asks the client to send a new move, which is returned. The
-	 * client can give an impossible move so it must be checked
-	 * 
-	 * @return the move returned from the client
-	 * @throws ClientDisconnectedException
-	 * @throws ClassNotFoundException
-	 */
-	public Move askMove() throws ClassNotFoundException,
-			ClientDisconnectedException;
+    /**
+     * This method asks the client to send a new move, which is returned. The
+     * client can give an impossible move so it must be checked
+     * 
+     * @return the move returned from the client
+     * @throws ClientDisconnectedException
+     * @throws ClassNotFoundException
+     */
+    public Move askMove() throws ClassNotFoundException,
+            ClientDisconnectedException;
 
-	/**
-	 * Send the client a move to be executed. The clients doesn't do any check
-	 * on the move so it must be already valid
-	 * 
-	 * @param moveToExecute
-	 *            to move to be executed
-	 * @throws ClientDisconnectedException
-	 */
-	public void executeMove(Move moveToExecute)
-			throws ClientDisconnectedException;
+    /**
+     * Send the client a move to be executed. The clients doesn't do any check
+     * on the move so it must be already valid
+     * 
+     * @param moveToExecute
+     *            to move to be executed
+     * @throws ClientDisconnectedException
+     */
+    public void executeMove(Move moveToExecute)
+            throws ClientDisconnectedException;
 
-	/**
-	 * Say to the client that the last move wasn't valid, and waits for a new
-	 * one
-	 * 
-	 * @return a new Move
-	 * @throws ClassNotFoundException
-	 * @throws ClientDisconnectedException
-	 */
-	public Move sayMoveIsNotValid() throws ClassNotFoundException,
-			ClientDisconnectedException;
+    /**
+     * Say to the client that the last move wasn't valid, and waits for a new
+     * one
+     * 
+     * @return a new Move
+     * @throws ClassNotFoundException
+     * @throws ClientDisconnectedException
+     */
+    public Move sayMoveIsNotValid() throws ClassNotFoundException,
+            ClientDisconnectedException;
 
-	/**
-	 * Send to the client a new status to replace the old one
-	 * 
-	 * @throws ClientDisconnectedException
-	 */
-	public void sendNewStatus(BoardStatus newStatus)
-			throws ClientDisconnectedException;
+    /**
+     * Send to the client a new status to replace the old one
+     * 
+     * @throws ClientDisconnectedException
+     */
+    public void sendNewStatus(BoardStatus newStatus)
+            throws ClientDisconnectedException;
 
-	/**
-	 * This method asks the client to send back a road which will be his
-	 * starting position
-	 * 
-	 * @return The road chosen by the client
-	 * @throws ClientDisconnectedException
-	 * @throws ClassNotFoundException
-	 */
-	public Road askInitialPosition() throws ClientDisconnectedException,
-			ClassNotFoundException;
+    /**
+     * This method asks the client to send back a road which will be his
+     * starting position
+     * 
+     * @return The road chosen by the client
+     * @throws ClientDisconnectedException
+     * @throws ClassNotFoundException
+     */
+    public Road askInitialPosition() throws ClientDisconnectedException,
+            ClassNotFoundException;
 
-	/** This method is used to ask the initial position of the second shepherd */
-	public Road askSecondInitialPosition() throws ClientDisconnectedException,
-			ClassNotFoundException;
+    /** This method is used to ask the initial position of the second shepherd */
+    public Road askSecondInitialPosition() throws ClientDisconnectedException,
+            ClassNotFoundException;
 
-	/**
-	 * Ping the client and wait for his answer
-	 * 
-	 * @throws ClientDisconnectedException
-	 */
-	public void pingTheClient() throws ClientDisconnectedException;
+    /**
+     * Ping the client and wait for his answer
+     * 
+     * @throws ClientDisconnectedException
+     */
+    public void pingTheClient() throws ClientDisconnectedException;
 
-	/**
-	 * this method sends to the client a player representing the actual player
-	 * 
-	 * @param newCurrentPlayer
-	 *            The current player
-	 * @throws ClientDisconnectedException
-	 */
-	public void setCurrentPlayer(Player newCurrentPlayer)
-			throws ClientDisconnectedException;
+    /**
+     * this method sends to the client a player representing the actual player
+     * 
+     * @param newCurrentPlayer
+     *            The current player
+     * @throws ClientDisconnectedException
+     */
+    public void setCurrentPlayer(Player newCurrentPlayer)
+            throws ClientDisconnectedException;
 
-	/**
-	 * This method sends to the client a list of players representing the
-	 * winners
-	 * 
-	 * @param winners
-	 *            the list of winners
-	 * @throws ClientDisconnectedException
-	 */
-	public void sendWinners(List<Player> winners)
-			throws ClientDisconnectedException;
+    /**
+     * This method sends to the client a list of players representing the
+     * winners
+     * 
+     * @param winners
+     *            the list of winners
+     * @throws ClientDisconnectedException
+     */
+    public void sendWinners(List<Player> winners)
+            throws ClientDisconnectedException;
 
-	/** This method is used to let the client know the controlled player */
-	public void notifyControlledPlayer(Player controlled)
-			throws ClientDisconnectedException;
+    /** This method is used to let the client know the controlled player */
+    public void notifyControlledPlayer(Player controlled)
+            throws ClientDisconnectedException;
 
-	/**
-	 * This method asks the client to choose the controlled shepherd (true means
-	 * the second)
-	 */
-	public boolean chooseShepherd() throws ClientDisconnectedException;
+    /**
+     * This method asks the client to choose the controlled shepherd (true means
+     * the second)
+     */
+    public boolean chooseShepherd() throws ClientDisconnectedException;
 
-	/**
-	 * This method notifies the client that the current player has made a
-	 * choiche for first/second shepherd
-	 */
-	public void sendShepherd(boolean usingSecond)
-			throws ClientDisconnectedException;
+    /**
+     * This method notifies the client that the current player has made a
+     * choiche for first/second shepherd
+     */
+    public void sendShepherd(boolean usingSecond)
+            throws ClientDisconnectedException;
 
-	/**
-	 * This method ask the client to send some market offers
-	 * 
-	 * @throws ClassNotFoundException
-	 *             , ClientDisconnectedException ion
-	 */
-	public List<MarketOffer> askMarketOffers() throws ClassNotFoundException,
-			ClientDisconnectedException;
+    /**
+     * This method ask the client to send some market offers
+     * 
+     * @throws ClassNotFoundException
+     *             , ClientDisconnectedException ion
+     */
+    public List<MarketOffer> askMarketOffers() throws ClassNotFoundException,
+            ClientDisconnectedException;
 
-	/**
-	 * This method sends to the client a list of available MarketOffers and asks
-	 * back a list of MarketBuy
-	 * 
-	 * @param offers
-	 */
-	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
-			throws ClassNotFoundException, ClientDisconnectedException;
+    /**
+     * This method sends to the client a list of available MarketOffers and asks
+     * back a list of MarketBuy
+     * 
+     * @param offers
+     */
+    public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
+            throws ClassNotFoundException, ClientDisconnectedException;
 }

@@ -10,13 +10,13 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControlle
  * 
  */
 public class DefaultConstants {
-	/** The default kind of user interface */
-	public static final TypeOfInterface DEFAULT_INTERFACE = TypeOfInterface.GUI;
+    /** The default kind of user interface */
+    public static final TypeOfInterface DEFAULT_INTERFACE = TypeOfInterface.GUI;
 
-	/** the default type of game to play (default/extended rules) */
-	public static final GameType DEFAULT_GAME_TYPE = GameType.EXTENDED;
+    /** the default type of game to play (default/extended rules) */
+    public static final GameType DEFAULT_GAME_TYPE = GameType.EXTENDED;
 
-	/** Hide the default constructor */
-	private DefaultConstants() {
-	}
+    /** Hide the default constructor */
+    private DefaultConstants() {
+    }
 }

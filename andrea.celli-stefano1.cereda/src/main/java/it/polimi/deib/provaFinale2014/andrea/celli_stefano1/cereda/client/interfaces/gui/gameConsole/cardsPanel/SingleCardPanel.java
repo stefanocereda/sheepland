@@ -17,60 +17,60 @@ import javax.swing.JPanel;
  */
 public class SingleCardPanel extends JPanel {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 6662691136985725299L;
-	// the image to display
-	Image image;
-	// the Card displayed
-	Card card;
+    private static final long serialVersionUID = 6662691136985725299L;
+    // the image to display
+    Image image;
+    // the Card displayed
+    Card card;
 
-	/**
-	 * The constructor takes as input the card that has to be displayed
-	 * 
-	 * @param card
-	 */
-	public SingleCardPanel(Card card) {
-		setBackground(GuiConstants.COLORGAMECONSOLE);
-		// finds the image of the specified card
-		image = findImage(card);
-	}
+    /**
+     * The constructor takes as input the card that has to be displayed
+     * 
+     * @param card
+     */
+    public SingleCardPanel(Card card) {
+        setBackground(GuiConstants.COLORGAMECONSOLE);
+        // finds the image of the specified card
+        image = findImage(card);
+    }
 
-	/**
-	 * Paints the image on the JPanel
-	 */
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
-	}
+    /**
+     * Paints the image on the JPanel
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+    }
 
-	/**
-	 * This method loads the image coresponding to the specified card.
-	 * 
-	 * @param card
-	 * @return the image
-	 */
-	private Image findImage(Card card) {
-		ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(
-				card.getImageName()));
-		return imgIcon.getImage();
-	}
+    /**
+     * This method loads the image coresponding to the specified card.
+     * 
+     * @param card
+     * @return the image
+     */
+    private Image findImage(Card card) {
+        ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(
+                card.getImageName()));
+        return imgIcon.getImage();
+    }
 
-	/**
-	 * UpDates the panel showing the new buyable card.
-	 * 
-	 * @param newCard
-	 */
-	public void upDate(Card newCard) {
+    /**
+     * UpDates the panel showing the new buyable card.
+     * 
+     * @param newCard
+     */
+    public void upDate(Card newCard) {
 
-		// load the new image
-		image = findImage(newCard);
+        // load the new image
+        image = findImage(newCard);
 
-		repaint();
+        repaint();
 
-	}
+    }
 
 }

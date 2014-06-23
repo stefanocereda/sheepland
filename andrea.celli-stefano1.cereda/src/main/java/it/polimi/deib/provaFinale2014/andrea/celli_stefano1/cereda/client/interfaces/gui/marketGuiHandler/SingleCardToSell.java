@@ -20,89 +20,89 @@ import javax.swing.event.DocumentListener;
  */
 public class SingleCardToSell extends JPanel {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 4465135399964134446L;
-	JLabel cardName;
-	JTextField priceSetter;
-	// the displayed card
-	private Card card;
-	// the price
-	private int price;
-	// flag that determines wheter the player wants to sell the card or not
-	private boolean sell;
-	// the listener
-	DocListener listener;
+    private static final long serialVersionUID = 4465135399964134446L;
+    JLabel cardName;
+    JTextField priceSetter;
+    // the displayed card
+    private Card card;
+    // the price
+    private int price;
+    // flag that determines wheter the player wants to sell the card or not
+    private boolean sell;
+    // the listener
+    DocListener listener;
 
-	public SingleCardToSell(Card card) {
-		super();
+    public SingleCardToSell(Card card) {
+        super();
 
-		this.setLayout(new GridLayout(1, 2));
+        this.setLayout(new GridLayout(1, 2));
 
-		this.card = card;
-		price = 0;
-		sell = false;
+        this.card = card;
+        price = 0;
+        sell = false;
 
-		listener = new DocListener();
+        listener = new DocListener();
 
-		cardName = new JLabel("     " + card.toString());
+        cardName = new JLabel("     " + card.toString());
 
-		priceSetter = new JTextField("Don't sell");
-		priceSetter.setEditable(true);
-		priceSetter.getDocument().addDocumentListener(listener);
+        priceSetter = new JTextField("Don't sell");
+        priceSetter.setEditable(true);
+        priceSetter.getDocument().addDocumentListener(listener);
 
-		this.add(cardName);
-		this.add(priceSetter);
-		cardName.setVisible(true);
-	}
+        this.add(cardName);
+        this.add(priceSetter);
+        cardName.setVisible(true);
+    }
 
-	/**
-	 * The listener manages changes in the JTextField. If the player writes
-	 * "Don't" sell the flag is set to false. Otherwise, if the string in the
-	 * jTextField is a number, is set the new price and the flag to true.
-	 * 
-	 */
-	private class DocListener implements DocumentListener {
+    /**
+     * The listener manages changes in the JTextField. If the player writes
+     * "Don't" sell the flag is set to false. Otherwise, if the string in the
+     * jTextField is a number, is set the new price and the flag to true.
+     * 
+     */
+    private class DocListener implements DocumentListener {
 
-		public void insertUpdate(DocumentEvent e) {
+        public void insertUpdate(DocumentEvent e) {
 
-			String text = priceSetter.getText();
+            String text = priceSetter.getText();
 
-			// if the text is "Don't sell" the flag is set again to false
-			if ("Don't sell".equals(text)) {
-				sell = false;
-			} else {
-				// try to get the price from the input string
-				try {
-					price = Integer.parseInt(text);
-					sell = true;
-				} catch (NumberFormatException ex) {
-					// if the player writes the wrong input the card is not sold
-					sell = false;
-				}
+            // if the text is "Don't sell" the flag is set again to false
+            if ("Don't sell".equals(text)) {
+                sell = false;
+            } else {
+                // try to get the price from the input string
+                try {
+                    price = Integer.parseInt(text);
+                    sell = true;
+                } catch (NumberFormatException ex) {
+                    // if the player writes the wrong input the card is not sold
+                    sell = false;
+                }
 
-			}
+            }
 
-		}
+        }
 
-		public void removeUpdate(DocumentEvent e) {
-		}
+        public void removeUpdate(DocumentEvent e) {
+        }
 
-		public void changedUpdate(DocumentEvent e) {
-		}
-	}
+        public void changedUpdate(DocumentEvent e) {
+        }
+    }
 
-	public int getPrice() {
-		return price;
-	}
+    public int getPrice() {
+        return price;
+    }
 
-	public boolean wantToSell() {
-		return sell;
-	}
+    public boolean wantToSell() {
+        return sell;
+    }
 
-	public Card getCard() {
-		return card;
-	}
+    public Card getCard() {
+        return card;
+    }
 
 }

@@ -11,10 +11,10 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  */
 public abstract class AdvancedPlayerAction extends PlayerAction {
 
-	private static final long serialVersionUID = -6886358099734813561L;
+    private static final long serialVersionUID = -6886358099734813561L;
 
-	public AdvancedPlayerAction(Player player) {
-		super(player);
-	}
+    public AdvancedPlayerAction(Player player) {
+        super(player);
+    }
 
 }

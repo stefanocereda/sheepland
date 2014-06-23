@@ -8,17 +8,17 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
  * 
  */
 public enum TypeOfPlayerMoves {
-	MOVEPLAYER("move player"), MOVESHEEP("move sheep"), BUYCARD("buy card");
+    MOVEPLAYER("move player"), MOVESHEEP("move sheep"), BUYCARD("buy card");
 
-	private final String name;
+    private final String name;
 
-	private TypeOfPlayerMoves(String name) {
-		this.name = name;
-	}
+    private TypeOfPlayerMoves(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
-		return name;
-	}
+    @Override
+    public String toString() {
+        return name;
+    }
 
 }

@@ -12,16 +12,16 @@ import org.junit.Test;
  */
 public class TypeOfAdvancedPlayerMovesTest {
 
-	@Test
-	public void toStringTest() {
+    @Test
+    public void toStringTest() {
 
-		for (TypeOfAdvancedPlayerMoves type : TypeOfAdvancedPlayerMoves
-				.values()) {
-			if (type.equals(TypeOfAdvancedPlayerMoves.MATING)) {
-				assertEquals("Mating", type.toString());
-			} else {
-				assertEquals("Butchering", type.toString());
-			}
-		}
-	}
+        for (TypeOfAdvancedPlayerMoves type : TypeOfAdvancedPlayerMoves
+                .values()) {
+            if (type.equals(TypeOfAdvancedPlayerMoves.MATING)) {
+                assertEquals("Mating", type.toString());
+            } else {
+                assertEquals("Butchering", type.toString());
+            }
+        }
+    }
 }

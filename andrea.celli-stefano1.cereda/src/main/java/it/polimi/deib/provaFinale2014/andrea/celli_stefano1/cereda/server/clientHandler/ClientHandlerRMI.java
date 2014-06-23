@@ -25,176 +25,176 @@ import java.util.List;
  * 
  */
 public class ClientHandlerRMI extends ClientHandler {
-	/** The remote object */
-	private RMIInterface clientObject;
+    /** The remote object */
+    private RMIInterface clientObject;
 
-	/**
-	 * The constructor takes as input the reference of the server starter that
-	 * will handle reconnection for the clientand the client created object.
-	 * Differently from the socket version we don't ask for the client's id as
-	 * that operation is already done by the so called RMIConnector. Differently
-	 * from the socket version the methods aren't synchronized because there
-	 * won't be problems to ping while asking a move
-	 * 
-	 * @param token
-	 * 
-	 * @param registry
-	 * @throws NotBoundException
-	 * @throws RemoteException
-	 * @throws AccessException
-	 */
-	public ClientHandlerRMI(ServerStarter serverStarter, RMIInterface client,
-			int token) throws RemoteException {
-		super(serverStarter);
-		clientObject = client;
-		id = token;
-	}
+    /**
+     * The constructor takes as input the reference of the server starter that
+     * will handle reconnection for the clientand the client created object.
+     * Differently from the socket version we don't ask for the client's id as
+     * that operation is already done by the so called RMIConnector. Differently
+     * from the socket version the methods aren't synchronized because there
+     * won't be problems to ping while asking a move
+     * 
+     * @param token
+     * 
+     * @param registry
+     * @throws NotBoundException
+     * @throws RemoteException
+     * @throws AccessException
+     */
+    public ClientHandlerRMI(ServerStarter serverStarter, RMIInterface client,
+            int token) throws RemoteException {
+        super(serverStarter);
+        clientObject = client;
+        id = token;
+    }
 
-	/** {@inheritDoc} */
-	public Move askMove() throws ClientDisconnectedException {
-		try {
-			return clientObject.getMove();
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public Move askMove() throws ClientDisconnectedException {
+        try {
+            return clientObject.getMove();
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public void executeMove(Move moveToExecute)
-			throws ClientDisconnectedException {
-		try {
-			clientObject.executeMove(moveToExecute);
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public void executeMove(Move moveToExecute)
+            throws ClientDisconnectedException {
+        try {
+            clientObject.executeMove(moveToExecute);
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public Move sayMoveIsNotValid() throws ClientDisconnectedException {
-		try {
-			return clientObject.notifyNotValidMove();
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public Move sayMoveIsNotValid() throws ClientDisconnectedException {
+        try {
+            return clientObject.notifyNotValidMove();
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public void sendNewStatus(BoardStatus newStatus)
-			throws ClientDisconnectedException {
-		try {
-			clientObject.updateStatus(newStatus);
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public void sendNewStatus(BoardStatus newStatus)
+            throws ClientDisconnectedException {
+        try {
+            clientObject.updateStatus(newStatus);
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public Road askInitialPosition() throws ClientDisconnectedException {
-		try {
-			return clientObject.askInitialPosition();
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public Road askInitialPosition() throws ClientDisconnectedException {
+        try {
+            return clientObject.askInitialPosition();
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public Road askSecondInitialPosition() throws ClientDisconnectedException {
-		try {
-			return clientObject.askSecondInitialPosition();
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public Road askSecondInitialPosition() throws ClientDisconnectedException {
+        try {
+            return clientObject.askSecondInitialPosition();
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public void pingTheClient() throws ClientDisconnectedException {
-		try {
-			clientObject.ping();
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public void pingTheClient() throws ClientDisconnectedException {
+        try {
+            clientObject.ping();
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public void setCurrentPlayer(Player newCurrentPlayer)
-			throws ClientDisconnectedException {
-		try {
-			clientObject.setCurrentPlayer(newCurrentPlayer);
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public void setCurrentPlayer(Player newCurrentPlayer)
+            throws ClientDisconnectedException {
+        try {
+            clientObject.setCurrentPlayer(newCurrentPlayer);
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public void sendWinners(List<Player> winners)
-			throws ClientDisconnectedException {
-		try {
-			clientObject.sendWinners(winners);
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public void sendWinners(List<Player> winners)
+            throws ClientDisconnectedException {
+        try {
+            clientObject.sendWinners(winners);
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public void notifyControlledPlayer(Player controlled)
-			throws ClientDisconnectedException {
-		try {
-			clientObject.notifyControlledPlayer(controlled);
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public void notifyControlledPlayer(Player controlled)
+            throws ClientDisconnectedException {
+        try {
+            clientObject.notifyControlledPlayer(controlled);
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public boolean chooseShepherd() throws ClientDisconnectedException {
-		try {
-			return clientObject.chooseShepherd();
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public boolean chooseShepherd() throws ClientDisconnectedException {
+        try {
+            return clientObject.chooseShepherd();
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public void sendShepherd(boolean usingSecond)
-			throws ClientDisconnectedException {
-		try {
-			clientObject.notifyShepherd(usingSecond);
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public void sendShepherd(boolean usingSecond)
+            throws ClientDisconnectedException {
+        try {
+            clientObject.notifyShepherd(usingSecond);
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public List<MarketOffer> askMarketOffers()
-			throws ClientDisconnectedException {
-		try {
-			return clientObject.askMarketOffers();
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public List<MarketOffer> askMarketOffers()
+            throws ClientDisconnectedException {
+        try {
+            return clientObject.askMarketOffers();
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
-			throws ClientDisconnectedException {
-		try {
-			return clientObject.askMarketBuy(offers);
-		} catch (RemoteException e) {
-			throw new ClientDisconnectedException(gameController,
-					controlledPlayer, e);
-		}
-	}
+    /** {@inheritDoc} */
+    public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
+            throws ClientDisconnectedException {
+        try {
+            return clientObject.askMarketBuy(offers);
+        } catch (RemoteException e) {
+            throw new ClientDisconnectedException(gameController,
+                    controlledPlayer, e);
+        }
+    }
 }

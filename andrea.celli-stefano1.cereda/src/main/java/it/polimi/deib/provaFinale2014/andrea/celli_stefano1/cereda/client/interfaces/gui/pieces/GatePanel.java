@@ -11,13 +11,13 @@ import java.awt.Dimension;
  */
 public class GatePanel extends PiecesOnTheMap {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1543816018602499621L;
+    private static final long serialVersionUID = 1543816018602499621L;
 
-	public GatePanel(String path, Dimension dimension) {
-		super(path, dimension);
-	}
+    public GatePanel(String path, Dimension dimension) {
+        super(path, dimension);
+    }
 
 }

@@ -9,22 +9,22 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.inter
  * 
  */
 public class Printer {
-	/** Hide the default constructor */
-	private Printer() {
-	}
+    /** Hide the default constructor */
+    private Printer() {
+    }
 
-	/**
-	 * Call System.out.println(msg)
-	 * 
-	 * @param msg
-	 *            the object to print
-	 */
-	public static void println(Object msg) {
-		System.out.println(msg);
-	}
+    /**
+     * Call System.out.println(msg)
+     * 
+     * @param msg
+     *            the object to print
+     */
+    public static void println(Object msg) {
+        System.out.println(msg);
+    }
 
-	/** Print an empty line */
-	public static void println() {
-		println("");
-	}
+    /** Print an empty line */
+    public static void println() {
+        println("");
+    }
 }

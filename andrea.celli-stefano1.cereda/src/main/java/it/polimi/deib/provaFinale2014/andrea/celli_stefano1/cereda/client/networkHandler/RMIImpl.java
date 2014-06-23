@@ -22,167 +22,167 @@ import java.util.List;
  * 
  */
 public class RMIImpl implements RMIInterface {
-	private GameControllerClient controller;
+    private GameControllerClient controller;
 
-	/**
-	 * Create an Rmi Implementation
-	 * 
-	 * @param controller
-	 *            a reference to the game controller client
-	 */
-	public RMIImpl(GameControllerClient controller) {
-		this.controller = controller;
-	}
+    /**
+     * Create an Rmi Implementation
+     * 
+     * @param controller
+     *            a reference to the game controller client
+     */
+    public RMIImpl(GameControllerClient controller) {
+        this.controller = controller;
+    }
 
-	/** {@inheritDoc} */
-	public Move getMove() throws RemoteException {
-		return controller.getNewMove();
-	}
+    /** {@inheritDoc} */
+    public Move getMove() throws RemoteException {
+        return controller.getNewMove();
+    }
 
-	/**
-	 * {@inheritDoc}. The rmi version uses a different thread to notify the user
-	 * interface
-	 */
-	public void executeMove(Move moveToExecute) throws RemoteException {
-		SendMove sm = new SendMove(moveToExecute);
-		new Thread(sm).start();
-	}
+    /**
+     * {@inheritDoc}. The rmi version uses a different thread to notify the user
+     * interface
+     */
+    public void executeMove(Move moveToExecute) throws RemoteException {
+        SendMove sm = new SendMove(moveToExecute);
+        new Thread(sm).start();
+    }
 
-	/** This class is used to send a move to the interface on a separate thread */
-	private class SendMove implements Runnable {
-		private Move move;
+    /** This class is used to send a move to the interface on a separate thread */
+    private class SendMove implements Runnable {
+        private Move move;
 
-		public SendMove(Move move) {
-			this.move = move;
-		}
+        public SendMove(Move move) {
+            this.move = move;
+        }
 
-		public void run() {
-			controller.executeMove(move);
-		}
-	}
+        public void run() {
+            controller.executeMove(move);
+        }
+    }
 
-	/** {@inheritDoc} */
-	public Move notifyNotValidMove() throws RemoteException {
-		controller.notifyNotValidMove();
-		return controller.getNewMove();
-	}
+    /** {@inheritDoc} */
+    public Move notifyNotValidMove() throws RemoteException {
+        controller.notifyNotValidMove();
+        return controller.getNewMove();
+    }
 
-	/**
-	 * {@inheritDoc}. The rmi version uses a different thread to notify the user
-	 * interface
-	 */
-	public void updateStatus(BoardStatus newStatus) throws RemoteException {
-		SendStatus ss = new SendStatus(newStatus);
-		new Thread(ss).start();
-	}
+    /**
+     * {@inheritDoc}. The rmi version uses a different thread to notify the user
+     * interface
+     */
+    public void updateStatus(BoardStatus newStatus) throws RemoteException {
+        SendStatus ss = new SendStatus(newStatus);
+        new Thread(ss).start();
+    }
 
-	/**
-	 * This class is used to send a new status to the interface on a separate
-	 * thread
-	 */
-	private class SendStatus implements Runnable {
-		private BoardStatus status;
+    /**
+     * This class is used to send a new status to the interface on a separate
+     * thread
+     */
+    private class SendStatus implements Runnable {
+        private BoardStatus status;
 
-		public SendStatus(BoardStatus status) {
-			this.status = status;
-		}
+        public SendStatus(BoardStatus status) {
+            this.status = status;
+        }
 
-		public void run() {
-			controller.upDateStatus(status);
-		}
-	}
+        public void run() {
+            controller.upDateStatus(status);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}. The rmi version uses a different thread to notify the user
-	 * interface
-	 */
-	public void setCurrentPlayer(Player newCurrentPlayer)
-			throws RemoteException {
-		SetCurrentPlayer scp = new SetCurrentPlayer(newCurrentPlayer);
-		new Thread(scp).start();
-	}
+    /**
+     * {@inheritDoc}. The rmi version uses a different thread to notify the user
+     * interface
+     */
+    public void setCurrentPlayer(Player newCurrentPlayer)
+            throws RemoteException {
+        SetCurrentPlayer scp = new SetCurrentPlayer(newCurrentPlayer);
+        new Thread(scp).start();
+    }
 
-	/**
-	 * This class is used to notify the current player to the interface on a
-	 * separate thread
-	 */
-	private class SetCurrentPlayer implements Runnable {
-		private Player p;
+    /**
+     * This class is used to notify the current player to the interface on a
+     * separate thread
+     */
+    private class SetCurrentPlayer implements Runnable {
+        private Player p;
 
-		public SetCurrentPlayer(Player p) {
-			this.p = p;
-		}
+        public SetCurrentPlayer(Player p) {
+            this.p = p;
+        }
 
-		public void run() {
-			controller.setCurrentPlayer(p);
-		}
-	}
+        public void run() {
+            controller.setCurrentPlayer(p);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}. The rmi version uses a different thread to notify the user
-	 * interface
-	 */
-	public void sendWinners(List<Player> winners) throws RemoteException {
-		SendWinners sw = new SendWinners(winners);
-		new Thread(sw).start();
-		controller.notifyWinners(winners);
-	}
+    /**
+     * {@inheritDoc}. The rmi version uses a different thread to notify the user
+     * interface
+     */
+    public void sendWinners(List<Player> winners) throws RemoteException {
+        SendWinners sw = new SendWinners(winners);
+        new Thread(sw).start();
+        controller.notifyWinners(winners);
+    }
 
-	/**
-	 * This class is used to notify to the interface the list of winners on a
-	 * separate thread
-	 */
-	private class SendWinners implements Runnable {
-		private List<Player> winners;
+    /**
+     * This class is used to notify to the interface the list of winners on a
+     * separate thread
+     */
+    private class SendWinners implements Runnable {
+        private List<Player> winners;
 
-		public SendWinners(List<Player> w) {
-			winners = w;
-		}
+        public SendWinners(List<Player> w) {
+            winners = w;
+        }
 
-		public void run() {
-			controller.notifyWinners(winners);
-		}
-	}
+        public void run() {
+            controller.notifyWinners(winners);
+        }
+    }
 
-	/** {@inheritDoc}. The rmi version does nothing */
-	public void ping() throws RemoteException {
-		// empty method
-	}
+    /** {@inheritDoc}. The rmi version does nothing */
+    public void ping() throws RemoteException {
+        // empty method
+    }
 
-	/** {@inheritDoc} */
-	public Road askInitialPosition() throws RemoteException {
-		return controller.chooseInitialPosition();
-	}
+    /** {@inheritDoc} */
+    public Road askInitialPosition() throws RemoteException {
+        return controller.chooseInitialPosition();
+    }
 
-	/** {@inheritDoc} */
-	public void notifyControlledPlayer(Player controlled)
-			throws RemoteException {
-		controller.setControlledPlayer(controlled);
-	}
+    /** {@inheritDoc} */
+    public void notifyControlledPlayer(Player controlled)
+            throws RemoteException {
+        controller.setControlledPlayer(controlled);
+    }
 
-	/** {@inheritDoc} */
-	public boolean chooseShepherd() throws RemoteException {
-		return controller.getShepherd();
-	}
+    /** {@inheritDoc} */
+    public boolean chooseShepherd() throws RemoteException {
+        return controller.getShepherd();
+    }
 
-	/** {@inheritDoc} */
-	public Road askSecondInitialPosition() throws RemoteException {
-		return controller.chooseSecondInitialPosition();
-	}
+    /** {@inheritDoc} */
+    public Road askSecondInitialPosition() throws RemoteException {
+        return controller.chooseSecondInitialPosition();
+    }
 
-	/** {@inheritDoc} */
-	public void notifyShepherd(boolean usingSecond) throws RemoteException {
-		controller.notifyShepherd(usingSecond);
-	}
+    /** {@inheritDoc} */
+    public void notifyShepherd(boolean usingSecond) throws RemoteException {
+        controller.notifyShepherd(usingSecond);
+    }
 
-	/** {@inheritDoc} */
-	public List<MarketOffer> askMarketOffers() throws RemoteException {
-		return controller.askMarketOffers();
-	}
+    /** {@inheritDoc} */
+    public List<MarketOffer> askMarketOffers() throws RemoteException {
+        return controller.askMarketOffers();
+    }
 
-	/** {@inheritDoc} */
-	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
-			throws RemoteException {
-		return controller.askMarketBuy(offers);
-	}
+    /** {@inheritDoc} */
+    public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
+            throws RemoteException {
+        return controller.askMarketBuy(offers);
+    }
 }

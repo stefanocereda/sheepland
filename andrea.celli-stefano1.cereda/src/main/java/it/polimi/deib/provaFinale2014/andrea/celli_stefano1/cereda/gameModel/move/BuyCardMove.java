@@ -11,35 +11,35 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 public class BuyCardMove extends PlayerAction {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -9133947441204015956L;
-	private Card newCard;
+    private static final long serialVersionUID = -9133947441204015956L;
+    private Card newCard;
 
-	/**
-	 * @param player
-	 *            The player buying the card
-	 * @param card
-	 *            the card which is bought
-	 */
-	public BuyCardMove(Player player, Card newCard) {
-		super(player);
-		this.newCard = newCard;
-	}
+    /**
+     * @param player
+     *            The player buying the card
+     * @param card
+     *            the card which is bought
+     */
+    public BuyCardMove(Player player, Card newCard) {
+        super(player);
+        this.newCard = newCard;
+    }
 
-	/** @return the card bought in this move */
-	public Card getNewCard() {
-		return newCard;
-	}
+    /** @return the card bought in this move */
+    public Card getNewCard() {
+        return newCard;
+    }
 
-	@Override
-	public boolean isValid(BoardStatus status) {
-		return RuleChecker.isValidBuyCard(this, status);
-	}
+    @Override
+    public boolean isValid(BoardStatus status) {
+        return RuleChecker.isValidBuyCard(this, status);
+    }
 
-	@Override
-	public void execute(BoardStatus boardStatus) {
-		ExecuteAction.executeBuyCardMove(this, boardStatus);
-	}
+    @Override
+    public void execute(BoardStatus boardStatus) {
+        ExecuteAction.executeBuyCardMove(this, boardStatus);
+    }
 }

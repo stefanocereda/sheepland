@@ -14,30 +14,30 @@ import org.junit.Test;
  */
 public class PlayerDoubleTest {
 
-	@Test
-	public void playerDoubleTest() {
-		BoardStatus bs = new BoardStatus(1);
+    @Test
+    public void playerDoubleTest() {
+        BoardStatus bs = new BoardStatus(1);
 
-		PlayerDouble p = new PlayerDouble();
-		p.setID();
-		bs.addPlayerToBoardStatus(p);
+        PlayerDouble p = new PlayerDouble();
+        p.setID();
+        bs.addPlayerToBoardStatus(p);
 
-		p.setShepherd(true);
+        p.setShepherd(true);
 
-		p.move(bs.getRoadMap().getHashMapOfRoads().get(2));
+        p.move(bs.getRoadMap().getHashMapOfRoads().get(2));
 
-		assertEquals(bs.getRoadMap().getHashMapOfRoads().get(2),
-				p.getPosition());
-		assertEquals(bs.getRoadMap().getHashMapOfRoads().get(2),
-				p.getSecondposition());
-		assertTrue(p.getShepherd());
+        assertEquals(bs.getRoadMap().getHashMapOfRoads().get(2),
+                p.getPosition());
+        assertEquals(bs.getRoadMap().getHashMapOfRoads().get(2),
+                p.getSecondposition());
+        assertTrue(p.getShepherd());
 
-		p.setShepherd(false);
-		p.move(bs.getRoadMap().getHashMapOfRoads().get(3));
-		assertEquals(bs.getRoadMap().getHashMapOfRoads().get(3),
-				p.getFirstPosition());
+        p.setShepherd(false);
+        p.move(bs.getRoadMap().getHashMapOfRoads().get(3));
+        assertEquals(bs.getRoadMap().getHashMapOfRoads().get(3),
+                p.getFirstPosition());
 
-		assertFalse(p.getShepherd());
-	}
+        assertFalse(p.getShepherd());
+    }
 
 }

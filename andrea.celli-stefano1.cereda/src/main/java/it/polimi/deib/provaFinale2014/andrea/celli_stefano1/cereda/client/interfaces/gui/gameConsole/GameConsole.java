@@ -17,49 +17,49 @@ import javax.swing.JPanel;
  */
 public class GameConsole extends JPanel {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -7971581227330764418L;
-	private PlayersPanel playersPanel;
-	private CardsPanel cardsPanel;
-	private ButtonsPanel buttonsPanel;
+    private static final long serialVersionUID = -7971581227330764418L;
+    private PlayersPanel playersPanel;
+    private CardsPanel cardsPanel;
+    private ButtonsPanel buttonsPanel;
 
-	private GridLayout layout = new GridLayout(3, 1, 10, 10);
+    private GridLayout layout = new GridLayout(3, 1, 10, 10);
 
-	/**
-	 * Initially the game console is empty. It's filled only when the first
-	 * board status is received by the player.
-	 * 
-	 * @param numbersOfPlayer
-	 */
-	public GameConsole() {
-		setBackground(GuiConstants.COLORGAMECONSOLE);
+    /**
+     * Initially the game console is empty. It's filled only when the first
+     * board status is received by the player.
+     * 
+     * @param numbersOfPlayer
+     */
+    public GameConsole() {
+        setBackground(GuiConstants.COLORGAMECONSOLE);
 
-		this.setLayout(layout);
+        this.setLayout(layout);
 
-		playersPanel = new PlayersPanel();
-		this.add(playersPanel);
+        playersPanel = new PlayersPanel();
+        this.add(playersPanel);
 
-		cardsPanel = new CardsPanel();
-		this.add(cardsPanel);
+        cardsPanel = new CardsPanel();
+        this.add(cardsPanel);
 
-		buttonsPanel = new ButtonsPanel();
-		this.add(buttonsPanel);
+        buttonsPanel = new ButtonsPanel();
+        this.add(buttonsPanel);
 
-		setVisible(true);
-	}
+        setVisible(true);
+    }
 
-	public PlayersPanel getPlayersPanel() {
-		return playersPanel;
-	}
+    public PlayersPanel getPlayersPanel() {
+        return playersPanel;
+    }
 
-	public CardsPanel getCardsPanel() {
-		return cardsPanel;
-	}
+    public CardsPanel getCardsPanel() {
+        return cardsPanel;
+    }
 
-	public ButtonsPanel getButtonPanel() {
-		return buttonsPanel;
-	}
+    public ButtonsPanel getButtonPanel() {
+        return buttonsPanel;
+    }
 
 }
