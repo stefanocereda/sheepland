@@ -225,18 +225,20 @@ public class StandardGameTest {
 
 		public void run() {
 			GameControllerClient gc = new GameControllerClient(ux);
+			String serverAddress = "localhost";
 
 			try {
 				if (useRmi) {
-					NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(gc, 0);
+					NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(
+							serverAddress, gc, 0);
 					rmiClient.connect();
 				} else {
-					InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
+					InetSocketAddress server = new InetSocketAddress(
+							serverAddress, NetworkConstants.SOCKET_IP_PORT);
 
 					NetworkHandlerSocket socketClient;
 
-					socketClient = new NetworkHandlerSocket(serverAddress, gc,
-							0);
+					socketClient = new NetworkHandlerSocket(server, gc, 0);
 					socketClient.start();
 				}
 			} catch (Exception e) {

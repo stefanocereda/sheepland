@@ -60,13 +60,13 @@ public class NetworkHandlerRMI extends NetworkHandler {
 	 * @param token
 	 *            An identifier used to perform reconnection
 	 */
-	public NetworkHandlerRMI(GameControllerClient gameController, int token)
+	public NetworkHandlerRMI(String serverAddress,
+			GameControllerClient gameController, int token)
 			throws RemoteException, NotBoundException {
 		super(gameController, token);
 
 		// get the remote registry
-		registry = LocateRegistry.getRegistry(
-				NetworkConstants.SERVER_RMI_ADDRESS,
+		registry = LocateRegistry.getRegistry(serverAddress,
 				NetworkConstants.REGISTRY_IP_PORT);
 
 		// Search the server acceptor

@@ -84,6 +84,9 @@ public class ClientMainClass {
 			token = 0;
 		}
 
+		Printer.println("Insert the server address");
+		String serverAddress = in.nextLine();
+
 		// create the interface
 		Interface ux = InterfaceCreator.create(userInterface);
 
@@ -93,14 +96,14 @@ public class ClientMainClass {
 		// launch the network handler
 		if (network == 1) {
 			try {
-				launchSocket(gameController, token);
+				launchSocket(serverAddress, gameController, token);
 			} catch (IOException e) {
 				String message = "Unable to start Socket connection";
 				LOGGER.log(Level.SEVERE, message, e);
 			}
 		} else {
 			try {
-				launchRMI(gameController, token);
+				launchRMI(serverAddress, gameController, token);
 			} catch (RemoteException e) {
 				String message = "Unable to start rmi connection";
 				LOGGER.log(Level.SEVERE, message, e);
@@ -160,9 +163,11 @@ public class ClientMainClass {
 	/**
 	 * This method launches the rmi version of a client.
 	 */
-	private static void launchRMI(GameControllerClient gcc, int token)
-			throws RemoteException, NotBoundException {
-		NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(gcc, token);
+	private static void launchRMI(String serverAddress,
+			GameControllerClient gcc, int token) throws RemoteException,
+			NotBoundException {
+		NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(serverAddress, gcc,
+				token);
 		rmiClient.connect();
 	}
 
@@ -170,14 +175,15 @@ public class ClientMainClass {
 	 * This method launches the socket version of a client, it connects to the
 	 * server and creates a network handler.
 	 */
-	private static void launchSocket(GameControllerClient gcc, int token)
-			throws IOException {
+	private static void launchSocket(String serverAddress,
+			GameControllerClient gcc, int token) throws IOException {
 		/** The server address */
-		InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
+		InetSocketAddress server = new InetSocketAddress(serverAddress,
+				NetworkConstants.SOCKET_IP_PORT);
 
 		NetworkHandlerSocket socketClient;
 
-		socketClient = new NetworkHandlerSocket(serverAddress, gcc, token);
+		socketClient = new NetworkHandlerSocket(server, gcc, token);
 		socketClient.start();
 	}
 }
