@@ -10,14 +10,14 @@ import java.awt.Dimension;
  */
 public class SheepPanel extends PiecesOnTheMap {
 
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = -9201378579474605793L;
+	private static final long serialVersionUID = -9201378579474605793L;
 
-    public SheepPanel(String path, Dimension dimension) {
-        super(path, dimension);
+	public SheepPanel(String path, Dimension dimension) {
+		super(path, dimension);
 
-    }
+	}
 
 }

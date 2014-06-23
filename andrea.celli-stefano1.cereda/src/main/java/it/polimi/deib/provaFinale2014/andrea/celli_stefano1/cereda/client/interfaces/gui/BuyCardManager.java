@@ -20,119 +20,119 @@ import javax.swing.JButton;
 
 public class BuyCardManager implements ActionListener {
 
-    /**
-     * The map on which the buy card panel will be displayed
-     */
-    private GameMap gameMap;
+	/**
+	 * The map on which the buy card panel will be displayed
+	 */
+	private GameMap gameMap;
 
-    /** Used to send moves back and to get information on adjacent terrains */
-    private InterfaceGui interfaceGui;
+	/** Used to send moves back and to get information on adjacent terrains */
+	private InterfaceGui interfaceGui;
 
-    /** The displayed panel */
-    BuyCardPanel buyCardPanel;
+	/** The displayed panel */
+	BuyCardPanel buyCardPanel;
 
-    /** The buyable cards */
-    List<Card> buyable;
+	/** The buyable cards */
+	List<Card> buyable;
 
-    public BuyCardManager(GameMap map, InterfaceGui interfaceGui) {
-        gameMap = map;
-        this.interfaceGui = interfaceGui;
-    }
+	public BuyCardManager(GameMap map, InterfaceGui interfaceGui) {
+		gameMap = map;
+		this.interfaceGui = interfaceGui;
+	}
 
-    /**
-     * This method creates a new buy card panel displaying the available cards
-     */
-    public void getNewCard() {
+	/**
+	 * This method creates a new buy card panel displaying the available cards
+	 */
+	public void getNewCard() {
 
-        buyable = interfaceGui
-                .getGameController()
-                .getBoardStatus()
-                .getCardsPlayerCanBuy(
-                        interfaceGui.getGameController().getControlledPlayer());
-        // ask for the card only if there's at least a buyable card
-        if (!buyable.isEmpty()) {
-            buyCardPanel = new BuyCardPanel(buyable, this,
-                    gameMap.getWidth() / 3, gameMap.getHeight() / 3);
+		buyable = interfaceGui
+				.getGameController()
+				.getBoardStatus()
+				.getCardsPlayerCanBuy(
+						interfaceGui.getGameController().getControlledPlayer());
+		// ask for the card only if there's at least a buyable card
+		if (!buyable.isEmpty()) {
+			buyCardPanel = new BuyCardPanel(buyable, this,
+					gameMap.getWidth() / 3, gameMap.getHeight() / 3);
 
-            interfaceGui.getFrame().validate();
-            interfaceGui.getFrame().repaint();
-        } else {
-            // if there're no cards available it goes back to move selection
-            interfaceGui.getNewMove();
-        }
-    }
+			interfaceGui.getFrame().validate();
+			interfaceGui.getFrame().repaint();
+		} else {
+			// if there're no cards available it goes back to move selection
+			interfaceGui.getNewMove();
+		}
+	}
 
-    /** This method removes the buy card panel */
-    public void removeBuyCardPanel() {
+	/** This method removes the buy card panel */
+	public void removeBuyCardPanel() {
 
-        gameMap.remove(buyCardPanel);
-        gameMap.repaint();
+		gameMap.remove(buyCardPanel);
+		gameMap.repaint();
 
-    }
+	}
 
-    /** This is the listener which is called when a button is pressed */
-    public void actionPerformed(ActionEvent e) {
+	/** This is the listener which is called when a button is pressed */
+	public void actionPerformed(ActionEvent e) {
 
-        JButton pressed = (JButton) e.getSource();
-        String text = pressed.getText();
+		JButton pressed = (JButton) e.getSource();
+		String text = pressed.getText();
 
-        if (text.equals(buyable.get(0).toString())) {
-            update(buyable.get(0));
-        } else {
-            if (text.equals(buyable.get(1).toString())) {
-                update(buyable.get(1));
-            }
-        }
+		if (text.equals(buyable.get(0).toString())) {
+			update(buyable.get(0));
+		} else {
+			if (text.equals(buyable.get(1).toString())) {
+				update(buyable.get(1));
+			}
+		}
 
-        removeBuyCardPanel();
-    }
+		removeBuyCardPanel();
+	}
 
-    /**
-     * 1)return buy card move to the interfaceGui 2)update player money in the
-     * console 3) update displayed cards
-     * 
-     * @param card
-     */
+	/**
+	 * 1)return buy card move to the interfaceGui 2)update player money in the
+	 * console 3) update displayed cards
+	 * 
+	 * @param card
+	 */
 
-    private void update(Card card) {
+	private void update(Card card) {
 
-        Player currentPlayer = interfaceGui.getGameController()
-                .getControlledPlayer();
+		Player currentPlayer = interfaceGui.getGameController()
+				.getControlledPlayer();
 
-        // set the status back to NOT_YOUR_TURN
-        gameMap.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
+		// set the status back to NOT_YOUR_TURN
+		gameMap.getListener().setStatus(GameStatus.NOT_YOUR_TURN);
 
-        // 1)
-        interfaceGui.returnMoveFromGui(new BuyCardMove(currentPlayer, card));
+		// 1)
+		interfaceGui.returnMoveFromGui(new BuyCardMove(currentPlayer, card));
 
-        // 2)
-        interfaceGui.getFrame().getConsole().getPlayersPanel()
-                .getPlayerDisplayedData(currentPlayer).getMoneyPlayer()
-                .setMoneyPlayer(currentPlayer.getMoney() - card.getNumber());
+		// 2)
+		interfaceGui.getFrame().getConsole().getPlayersPanel()
+				.getPlayerDisplayedData(currentPlayer).getMoneyPlayer()
+				.setMoneyPlayer(currentPlayer.getMoney() - card.getNumber());
 
-        // 3)
-        int numberOfCard = card.getNumber();
+		// 3)
+		int numberOfCard = card.getNumber();
 
-        if (numberOfCard < 4) {
+		if (numberOfCard < 4) {
 
-            // looks in the board status for the new buyable card of that type
-            // and adds it to the cards panel
+			// looks in the board status for the new buyable card of that type
+			// and adds it to the cards panel
 
-            interfaceGui
-                    .getFrame()
-                    .getConsole()
-                    .getCardsPanel()
-                    .addCard(
-                            interfaceGui.getGameController().getBoardStatus()
-                                    .getNewBuyableCardOfATerrainType(card));
-        } else {
-            interfaceGui.getFrame().getConsole().getCardsPanel()
-                    .removeSingleCardPanel(card.getTerrainType());
-        }
-    }
+			interfaceGui
+					.getFrame()
+					.getConsole()
+					.getCardsPanel()
+					.addCard(
+							interfaceGui.getGameController().getBoardStatus()
+									.getNewBuyableCardOfATerrainType(card));
+		} else {
+			interfaceGui.getFrame().getConsole().getCardsPanel()
+					.removeSingleCardPanel(card.getTerrainType());
+		}
+	}
 
-    public GameMap getGameMap() {
-        return gameMap;
-    }
+	public GameMap getGameMap() {
+		return gameMap;
+	}
 
 }

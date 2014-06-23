@@ -10,13 +10,13 @@ import java.awt.Dimension;
  */
 public class PawnPanel extends PiecesOnTheMap {
 
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = -7585858665069834675L;
+	private static final long serialVersionUID = -7585858665069834675L;
 
-    public PawnPanel(String path, Dimension dimension) {
-        super(path, dimension);
-    }
+	public PawnPanel(String path, Dimension dimension) {
+		super(path, dimension);
+	}
 
 }

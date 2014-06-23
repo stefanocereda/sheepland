@@ -12,29 +12,29 @@ import javax.swing.JLabel;
  */
 public class MoneyPlayer extends JLabel {
 
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = -5999394955531410365L;
+	private static final long serialVersionUID = -5999394955531410365L;
 
-    /**
-     * the constructor takes as input the number of initial money of the player
-     * and the background color
-     * 
-     * @param money
-     */
-    public MoneyPlayer(Integer money, Color playerColor) {
-        super(money.toString() + " $");
-        setBackground(playerColor);
-    }
+	/**
+	 * the constructor takes as input the number of initial money of the player
+	 * and the background color
+	 * 
+	 * @param money
+	 */
+	public MoneyPlayer(Integer money, Color playerColor) {
+		super(money.toString() + " $");
+		setBackground(playerColor);
+	}
 
-    /**
-     * Set the money owned by a player.
-     * 
-     * @param money
-     */
-    public void setMoneyPlayer(Integer money) {
-        this.setText(money.toString() + " $");
-        repaint();
-    }
+	/**
+	 * Set the money owned by a player.
+	 * 
+	 * @param money
+	 */
+	public void setMoneyPlayer(Integer money) {
+		this.setText(money.toString() + " $");
+		repaint();
+	}
 }

@@ -27,100 +27,100 @@ import java.util.logging.Logger;
  * @author Stefano
  */
 public class ServerStarterRMI implements Runnable {
-    /** A reference to the server starter that created this object */
-    private ServerStarter creator;
-    /** The ip port for the registry */
-    private int registryPort;
+	/** A reference to the server starter that created this object */
+	private ServerStarter creator;
+	/** The ip port for the registry */
+	private int registryPort;
 
-    /** The rmi registry */
-    private Registry registry;
+	/** The rmi registry */
+	private Registry registry;
 
-    /** A logger */
-    private static final Logger LOG = Logger.getLogger(ServerStarterRMI.class
-            .getName());
+	/** A logger */
+	private static final Logger LOG = Logger.getLogger(ServerStarterRMI.class
+			.getName());
 
-    /**
-     * This constructor saves the passed parameters, without actually starting
-     * the server
-     * 
-     * @param registryPort
-     *            The IP port for the rmi registry
-     * @param serverCreator
-     *            The object creating this server
-     */
-    public ServerStarterRMI(int registryPort, ServerStarter serverCreator) {
-        this.registryPort = registryPort;
-        this.creator = serverCreator;
-    }
+	/**
+	 * This constructor saves the passed parameters, without actually starting
+	 * the server
+	 * 
+	 * @param registryPort
+	 *            The IP port for the rmi registry
+	 * @param serverCreator
+	 *            The object creating this server
+	 */
+	public ServerStarterRMI(int registryPort, ServerStarter serverCreator) {
+		this.registryPort = registryPort;
+		this.creator = serverCreator;
+	}
 
-    /**
-     * This method publish a Connector object that starts listening for incoming
-     * connections
-     */
-    public void run() {
-        try {
-            // create an RMI registry
-            registry = LocateRegistry.createRegistry(registryPort);
+	/**
+	 * This method publish a Connector object that starts listening for incoming
+	 * connections
+	 */
+	public void run() {
+		try {
+			// create an RMI registry
+			registry = LocateRegistry.createRegistry(registryPort);
 
-            // create a Connector
-            RMIConnector connector = new RMIConnectorImpl(this);
-            RMIConnector connectorStub = (RMIConnector) UnicastRemoteObject
-                    .exportObject(connector, 0);
+			// create a Connector
+			RMIConnector connector = new RMIConnectorImpl(this);
+			RMIConnector connectorStub = (RMIConnector) UnicastRemoteObject
+					.exportObject(connector, 0);
 
-            // publish on the registry
-            registry.rebind(RMICostants.CONNECTOR, connectorStub);
-        } catch (AccessException e) {
-            String message = "Problems starting the rmi server, AccessException";
-            LOG.log(Level.SEVERE, message, e);
-        } catch (RemoteException e) {
-            String message = "Problems starting the rmi server, RemoteException";
-            LOG.log(Level.SEVERE, message, e);
-        }
-    }
+			// publish on the registry
+			registry.rebind(RMICostants.CONNECTOR, connectorStub);
+		} catch (AccessException e) {
+			String message = "Problems starting the rmi server, AccessException";
+			LOG.log(Level.SEVERE, message, e);
+		} catch (RemoteException e) {
+			String message = "Problems starting the rmi server, RemoteException";
+			LOG.log(Level.SEVERE, message, e);
+		}
+	}
 
-    /**
-     * This method is called by the rmi connector when a client connects, it
-     * takes the client network handler and tries to create a server client
-     * handler. Then notifies the main server
-     * 
-     * 
-     * @param client
-     *            the rmi network handler created by the client
-     * @param token
-     *            an identificator of the client
-     */
-    public void notifyConnection(RMIInterface client, int token) {
+	/**
+	 * This method is called by the rmi connector when a client connects, it
+	 * takes the client network handler and tries to create a server client
+	 * handler. Then notifies the main server
+	 * 
+	 * 
+	 * @param client
+	 *            the rmi network handler created by the client
+	 * @param token
+	 *            an identificator of the client
+	 */
+	public void notifyConnection(RMIInterface client, int token) {
 
-        ClientHandler acceptedHandler;
-        try {
-            acceptedHandler = new ClientHandlerRMI(creator, client, token);
-            creator.addClient(acceptedHandler);
-            // if there is a problem we simply don't register this client
-        } catch (RemoteException e) {
-            String message = "Problems accepting a client, RemoteException";
-            LOG.log(Level.SEVERE, message, e);
-        }
-    }
+		ClientHandler acceptedHandler;
+		try {
+			acceptedHandler = new ClientHandlerRMI(creator, client, token);
+			creator.addClient(acceptedHandler);
+			// if there is a problem we simply don't register this client
+		} catch (RemoteException e) {
+			String message = "Problems accepting a client, RemoteException";
+			LOG.log(Level.SEVERE, message, e);
+		}
+	}
 
-    /** This method stops the rmi server by unbinding the connector */
-    public void stop() {
+	/** This method stops the rmi server by unbinding the connector */
+	public void stop() {
 
-        try {
-            registry.unbind(RMICostants.CONNECTOR);
-        } catch (AccessException e) {
-            String message = "Problems closing the rmi server";
-            LOG.log(Level.SEVERE, message, e);
-        } catch (RemoteException e) {
-            String message = "Problems closing the rmi server";
-            LOG.log(Level.SEVERE, message, e);
-        } catch (NotBoundException e) {
-            String message = "Problems closing the rmi server";
-            LOG.log(Level.SEVERE, message, e);
-        }
-    }
+		try {
+			registry.unbind(RMICostants.CONNECTOR);
+		} catch (AccessException e) {
+			String message = "Problems closing the rmi server";
+			LOG.log(Level.SEVERE, message, e);
+		} catch (RemoteException e) {
+			String message = "Problems closing the rmi server";
+			LOG.log(Level.SEVERE, message, e);
+		} catch (NotBoundException e) {
+			String message = "Problems closing the rmi server";
+			LOG.log(Level.SEVERE, message, e);
+		}
+	}
 
-    /** @return a new token */
-    public int getNewToken() {
-        return creator.getNewToken();
-    }
+	/** @return a new token */
+	public int getNewToken() {
+		return creator.getNewToken();
+	}
 }

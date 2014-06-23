@@ -35,217 +35,217 @@ import org.junit.Test;
  * 
  */
 public class StandardGameTest {
-    List<Client> clients = new ArrayList<StandardGameTest.Client>();
+	List<Client> clients = new ArrayList<StandardGameTest.Client>();
 
-    @Test
-    public void test() {
-        ServerMainClass.main(null);
-        waitServer();
+	@Test
+	public void test() {
+		ServerMainClass.main(null);
+		waitServer();
 
-        // launch two socket client
-        for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i++) {
-            Client c = new Client(false);
-            Thread t = new Thread(c);
-            t.start();
-            clients.add(c);
-        }
+		// launch two socket client
+		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i++) {
+			Client c = new Client(false);
+			Thread t = new Thread(c);
+			t.start();
+			clients.add(c);
+		}
 
-        // launch two rmi client
-        for (int i = GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
-            Client c = new Client(true);
-            Thread t = new Thread(c);
-            t.start();
-            clients.add(c);
-        }
+		// launch two rmi client
+		for (int i = GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
+			Client c = new Client(true);
+			Thread t = new Thread(c);
+			t.start();
+			clients.add(c);
+		}
 
-        // launch a socket client
-        Client c1 = new Client(false);
-        Thread t1 = new Thread(c1);
-        t1.start();
-        clients.add(c1);
-        // and an rmi Client
-        Client c2 = new Client(true);
-        Thread t2 = new Thread(c2);
-        t2.start();
-        clients.add(c2);
+		// launch a socket client
+		Client c1 = new Client(false);
+		Thread t1 = new Thread(c1);
+		t1.start();
+		clients.add(c1);
+		// and an rmi Client
+		Client c2 = new Client(true);
+		Thread t2 = new Thread(c2);
+		t2.start();
+		clients.add(c2);
 
-        // let them play
-        int counter = 0;
-        do {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            counter++;
-        } while (counter < 5 && !completed());
+		// let them play
+		int counter = 0;
+		do {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			counter++;
+		} while (counter < 5 && !completed());
 
-    }
+	}
 
-    private boolean completed() {
-        for (Client c : clients) {
-            if (!c.isFinished()) {
-                return false;
-            }
-        }
-        return true;
-    }
+	private boolean completed() {
+		for (Client c : clients) {
+			if (!c.isFinished()) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    /** Keep searching for the rmi server */
-    private void waitServer() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	/** Keep searching for the rmi server */
+	private void waitServer() {
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    private class TestInterface implements Interface {
-        private GameControllerClient gc;
-        private boolean isFinished = false;
+	private class TestInterface implements Interface {
+		private GameControllerClient gc;
+		private boolean isFinished = false;
 
-        public void setReferenceToGameController(
-                GameControllerClient gameControllerClient) {
-            gc = gameControllerClient;
-        }
+		public void setReferenceToGameController(
+				GameControllerClient gameControllerClient) {
+			gc = gameControllerClient;
+		}
 
-        public void showInitialInformation() {
-            assertNotNull(gc);
-            assertNotNull(gc.getBoardStatus());
-            assertNotNull(gc.getControlledPlayer());
-        }
+		public void showInitialInformation() {
+			assertNotNull(gc);
+			assertNotNull(gc.getBoardStatus());
+			assertNotNull(gc.getControlledPlayer());
+		}
 
-        public void notifyNewStatus() {
-            assertNotNull(gc);
-            assertNotNull(gc.getBoardStatus());
-            assertNotNull(gc.getBoardStatus().getBlackSheep());
-            assertNotNull(gc.getBoardStatus().getCurrentPlayer());
-            assertNotNull(gc.getBoardStatus().getDeck());
-            assertNotNull(gc.getBoardStatus().getFirstPlayer());
-            assertNotNull(gc.getBoardStatus().getGates());
-            assertNotNull(gc.getBoardStatus().getPlayers());
-            assertNotNull(gc.getBoardStatus().getRoadMap());
-            assertNotNull(gc.getBoardStatus().getSheeps());
+		public void notifyNewStatus() {
+			assertNotNull(gc);
+			assertNotNull(gc.getBoardStatus());
+			assertNotNull(gc.getBoardStatus().getBlackSheep());
+			assertNotNull(gc.getBoardStatus().getCurrentPlayer());
+			assertNotNull(gc.getBoardStatus().getDeck());
+			assertNotNull(gc.getBoardStatus().getFirstPlayer());
+			assertNotNull(gc.getBoardStatus().getGates());
+			assertNotNull(gc.getBoardStatus().getPlayers());
+			assertNotNull(gc.getBoardStatus().getRoadMap());
+			assertNotNull(gc.getBoardStatus().getSheeps());
 
-        }
+		}
 
-        public Road chooseInitialPosition() {
-            Dice dice = Dice.create();
-            Map<Integer, Road> roads = gc.getBoardStatus().getRoadMap()
-                    .getHashMapOfRoads();
-            Road toRet = null;
+		public Road chooseInitialPosition() {
+			Dice dice = Dice.create();
+			Map<Integer, Road> roads = gc.getBoardStatus().getRoadMap()
+					.getHashMapOfRoads();
+			Road toRet = null;
 
-            do {
-                toRet = roads.get(dice.roll(roads.size()));
-            } while (!gc.getBoardStatus().isFreeRoad(toRet));
+			do {
+				toRet = roads.get(dice.roll(roads.size()));
+			} while (!gc.getBoardStatus().isFreeRoad(toRet));
 
-            return toRet;
-        }
+			return toRet;
+		}
 
-        public void notifyMove(Move move) {
-            assertNotNull(move);
-        }
+		public void notifyMove(Move move) {
+			assertNotNull(move);
+		}
 
-        public Move getNewMove() {
-            return new MovePlayer(gc.getControlledPlayer(),
-                    chooseInitialPosition());
-        }
+		public Move getNewMove() {
+			return new MovePlayer(gc.getControlledPlayer(),
+					chooseInitialPosition());
+		}
 
-        public void notifyNotValidMove() {
-        }
+		public void notifyNotValidMove() {
+		}
 
-        public void notifyCurrentPlayer(Player newCurrentPlayer) {
-            assertNotNull(newCurrentPlayer);
-        }
+		public void notifyCurrentPlayer(Player newCurrentPlayer) {
+			assertNotNull(newCurrentPlayer);
+		}
 
-        public void notifyWinners(List<Player> winners) {
-            assertNotNull(winners);
-            assertNotNull(winners.get(0));
-            System.out.println("game over");
-            isFinished = true;
-        }
+		public void notifyWinners(List<Player> winners) {
+			assertNotNull(winners);
+			assertNotNull(winners.get(0));
+			System.out.println("game over");
+			isFinished = true;
+		}
 
-        public void notifyDisconnection() {
+		public void notifyDisconnection() {
 
-        }
+		}
 
-        public boolean chooseShepherd() {
-            Random rnd = new Random();
-            return rnd.nextBoolean();
-        }
+		public boolean chooseShepherd() {
+			Random rnd = new Random();
+			return rnd.nextBoolean();
+		}
 
-        public Road chooseSecondInitialPosition() {
-            return chooseInitialPosition();
-        }
+		public Road chooseSecondInitialPosition() {
+			return chooseInitialPosition();
+		}
 
-        public void notifyShepherd(boolean usingSecond) {
-            assertNotNull(usingSecond);
-        }
+		public void notifyShepherd(boolean usingSecond) {
+			assertNotNull(usingSecond);
+		}
 
-        public List<MarketOffer> askMarketOffers() {
-            Random rnd = new Random();
-            List<MarketOffer> offers = new ArrayList<MarketOffer>();
+		public List<MarketOffer> askMarketOffers() {
+			Random rnd = new Random();
+			List<MarketOffer> offers = new ArrayList<MarketOffer>();
 
-            for (Card c : gc.getControlledPlayer().getCards()) {
-                if (rnd.nextBoolean()) {
-                    offers.add(new MarketOffer(gc.getControlledPlayer(), c, rnd
-                            .nextInt(20)));
-                }
-            }
+			for (Card c : gc.getControlledPlayer().getCards()) {
+				if (rnd.nextBoolean()) {
+					offers.add(new MarketOffer(gc.getControlledPlayer(), c, rnd
+							.nextInt(20)));
+				}
+			}
 
-            return offers;
-        }
+			return offers;
+		}
 
-        public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
-            Random rnd = new Random();
-            List<MarketBuy> buy = new ArrayList<MarketBuy>();
+		public List<MarketBuy> askMarketBuy(List<MarketOffer> offers) {
+			Random rnd = new Random();
+			List<MarketBuy> buy = new ArrayList<MarketBuy>();
 
-            for (MarketOffer mo : offers) {
-                if (rnd.nextBoolean()) {
-                    buy.add(new MarketBuy(gc.getControlledPlayer(), mo
-                            .getCardOffered()));
-                }
-            }
+			for (MarketOffer mo : offers) {
+				if (rnd.nextBoolean()) {
+					buy.add(new MarketBuy(gc.getControlledPlayer(), mo
+							.getCardOffered()));
+				}
+			}
 
-            return buy;
-        }
+			return buy;
+		}
 
-        public boolean isFinished() {
-            return isFinished;
-        }
-    }
+		public boolean isFinished() {
+			return isFinished;
+		}
+	}
 
-    private class Client implements Runnable {
-        private boolean useRmi = false;
-        private TestInterface ux = new TestInterface();
+	private class Client implements Runnable {
+		private boolean useRmi = false;
+		private TestInterface ux = new TestInterface();
 
-        public Client(boolean rmi) {
-            useRmi = rmi;
-        }
+		public Client(boolean rmi) {
+			useRmi = rmi;
+		}
 
-        public void run() {
-            GameControllerClient gc = new GameControllerClient(ux);
+		public void run() {
+			GameControllerClient gc = new GameControllerClient(ux);
 
-            try {
-                if (useRmi) {
-                    NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(gc, 0);
-                    rmiClient.connect();
-                } else {
-                    InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
+			try {
+				if (useRmi) {
+					NetworkHandlerRMI rmiClient = new NetworkHandlerRMI(gc, 0);
+					rmiClient.connect();
+				} else {
+					InetSocketAddress serverAddress = NetworkConstants.SERVER_SOCKET_ADDRESS;
 
-                    NetworkHandlerSocket socketClient;
+					NetworkHandlerSocket socketClient;
 
-                    socketClient = new NetworkHandlerSocket(serverAddress, gc,
-                            0);
-                    socketClient.start();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+					socketClient = new NetworkHandlerSocket(serverAddress, gc,
+							0);
+					socketClient.start();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
-        public boolean isFinished() {
-            return ux.isFinished();
-        }
-    }
+		public boolean isFinished() {
+			return ux.isFinished();
+		}
+	}
 }

@@ -10,25 +10,25 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interf
  * 
  */
 public class InterfaceCreator {
-    /** Hide the default constructor */
-    private InterfaceCreator() {
-    }
+	/** Hide the default constructor */
+	private InterfaceCreator() {
+	}
 
-    /**
-     * Creates an interface of the given type
-     * 
-     * @param type
-     *            The type of interface desidered
-     * @return an interface of the given type
-     */
-    public static Interface create(TypeOfInterface type) {
-        switch (type) {
-        case CONSOLE:
-            return new InterfaceConsole();
-        case GUI:
-            return new InterfaceGui();
-        default:
-            return new InterfaceConsole();
-        }
-    }
+	/**
+	 * Creates an interface of the given type
+	 * 
+	 * @param type
+	 *            The type of interface desidered
+	 * @return an interface of the given type
+	 */
+	public static Interface create(TypeOfInterface type) {
+		switch (type) {
+			case CONSOLE :
+				return new InterfaceConsole();
+			case GUI :
+				return new InterfaceGui();
+			default :
+				return new InterfaceConsole();
+		}
+	}
 }

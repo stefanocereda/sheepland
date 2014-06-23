@@ -9,14 +9,14 @@ import java.io.Serializable;
  * 
  */
 public enum TerrainType implements Serializable {
-    PLAIN, COUNTRYSIDE, MOUNTAIN, DESERT, WOOD, LAKE, SHEEPSBURG;
+	PLAIN, COUNTRYSIDE, MOUNTAIN, DESERT, WOOD, LAKE, SHEEPSBURG;
 
-    /**
-     * @return the string name of the enum value (lower case letters)
-     */
-    @Override
-    public String toString() {
-        return this.name().toLowerCase();
-    }
+	/**
+	 * @return the string name of the enum value (lower case letters)
+	 */
+	@Override
+	public String toString() {
+		return this.name().toLowerCase();
+	}
 
 }

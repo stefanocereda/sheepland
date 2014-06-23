@@ -12,23 +12,23 @@ import java.util.Random;
  * 
  */
 public class Dice {
-    private static Random rnd = new Random();
-    private static Dice sharedDice = new Dice();
+	private static Random rnd = new Random();
+	private static Dice sharedDice = new Dice();
 
-    /** Private constructor for singleton pattern */
-    private Dice() {
-    }
+	/** Private constructor for singleton pattern */
+	private Dice() {
+	}
 
-    /** Singleton constructor */
-    public static Dice create() {
-        if (sharedDice == null) {
-            sharedDice = new Dice();
-        }
-        return sharedDice;
-    }
+	/** Singleton constructor */
+	public static Dice create() {
+		if (sharedDice == null) {
+			sharedDice = new Dice();
+		}
+		return sharedDice;
+	}
 
-    /** Get a random number from 1 to max (included) */
-    public int roll(int max) {
-        return rnd.nextInt(max) + 1;
-    }
+	/** Get a random number from 1 to max (included) */
+	public int roll(int max) {
+		return rnd.nextInt(max) + 1;
+	}
 }

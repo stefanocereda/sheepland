@@ -12,12 +12,12 @@ import org.junit.Test;
  */
 public class TypeOfPlayerMovesTest {
 
-    @Test
-    public void toStringTest() {
+	@Test
+	public void toStringTest() {
 
-        assertEquals(TypeOfPlayerMoves.MOVEPLAYER.toString(), "move player");
-        assertEquals(TypeOfPlayerMoves.MOVESHEEP.toString(), "move sheep");
-        assertEquals(TypeOfPlayerMoves.BUYCARD.toString(), "buy card");
-    }
+		assertEquals(TypeOfPlayerMoves.MOVEPLAYER.toString(), "move player");
+		assertEquals(TypeOfPlayerMoves.MOVESHEEP.toString(), "move sheep");
+		assertEquals(TypeOfPlayerMoves.BUYCARD.toString(), "buy card");
+	}
 
 }

@@ -13,25 +13,25 @@ import javax.swing.JLabel;
 
 public class NamePlayer extends JLabel {
 
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = -579686708686984138L;
+	private static final long serialVersionUID = -579686708686984138L;
 
-    // the constructor set the name of the player and the background color
-    public NamePlayer(String name, Color playerColor) {
-        super(name);
-        setBackground(playerColor);
-    }
+	// the constructor set the name of the player and the background color
+	public NamePlayer(String name, Color playerColor) {
+		super(name);
+		setBackground(playerColor);
+	}
 
-    /**
-     * Get the name of the player
-     * 
-     * @Return string contaning the name
-     * 
-     */
-    public String getNamePlayer() {
-        return this.getText();
-    }
+	/**
+	 * Get the name of the player
+	 * 
+	 * @Return string contaning the name
+	 * 
+	 */
+	public String getNamePlayer() {
+		return this.getText();
+	}
 
 }

@@ -17,22 +17,22 @@ import org.junit.Test;
  */
 public class InterfaceCreatorTest {
 
-    /**
-     * Test method for
-     * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceCreator#create(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.TypeOfInterface)}
-     * .
-     */
-    @Test
-    public void testCreate() {
-        List<Interface> interfaces = new ArrayList<Interface>();
+	/**
+	 * Test method for
+	 * {@link it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.InterfaceCreator#create(it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.client.interfaces.TypeOfInterface)}
+	 * .
+	 */
+	@Test
+	public void testCreate() {
+		List<Interface> interfaces = new ArrayList<Interface>();
 
-        for (TypeOfInterface type : TypeOfInterface.values()) {
-            if (!type.equals(TypeOfInterface.GUI)) {
-                Interface created = InterfaceCreator.create(type);
-                assertNotNull(created);
-                assertFalse(interfaces.contains(created));
-                interfaces.add(created);
-            }
-        }
-    }
+		for (TypeOfInterface type : TypeOfInterface.values()) {
+			if (!type.equals(TypeOfInterface.GUI)) {
+				Interface created = InterfaceCreator.create(type);
+				assertNotNull(created);
+				assertFalse(interfaces.contains(created));
+				interfaces.add(created);
+			}
+		}
+	}
 }

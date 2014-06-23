@@ -11,18 +11,18 @@ import java.awt.Dimension;
  * 
  */
 public enum DefaultLabelDimension {
-    SHEEP(new Dimension(50, 36)), RAM(new Dimension(50, 36)), LAMB(
-            new Dimension(45, 27)), BLACKSHEEP(new Dimension(35, 24)), WOLF(
-            new Dimension(35, 22)), PAWN(new Dimension(46, 46));
+	SHEEP(new Dimension(50, 36)), RAM(new Dimension(50, 36)), LAMB(
+			new Dimension(45, 27)), BLACKSHEEP(new Dimension(35, 24)), WOLF(
+			new Dimension(35, 22)), PAWN(new Dimension(46, 46));
 
-    private Dimension defaultDimension;
+	private Dimension defaultDimension;
 
-    private DefaultLabelDimension(Dimension defaultDimension) {
-        this.defaultDimension = defaultDimension;
-    }
+	private DefaultLabelDimension(Dimension defaultDimension) {
+		this.defaultDimension = defaultDimension;
+	}
 
-    public Dimension getDefaultDimension() {
-        return defaultDimension;
-    }
+	public Dimension getDefaultDimension() {
+		return defaultDimension;
+	}
 
 }

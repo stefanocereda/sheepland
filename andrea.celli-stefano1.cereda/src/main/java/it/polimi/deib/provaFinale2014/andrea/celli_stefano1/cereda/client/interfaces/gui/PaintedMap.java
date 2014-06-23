@@ -23,82 +23,82 @@ import javax.imageio.ImageIO;
  */
 public class PaintedMap {
 
-    /** the painted map */
-    private BufferedImage paintedMap;
+	/** the painted map */
+	private BufferedImage paintedMap;
 
-    /** the border that surrounds the displayed map */
-    private double border;
+	/** the border that surrounds the displayed map */
+	private double border;
 
-    /** the dimension that the final painted map has to have */
-    private Dimension paintedMapDimension = new Dimension();
+	/** the dimension that the final painted map has to have */
+	private Dimension paintedMapDimension = new Dimension();
 
-    /** class logger */
-    private static final Logger LOG = Logger.getLogger(PaintedMap.class
-            .getName());
+	/** class logger */
+	private static final Logger LOG = Logger.getLogger(PaintedMap.class
+			.getName());
 
-    /**
-     * The constructor
-     * 
-     * @param panelMapDimension
-     *            (the dimension of the panel that contains the displayed image)
-     */
-    public PaintedMap(Dimension panelMapDimension) {
+	/**
+	 * The constructor
+	 * 
+	 * @param panelMapDimension
+	 *            (the dimension of the panel that contains the displayed image)
+	 */
+	public PaintedMap(Dimension panelMapDimension) {
 
-        // calculate the dimension and the border
-        paintedMapDimension.setSize(GuiConstants.MAP_WIDTH
-                * panelMapDimension.height / GuiConstants.MAP_HEIGHT,
-                panelMapDimension.height);
+		// calculate the dimension and the border
+		paintedMapDimension.setSize(GuiConstants.MAP_WIDTH
+				* panelMapDimension.height / GuiConstants.MAP_HEIGHT,
+				panelMapDimension.height);
 
-        border = (panelMapDimension.width - paintedMapDimension.width) / 2;
+		border = (panelMapDimension.width - paintedMapDimension.width) / 2;
 
-        paintedMap = loadAndResize();
-    }
+		paintedMap = loadAndResize();
+	}
 
-    /**
-     * This method load the buffered image and then scale it to fit the
-     * dimension of the actual map
-     * 
-     * @return bufferedImage
-     */
-    private BufferedImage loadAndResize() {
+	/**
+	 * This method load the buffered image and then scale it to fit the
+	 * dimension of the actual map
+	 * 
+	 * @return bufferedImage
+	 */
+	private BufferedImage loadAndResize() {
 
-        BufferedImage bimg = null;
-        BufferedImage ret = null;
+		BufferedImage bimg = null;
+		BufferedImage ret = null;
 
-        // load the initial buffered image
-        try {
-            bimg = ImageIO.read(getClass().getClassLoader().getResource(
-                    GuiConstants.PAINTED_MAP));
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Unable to load the painted map file", e);
-        }
+		// load the initial buffered image
+		try {
+			bimg = ImageIO.read(getClass().getClassLoader().getResource(
+					GuiConstants.PAINTED_MAP));
+		} catch (Exception e) {
+			LOG.log(Level.SEVERE, "Unable to load the painted map file", e);
+		}
 
-        ret = new BufferedImage(GuiConstants.MAP_WIDTH,
-                GuiConstants.MAP_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = ret.createGraphics();
-        g.drawImage(bimg, 0, 0, null);
-        g.dispose();
+		ret = new BufferedImage(GuiConstants.MAP_WIDTH,
+				GuiConstants.MAP_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = ret.createGraphics();
+		g.drawImage(bimg, 0, 0, null);
+		g.dispose();
 
-        // scale the bufferedImage
-        Image scaledImage = ret.getScaledInstance(paintedMapDimension.width,
-                paintedMapDimension.height, Image.SCALE_DEFAULT);
+		// scale the bufferedImage
+		Image scaledImage = ret.getScaledInstance(paintedMapDimension.width,
+				paintedMapDimension.height, Image.SCALE_DEFAULT);
 
-        // creates a new buffered image from the scaled image
-        BufferedImage finalBufferedImage = new BufferedImage(
-                paintedMapDimension.width, paintedMapDimension.height,
-                BufferedImage.TYPE_INT_ARGB);
-        Graphics g2 = finalBufferedImage.getGraphics();
-        g2.drawImage(scaledImage, 0, 0, null);
-        g2.dispose();
+		// creates a new buffered image from the scaled image
+		BufferedImage finalBufferedImage = new BufferedImage(
+				paintedMapDimension.width, paintedMapDimension.height,
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics g2 = finalBufferedImage.getGraphics();
+		g2.drawImage(scaledImage, 0, 0, null);
+		g2.dispose();
 
-        return finalBufferedImage;
+		return finalBufferedImage;
 
-    }
+	}
 
-    /**
-     * This method allows to find the color of a given point in the painted map
-     */
-    public Color findColor(Point point) {
-        return new Color(paintedMap.getRGB((int) (point.x - border), point.y));
-    }
+	/**
+	 * This method allows to find the color of a given point in the painted map
+	 */
+	public Color findColor(Point point) {
+		return new Color(paintedMap.getRGB((int) (point.x - border), point.y));
+	}
 }

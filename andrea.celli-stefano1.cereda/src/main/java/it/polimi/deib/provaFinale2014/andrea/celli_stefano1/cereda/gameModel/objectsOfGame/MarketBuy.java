@@ -10,51 +10,51 @@ import java.util.List;
 
 /** This class represents the act of buying a card during the market phase */
 public class MarketBuy extends GenericGameObject {
-    private static final long serialVersionUID = 7251457679227886409L;
+	private static final long serialVersionUID = 7251457679227886409L;
 
-    /** The player that is doing this buy action */
-    private Player buyer;
-    /** The card being bought */
-    private Card cardBought;
+	/** The player that is doing this buy action */
+	private Player buyer;
+	/** The card being bought */
+	private Card cardBought;
 
-    /**
-     * 
-     * @param buyer
-     *            The player that is buying the card
-     * @param cardBought
-     *            The card bought
-     */
-    public MarketBuy(Player buyer, Card cardBought) {
-        super();
-        this.buyer = buyer;
-        this.cardBought = cardBought;
-    }
+	/**
+	 * 
+	 * @param buyer
+	 *            The player that is buying the card
+	 * @param cardBought
+	 *            The card bought
+	 */
+	public MarketBuy(Player buyer, Card cardBought) {
+		super();
+		this.buyer = buyer;
+		this.cardBought = cardBought;
+	}
 
-    /**
-     * @return the buyer
-     */
-    public Player getBuyer() {
-        return buyer;
-    }
+	/**
+	 * @return the buyer
+	 */
+	public Player getBuyer() {
+		return buyer;
+	}
 
-    /**
-     * @return the cardBought
-     */
-    public Card getCardBought() {
-        return cardBought;
-    }
+	/**
+	 * @return the cardBought
+	 */
+	public Card getCardBought() {
+		return cardBought;
+	}
 
-    /**
-     * Check if this buy is valid in the context of the given list of market
-     * offers
-     */
-    public boolean isValidBuy(List<MarketOffer> offers, Player buyer) {
-        return RuleChecker.isValidMarketBuy(this, offers, buyer);
-    }
+	/**
+	 * Check if this buy is valid in the context of the given list of market
+	 * offers
+	 */
+	public boolean isValidBuy(List<MarketOffer> offers, Player buyer) {
+		return RuleChecker.isValidMarketBuy(this, offers, buyer);
+	}
 
-    /** Execute a market buy, trade cards and money and delete the offer */
-    public void execute(List<MarketOffer> offers,
-            BoardStatusExtended boardStatus) {
-        ExecuteAction.executeMarketTrade(this, offers, boardStatus);
-    }
+	/** Execute a market buy, trade cards and money and delete the offer */
+	public void execute(List<MarketOffer> offers,
+			BoardStatusExtended boardStatus) {
+		ExecuteAction.executeMarketTrade(this, offers, boardStatus);
+	}
 }

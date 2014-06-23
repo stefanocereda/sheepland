@@ -9,60 +9,60 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.obj
  * 
  */
 public class PlayerDouble extends Player {
-    private static final long serialVersionUID = -2210970681587172191L;
+	private static final long serialVersionUID = -2210970681587172191L;
 
-    /** The position of the second shepherd */
-    private Road secondposition;
+	/** The position of the second shepherd */
+	private Road secondposition;
 
-    /**
-     * This variable is set at the beginning of each turn and indicates if the
-     * player wants to use the first or the second shepherd
-     */
-    private boolean usingSecond = false;
+	/**
+	 * This variable is set at the beginning of each turn and indicates if the
+	 * player wants to use the first or the second shepherd
+	 */
+	private boolean usingSecond = false;
 
-    /** Set if this player is using the second player in this turn */
-    public void setShepherd(boolean usingSecond) {
-        this.usingSecond = usingSecond;
-    }
+	/** Set if this player is using the second player in this turn */
+	public void setShepherd(boolean usingSecond) {
+		this.usingSecond = usingSecond;
+	}
 
-    /**
-     * Move the controlled shepherd in a new road, without rules checking.
-     * 
-     * @param newRoad
-     *            The new road
-     */
-    @Override
-    public void move(Road newRoad) {
-        if (usingSecond) {
-            secondposition = newRoad;
-        } else {
-            super.move(newRoad);
-        }
-    }
+	/**
+	 * Move the controlled shepherd in a new road, without rules checking.
+	 * 
+	 * @param newRoad
+	 *            The new road
+	 */
+	@Override
+	public void move(Road newRoad) {
+		if (usingSecond) {
+			secondposition = newRoad;
+		} else {
+			super.move(newRoad);
+		}
+	}
 
-    /**
-     * Get the position of the controlled shepherd
-     */
-    @Override
-    public Road getPosition() {
-        if (usingSecond) {
-            return secondposition;
-        }
-        return super.getPosition();
-    }
+	/**
+	 * Get the position of the controlled shepherd
+	 */
+	@Override
+	public Road getPosition() {
+		if (usingSecond) {
+			return secondposition;
+		}
+		return super.getPosition();
+	}
 
-    /** @return the position of the second shepherd */
-    public Road getSecondposition() {
-        return secondposition;
-    }
+	/** @return the position of the second shepherd */
+	public Road getSecondposition() {
+		return secondposition;
+	}
 
-    /** @return the position of the first shepherd */
-    public Road getFirstPosition() {
-        return super.getPosition();
-    }
+	/** @return the position of the first shepherd */
+	public Road getFirstPosition() {
+		return super.getPosition();
+	}
 
-    /** @return true if the player is using his second shepherd */
-    public boolean getShepherd() {
-        return usingSecond;
-    }
+	/** @return true if the player is using his second shepherd */
+	public boolean getShepherd() {
+		return usingSecond;
+	}
 }

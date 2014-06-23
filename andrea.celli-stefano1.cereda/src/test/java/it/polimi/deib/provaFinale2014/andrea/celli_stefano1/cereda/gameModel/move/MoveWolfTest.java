@@ -22,67 +22,67 @@ import org.junit.Test;
  */
 public class MoveWolfTest {
 
-    /**
-     * Test method for all the methods
-     */
-    @Test
-    public final void testMoveWolf() {
-        BoardStatusExtended bs = new BoardStatusExtended(1);
+	/**
+	 * Test method for all the methods
+	 */
+	@Test
+	public final void testMoveWolf() {
+		BoardStatusExtended bs = new BoardStatusExtended(1);
 
-        Wolf wolf = new Wolf(Terrain.SHEEPSBURG);
-        wolf.setID();
-        bs.addWolfToBoardStatus(wolf);
+		Wolf wolf = new Wolf(Terrain.SHEEPSBURG);
+		wolf.setID();
+		bs.addWolfToBoardStatus(wolf);
 
-        Sheep s = new Sheep(Terrain.C3);
-        s.setID();
-        bs.addSheep(s);
+		Sheep s = new Sheep(Terrain.C3);
+		s.setID();
+		bs.addSheep(s);
 
-        MoveWolf mw = new MoveWolf(wolf, Terrain.C3, s);
+		MoveWolf mw = new MoveWolf(wolf, Terrain.C3, s);
 
-        assertTrue(mw.isValid(bs));
+		assertTrue(mw.isValid(bs));
 
-        // now place a gate on the road
-        Gate g = new Gate(false, bs.getRoadMap().getHashMapOfRoads().get(21));
-        g.setID();
-        bs.addPlacedGateToBoardStatus(g);
-        assertFalse(mw.isValid(bs));
+		// now place a gate on the road
+		Gate g = new Gate(false, bs.getRoadMap().getHashMapOfRoads().get(21));
+		g.setID();
+		bs.addPlacedGateToBoardStatus(g);
+		assertFalse(mw.isValid(bs));
 
-        // now go on a terrain without the sheep
-        mw = new MoveWolf(wolf, Terrain.M1, s);
-        assertFalse(mw.isValid(bs));
+		// now go on a terrain without the sheep
+		mw = new MoveWolf(wolf, Terrain.M1, s);
+		assertFalse(mw.isValid(bs));
 
-        // now go on a terrain with the sheep but not adjacent
-        s.move(Terrain.D2);
-        mw = new MoveWolf(wolf, Terrain.D2, s);
-        assertFalse(mw.isValid(bs));
+		// now go on a terrain with the sheep but not adjacent
+		s.move(Terrain.D2);
+		mw = new MoveWolf(wolf, Terrain.D2, s);
+		assertFalse(mw.isValid(bs));
 
-        // try with an adjacent black sheep
-        BlackSheep black = new BlackSheep(Terrain.D1);
-        black.setID();
-        bs.addBlackSheepToBoardStatus(black);
-        assertFalse(mw.isValid(bs));
+		// try with an adjacent black sheep
+		BlackSheep black = new BlackSheep(Terrain.D1);
+		black.setID();
+		bs.addBlackSheepToBoardStatus(black);
+		assertFalse(mw.isValid(bs));
 
-        // now go on an adjacent terrain with the sheep but don't kill
-        mw = new MoveWolf(wolf, Terrain.D1, null);
-        assertTrue(mw.isValid(bs));
+		// now go on an adjacent terrain with the sheep but don't kill
+		mw = new MoveWolf(wolf, Terrain.D1, null);
+		assertTrue(mw.isValid(bs));
 
-        // execute it, the wolf should go in D1
-        mw.execute(bs);
-        assertEquals(wolf, mw.getWolf());
-        assertEquals(wolf, bs.getWolf());
-        assertEquals(Terrain.D1, wolf.getPosition());
+		// execute it, the wolf should go in D1
+		mw.execute(bs);
+		assertEquals(wolf, mw.getWolf());
+		assertEquals(wolf, bs.getWolf());
+		assertEquals(Terrain.D1, wolf.getPosition());
 
-        // now place the sheep in L1 and eat it
-        s.move(Terrain.L1);
-        mw = new MoveWolf(wolf, Terrain.L1, s);
-        assertTrue(mw.isValid(bs));
-        mw.execute(bs);
-        assertFalse(bs.getSheeps().contains(s));
+		// now place the sheep in L1 and eat it
+		s.move(Terrain.L1);
+		mw = new MoveWolf(wolf, Terrain.L1, s);
+		assertTrue(mw.isValid(bs));
+		mw.execute(bs);
+		assertFalse(bs.getSheeps().contains(s));
 
-        // some more test
-        assertEquals(Terrain.L1, mw.getNewPosition());
-        assertEquals(s, mw.getKilledSheep());
-        assertNotNull(mw.toString());
-        assertEquals(MoveCostCalculator.getMoveCost(mw, bs), 0);
-    }
+		// some more test
+		assertEquals(Terrain.L1, mw.getNewPosition());
+		assertEquals(s, mw.getKilledSheep());
+		assertNotNull(mw.toString());
+		assertEquals(MoveCostCalculator.getMoveCost(mw, bs), 0);
+	}
 }

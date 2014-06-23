@@ -14,47 +14,47 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  */
 
 public class MoveSheep extends PlayerAction {
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = 7103714950580888101L;
-    private Sheep sheep;
-    private Terrain newPosition;
+	private static final long serialVersionUID = 7103714950580888101L;
+	private Sheep sheep;
+	private Terrain newPosition;
 
-    /**
-     * The constructor creates a new move in which a sheep is moved to another
-     * terrain
-     * 
-     * @param player
-     *            who execute the action
-     * @param sheep
-     *            the sheep which is moved
-     * @param newPosition
-     *            where the sheep is moved
-     */
-    public MoveSheep(Player player, Sheep sheep, Terrain newPosition) {
-        super(player);
-        this.sheep = sheep;
-        this.newPosition = newPosition;
-    }
+	/**
+	 * The constructor creates a new move in which a sheep is moved to another
+	 * terrain
+	 * 
+	 * @param player
+	 *            who execute the action
+	 * @param sheep
+	 *            the sheep which is moved
+	 * @param newPosition
+	 *            where the sheep is moved
+	 */
+	public MoveSheep(Player player, Sheep sheep, Terrain newPosition) {
+		super(player);
+		this.sheep = sheep;
+		this.newPosition = newPosition;
+	}
 
-    /** @return the sheep that has been moved */
-    public Sheep getMovedSheep() {
-        return sheep;
-    }
+	/** @return the sheep that has been moved */
+	public Sheep getMovedSheep() {
+		return sheep;
+	}
 
-    /** @return the new position of the sheep */
-    public Terrain getNewPositionOfTheSheep() {
-        return newPosition;
-    }
+	/** @return the new position of the sheep */
+	public Terrain getNewPositionOfTheSheep() {
+		return newPosition;
+	}
 
-    @Override
-    public boolean isValid(BoardStatus boardStatus) {
-        return RuleChecker.isValidMoveSheep(this, boardStatus);
-    }
+	@Override
+	public boolean isValid(BoardStatus boardStatus) {
+		return RuleChecker.isValidMoveSheep(this, boardStatus);
+	}
 
-    @Override
-    public void execute(BoardStatus boardStatus) {
-        ExecuteAction.executeMoveSheep(this, boardStatus);
-    }
+	@Override
+	public void execute(BoardStatus boardStatus) {
+		ExecuteAction.executeMoveSheep(this, boardStatus);
+	}
 }

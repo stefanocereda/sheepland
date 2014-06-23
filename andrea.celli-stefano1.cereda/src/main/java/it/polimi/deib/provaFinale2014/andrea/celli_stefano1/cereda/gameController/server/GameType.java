@@ -6,5 +6,5 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameControll
  * @author Stefano
  */
 public enum GameType {
-    ORIGINAL, EXTENDED;
+	ORIGINAL, EXTENDED;
 }

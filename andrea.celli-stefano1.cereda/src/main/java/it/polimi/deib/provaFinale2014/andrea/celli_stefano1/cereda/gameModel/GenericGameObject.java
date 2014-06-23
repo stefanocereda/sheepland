@@ -20,60 +20,60 @@ import java.io.Serializable;
  * 
  */
 public class GenericGameObject implements Serializable {
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = -7360277395568886611L;
+	private static final long serialVersionUID = -7360277395568886611L;
 
-    /** a class counter of the number of objects created */
-    private static long created = 0;
+	/** a class counter of the number of objects created */
+	private static long created = 0;
 
-    /** The id of the object */
-    protected long id;
+	/** The id of the object */
+	protected long id;
 
-    /**
-     * This method sets the id of the object, it MUST be called ONLY by the
-     * server on EACH object it creates and ONLY on their creation
-     */
-    public void setID() {
-        id = created++;
-    }
+	/**
+	 * This method sets the id of the object, it MUST be called ONLY by the
+	 * server on EACH object it creates and ONLY on their creation
+	 */
+	public void setID() {
+		id = created++;
+	}
 
-    /**
-     * we override hashCode to match the overridden version of equals
-     * 
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (id ^ id >>> 32);
-        return result;
-    }
+	/**
+	 * we override hashCode to match the overridden version of equals
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ id >>> 32);
+		return result;
+	}
 
-    /**
-     * Two game objects are equals if they are of the same type and if they have
-     * the same id
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof GenericGameObject)) {
-            return false;
-        }
-        GenericGameObject other = (GenericGameObject) obj;
-        if (id != other.id) {
-            return false;
-        }
-        return true;
-    }
+	/**
+	 * Two game objects are equals if they are of the same type and if they have
+	 * the same id
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof GenericGameObject)) {
+			return false;
+		}
+		GenericGameObject other = (GenericGameObject) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
+	}
 
 }

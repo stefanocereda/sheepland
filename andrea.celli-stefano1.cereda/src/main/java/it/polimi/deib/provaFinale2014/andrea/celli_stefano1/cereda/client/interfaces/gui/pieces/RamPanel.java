@@ -10,13 +10,13 @@ import java.awt.Dimension;
  */
 public class RamPanel extends PiecesOnTheMap {
 
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = -6529803093810805036L;
+	private static final long serialVersionUID = -6529803093810805036L;
 
-    public RamPanel(String path, Dimension dimension) {
-        super(path, dimension);
-    }
+	public RamPanel(String path, Dimension dimension) {
+		super(path, dimension);
+	}
 
 }

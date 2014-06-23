@@ -25,92 +25,92 @@ import org.junit.Test;
  */
 public class CompleteSimulationTest {
 
-    @Test
-    @Ignore
-    public void test() {
-        // starts the server
-        ServerMainClass.main(null);
-        waitServer();
-        System.out.println("server started");
+	@Test
+	@Ignore
+	public void test() {
+		// starts the server
+		ServerMainClass.main(null);
+		waitServer();
+		System.out.println("server started");
 
-        List<Thread> players = new ArrayList<Thread>();
-        // launch two socket client
-        for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i++) {
-            Client c = new Client(new String[] { "fake", "socket", "0" });
-            Thread t = new Thread(c);
-            players.add(t);
-            t.start();
-        }
+		List<Thread> players = new ArrayList<Thread>();
+		// launch two socket client
+		for (int i = 0; i < GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i++) {
+			Client c = new Client(new String[]{"fake", "socket", "0"});
+			Thread t = new Thread(c);
+			players.add(t);
+			t.start();
+		}
 
-        System.out.println("two fake socket created");
+		System.out.println("two fake socket created");
 
-        // launch two rmi client
-        for (int i = GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
-            Client c = new Client(new String[] { "fake", "rmi", "0" });
-            Thread t = new Thread(c);
-            players.add(t);
-            t.start();
-        }
-        System.out.println("two fake rmi created");
+		// launch two rmi client
+		for (int i = GameConstants.MAX_PLAYERS_IN_A_GAME / 2; i < GameConstants.MAX_PLAYERS_IN_A_GAME; i++) {
+			Client c = new Client(new String[]{"fake", "rmi", "0"});
+			Thread t = new Thread(c);
+			players.add(t);
+			t.start();
+		}
+		System.out.println("two fake rmi created");
 
-        // launch a socket client
-        Client c1 = new Client(new String[] { "fake", "socket" });
-        Thread t1 = new Thread(c1);
-        players.add(t1);
-        t1.start();
-        // and an rmi Client
-        c1 = new Client(new String[] { "fake", "rmi" });
-        Thread t2 = new Thread(c1);
-        players.add(t2);
-        t2.start();
-        System.out.println("created one socket and one rmi");
+		// launch a socket client
+		Client c1 = new Client(new String[]{"fake", "socket"});
+		Thread t1 = new Thread(c1);
+		players.add(t1);
+		t1.start();
+		// and an rmi Client
+		c1 = new Client(new String[]{"fake", "rmi"});
+		Thread t2 = new Thread(c1);
+		players.add(t2);
+		t2.start();
+		System.out.println("created one socket and one rmi");
 
-        // let them play for at most one minute
-        int counter = 0;
-        do {
-            try {
-                Thread.sleep(2 * TimeConstants.WAITING_FOR_MAX_PLAYERS);
-                counter++;
-            } catch (InterruptedException e) {
-                System.out.println("interrupted");
-            }
-        } while (!finished(players) && counter < 10);
-    }
+		// let them play for at most one minute
+		int counter = 0;
+		do {
+			try {
+				Thread.sleep(2 * TimeConstants.WAITING_FOR_MAX_PLAYERS);
+				counter++;
+			} catch (InterruptedException e) {
+				System.out.println("interrupted");
+			}
+		} while (!finished(players) && counter < 10);
+	}
 
-    /** Keep searching for the rmi server */
-    private void waitServer() {
-        try {
-            // get the remote registry
-            Registry registry = LocateRegistry.getRegistry(
-                    NetworkConstants.SERVER_RMI_ADDRESS,
-                    NetworkConstants.REGISTRY_IP_PORT);
+	/** Keep searching for the rmi server */
+	private void waitServer() {
+		try {
+			// get the remote registry
+			Registry registry = LocateRegistry.getRegistry(
+					NetworkConstants.SERVER_RMI_ADDRESS,
+					NetworkConstants.REGISTRY_IP_PORT);
 
-            // Search the server acceptor
-            RMIConnector connector = (RMIConnector) registry
-                    .lookup(RMICostants.CONNECTOR);
-        } catch (Exception e) {
-            waitServer();
-        }
-    }
+			// Search the server acceptor
+			RMIConnector connector = (RMIConnector) registry
+					.lookup(RMICostants.CONNECTOR);
+		} catch (Exception e) {
+			waitServer();
+		}
+	}
 
-    private boolean finished(List<Thread> threads) {
-        for (Thread t : threads) {
-            if (t.isAlive()) {
-                return false;
-            }
-        }
-        return true;
-    }
+	private boolean finished(List<Thread> threads) {
+		for (Thread t : threads) {
+			if (t.isAlive()) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    class Client implements Runnable {
-        private String[] args;
+	class Client implements Runnable {
+		private String[] args;
 
-        public Client(String[] arg) {
-            args = arg;
-        }
+		public Client(String[] arg) {
+			args = arg;
+		}
 
-        public void run() {
-            ClientMainClass.main(args);
-        }
-    }
+		public void run() {
+			ClientMainClass.main(args);
+		}
+	}
 }

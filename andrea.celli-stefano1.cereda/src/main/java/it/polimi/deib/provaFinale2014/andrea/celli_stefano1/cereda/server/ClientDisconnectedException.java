@@ -12,49 +12,49 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.pla
  * 
  */
 public class ClientDisconnectedException extends Exception {
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = -7184512801239412016L;
+	private static final long serialVersionUID = -7184512801239412016L;
 
-    /** A reference to the game controller where this player was playing */
-    private final GameController gameController;
+	/** A reference to the game controller where this player was playing */
+	private final GameController gameController;
 
-    /** A reference to the player controlled */
-    private final Player player;
+	/** A reference to the player controlled */
+	private final Player player;
 
-    /** The original exception */
-    private final Exception originalException;
+	/** The original exception */
+	private final Exception originalException;
 
-    /**
-     * The constructor sets the parameter
-     * 
-     * @param gc
-     *            A reference to the game controller where this player was
-     *            playing
-     * @param pc
-     *            A reference to the player controlled
-     * @param e
-     *            The original exception
-     */
-    public ClientDisconnectedException(GameController gc, Player pc, Exception e) {
-        gameController = gc;
-        player = pc;
-        originalException = e;
-    }
+	/**
+	 * The constructor sets the parameter
+	 * 
+	 * @param gc
+	 *            A reference to the game controller where this player was
+	 *            playing
+	 * @param pc
+	 *            A reference to the player controlled
+	 * @param e
+	 *            The original exception
+	 */
+	public ClientDisconnectedException(GameController gc, Player pc, Exception e) {
+		gameController = gc;
+		player = pc;
+		originalException = e;
+	}
 
-    /** @return the game controller where this player was playing */
-    public GameController getGameController() {
-        return gameController;
-    }
+	/** @return the game controller where this player was playing */
+	public GameController getGameController() {
+		return gameController;
+	}
 
-    /** @return the player controlled */
-    public Player getPlayer() {
-        return player;
-    }
+	/** @return the player controlled */
+	public Player getPlayer() {
+		return player;
+	}
 
-    /** @return the original exception */
-    public Exception getOriginalException() {
-        return originalException;
-    }
+	/** @return the original exception */
+	public Exception getOriginalException() {
+		return originalException;
+	}
 }

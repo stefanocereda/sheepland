@@ -12,14 +12,14 @@ import org.junit.Test;
  */
 public class DiceTest {
 
-    @Test
-    public void rollTest() {
-        Dice dice = Dice.create();
+	@Test
+	public void rollTest() {
+		Dice dice = Dice.create();
 
-        int result = dice.roll(10);
+		int result = dice.roll(10);
 
-        assertTrue(result <= 10);
-        assertTrue(result > 0);
-    }
+		assertTrue(result <= 10);
+		assertTrue(result > 0);
+	}
 
 }

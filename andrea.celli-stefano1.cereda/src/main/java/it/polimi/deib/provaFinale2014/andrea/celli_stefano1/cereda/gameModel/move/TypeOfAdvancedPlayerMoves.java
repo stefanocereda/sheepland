@@ -7,16 +7,16 @@ package it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.gameModel.mo
  * 
  */
 public enum TypeOfAdvancedPlayerMoves {
-    MATING("Mating"), BUTCHERING("Butchering");
+	MATING("Mating"), BUTCHERING("Butchering");
 
-    private final String name;
+	private final String name;
 
-    private TypeOfAdvancedPlayerMoves(String name) {
-        this.name = name;
-    }
+	private TypeOfAdvancedPlayerMoves(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public String toString() {
-        return name;
-    }
+	@Override
+	public String toString() {
+		return name;
+	}
 }

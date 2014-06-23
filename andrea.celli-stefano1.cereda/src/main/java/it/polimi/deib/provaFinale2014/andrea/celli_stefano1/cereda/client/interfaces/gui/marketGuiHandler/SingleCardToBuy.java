@@ -25,86 +25,86 @@ import javax.swing.JPanel;
  */
 public class SingleCardToBuy extends JPanel {
 
-    /**
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = 1737954786166820362L;
+	private static final long serialVersionUID = 1737954786166820362L;
 
-    // the displayed market offer
-    private MarketOffer marketOffer;
+	// the displayed market offer
+	private MarketOffer marketOffer;
 
-    private JButton buyButton;
+	private JButton buyButton;
 
-    private JLabel offerInformation;
+	private JLabel offerInformation;
 
-    private BuyListener listener;
+	private BuyListener listener;
 
-    // the flag that tells if the player bought the offer
-    private boolean bought;
+	// the flag that tells if the player bought the offer
+	private boolean bought;
 
-    /**
-     * The constructor builds the panel
-     * 
-     * @param marketOffer
-     */
-    public SingleCardToBuy(MarketOffer marketOffer) {
-        super();
+	/**
+	 * The constructor builds the panel
+	 * 
+	 * @param marketOffer
+	 */
+	public SingleCardToBuy(MarketOffer marketOffer) {
+		super();
 
-        this.marketOffer = marketOffer;
+		this.marketOffer = marketOffer;
 
-        this.setLayout(new GridLayout(1, 2));
+		this.setLayout(new GridLayout(1, 2));
 
-        bought = false;
+		bought = false;
 
-        // Label displaying information about the offer
-        offerInformation = new JLabel(marketOffer.getCardOffered().toString()
-                + " at price: " + marketOffer.getPrice());
-        offerInformation.setBackground(GuiConstants.COLORGAMECONSOLE);
-        this.add(offerInformation);
+		// Label displaying information about the offer
+		offerInformation = new JLabel(marketOffer.getCardOffered().toString()
+				+ " at price: " + marketOffer.getPrice());
+		offerInformation.setBackground(GuiConstants.COLORGAMECONSOLE);
+		this.add(offerInformation);
 
-        // button to buy the offer
-        buyButton = new JButton("Buy");
-        listener = new BuyListener();
-        buyButton.addActionListener(listener);
-        this.add(buyButton);
+		// button to buy the offer
+		buyButton = new JButton("Buy");
+		listener = new BuyListener();
+		buyButton.addActionListener(listener);
+		this.add(buyButton);
 
-    }
+	}
 
-    /**
-     * The listener manages the click on the BuyButton.
-     * 
-     * if bought=false: 1)set the new background color 2)set bought to true
-     * 
-     * if bought=true: 1)set the default background color 2)set bought to false
-     * 
-     */
-    private class BuyListener implements ActionListener {
+	/**
+	 * The listener manages the click on the BuyButton.
+	 * 
+	 * if bought=false: 1)set the new background color 2)set bought to true
+	 * 
+	 * if bought=true: 1)set the default background color 2)set bought to false
+	 * 
+	 */
+	private class BuyListener implements ActionListener {
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 
-            if (!bought) {
+			if (!bought) {
 
-                offerInformation.setBackground(Color.GREEN);
-                bought = true;
-                offerInformation.repaint();
+				offerInformation.setBackground(Color.GREEN);
+				bought = true;
+				offerInformation.repaint();
 
-            } else {
+			} else {
 
-                offerInformation.setBackground(GuiConstants.COLORGAMECONSOLE);
-                bought = false;
-                offerInformation.repaint();
+				offerInformation.setBackground(GuiConstants.COLORGAMECONSOLE);
+				bought = false;
+				offerInformation.repaint();
 
-            }
-        }
+			}
+		}
 
-    }
+	}
 
-    public MarketOffer getMarketOffer() {
-        return marketOffer;
-    }
+	public MarketOffer getMarketOffer() {
+		return marketOffer;
+	}
 
-    public boolean isBought() {
-        return bought;
-    }
+	public boolean isBought() {
+		return bought;
+	}
 
 }
