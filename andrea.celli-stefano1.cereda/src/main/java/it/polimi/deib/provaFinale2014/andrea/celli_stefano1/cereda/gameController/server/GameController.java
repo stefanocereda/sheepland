@@ -43,8 +43,17 @@ public class GameController implements Runnable {
 	protected BoardStatus boardStatus;
 
 	/** A logger */
-	private static final Logger LOGGER = Logger.getLogger(GameController.class
+	private static final Logger LOG = Logger.getLogger(GameController.class
 			.getName());
+	
+	/** The message to log when we detect a client disconnection */
+	protected static final String MSG_DISCONNECTION = "A client disconnected";
+	
+	/**
+	 * The message to log when we detect that the client is not aligned with out
+	 * protocol
+	 */
+	protected static final String MSG_NOT_ALIGNED = "A client is not aligned with the communication protocol, suspending it";
 
 	/**
 	 * GameController constructor, saves the list of clients
@@ -182,7 +191,7 @@ public class GameController implements Runnable {
 			Thread.sleep(TimeConstants.WAITING_FOR_CLIENT_RECONNECT);
 		} catch (InterruptedException e) {
 			String message = "The thread has been interrupted while waiting for a client reconnection";
-			LOGGER.log(Level.SEVERE, message, e);
+			LOG.log(Level.SEVERE, message, e);
 			return;
 		}
 
@@ -224,8 +233,7 @@ public class GameController implements Runnable {
 			newClientHandler.notifyControlledPlayer(player);
 			newClientHandler.sendNewStatus(boardStatus);
 		} catch (ClientDisconnectedException e) {
-			String message = "A client disconnected";
-			LOGGER.log(Level.INFO, message, e);
+			LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 			catchDisconnection(e.getPlayer());
 		}
 	}
@@ -253,8 +261,7 @@ public class GameController implements Runnable {
 				try {
 					client.sendNewStatus(boardStatus);
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 				}
 			}
@@ -273,8 +280,7 @@ public class GameController implements Runnable {
 				try {
 					client.setCurrentPlayer(boardStatus.getCurrentPlayer());
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 				}
 			}
@@ -288,8 +294,7 @@ public class GameController implements Runnable {
 				try {
 					client.executeMove(moveToExecute);
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 				}
 			}
@@ -303,8 +308,7 @@ public class GameController implements Runnable {
 				try {
 					ch.notifyControlledPlayer(ch.getPlayer());
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 				}
 			}
@@ -326,8 +330,7 @@ public class GameController implements Runnable {
 				try {
 					client.sendWinners(winners);
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 				}
 			}
@@ -351,12 +354,10 @@ public class GameController implements Runnable {
 				toReturn.setID();
 				return toReturn;
 			} catch (ClientDisconnectedException e) {
-				String message = "A client disconnected";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 				catchDisconnection(e.getPlayer());
 			} catch (ClassNotFoundException e) {
-				String message = "A client is not aligned with the communication protocol, suspending it";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_NOT_ALIGNED, e);
 				client.getPlayer().suspend();
 				client.getPlayer().setNotConnected();
 			}
@@ -380,12 +381,10 @@ public class GameController implements Runnable {
 				toReturn.setID();
 				return toReturn;
 			} catch (ClientDisconnectedException e) {
-				String message = "A client disconnected";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 				catchDisconnection(e.getPlayer());
 			} catch (ClassNotFoundException e) {
-				String message = "A client is not aligned with the communication protocol, suspending it";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_NOT_ALIGNED, e);
 				client.getPlayer().suspend();
 				client.getPlayer().setNotConnected();
 			}
@@ -411,14 +410,12 @@ public class GameController implements Runnable {
 					} while (!boardStatus.isFreeRoad(initial));
 
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 
 					initial = chooseRandomPositionForAPlayer();
 				} catch (ClassNotFoundException e) {
-					String message = "A client is not aligned with the communication protocol, suspending it";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_NOT_ALIGNED, e);
 					ch.getPlayer().suspend();
 					ch.getPlayer().setNotConnected();
 
@@ -477,7 +474,7 @@ public class GameController implements Runnable {
 				// java 1.5 there's a problem with the exceptions thrown by
 				// method.invoke
 				String message = "Problems managing the game";
-				LOGGER.log(Level.SEVERE, message, e);
+				LOG.log(Level.SEVERE, message, e);
 				break;
 			}
 		}

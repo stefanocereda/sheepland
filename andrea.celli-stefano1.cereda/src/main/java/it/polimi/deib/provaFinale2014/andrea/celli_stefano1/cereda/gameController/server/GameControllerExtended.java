@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  */
 public class GameControllerExtended extends GameController {
 	/** A logger */
-	private static final Logger LOGGER = Logger
+	private static final Logger LOG = Logger
 			.getLogger(GameControllerExtended.class.getName());
 
 	public GameControllerExtended(List<ClientHandler> playerClients) {
@@ -154,8 +154,7 @@ public class GameControllerExtended extends GameController {
 
 		// if newPosition is null (should be impossible) log an error and go on
 		if (newPosition == null) {
-			LOGGER.log(Level.SEVERE,
-					"There are errors in the method moveTheWolf");
+			LOG.log(Level.SEVERE, "There are errors in the method moveTheWolf");
 			return toReturn;
 		}
 
@@ -295,12 +294,10 @@ public class GameControllerExtended extends GameController {
 					toReturn = ch.askMarketOffers();
 				} while (!areValidOffers(toReturn, ch.getPlayer()));
 			} catch (ClientDisconnectedException e) {
-				String message = "A client disconnected";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 				catchDisconnection(e.getPlayer());
 			} catch (ClassNotFoundException e) {
-				String message = "A client is not aligned with the communication protocol, suspending it";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_NOT_ALIGNED, e);
 				ch.getPlayer().suspend();
 				ch.getPlayer().setNotConnected();
 			}
@@ -345,12 +342,10 @@ public class GameControllerExtended extends GameController {
 					setIdToAllBuy(buy);
 					executeAllMarketBuy(buy, offers);
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 				} catch (ClassNotFoundException e) {
-					String message = "A client is not aligned with the communication protocol, suspending it";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_NOT_ALIGNED, e);
 					ch.getPlayer().suspend();
 					ch.getPlayer().setNotConnected();
 				}

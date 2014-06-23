@@ -170,14 +170,19 @@ public class BoardStatus implements Serializable {
 	 * @author Stefano
 	 */
 	public boolean isFreeRoad(Road roadToCheck) {
-		// first check if we have a shepherd
+		return isFreeFromPlayers(roadToCheck) && isFreeFromGates(roadToCheck);
+	}
+
+	/** Check if the given road is free from players */
+	private boolean isFreeFromPlayers(Road roadToCheck) {
 		for (Player player : players.getPlayers()) {
 			if (player.getPosition() != null
 					&& player.getPosition().equals(roadToCheck)) {
 				return false;
 			}
+
 			// check for players with two shepherds
-			if (PlayerDouble.class.isInstance(player)) {
+			if (player instanceof PlayerDouble) {
 				PlayerDouble p = (PlayerDouble) player;
 				if (p.getSecondposition() != null
 						&& p.getSecondposition().equals(roadToCheck)) {
@@ -189,13 +194,6 @@ public class BoardStatus implements Serializable {
 				}
 			}
 		}
-
-		// then check the gates
-		if (!isFreeFromGates(roadToCheck)) {
-			return false;
-		}
-
-		// to be here it must be free
 		return true;
 	}
 
@@ -419,21 +417,11 @@ public class BoardStatus implements Serializable {
 		return new PlayerRandomIterator();
 	}
 
-	/**
-	 * This is an iterator that iterates the players of a game from the first in
-	 * the turn to the last.
-	 */
-	private class PlayerOrderedIterator implements Iterator<Player> {
-		private Player playerPointed;
-		private Integer firstPos;
-		private boolean firstCallToDo = true;
-
-		/** Create a player iterator */
-		public PlayerOrderedIterator() {
-			firstPos = (getPositionOfAPlayer(firstPlayer) - 1 + getPlayers().length)
-					% getPlayers().length;
-			playerPointed = getPlayers()[firstPos];
-		}
+	/** Abstract class for common methods in the ordered and random iterator */
+	private abstract class PlayerIterator {
+		protected Player playerPointed;
+		protected Integer firstPos;
+		protected boolean firstCallToDo = true;
 
 		/** {@inheritDoc} */
 		public boolean hasNext() {
@@ -461,44 +449,32 @@ public class BoardStatus implements Serializable {
 	}
 
 	/**
+	 * This is an iterator that iterates the players of a game from the first in
+	 * the turn to the last.
+	 */
+	private class PlayerOrderedIterator extends PlayerIterator implements
+			Iterator<Player> {
+		/** Create a player iterator */
+		public PlayerOrderedIterator() {
+			super();
+			firstPos = (getPositionOfAPlayer(firstPlayer) - 1 + getPlayers().length)
+					% getPlayers().length;
+			playerPointed = getPlayers()[firstPos];
+		}
+	}
+
+	/**
 	 * This is an iterator that goes through the players starting from a random
 	 * one
 	 */
-	private class PlayerRandomIterator implements Iterator<Player> {
-		private Player playerPointed;
-		private int firstPos;
-		private boolean firstCallToDo = true;
-
+	private class PlayerRandomIterator extends PlayerIterator implements
+			Iterator<Player> {
 		/** create a random player iterator */
 		public PlayerRandomIterator() {
 			Dice dice = Dice.create();
 			firstPos = (dice.roll(getPlayers().length) - 2 + getPlayers().length)
 					% getPlayers().length;
 			playerPointed = getPlayers()[firstPos];
-		}
-
-		/** {@inheritDoc} */
-		public boolean hasNext() {
-			int curPos = getPositionOfAPlayer(playerPointed);
-			int nextPos = (curPos + 1) % getPlayers().length;
-			return nextPos != (firstPos + 1) % getPlayers().length
-					|| firstCallToDo;
-		}
-
-		/** {@inheritDoc} */
-		public Player next() {
-			if (firstCallToDo) {
-				firstCallToDo = false;
-			}
-			int curPos = getPositionOfAPlayer(playerPointed);
-			int nextPos = (curPos + 1) % getPlayers().length;
-			playerPointed = getPlayers()[nextPos];
-			return playerPointed;
-		}
-
-		/** {@inheritDoc} */
-		public void remove() {
-			return;
 		}
 	}
 

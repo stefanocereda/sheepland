@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class GameControllerTwoPlayers extends GameController {
 	/** A logger */
-	private static final Logger LOGGER = Logger
+	private static final Logger LOG = Logger
 			.getLogger(GameControllerTwoPlayers.class.getName());
 
 	/** The passed array must contain two client handlers */
@@ -79,14 +79,12 @@ public class GameControllerTwoPlayers extends GameController {
 					} while (!boardStatus.isFreeRoad(initial));
 
 				} catch (ClientDisconnectedException e) {
-					String message = "A client disconnected";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 					catchDisconnection(e.getPlayer());
 
 					initial = chooseRandomPositionForAPlayer();
 				} catch (ClassNotFoundException e) {
-					String message = "A client is not aligned with the communication protocol, suspending it";
-					LOGGER.log(Level.INFO, message, e);
+					LOG.log(Level.INFO, MSG_NOT_ALIGNED, e);
 					ch.getPlayer().suspend();
 					ch.getPlayer().setNotConnected();
 
@@ -121,8 +119,7 @@ public class GameControllerTwoPlayers extends GameController {
 			try {
 				return client.chooseShepherd();
 			} catch (ClientDisconnectedException e) {
-				String message = "A client disconnected";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 				catchDisconnection(e.getPlayer());
 			}
 		}
@@ -138,8 +135,7 @@ public class GameControllerTwoPlayers extends GameController {
 			try {
 				ch.sendShepherd(usingSecond);
 			} catch (ClientDisconnectedException e) {
-				String message = "A client disconnected";
-				LOGGER.log(Level.INFO, message, e);
+				LOG.log(Level.INFO, MSG_DISCONNECTION, e);
 				catchDisconnection(e.getPlayer());
 			}
 		}
