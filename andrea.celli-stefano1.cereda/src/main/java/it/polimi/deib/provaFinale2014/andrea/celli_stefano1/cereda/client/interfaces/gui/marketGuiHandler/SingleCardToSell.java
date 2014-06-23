@@ -81,7 +81,7 @@ public class SingleCardToSell extends JPanel {
 					price = Integer.parseInt(text);
 					sell = true;
 				} catch (NumberFormatException ex) {
-					Logger.getLogger(InterfaceConsole.class.getName()).log(
+					Logger.getLogger(SingleCardToSell.class.getName()).log(
 							Level.WARNING, "You didn't insert a number", e);
 					// if the player writes the wrong input the card is not sold
 					sell = false;
