@@ -20,11 +20,13 @@ public class PlayerData extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 5876071555465736915L;
-	private GridLayout layout = new GridLayout(1, 2);
+	private GridLayout layout = new GridLayout(1, 3);
 	// the label containing the name of the player
 	private NamePlayer name;
 	// the label containing the money of the player
 	private MoneyPlayer money;
+	/** The label containing the cards of the player */
+	private PlayerCards cards;
 	// the player
 	private Player player;
 
@@ -48,6 +50,10 @@ public class PlayerData extends JPanel {
 		money = new MoneyPlayer(player.getMoney(), playerColor);
 		this.add(money);
 
+		// create the label for the cards and adds it
+		cards = new PlayerCards(player.getCards(), playerColor);
+		this.add(cards);
+
 		this.player = player;
 
 	}
@@ -58,6 +64,10 @@ public class PlayerData extends JPanel {
 
 	public MoneyPlayer getMoneyPlayer() {
 		return money;
+	}
+
+	public PlayerCards getPlayerCards() {
+		return cards;
 	}
 
 	public Player getPlayer() {

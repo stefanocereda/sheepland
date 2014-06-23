@@ -73,7 +73,7 @@ public enum Card implements Serializable {
 	}
 
 	/**
-	 * @return the string rapresenting a card
+	 * @return the string representing a card
 	 */
 	@Override
 	public String toString() {
@@ -87,4 +87,16 @@ public enum Card implements Serializable {
 		return "/" + this.getTerrainType().toString() + this.number + ".png";
 	}
 
+	/** @return a compact representation of the card, like P0, L4, Mi */
+	public String toStringCompact() {
+		String name = terrainType.toString().substring(0, 1);
+
+		if (initial) {
+			name += "i";
+		} else {
+			name += number;
+		}
+
+		return name;
+	}
 }
