@@ -92,7 +92,7 @@ public class CoordinatesConverter {
 	 * */
 
 	public Map<Terrain, Point> calculateRamOrigins() {
-		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
+		Map<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (RamPositions position : RamPositions.values()) {
 			hashMap.put(position.getTerrain(),
@@ -111,7 +111,7 @@ public class CoordinatesConverter {
 	 * */
 
 	public Map<Terrain, Point> calculateBlackSheepOrigins() {
-		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
+		Map<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (BlackSheepPositions position : BlackSheepPositions.values()) {
 			hashMap.put(position.getTerrain(),
@@ -130,7 +130,7 @@ public class CoordinatesConverter {
 	 * */
 
 	public Map<Terrain, Point> calculateWolfOrigins() {
-		HashMap<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
+		Map<Terrain, Point> hashMap = new HashMap<Terrain, Point>();
 
 		for (WolfPositions position : WolfPositions.values()) {
 			hashMap.put(position.getTerrain(),

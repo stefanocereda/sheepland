@@ -70,7 +70,7 @@ public class SingleCardToSell extends JPanel {
 			String text = priceSetter.getText();
 
 			// if the text is "Don't sell" the flag is set again to false
-			if (text.equals("Don't sell")) {
+			if ("Don't sell".equals(text)) {
 				sell = false;
 			} else {
 				// try to get the price from the input string
