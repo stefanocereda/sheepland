@@ -13,18 +13,6 @@ import it.polimi.deib.provaFinale2014.andrea.celli_stefano1.cereda.server.server
  * @author Stefano
  */
 public class ServerMainClass {
-	/** the max number of players in a game */
-	static final int maxPlayers = GameConstants.MAX_PLAYERS_IN_A_GAME;
-	/** the type of game (original/extended rules) */
-	static final GameType gameType = DefaultConstants.DEFAULT_GAME_TYPE;
-	/** the minutes waiting for maxPlayers */
-	static final int minutesWaiting = TimeConstants.WAITING_FOR_MAX_PLAYERS;
-
-	/** the ip port for socket server */
-	static final int socketPort = NetworkConstants.SOCKET_IP_PORT;
-	/** the ip port for the rmi registry */
-	static final int rmiPort = NetworkConstants.REGISTRY_IP_PORT;
-
 	/** Hide the default constructor */
 	private ServerMainClass() {
 	}
@@ -36,8 +24,12 @@ public class ServerMainClass {
 	 *            Unused
 	 */
 	public static void main(String[] args) {
-		ServerStarter server = new ServerStarter(maxPlayers, gameType,
-				minutesWaiting, socketPort, rmiPort);
+		ServerStarter server = new ServerStarter(
+				GameConstants.MAX_PLAYERS_IN_A_GAME,
+				DefaultConstants.DEFAULT_GAME_TYPE,
+				TimeConstants.WAITING_FOR_MAX_PLAYERS,
+				NetworkConstants.SOCKET_IP_PORT,
+				NetworkConstants.REGISTRY_IP_PORT);
 
 		new Thread(server).start();
 	}
