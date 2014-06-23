@@ -42,12 +42,12 @@ public class MarketOfferTest {
 		p.setID();
 		bse.addPlayerToBoardStatus(p);
 
-		p.addCard(Card.COUNTRYSIDEi);
+		p.addCard(Card.COUNTRYSIDE_I);
 		p.addCard(Card.COUNTRYSIDE1);
 
 		MarketOffer mo1 = new MarketOffer(p, Card.COUNTRYSIDE1, 10);
 		MarketOffer mo2 = new MarketOffer(p, Card.COUNTRYSIDE2, 10);
-		MarketOffer mo3 = new MarketOffer(p, Card.COUNTRYSIDEi, 10);
+		MarketOffer mo3 = new MarketOffer(p, Card.COUNTRYSIDE_I, 10);
 
 		assertTrue(mo1.isValidOffer(p));
 		assertFalse(mo2.isValidOffer(p));

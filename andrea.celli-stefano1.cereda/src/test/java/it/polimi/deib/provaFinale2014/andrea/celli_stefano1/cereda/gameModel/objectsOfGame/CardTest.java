@@ -49,7 +49,7 @@ public class CardTest {
 	public void testIsInitial() {
 		// tests the initials knowing that their names end with an "i"
 		for (Card c : Card.values()) {
-			if (c.name().contains("i")) {
+			if (c.name().contains("_I")) {
 				assertTrue(c.isInitial());
 			} else {
 				assertFalse(c.isInitial());

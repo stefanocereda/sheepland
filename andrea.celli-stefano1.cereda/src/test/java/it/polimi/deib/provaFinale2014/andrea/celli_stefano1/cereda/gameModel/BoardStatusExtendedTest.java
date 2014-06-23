@@ -111,7 +111,7 @@ public class BoardStatusExtendedTest {
 
 		assertEquals(new ArrayList<Card>(), bse.getSellableCards(p));
 
-		p.addCard(Card.COUNTRYSIDEi);
+		p.addCard(Card.COUNTRYSIDE_I);
 
 		assertEquals(new ArrayList<Card>(), bse.getSellableCards(p));
 
