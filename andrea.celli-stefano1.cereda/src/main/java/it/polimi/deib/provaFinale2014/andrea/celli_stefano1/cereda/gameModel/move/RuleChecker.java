@@ -297,43 +297,46 @@ public class RuleChecker {
 			Terrain coming = boardStatus.getWolf().getPosition();
 			Terrain going = moveWolf.getNewPosition();
 
-			// Check condition 1
-			boolean condition1 = false;
-			if (coming.getAdjacentTerrains(boardStatus.getRoadMap()).contains(
-					going)) {
-				condition1 = true;
-			}
-
-			// check condition 2
-			boolean condition2 = false;
-
-			boolean isFree = true;
-			Road used = coming.getLinkWith(going, boardStatus.getRoadMap());
-			if (!boardStatus.isFreeFromGates(used)) {
-				isFree = false;
-			}
-
-			if (isFree || boardStatus.isClosedByGates(coming)) {
-				condition2 = true;
-			}
-
-			// check condition 3
-			boolean condition3 = false;
-			if (moveWolf.getKilledSheep() == null) {
-				condition3 = true;
-			}
-
-			if (moveWolf.getKilledSheep() != null
-					&& !BlackSheep.class.isInstance(moveWolf.getKilledSheep())
-					&& moveWolf.getKilledSheep().getPosition().equals(going)) {
-				condition3 = true;
-			}
-
-			return condition1 && condition2 && condition3;
+			return wolfCheckTerrainAdjacent(boardStatus, coming, going)
+					&& wolfCheckRoadFreedom(boardStatus, coming, going)
+					&& wolfCheckEatenSheep(moveWolf);
 		} catch (NullPointerException e) {
 			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
 		}
+	}
+
+	/**
+	 * Check if the eaten sheep is null or is a sheep in the going terrain, but
+	 * not a black sheep
+	 */
+	private static boolean wolfCheckEatenSheep(MoveWolf moveWolf) {
+		return (moveWolf.getKilledSheep() == null)
+				|| (!(moveWolf.getKilledSheep() instanceof BlackSheep) && moveWolf
+						.getKilledSheep().getPosition()
+						.equals(moveWolf.getNewPosition()));
+	}
+
+	/**
+	 * Check if the road used to go from coming to going is free or if the
+	 * coming terrain is circled by gates
+	 */
+	private static boolean wolfCheckRoadFreedom(BoardStatus boardStatus,
+			Terrain coming, Terrain going) {
+		boolean isFree = true;
+		Road used = coming.getLinkWith(going, boardStatus.getRoadMap());
+		if (!boardStatus.isFreeFromGates(used)) {
+			isFree = false;
+		}
+
+		return isFree || boardStatus.isClosedByGates(coming);
+	}
+
+	/** Check if going is adjacent to coming */
+	private static boolean wolfCheckTerrainAdjacent(BoardStatus boardStatus,
+			Terrain coming, Terrain going) {
+		return coming.getAdjacentTerrains(boardStatus.getRoadMap()).contains(
+				going);
 	}
 
 	/**
