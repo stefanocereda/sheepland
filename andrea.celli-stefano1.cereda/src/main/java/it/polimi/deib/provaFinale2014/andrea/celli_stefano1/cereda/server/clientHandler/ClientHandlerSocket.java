@@ -58,6 +58,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		out.flush();
 	}
 
+	/** {@inheritDoc} */
 	public Move askMove() throws ClientDisconnectedException,
 			ClassNotFoundException {
 		try {
@@ -74,6 +75,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
 
@@ -88,6 +90,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public Move sayMoveIsNotValid() throws ClassNotFoundException,
 			ClientDisconnectedException {
 		try {
@@ -101,6 +104,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException {
 
@@ -115,6 +119,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public Road askInitialPosition() throws ClientDisconnectedException,
 			ClassNotFoundException {
 		try {
@@ -129,6 +134,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public Road askSecondInitialPosition() throws ClientDisconnectedException,
 			ClassNotFoundException {
 		try {
@@ -143,6 +149,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void pingTheClient() throws ClientDisconnectedException {
 		try {
 			out.reset();
@@ -154,6 +161,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException {
 		try {
@@ -167,6 +175,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void sendWinners(List<Player> winners)
 			throws ClientDisconnectedException {
 		try {
@@ -183,6 +192,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void notifyControlledPlayer(Player controlled)
 			throws ClientDisconnectedException {
 		try {
@@ -196,6 +206,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public boolean chooseShepherd() throws ClientDisconnectedException {
 		try {
 			out.reset();
@@ -208,6 +219,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void sendShepherd(boolean usingSecond)
 			throws ClientDisconnectedException {
 		try {
@@ -221,6 +233,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public List<MarketOffer> askMarketOffers() throws ClassNotFoundException,
 			ClientDisconnectedException {
 		try {
@@ -234,6 +247,7 @@ public class ClientHandlerSocket extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
 			throws ClassNotFoundException, ClientDisconnectedException {
 		try {
