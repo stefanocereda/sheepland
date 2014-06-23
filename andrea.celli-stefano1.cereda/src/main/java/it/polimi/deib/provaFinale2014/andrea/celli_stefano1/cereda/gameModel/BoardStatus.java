@@ -428,12 +428,14 @@ public class BoardStatus implements Serializable {
 		private Integer firstPos;
 		private boolean firstCallToDo = true;
 
+		/** Create a player iterator */
 		public PlayerOrderedIterator() {
 			firstPos = (getPositionOfAPlayer(firstPlayer) - 1 + getPlayers().length)
 					% getPlayers().length;
 			playerPointed = getPlayers()[firstPos];
 		}
 
+		/** {@inheritDoc} */
 		public boolean hasNext() {
 			int curPos = getPositionOfAPlayer(playerPointed);
 			int nextPos = (curPos + 1) % getPlayers().length;
@@ -441,6 +443,7 @@ public class BoardStatus implements Serializable {
 					|| firstCallToDo;
 		}
 
+		/** {@inheritDoc} */
 		public Player next() {
 			if (firstCallToDo) {
 				firstCallToDo = false;
@@ -451,6 +454,7 @@ public class BoardStatus implements Serializable {
 			return playerPointed;
 		}
 
+		/** {@inheritDoc}. Not supported */
 		public void remove() {
 			return;
 		}
@@ -465,6 +469,7 @@ public class BoardStatus implements Serializable {
 		private int firstPos;
 		private boolean firstCallToDo = true;
 
+		/** create a random player iterator */
 		public PlayerRandomIterator() {
 			Dice dice = Dice.create();
 			firstPos = (dice.roll(getPlayers().length) - 2 + getPlayers().length)
@@ -472,6 +477,7 @@ public class BoardStatus implements Serializable {
 			playerPointed = getPlayers()[firstPos];
 		}
 
+		/** {@inheritDoc} */
 		public boolean hasNext() {
 			int curPos = getPositionOfAPlayer(playerPointed);
 			int nextPos = (curPos + 1) % getPlayers().length;
@@ -479,6 +485,7 @@ public class BoardStatus implements Serializable {
 					|| firstCallToDo;
 		}
 
+		/** {@inheritDoc} */
 		public Player next() {
 			if (firstCallToDo) {
 				firstCallToDo = false;
@@ -489,6 +496,7 @@ public class BoardStatus implements Serializable {
 			return playerPointed;
 		}
 
+		/** {@inheritDoc} */
 		public void remove() {
 			return;
 		}
