@@ -351,35 +351,42 @@ public class RuleChecker {
 			Road playerPosition = boardStatus.getEquivalentPlayer(
 					move.getPlayer()).getPosition();
 
-			// check condition 1
-			boolean okTerrain = false;
-			for (Terrain t : playerPosition.getAdjacentTerrains()) {
-				if (t.equals(terrain)) {
-					okTerrain = true;
-					break;
-				}
-			}
-
-			// check condition 2
-			boolean female = false;
-			boolean male = false;
-			for (Sheep s : boardStatus.getSheeps()) {
-				if (s.getPosition().equals(terrain)) {
-					if (s.getTypeOfSheep().equals(TypeOfSheep.MALESHEEP)) {
-						male = true;
-					} else if (s.getTypeOfSheep().equals(
-							TypeOfSheep.FEMALESHEEP)) {
-						female = true;
-					}
-				}
-			}
-
-			return male && female && okTerrain
+			return matingCheckTerrain(playerPosition, terrain)
+					&& matingCheckSheep(boardStatus, terrain)
 					&& isValidPlayerAction(move, boardStatus);
 		} catch (NullPointerException e) {
 			LOGGER.log(Level.INFO, messageNull, e);
 			return false;
 		}
+	}
+
+	/** Check if the given terrain there's a sheep and a ram */
+	private static boolean matingCheckSheep(BoardStatus boardStatus,
+			Terrain terrain) {
+		boolean female = false;
+		boolean male = false;
+		for (Sheep s : boardStatus.getSheeps()) {
+			if (s.getPosition().equals(terrain)) {
+				if (s.getTypeOfSheep().equals(TypeOfSheep.MALESHEEP)) {
+					male = true;
+				} else if (s.getTypeOfSheep().equals(TypeOfSheep.FEMALESHEEP)) {
+					female = true;
+				}
+			}
+		}
+
+		return male && female;
+	}
+
+	/** Check if terrain is adjacent to the player position */
+	private static boolean matingCheckTerrain(Road playerPosition,
+			Terrain terrain) {
+		for (Terrain t : playerPosition.getAdjacentTerrains()) {
+			if (t.equals(terrain)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
