@@ -221,35 +221,62 @@ public class RuleChecker {
 	 */
 	private static boolean isCorrectTurn(PlayerAction moveToCheck,
 			List<Move> oldMoves) {
-		// a move player is always correct
-		if (moveToCheck instanceof MovePlayer) {
-			return true;
-		}
+		return isMovePlayer(moveToCheck) || isFirstMove(oldMoves)
+				|| isValidSecondMove(moveToCheck, oldMoves)
+				|| isValidThirdMove(moveToCheck, oldMoves);
+	}
 
-		// the first move is always correct
-		if (oldMoves.isEmpty()) {
-			return true;
-		}
+	/**
+	 * the third move is correct if: 1)they're all different 2)it's equals to
+	 * the first and the second is a moveplayer 3)it's equals to the second and
+	 * they're both moveplayer => all different or the second is a move player
+	 */
+	private static boolean isValidThirdMove(PlayerAction moveToCheck,
+			List<Move> oldMoves) {
+		Move firstMove = oldMoves.get(0);
 
+		if (oldMoves.size() == 2) {
+			Move secondMove = oldMoves.get(1);
+			return !firstMove.getClass().isInstance(moveToCheck)
+					&& !secondMove.getClass().isInstance(moveToCheck)
+					|| MovePlayer.class.isInstance(secondMove);
+		}
+		return false;
+	}
+
+	/**
+	 * The second move is correct if it's different from the first or if they're
+	 * both move player
+	 */
+	private static boolean isValidSecondMove(PlayerAction moveToCheck,
+			List<Move> oldMoves) {
 		// we have at least one oldMove
 		Move firstMove = oldMoves.get(0);
 
-		// the second is correct if it's different from the first or if they're
-		// both move player
 		if (oldMoves.size() == 1) {
 			return !moveToCheck.getClass().isInstance(firstMove)
 					|| MovePlayer.class.isInstance(firstMove)
 					|| MovePlayer.class.isInstance(moveToCheck);
 		}
 
-		// this is the third move, is correct if: 1)they're all different 2)it's
-		// equals to the first and the second is a moveplayer 3)it's equals to
-		// the second and they're both moveplayer => all different or the second
-		// is a move player
-		Move secondMove = oldMoves.get(1);
-		return !firstMove.getClass().isInstance(moveToCheck)
-				&& !secondMove.getClass().isInstance(moveToCheck)
-				|| MovePlayer.class.isInstance(secondMove);
+		return false;
+	}
+
+	/** @return If the list of old moves is empty */
+	private static boolean isFirstMove(List<Move> oldMoves) {
+		if (oldMoves.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	/** @return If the given move is a move player */
+	private static boolean isMovePlayer(PlayerAction moveToCheck) {
+		// a move player is always correct
+		if (moveToCheck instanceof MovePlayer) {
+			return true;
+		}
+		return false;
 	}
 
 	//
