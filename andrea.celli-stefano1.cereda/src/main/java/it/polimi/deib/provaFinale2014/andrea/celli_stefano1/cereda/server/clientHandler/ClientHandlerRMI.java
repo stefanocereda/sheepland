@@ -50,6 +50,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		id = token;
 	}
 
+	/** {@inheritDoc} */
 	public Move askMove() throws ClientDisconnectedException {
 		try {
 			return clientObject.getMove();
@@ -59,6 +60,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void executeMove(Move moveToExecute)
 			throws ClientDisconnectedException {
 		try {
@@ -69,6 +71,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public Move sayMoveIsNotValid() throws ClientDisconnectedException {
 		try {
 			return clientObject.notifyNotValidMove();
@@ -78,6 +81,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void sendNewStatus(BoardStatus newStatus)
 			throws ClientDisconnectedException {
 		try {
@@ -88,6 +92,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public Road askInitialPosition() throws ClientDisconnectedException {
 		try {
 			return clientObject.askInitialPosition();
@@ -97,6 +102,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public Road askSecondInitialPosition() throws ClientDisconnectedException {
 		try {
 			return clientObject.askSecondInitialPosition();
@@ -106,6 +112,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void pingTheClient() throws ClientDisconnectedException {
 		try {
 			clientObject.ping();
@@ -115,6 +122,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void setCurrentPlayer(Player newCurrentPlayer)
 			throws ClientDisconnectedException {
 		try {
@@ -125,6 +133,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void sendWinners(List<Player> winners)
 			throws ClientDisconnectedException {
 		try {
@@ -135,6 +144,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void notifyControlledPlayer(Player controlled)
 			throws ClientDisconnectedException {
 		try {
@@ -145,6 +155,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public boolean chooseShepherd() throws ClientDisconnectedException {
 		try {
 			return clientObject.chooseShepherd();
@@ -154,6 +165,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public void sendShepherd(boolean usingSecond)
 			throws ClientDisconnectedException {
 		try {
@@ -164,6 +176,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public List<MarketOffer> askMarketOffers()
 			throws ClientDisconnectedException {
 		try {
@@ -174,6 +187,7 @@ public class ClientHandlerRMI extends ClientHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public List<MarketBuy> askMarketBuy(List<MarketOffer> offers)
 			throws ClientDisconnectedException {
 		try {

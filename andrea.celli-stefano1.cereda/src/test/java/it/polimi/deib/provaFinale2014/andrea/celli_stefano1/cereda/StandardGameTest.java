@@ -99,16 +99,9 @@ public class StandardGameTest {
 	/** Keep searching for the rmi server */
 	private void waitServer() {
 		try {
-			// get the remote registry
-			Registry registry = LocateRegistry.getRegistry(
-					NetworkConstants.SERVER_RMI_ADDRESS,
-					NetworkConstants.REGISTRY_IP_PORT);
-
-			// Search the server acceptor
-			RMIConnector connector = (RMIConnector) registry
-					.lookup(RMICostants.CONNECTOR);
-		} catch (Exception e) {
-			waitServer();
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
