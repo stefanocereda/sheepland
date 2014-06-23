@@ -9,10 +9,10 @@ import java.awt.Color;
  * 
  */
 public enum Pawns {
-	BLUEPAWN(Color.BLUE, "Player 1", "/pedinaBlu.png"), YELLOWPAWN(
-			Color.YELLOW, "Player 2", "/pedinaGialla.png"), REDPAWN(Color.RED,
-			"Player 3", "/pedinaRossa.png"), GREENPAWN(Color.GREEN, "Player 4",
-			"/pedinaVerde.png");
+	REDPAWN(Color.RED, "Player 1", "/pedinaRossa.png"), YELLOWPAWN(
+			Color.YELLOW, "Player 2", "/pedinaGialla.png"), GREENPAWN(
+			Color.GREEN, "Player 3", "/pedinaVerde.png"), BLUEPAWN(Color.BLUE,
+			"Player 4", "/pedinaBlu.png");
 
 	private Color pawnColor;
 	private String playerName;
