@@ -267,6 +267,16 @@ public class InterfaceGui implements Interface {
 		money -= move.getNewCard().getNumber();
 
 		frame.getConsole().getPlayersPanel().setMoneyToPlayer(p, money);
+
+		// update the cards
+		p.getCards().add(move.getNewCard());
+		if (p.equals(gameController.getControlledPlayer())) {
+			frame.getConsole().getPlayersPanel().getPlayerDisplayedData(p)
+					.getPlayerCards().setPlayerCardsWithInitial(p.getCards());
+		} else {
+			frame.getConsole().getPlayersPanel().getPlayerDisplayedData(p)
+					.getPlayerCards().setPlayerCards(p.getCards());
+		}
 	}
 
 	/**
@@ -872,12 +882,27 @@ public class InterfaceGui implements Interface {
 		paintGates();
 		paintPlayers();
 		updateMoneys();
+		updateCards();
 
 		if (gameController.getBoardStatus() instanceof BoardStatusExtended) {
 			paintWolf();
 		}
 
 		frame.validate();
+	}
+
+	/** This method updates the displayed data for every player */
+	private void updateCards() {
+		for (Player p : gameController.getBoardStatus().getPlayers()) {
+			if (p.equals(gameController.getControlledPlayer())) {
+				frame.getConsole().getPlayersPanel().getPlayerDisplayedData(p)
+						.getPlayerCards()
+						.setPlayerCardsWithInitial(p.getCards());
+			} else {
+				frame.getConsole().getPlayersPanel().getPlayerDisplayedData(p)
+						.getPlayerCards().setPlayerCards(p.getCards());
+			}
+		}
 	}
 
 	/** This method sets the displayed money for every player */
