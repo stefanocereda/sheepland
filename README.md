@@ -1,4 +1,4 @@
-**### Sheepland ###**
+### Sheepland ###
 
 * Sheepland is the computer version of a table game (by CranioCreation, http://www.craniocreations.it)
 * This projects was assigned during the Software Engineering 1 course at Politecnico di Milano
