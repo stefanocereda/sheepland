@@ -15,4 +15,4 @@
 * Download the source code
 * Start the server
 * Start clients. You will have to specify the server IP, whether you want to use RMI or Sockets and whether you want to play from CL or GUI.
-* Instructions on how to play (in Italian) can be found in the folder.
+* Instructions on how to play (in Italian) can be found in the folder along with the guidelines for the project that we were given. 
