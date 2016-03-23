@@ -4,7 +4,6 @@
 * This projects was assigned during the Software Engineering 1 course at Politecnico di Milano
 * Everything in this repository was developed by Andrea Celli and Stefano Cereda
 
-
 ### Key features ###
 
 * Sheepland is a multiplatform game since it's fully developed in Java
